@@ -1,6 +1,6 @@
 # GluGuide
 
-//picture
+![gluguidelogo](docs/LogoPlaceholder.png)
 
 
 We will upload a new blogpost weekly. Follow us on our journey for GluGuide!
@@ -27,3 +27,5 @@ Documenting our development process helps us stay focused on what truly mattersâ
 - Github (Version Control)
 - [YouTrack](https://gluguide.youtrack.cloud/dashboard?id=207-2) (Project Management)
 
+
+![RandomPicture](docs/womanOnCouch.png)

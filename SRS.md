@@ -50,15 +50,15 @@ The project is going to be realized as an web application.
 Planned Subsystems are:
 - Account System:
 The login is an essential part of the application. Users can create accounts so the data can be connected to each user.
-- Track glucose level
+- Track glucose level:
 A registered user can log glucose levels manually into the application.
-- Track a meal
+- Track a meal:
 A registered user can log meals manually into the application. 
-- Get notification
+- Get notification:
 Users can set reminders in the form of notifications to track meals and glucose levels. For each Reminder the user will get a notification.
-- Learn about gestational diabetes
+- Learn about gestational diabetes:
 The Application has a feature where the user can learn more about gestational diabetes.
-- Storing data
+- Storing data:
 User data for accounts has to be stored. Also all the tracked meals and glucose levels must be stored as datasets linked to the account. The data store is the basis for the account system. 
 
 

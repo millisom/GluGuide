@@ -4,8 +4,6 @@
 
 
 
-We will upload a new blogpost weekly. Follow us on our journey for GluGuide!
-
 ## Introduction
 
 Hello, we are a Team of five students. In the oncoming 9 month we want to develope an application called 'GluGuide'. To find out more about our project, please read our [SRS](SRS.md). We will upload a blogpost on our [Blog](https://gdewomenhealth.wordpress.com/) every week to update you on our progress.
@@ -27,6 +25,8 @@ Documenting our development process helps us stay focused on what truly mattersâ
 - PostgreSQL (Database)
 - Github (Version Control)
 - [YouTrack](https://gluguide.youtrack.cloud/dashboard?id=207-2) (Project Management)
-
+ <br>
+ <br>
+ <br>
 
 ![RandomPicture](docs/LogoPlaceholder.png)

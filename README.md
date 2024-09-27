@@ -29,4 +29,4 @@ Documenting our development process helps us stay focused on what truly mattersâ
 - [YouTrack](https://gluguide.youtrack.cloud/dashboard?id=207-2) (Project Management)
 
 
-![RandomPicture](docs/womanOnCouch.png)
+![RandomPicture](docs/LogoPlaceholder.png)

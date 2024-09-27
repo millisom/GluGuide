@@ -41,122 +41,165 @@
 # 1. Introduction
 
 ## 1.1 Purpose
-[Specify the purpose of this SRS. The SRS should fully describe the external behavior of the application or subsystem identified. It also describes nonfunctional requirements, design constraints, and other factors necessary to provide a complete and comprehensive description of the requirements for the software.]
+This Software Requirement Specification (SRS) fully describes the specifications for the application "GluGuide". It provides an overview of the project and it's goals, along with detailed descriptions of the intended features and the boundary conditions for the development process.
+
 
 ## 1.2 Scope
-[A brief description of the software application that the SRS applies to; the feature or other subsystem grouping; what Use-Case model(s) it is associated with; and anything else that is affected or influenced by this document.]
+The project is going to be realizes as an Web Application.
+
+Planned Subsystems are:
+- Account System:
+The login is an essential part of the application. Users can create accounts so the data can be connected to each user.
+- Track glucose level
+A registered user can log glucose levels manually into the application.
+- Track a meal
+A registered user can log meals manually into the application. 
+- Get notification
+Users can set reminders in form of notifications to track meals and glucose levels. For each Reminder the user will get a notification.
+- Learn about gestational diabetes
+The Application has a feature where the user can learn more about gestational diabetes.
+- Storing data
+User data for accounts has to be stored. Also all the tracked meals and glucose levels have to be stored as datasets linked to the account. The data store is the base for the account system. 
+
+
 
 ## 1.3 Definitions, Acronyms, and Abbreviations
-[This subsection should provide the definitions of all terms, acronyms, and abbreviations required to properly interpret the SRS. This information may be provided by reference to the project Glossary.]
+| Abbrevation | Explanation                            |
+| ----------- | -------------------------------------- |
+| SRS         | Software Requirements Specification    |
+| UC          | Use Case                               |
+| n/a         | not applicable                         |
+| tbd         | to be determined                       |
+| UCD         | overall Use Case Diagram               |
+| FAQ         | Frequently asked Questions             |
+| GDE         | Gestational Diabetes                   |
 
 ## 1.4 References
-[This subsection should provide a complete list of all documents referenced elsewhere in the SRS. Each document should be identified by title, report number (if applicable), date, and publishing organization. Specify the sources from which the references can be obtained.]
+
+| Title                                                            |    Date    | Publishing organization |
+|------------------------------------------------------------------|:----------:|-------------------------|
+| [GluGuide Blog](https://gdewomenhealth.wordpress.com/) | 27.09.2024 | GluGuide Team       |
+| [GitHub](https://github.com/millisom/GluGuide)         | 27.09.2024 | GluGuide Team       |
+
+
 
 ## 1.5 Overview
-[This subsection should describe what the rest of the SRS contains and explain how the document is organized.]
+The following chapter provides an overview of this project including the vision and Overall Use Case Diagram. The third chapter, Requirements Specification, offers further details on the specific requirements related to functionality, usability, and design parameters. Lastly, there is a chapter that provides additional supporting information.
 
----
 
 # 2. Overall Description
-[This section of the SRS should describe the general factors that affect the product and its requirements. This section does not state specific requirements. Instead, it provides a background for those requirements, which are defined in detail in Section 3.]
+The Web Application GluGuide is a platform designed to help  with gestational diabetes. The webapp offers information and interactive features to help users manage their condition. The core functions of the webapp include educational Resources, a meal planning tool, a blood sugar tracker and exercise guides. The primary users are pregnant individuals, caregivers and partners and healthcare providers. Given the sensitive nature of health data, the webapp must adhere to strict data privacy laws to protect user information. It is assumed that users have access to a stable internet connection. The platform's effectiveness relies on the user to track their health data. By addressing these points, GluGuide aims to be a comprehensive, user-friendly, and secure platform that empowers pregnant individuals to manage their condition effectively.
 
-- Product perspective
-- Product functions
-- User characteristics
-- Constraints
-- Assumptions and dependencies
-- Requirements subsets
-
----
+The following picture shows the overall use case diagram of our software.
+(Add here use case diagram)
 
 # 3. Specific Requirements
-[This section of the SRS should contain all the software requirements to a level of detail sufficient to enable designers to design a system to satisfy those requirements, and testers to test that the system satisfies those requirements.]
+
 
 ## 3.1 Functionality
-[This section describes the functional requirements of the system.]
+This section will explain the different use cases you could see in the Use Case Diagram and their functionality.
+Until November we plan to implement:
+- 3.1.1 Creating an account
+- 3.1.2 Logging in
+- 3.1.3 Logging out
+- 3.1.4 Track glucose level
+- 3.1.5 Track a meal
 
-### 3.1.1 Functional Requirement One
-[The requirement description.]
+Until June we plan to implement:
+- 3.1.6 Delete the tracked information
+- 3.1.7 Learn about GDE
+- 3.1.8 Get Notifications
+
+
+
+### 3.1.1 Creating an account
+To identify all users we need an account system. All the data the user is tracking is linked to it.
+
+### 3.1.2 Logging in
+The webapp will provide the possiblity to register and log in to use the functions.
+
+### 3.1.3 Logging out
+In case the user are no longer in need for the service or any other reason, it is possible to manually log out.
+
+### 3.1.4 Track glucose level
+Use Case Diagram here
+
+### 3.1.5 Track a meal
+Use Case Diagram here
+
+### 3.1.6 Delete the tracked information
+Use Case Diagram here
+
+### 3.1.7 Learn about GDE
+Use Case Diagram here
+
+### 3.1.8 Get Notifications
+Use Case Diagram here
+
 
 ## 3.2 Usability
-[This section should include all of those requirements that affect usability.]
 
-### 3.2.1 Usability Requirement One
-[The requirement description goes here.]
+### 3.2.1 Security
+The Webapp must ensure secure data handling to compliance with healthcare data protection laws. Otherwise the user won't feel comfortable to share information. 
+
 
 ## 3.3 Reliability
-[Requirements for reliability of the system should be specified here.]
 
-- Availability-specify the percentage of time available.
-- Mean Time Between Failures (MTBF).
-- Mean Time To Repair (MTTR).
-- Accuracy-specify precision and accuracy.
-- Maximum Bugs or Defect Rate.
+### 3.3.1 Server availability
+Our Server should ensure a 95% up-time.
 
-### 3.3.1 Reliability Requirement One
-[The requirement description.]
 
 ## 3.4 Performance
-[The system's performance characteristics should be outlined in this section.]
 
-- Response time for a transaction (average, maximum).
-- Throughput - transactions per second.
-- Capacity.
-- Degradation modes.
-- Resource utilization.
 
-### 3.4.1 Performance Requirement One
-[The requirement description goes here.]
+### 3.4.1 Real Time Updates
+The webapp must support real-time updates for blood sugar tracking and meal tracking.
+
 
 ## 3.5 Supportability
-[This section indicates any requirements that will enhance the supportability or maintainability of the system.]
 
-### 3.5.1 Supportability Requirement One
-[The requirement description goes here.]
+### 3.5.1 Language Support
+We will use the following languages, which will be well supported in the future:
+-JavaScript
+-HTML
+
 
 ## 3.6 Design Constraints
-[This section should indicate any design constraints on the system being built.]
 
-### 3.6.1 Design Constraint One
-[The requirement description goes here.]
+### 3.6.1 MVC Architecture
+Our WebApp should implement the MVC pattern.
 
 ## 3.7 Online User Documentation and Help System Requirements
-[Describes the requirements, if any, for on-line user documentation, help systems, help about notices, etc.]
+We aim to create an intuitive and user-friendly interface that allows users to navigate the webapp comfortably without difficulty. We will also provided a FAQ document to help with common questions.
 
 ## 3.8 Purchased Components
-[This section describes any purchased components to be used with the system, licensing or usage restrictions, and compatibility standards.]
+(n/a)
 
 ## 3.9 Interfaces
-[This section defines the interfaces that must be supported by the application.]
 
 ### 3.9.1 User Interfaces
-[Describe the user interfaces that are to be implemented by the software.]
+(tbd)
+mockups 
 
 ### 3.9.2 Hardware Interfaces
-[This section defines any hardware interfaces.]
+(tbd)
 
 ### 3.9.3 Software Interfaces
-[This section describes software interfaces to other components of the system.]
+(tbd)
 
 ### 3.9.4 Communications Interfaces
-[Describe any communications interfaces.]
+(tbd)
 
 ## 3.10 Licensing Requirements
-[Defines any licensing enforcement requirements or other usage restriction requirements that are to be exhibited by the software.]
+(tbd)
 
 ## 3.11 Legal, Copyright, and Other Notices
-[This section describes any necessary legal disclaimers, warranties, copyright notices, etc.]
+(tbd)
 
 ## 3.12 Applicable Standards
-[This section describes by reference any applicable standards and specific sections which apply to the system.]
+(tbd)
 
 ---
 
 # 4. Supporting Information
-[The supporting information makes the SRS easier to use.]
-
-- Table of contents
-- Index
-- Appendices
-
-[These may include use-case storyboards or user-interface prototypes.]
+If you would like to know the current state of this project please visit your [Blog](https://gdewomenhealth.wordpress.com/).

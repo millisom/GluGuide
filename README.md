@@ -1,6 +1,7 @@
 # GluGuide
 
-![gluguidelogo](docs/LogoPlaceholder.png)
+![RandomPicture](docs/womanOnCouch.png)
+
 
 
 We will upload a new blogpost weekly. Follow us on our journey for GluGuide!

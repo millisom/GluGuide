@@ -41,11 +41,11 @@
 # 1. Introduction
 
 ## 1.1 Purpose
-This Software Requirement Specification (SRS) fully describes the specifications for the application "GluGuide". It provides an overview of the project and it's goals, along with detailed descriptions of the intended features and the boundary conditions for the development process.
+This Software Requirement Specification (SRS) fully describes the specifications for the application "GluGuide". It provides an overview of the project and its goals, along with detailed descriptions of the intended features and the boundary conditions for the development process.
 
 
 ## 1.2 Scope
-The project is going to be realizes as an Web Application.
+The project is going to be realized as an web application.
 
 Planned Subsystems are:
 - Account System:
@@ -55,11 +55,11 @@ A registered user can log glucose levels manually into the application.
 - Track a meal
 A registered user can log meals manually into the application. 
 - Get notification
-Users can set reminders in form of notifications to track meals and glucose levels. For each Reminder the user will get a notification.
+Users can set reminders in the form of notifications to track meals and glucose levels. For each Reminder the user will get a notification.
 - Learn about gestational diabetes
 The Application has a feature where the user can learn more about gestational diabetes.
 - Storing data
-User data for accounts has to be stored. Also all the tracked meals and glucose levels have to be stored as datasets linked to the account. The data store is the base for the account system. 
+User data for accounts has to be stored. Also all the tracked meals and glucose levels must be stored as datasets linked to the account. The data store is the basis for the account system. 
 
 
 
@@ -84,11 +84,11 @@ User data for accounts has to be stored. Also all the tracked meals and glucose 
 
 
 ## 1.5 Overview
-The following chapter provides an overview of this project including the vision and Overall Use Case Diagram. The third chapter, Requirements Specification, offers further details on the specific requirements related to functionality, usability, and design parameters. Lastly, there is a chapter that provides additional supporting information.
+The following chapter provides an overview of this project, including the vision and the Overall Use Case Diagram. The third chapter, Requirements Specification, offers further details on the specific requirements related to functionality, usability, and design parameters. Lastly, there is a chapter that provides additional supporting information.
 
 
 # 2. Overall Description
-The Web Application GluGuide is a platform designed to help  with gestational diabetes. The webapp offers information and interactive features to help users manage their condition. The core functions of the webapp include educational Resources, a meal planning tool, a blood sugar tracker and exercise guides. The primary users are pregnant individuals, caregivers and partners and healthcare providers. Given the sensitive nature of health data, the webapp must adhere to strict data privacy laws to protect user information. It is assumed that users have access to a stable internet connection. The platform's effectiveness relies on the user to track their health data. By addressing these points, GluGuide aims to be a comprehensive, user-friendly, and secure platform that empowers pregnant individuals to manage their condition effectively.
+The web application GluGuide is a platform designed to assist users with gestational diabetes. The web app offers information and interactive features to help users manage their condition. The core functions of the web app include educational resources, a meal planning tool, a blood sugar tracker, and exercise guides. The primary users are pregnant individuals, caregivers, partners, and healthcare providers. Given the sensitive nature of health data, the web app must adhere to strict data privacy laws to protect user information. It is assumed that users have access to a stable internet connection. The platform's effectiveness relies on users tracking their health data. By addressing these points, GluGuide aims to be a comprehensive, user-friendly, and secure platform that empowers pregnant individuals to manage their condition effectively.
 
 The following picture shows the overall use case diagram of our software.
 (Add here use case diagram)
@@ -97,23 +97,25 @@ The following picture shows the overall use case diagram of our software.
 
 
 ## 3.1 Functionality
-This section will explain the different use cases you could see in the Use Case Diagram and their functionality.
-Until November we plan to implement:
-- 3.1.1 Creating an account
-- 3.1.2 Logging in
-- 3.1.3 Logging out
-- 3.1.4 Track glucose level
-- 3.1.5 Track a meal
+This section will explain the different use cases illustrated in the Use Case Diagram and their functionality.
+By November, we plan to implement:
 
-Until June we plan to implement:
-- 3.1.6 Delete the tracked information
-- 3.1.7 Learn about GDE
-- 3.1.8 Get Notifications
+-3.1.1 Creating an account
+-3.1.2 Logging in
+-3.1.3 Logging out
+-3.1.4 Tracking glucose levels
+-3.1.5 Tracking a meal
+
+By June, we plan to implement:
+
+-3.1.6 Deleting tracked information
+-3.1.7 Learning about GDE
+-3.1.8 Receiving notifications
 
 
 
 ### 3.1.1 Creating an account
-To identify all users we need an account system. All the data the user is tracking is linked to it.
+To ensure user identification, the webapp requires an account system that links all trackes data to each user.
 
 ### 3.1.2 Logging in
 The webapp will provide the possiblity to register and log in to use the functions.

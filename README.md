@@ -7,7 +7,7 @@ We will upload a new blogpost weekly. Follow us on our journey for GluGuide!
 
 ## Introduction
 
-Hello, we are a Team of five students. In the oncoming 9 month we want to develope an application called 'GluGuide'. To find out more about our project, please read our [SRS](\GluGuide\SRS.md). We will upload a blogpost on our [Blog](https://gdewomenhealth.wordpress.com/) every week to update you on our progress.
+Hello, we are a Team of five students. In the oncoming 9 month we want to develope an application called 'GluGuide'. To find out more about our project, please read our [SRS](SRS.md). We will upload a blogpost on our [Blog](https://gdewomenhealth.wordpress.com/) every week to update you on our progress.
 We would be so happy if you follow us on our journey.
 
 

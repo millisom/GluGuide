@@ -100,17 +100,17 @@ The following picture shows the overall use case diagram of our software.
 This section will explain the different use cases illustrated in the Use Case Diagram and their functionality.
 By November, we plan to implement:
 
--3.1.1 Creating an account
--3.1.2 Logging in
--3.1.3 Logging out
--3.1.4 Tracking glucose levels
--3.1.5 Tracking a meal
+- 3.1.1 Creating an account
+- 3.1.2 Logging in
+- 3.1.3 Logging out
+- 3.1.4 Tracking glucose levels
+- 3.1.5 Tracking a meal
 
 By June, we plan to implement:
 
--3.1.6 Deleting tracked information
--3.1.7 Learning about GDE
--3.1.8 Receiving notifications
+- 3.1.6 Deleting tracked information
+- 3.1.7 Learning about GDE
+- 3.1.8 Receiving notifications
 
 
 
@@ -162,8 +162,8 @@ The webapp must support real-time updates for blood sugar tracking and meal trac
 
 ### 3.5.1 Language Support
 We will use the following languages, which will be well supported in the future:
--JavaScript
--HTML
+- JavaScript
+- HTML
 
 
 ## 3.6 Design Constraints
@@ -181,7 +181,7 @@ We aim to create an intuitive and user-friendly interface that allows users to n
 
 ### 3.9.1 User Interfaces
 (tbd)
-mockups 
+- add mockups later 
 
 ### 3.9.2 Hardware Interfaces
 (tbd)
@@ -204,4 +204,4 @@ mockups
 ---
 
 # 4. Supporting Information
-If you would like to know the current state of this project please visit your [Blog](https://gdewomenhealth.wordpress.com/).
+If you would like to know the current state of this project please visit the GluGuide-[Blog](https://gdewomenhealth.wordpress.com/).

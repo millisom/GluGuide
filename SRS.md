@@ -49,15 +49,17 @@ The project is going to be realized as an web application.
 
 Planned Subsystems are:
 - Account System:
-The login is an essential part of the application. Users can create accounts so the data can be connected to each user.
+The login is an essential part of the application. Users can create accounts so the data can be connected to each user. Users can also delete their account and upon doing so, all user data is permanently removed. The following subsystems are only accessible to registered users.
+- Blog
+A user can see, write and comment on blogpost. This community feature allows users to share experience and connect with others.
 - Track glucose level:
-A registered user can log glucose levels manually into the application.
+A user can log glucose levels manually into the application.
 - Track a meal:
-A registered user can log meals manually into the application. 
+A user can log meals manually into the application. 
+- Generate a graph
+Users can generate a graph with their tracking data.
 - Get notification:
 Users can set reminders in the form of notifications to track meals and glucose levels. For each Reminder the user will get a notification.
-- Learn about gestational diabetes:
-The Application has a feature where the user can learn more about gestational diabetes.
 - Storing data:
 User data for accounts has to be stored. Also all the tracked meals and glucose levels must be stored as datasets linked to the account. The data store is the basis for the account system. 
 
@@ -88,10 +90,11 @@ The following chapter provides an overview of this project, including the vision
 
 
 # 2. Overall Description
-The web application GluGuide is a platform designed to assist users with gestational diabetes. The web app offers information and interactive features to help users manage their condition. The core functions of the web app include educational resources, a meal planning tool, a blood sugar tracker, and exercise guides. The primary users are pregnant individuals, caregivers, partners, and healthcare providers. Given the sensitive nature of health data, the web app must adhere to strict data privacy laws to protect user information. It is assumed that users have access to a stable internet connection. The platform's effectiveness relies on users tracking their health data. By addressing these points, GluGuide aims to be a comprehensive, user-friendly, and secure platform that empowers pregnant individuals to manage their condition effectively.
+The web application GluGuide is a platform designed to assist users with gestational diabetes. The web app offers information and interactive features to help users manage their condition. The core functions of the web app include a community forum, a blood sugar tracker and meal tracker. The primary users are pregnant individuals, caregivers, partners, and healthcare providers. Given the sensitive nature of health data, the web app must adhere to strict data privacy laws to protect user information. It is assumed that users have access to a stable internet connection. The platform's effectiveness relies on users tracking their health data. By addressing these points, GluGuide aims to be a comprehensive, user-friendly, and secure platform that empowers pregnant individuals to manage their condition effectively.
 
 The following picture shows the overall use case diagram of our software.
-(Add here use case diagram)
+
+![UCD](docs/UCD2.drawio.svg) <br>
 
 # 3. Specific Requirements
 
@@ -100,43 +103,73 @@ The following picture shows the overall use case diagram of our software.
 This section will explain the different use cases illustrated in the Use Case Diagram and their functionality.
 By November, we plan to implement:
 
-- 3.1.1 Creating an account
-- 3.1.2 Logging in
-- 3.1.3 Logging out
-- 3.1.4 Tracking glucose levels
-- 3.1.5 Tracking a meal
+- 3.1.1 Creating account
+- 3.1.2 Logging in / out
+- 3.1.3 Edit account
+- 3.1.4 Deleting account
+- 3.1.5 Write blogpost
 
 By June, we plan to implement:
 
-- 3.1.6 Deleting tracked information
-- 3.1.7 Learning about GDE
-- 3.1.8 Receiving notifications
+- 3.1.6 Track sugar
+- 3.1.7 Track macros
+- 3.1.8 Track meals
+- 3.1.9 Generate graph
+- 3.2.0 Alerts
+- 3.2.1 Edit blogpost
+- 3.2.2 Delete blogpost
+- 3.2.3 Comment on blogpost
+- 3.2.4 Edit comment
+- 3.2.5 Delete comment
+
+
 
 
 
 ### 3.1.1 Creating an account
-To ensure user identification, the webapp requires an account system that links all trackes data to each user.
+To ensure user identification, the webapp requires an account system that links data to each user.
 
-### 3.1.2 Logging in
-The webapp will provide the possiblity to register and log in to use the functions.
+### 3.1.2 Logging in / out
+The webapp will provide the possiblity manually log in and out to use the functions.
 
-### 3.1.3 Logging out
-In case the user are no longer in need for the service or any other reason, it is possible to manually log out.
+### 3.1.3 Edit account
+The user is able to edit the username and password. 
 
-### 3.1.4 Track glucose level
-Use Case Diagram here
+### 3.1.4 Delete account
+It is possible to delete the account. All data linked to it will be deleted too.
 
-### 3.1.5 Track a meal
-Use Case Diagram here
+### 3.1.5 Write blogpost
+To get in touch with others, ask questions, or simply share experiences, the user can write a blog post in the community feature.
 
-### 3.1.6 Delete the tracked information
-Use Case Diagram here
+### 3.1.6 Track sugar
+The user is able to manually track their sugar levels.
 
-### 3.1.7 Learn about GDE
-Use Case Diagram here
+### 3.1.7 Track macros
+The user is able to manually track their macros.
 
-### 3.1.8 Get Notifications
-Use Case Diagram here
+### 3.1.8 Track meals
+The user is able to manually track their meals.
+
+### 3.1.9 Generate graph
+The application can generate graphs from the collected data. 
+
+### 3.2.0 Alerts
+The user can set alerts to remind them to track their data.
+
+### 3.2.1 Edit blogpost
+Self-written blog posts can be edited by the user.
+
+### 3.2.2 Delete blogpost
+Self-written blog posts can be deleted by the user.
+
+### 3.2.3 Comment on blogpost
+The comment function allows users to engage in discussions. Users are able to reply to posts or other comments.
+
+### 3.2.4 Edit comment
+Self-written comments can be edited by the user.
+
+### 3.2.5 Delete comment
+Self-written comments can be deleted by the user.
 
 
 ## 3.2 Usability
@@ -148,8 +181,17 @@ The Webapp must ensure secure data handling to compliance with healthcare data p
 ## 3.3 Reliability
 
 ### 3.3.1 Server availability
-Our Server should ensure a 95% up-time.
+Our Server should ensure a 95% up-time. Since our priority is to develop an application free of bugs rather than hosting it ourselves, the application's availability is determined by the hosting provider we choose. With their redundancy and security protocols in place, most providers can achieve an uptime of over 99% in their data centers.
 
+
+### 3.3.2 Accuracy
+We cannot guarantee the accuracy of the information in the blog posts, comments, or tracking data, as this content will be submitted by users
+
+### 3.3.3 Blug classes
+We classify bugs in two categories
+
+- Critical bug: arises when the database unintentionally loses data, exposes sensitive user information such as passwords, or prevents users from accessing the application entirely
+- Non critical bug: occurs when the application remains functional, but users experience glitches that slightly affect their overall experience
 
 ## 3.4 Performance
 
@@ -157,8 +199,13 @@ Our Server should ensure a 95% up-time.
 ### 3.4.1 Real Time Updates
 The webapp must support real-time updates for blood sugar tracking and meal tracking.
 
+### 3.4.2 Response time
+Since almost the entire user interface will load initially, even pages that are not currently visible will appear in less than 100 milliseconds when accessed.
+
 
 ## 3.5 Supportability
+
+Our frontend, backend, and individual functionalities will be distinctly separated, and we will adhere to naming conventions commonly found in the technologies we use. Additionally, we strive to maintain clean code.
 
 ### 3.5.1 Language Support
 We will use the following languages, which will be well supported in the future:

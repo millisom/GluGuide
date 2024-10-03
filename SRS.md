@@ -107,20 +107,18 @@ By November, we plan to implement:
 - 3.1.2 Logging in / out
 - 3.1.3 Edit account
 - 3.1.4 Deleting account
-- 3.1.5 Write blogpost
+- 3.1.5 manage blogpost
+- 3.1.6 manage comment
 
 By June, we plan to implement:
 
-- 3.1.6 Track sugar
-- 3.1.7 Track macros
-- 3.1.8 Track meals
-- 3.1.9 Generate graph
-- 3.2.0 Alerts
-- 3.2.1 Edit blogpost
-- 3.2.2 Delete blogpost
-- 3.2.3 Comment on blogpost
-- 3.2.4 Edit comment
-- 3.2.5 Delete comment
+- 3.1.7 Track sugar
+- 3.1.8 Track macros
+- 3.1.9 Track meals
+- 3.2.0 Generate graph
+- 3.2.1 generate alert
+
+
 
 
 
@@ -138,38 +136,27 @@ The user is able to edit the username and password.
 ### 3.1.4 Delete account
 It is possible to delete the account. All data linked to it will be deleted too.
 
-### 3.1.5 Write blogpost
-To get in touch with others, ask questions, or simply share experiences, the user can write a blog post in the community feature.
+### 3.1.5 Manage blogpost
+To get in touch with others, ask questions, or simply share experiences, the user can write a blog post in the community feature. This function includes list posts, write, edit and delete post.
 
-### 3.1.6 Track sugar
-The user is able to manually track their sugar levels.
+### 3.1.6 Manage comment
+The comment function allows users to engage in discussions. Users are able to reply to posts or other comments. They can also list all their comments and edit and delete them here.
 
-### 3.1.7 Track macros
+### 3.1.7 Track sugar
+The user is able to manually track their sugar.
+
+### 3.1.8 Track macros
 The user is able to manually track their macros.
 
-### 3.1.8 Track meals
+### 3.1.9 Track meals
 The user is able to manually track their meals.
 
-### 3.1.9 Generate graph
+### 3.2.0 Generate graph
 The application can generate graphs from the collected data. 
 
-### 3.2.0 Alerts
+### 3.2.1 Alerts
 The user can set alerts to remind them to track their data.
 
-### 3.2.1 Edit blogpost
-Self-written blog posts can be edited by the user.
-
-### 3.2.2 Delete blogpost
-Self-written blog posts can be deleted by the user.
-
-### 3.2.3 Comment on blogpost
-The comment function allows users to engage in discussions. Users are able to reply to posts or other comments.
-
-### 3.2.4 Edit comment
-Self-written comments can be edited by the user.
-
-### 3.2.5 Delete comment
-Self-written comments can be deleted by the user.
 
 
 ## 3.2 Usability

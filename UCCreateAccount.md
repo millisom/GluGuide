@@ -94,3 +94,4 @@ This use case is linked to the relevant section of the [Software Requirements Sp
 ## 7. CRUD Classification:
 - **Create**: This use case represents the **Create** operation in CRUD as it handles the creation of a new user account.
 
+

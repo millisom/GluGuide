@@ -91,4 +91,6 @@ Feature: Account creation
 ## 6. Link to SRS:
 This use case is linked to the relevant section of the [Software Requirements Specification (SRS)](SRS.md).
 
+## 7. CRUD Classification:
+- **Create**: This use case represents the **Create** operation in CRUD as it handles the creation of a new user account.
 

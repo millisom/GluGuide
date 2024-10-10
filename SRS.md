@@ -125,7 +125,9 @@ By June, we plan to implement:
 
 
 ### 3.1.1 Creating an account
-To ensure user identification, the webapp requires an account system that links data to each user.
+To ensure user identification, the web application requires an account system that links data to each user. The account creation process involves users submitting necessary details such as their username, email, and password. This process is essential for securing user data and personalizing the experience within the application. The detailed steps for creating an account are described in the Create Account Use Case.
+
+For more details, refer to the [Create Account Use Case](UCCreateAccount.md).
 
 ### 3.1.2 Logging in / out
 The webapp will provide the possiblity manually log in and out to use the functions.

@@ -19,28 +19,27 @@ The creation of a new post. The user will be asked to enter a title and the cont
 ![Create Post Diagram](Assets/Create%20post%20drawio.drawio.png)
 ![Create Post Mockup](Assets/Create.png)
 
-`crud_create`
 
 ### 2.3 Edit  
 During editing, the user can modify the title and the content of the post.
 
 ![Edit Post Diagram](Assets/Edit%20post%20drawio.drawio.png)
+![Edit Post Mockup](Assets/Edit.png)
 
-`crud_edit`
 
 ### 2.4 List  
 The user wants to be able to view all of their posts. Therefore, the system presents a list with all entries.
 
 ![List Post Diagram](Assets/List%20.drawio.png)
+![List Mockup](Assets/List.png)
 
-`crud_list`
 
 ### 2.5 Delete  
 The user can delete posts. We added a button in the edit page to delete an entry. To ensure the user does not accidentally delete a post, we added a modal asking for confirmation.
 
 ![Delete Post Diagram](Assets/Delete%20post%20.drawio.png)
+![Delete Post Mockup](Assets/Delete.png)
 
-`crud_delete`
 
 ---
 
@@ -66,9 +65,8 @@ After creating a new post, the user will be redirected to the list overview, whe
 ### 5.2 Edit  
 After the user saves their edits, the updated post will be displayed in the list overview.
 
-### 5.3 Delete  
-After confirming the deletion in the modal, the post will be permanently removed and no longer displayed in the list overview.
-
-
-### 5.4 List  
+### 5.3 List  
 When the user requests to list all posts, the system will fetch and display all existing posts in a paginated or scrollable format.
+
+### 5.4 Delete  
+After confirming the deletion in the modal, the post will be permanently removed and no longer displayed in the list overview.

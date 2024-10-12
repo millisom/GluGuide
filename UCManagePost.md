@@ -18,7 +18,7 @@ The creation of a new post. The user will be asked to enter a title and the cont
 
 ![Create Post Diagram](Assets/Create%20post%20drawio.drawio.png)
 
-###Mock up
+### Mock up
 
 ![Create Post Mockup](Assets/Create.png)
 
@@ -28,7 +28,7 @@ During editing, the user can modify the title and the content of the post.
 
 ![Edit Post Diagram](Assets/Edit%20post%20drawio.drawio.png)
 
-###Mock up
+### Mock up
 
 ![Edit Post Mockup](Assets/Edit.png)
 
@@ -38,7 +38,7 @@ The user wants to be able to view all of their posts. Therefore, the system pres
 
 ![List Post Diagram](Assets/List%20.drawio.png)
 
-###Mock up
+### Mock up
 
 ![List Mockup](Assets/List.png)
 
@@ -48,7 +48,7 @@ The user can delete posts. We added a button in the edit page to delete an entry
 
 ![Delete Post Diagram](Assets/Delete%20post%20.drawio.png)
 
-###Mock up
+### Mock up
 
 ![Delete Post Mockup](Assets/Delete.png)
 

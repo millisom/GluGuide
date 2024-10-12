@@ -14,7 +14,7 @@ This use case describes the creation, reading, updating, and deleting of posts (
 In general, a user will create a post, view all posts, edit them as needed, and occasionally delete posts.
 
 ### 2.2 Creation  
-The creation of a new post. The user will be asked to enter a title and the content of the post.
+The creation of a new post. The user will be asked to enter a title and the content of the post and optionally attach pictures.
 
 ![Create Post Diagram](Assets/Create%20post%20drawio.drawio.png)
 ![Create Post Mockup](Assets/Create.png)
@@ -35,7 +35,7 @@ The user wants to be able to view all of their posts. Therefore, the system pres
 
 
 ### 2.5 Delete  
-The user can delete posts. We added a button in the edit page to delete an entry. To ensure the user does not accidentally delete a post, we added a modal asking for confirmation.
+The user can delete posts. We added a button in the edit page to delete an entry. To ensure the user does not accidentally delete a post, we added a pop up window asking for confirmation.
 
 ![Delete Post Diagram](Assets/Delete%20post%20.drawio.png)
 ![Delete Post Mockup](Assets/Delete.png)
@@ -66,7 +66,7 @@ After creating a new post, the user will be redirected to the list overview, whe
 After the user saves their edits, the updated post will be displayed in the list overview.
 
 ### 5.3 List  
-When the user requests to list all posts, the system will fetch and display all existing posts in a paginated or scrollable format.
+When the user requests to list all posts, the system will fetch and display all existing posts in a scrollable format.
 
 ### 5.4 Delete  
 After confirming the deletion in the modal, the post will be permanently removed and no longer displayed in the list overview.

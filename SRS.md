@@ -141,6 +141,8 @@ It is possible to delete the account. All data linked to it will be deleted too.
 ### 3.1.5 Manage blogpost
 To get in touch with others, ask questions, or simply share experiences, the user can write a blog post in the community feature. This function includes list posts, write, edit and delete post.
 
+For more details, refer to the [Manage Blogpost](UCManagePost.md).
+
 ### 3.1.6 Manage comment
 The comment function allows users to engage in discussions. Users are able to reply to posts or other comments. They can also list all their comments and edit and delete them here.
 

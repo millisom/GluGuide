@@ -7,7 +7,6 @@ This use case describes the creation, reading, updating, and deleting of posts (
 ---
 
 ## 2. Flow of Events  
-**AD_CRUD Post**
 
 ![Post Management CRUD Diagram](Assets/Post%20Management%20crud.drawio.png)
 
@@ -18,6 +17,7 @@ In general, a user will create a post, view all posts, edit them as needed, and 
 The creation of a new post. The user will be asked to enter a title and the content of the post.
 
 ![Create Post Diagram](Assets/Create%20post%20drawio.drawio.png)
+![Create Post Mockup](Assets/Create.png)
 
 `crud_create`
 

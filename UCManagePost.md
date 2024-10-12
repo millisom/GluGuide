@@ -9,7 +9,7 @@ This use case describes the creation, reading, updating, and deleting of posts (
 ## 2. Flow of Events  
 **AD_CRUD Post**
 
-[![Post Management CRUD Diagram](Assets/Post%20Management%20crud.drawio.png)](Assets/Post%20Management%20crud.drawio.png)
+[![Post Management CRUD Diagram](Assets/Post%20Management%20crud.drawio.png)] [(Assets/Post%20Management%20crud.drawio.png)]
 
 ### 2.1 Basic Flow  
 In general, a user will create a post, view all posts, edit them as needed, and occasionally delete posts.
@@ -17,30 +17,29 @@ In general, a user will create a post, view all posts, edit them as needed, and 
 ### 2.2 Creation  
 The creation of a new post. The user will be asked to enter a title and the content of the post.
 
-[![Create Post Diagram](Assets/Create%20post%20drawio.drawio.png)](Assets/Create.png)
+[![Create Post Diagram](Assets/Create%20post%20drawio.drawio.png)]
+[Mock up for create post](Assets/Create.png)
 
-`crud_create`
 
 ### 2.3 Edit  
 During editing, the user can modify the title and the content of the post.
 
 [![Edit Post Diagram](Assets/Edit%20post%20drawio.drawio.png)](Assets/Edit.png)
 
-`crud_edit`
 
 ### 2.4 List  
 The user wants to be able to view all of their posts. Therefore, the system presents a list with all entries.
 
 [![List Post Diagram](Assets/List%20.drawio.png)](Assets/List.png)
 
-`crud_list`
+
 
 ### 2.5 Delete  
 The user can delete posts. We added a button in the edit page to delete an entry. To ensure the user does not accidentally delete a post, we added a modal asking for confirmation.
 
 [![Delete Post Diagram](Assets/Delete%20post%20.drawio.png)](Assets/Delete.png)
 
-`crud_delete`
+
 
 ---
 

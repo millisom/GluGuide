@@ -69,4 +69,4 @@ After the user saves their edits, the updated post will be displayed in the list
 When the user requests to list all posts, the system will fetch and display all existing posts in a paginated or scrollable format.
 
 ### 5.4 Delete  
-After confirming the deletion in the modal, the post will be permanently removed and no longer displayed in the list overview.
+After confirming the deletion in the pop up window, the post will be permanently removed and no longer displayed in the list overview.

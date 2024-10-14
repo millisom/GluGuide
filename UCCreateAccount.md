@@ -40,7 +40,7 @@ The system validates the input, stores the user's information, and may require e
 - **Duplicate Email/Username:**
    - If the email or username already exists, the system prompts the user to choose a different one.
 
-### 2.4 Narrative
+<!-- ### 2.4 Narrative
 ```gherkin
 Feature: Account creation
 
@@ -73,7 +73,7 @@ Feature: Account creation
     And I press the "Create Account" button
     Then I remain on the "Create Account" page
     And I receive an "Error" message
-```
+``` -->
 
 ## 3. Preconditions:
 - **User Access:** The user is on the registration page of the web application, which is accessible from the home page or other entry points.
@@ -104,7 +104,7 @@ This use case is linked to the relevant section of the [Software Requirements Sp
 
 ## 7. CRUD Classification:
 - **Create**: This use case represents the **Create** operation in CRUD as it handles the creation of a new user account.
-## RUP Template Compliance:
+<!-- ## RUP Template Compliance:
 
 1. **Structured Use Case Description**
  - Sections like **Brief Description**, **Basic Flow**, **Alternate Flow**, and **Preconditions/Postconditions** are  defined.
@@ -123,5 +123,5 @@ This use case is linked to the relevant section of the [Software Requirements Sp
 - Includes alternate flows for exceptions, covering potential outcomes like invalid inputs or duplicate data.
 7. **Detail and Completeness:**
 - Comprehensive coverage of both successful and error scenarios, aligned with RUP’s focus on thorough documentation.
-
+ -->
 

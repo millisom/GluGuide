@@ -1,4 +1,8 @@
 Feature: Create Account
+  As a new user
+  I want to create an account
+  So that I can access the web application
+
   Scenario: Open account creation page
     Given I am on the homepage of the website
     When I click the "Register" button

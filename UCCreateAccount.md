@@ -40,17 +40,13 @@ The system validates the input, stores the user's information, and may require e
 - **Duplicate Email/Username:**
    - If the email or username already exists, the system prompts the user to choose a different one.
 
-<!-- ### 2.4 Narrative
+### 2.4 Narrative
 ```gherkin
-Feature: Account creation
-
-  As a visitor to the site
-  I want to create a new account
-  In order to access the application's features
-
-  Background:
-    Given I am on the homepage
-
+Feature: Create Account
+    As a new user
+    I want to create an account
+    So that I can access the web application
+  
   Scenario: Open account creation page
     Given I am on the homepage
     When I click the "Register" button
@@ -62,8 +58,8 @@ Feature: Account creation
     And I enter "myemail@example.com" in the "Email" field
     And I enter "mypassword" in the "Password" field
     And I press the "Create Account" button
-    Then I am redirected to the "My Account" page
-    And I receive a "Success" message
+    Then I receive a "Success" message
+    And I am redirected to the "My Account" page
 
   Scenario: Enter invalid data and receive error message
     Given I am on the "Create Account" page
@@ -73,7 +69,7 @@ Feature: Account creation
     And I press the "Create Account" button
     Then I remain on the "Create Account" page
     And I receive an "Error" message
-``` -->
+```
 
 ## 3. Preconditions:
 - **User Access:** The user is on the registration page of the web application, which is accessible from the home page or other entry points.
@@ -104,24 +100,4 @@ This use case is linked to the relevant section of the [Software Requirements Sp
 
 ## 7. CRUD Classification:
 - **Create**: This use case represents the **Create** operation in CRUD as it handles the creation of a new user account.
-<!-- ## RUP Template Compliance:
-
-1. **Structured Use Case Description**
- - Sections like **Brief Description**, **Basic Flow**, **Alternate Flow**, and **Preconditions/Postconditions** are  defined.
-2. **Preconditions and Postconditions**
-- Necessary state before execution
-- The outcomes
-3. **Flows (Basic and Alternate)**
- - Covers the main sequence of actions for account creation.
-- Addresses potential exceptions (e.g., invalid email, duplicate username).
-
-4. **CRUD Classification**
-- Clearly labeled as a **Create** operation under CRUD
-5. **Use of Visual Aids**
-- Activity diagrams and mock-ups are used to visualize the process
-6. **Error Handling:**
-- Includes alternate flows for exceptions, covering potential outcomes like invalid inputs or duplicate data.
-7. **Detail and Completeness:**
-- Comprehensive coverage of both successful and error scenarios, aligned with RUP’s focus on thorough documentation.
- -->
 

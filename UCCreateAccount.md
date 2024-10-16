@@ -37,7 +37,7 @@ The system validates the input, stores the user's information, and may require e
 - **Invalid Input:**
    - If the user provides an invalid email or weak password, the system displays an error message and asks the user to correct the form.
 - **Duplicate Email/Username:**
-   - If the email or username already exists, the system prompts the user to choose a different one.
+   - If the email or username already exists, the system shows the Account Dashboard accordingly.
 
 ### 2.4 Narrative
 ```gherkin

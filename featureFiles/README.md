@@ -54,7 +54,7 @@ npm test
 ```
 - which will run the tests and show the results in the terminal. it should look like this:
 ![Screenshot](/docs/partiallyPassedTests.png)
-- 
+
 ### 6. Import Cucumber and Add Step Definitions
 Once the tests run, you can copy and paste the step definitions from the test result output and include them in your step definitions file:
 #### 1. Create a new file in the featurefiles/features/step_definitions directory with a .js extension:
@@ -62,6 +62,7 @@ Once the tests run, you can copy and paste the step definitions from the test re
 touch filename_steps.js
 ```
 #### 2. Import Cucumber and Copy the step definitions from the test output and paste them into this file. 
+![Screenshot](/docs/jsFile.png)
 #### 3. Run the tests again with `npm test` to see the results.
 - If all tests pass, you have successfully set up the project and written passing tests for your feature file. Passed tests should look like this:
 ![Screenshot](/docs/passedTest.png)

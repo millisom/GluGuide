@@ -29,7 +29,7 @@ This will start the Vite development server. The application will be accessible 
 #### 1. Navigate to the Server Directory
 
 ```bash
-cd server/routes
+cd server
 ```
 #### 2. Install Dependencies
 To install the necessary dependencies for the Express backend, run:

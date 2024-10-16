@@ -1,49 +1,31 @@
-import { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
-import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/navbar.jsx';
+import HomePage from './pages/homepage.jsx';
+import MyAccount from './pages/myaccount.jsx';
+import ContactUs from './pages/contactUs.jsx';
+import AboutUs from './pages/aboutUs.jsx';
+import Login from './pages/login.jsx';
+import Register from './pages/signUp.jsx';
+import Blogs from './pages/blogs.jsx';
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080'); 
-      console.log(response.data); 
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+    return (
+        <div className="App">
+            <header className="App-header"></header>
+            <Router>
+                <Navbar />
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/account" element={<MyAccount />} />
+                    <Route path="/contact" element={<ContactUs />} />
+                    <Route path="/about" element={<AboutUs />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/blogs" element={<Blogs />} />
+                </Routes>
+            </Router>
+        </div>
+    );
 }
 
 export default App;

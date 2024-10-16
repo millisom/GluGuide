@@ -17,16 +17,15 @@ The system validates the input, stores the user's information, and may require e
    - Email
    - Password
    - Username
-3. User can click "Cancel" to exit the form without creating an account.
-4. The user submits the form by clicking the "Create Account" button.
-5. The system validates the user's input:
+3. The user submits the form by clicking the "Create Account" button.
+4. The system validates the user's input:
    - Ensures the email format is valid.
    - Checks that the password meets strength requirements.
    - Ensures that the username is unique and available.
-6. If validation is successful, the system stores the user's account information in the database.
-7. The system confirms the account creation by showing a success message.
-8. (Optional) The system sends a verification email to the user's email address.
-9. (Optional) The user is either logged in automatically or redirected to the login page.
+5. If validation is successful, the system stores the user's account information in the database.
+6. The system confirms the account creation by showing a success message.
+7. (Optional) The system sends a verification email to the user's email address.
+8. (Optional) The user is either logged in automatically or redirected to the login page.
 
 ### 2.1 Activity Diagram
 ![Create Account Activity Diagram](docs/ADCA.drawio.svg)

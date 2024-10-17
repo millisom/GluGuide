@@ -1,31 +1,26 @@
 # 1 Use-Case Name
-Create Account
+Edit Account
 
 ## 1.1 Brief Description
-A user can create a new account to access the web application. During account creation, the user provides essential information such as:
+A user can edit the data that is linked to their account such as:
 
 - **Username**
-- **Email**
 - **Password**
-- (Optional) **Confirm Password**
 
-The system validates the input, stores the user's information, and may require email verification. After successful account creation, the user is either logged in automatically or prompted to log in.
+The user can edit one value at a time. The system validates the input, stores the user's information, and may require email verification. 
 
 ## 2. Basic Flow
-1. The user navigates to the registration page.
-2. The user fills in the following fields:
-   - Email
-   - Password
-   - Username
-3. The user submits the form by clicking the "Create Account" button.
+1. The user navigates to the account page.
+2. The user clicks 'edit account'
+3. The user clicks on 'change password' button or 'change username' button
+3. The user types in a new value.
 4. The system validates the user's input:
-   - Ensures the email format is valid.
+   - Ensures the format is valid.
    - Checks that the password meets strength requirements.
    - Ensures that the username is unique and available.
-5. If validation is successful, the system stores the user's account information in the database.
-6. The system confirms the account creation by showing a success message.
+5. If validation is successful, the system updates the user's account information in the database.
+6. The system confirms the account edit by showing a success message.
 7. (Optional) The system sends a verification email to the user's email address.
-8. (Optional) The user is either logged in automatically or redirected to the login page.
 
 ### 2.1 Activity Diagram
 ![Create Account Activity Diagram](docs/ADCA.drawio.svg)

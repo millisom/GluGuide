@@ -23,7 +23,7 @@ The user can edit one value at a time. The system validates the input, stores th
 7. (Optional) The system sends a verification email to the user's email address.
 
 ### 2.1 Activity Diagram
-![Create Account Activity Diagram](docs/ADCA.drawio.svg)
+![Edit Account Activity Diagram](docs/UCEditAccount.drawio)
 
 ### 2.2 Mock-up
 ![Create Account Wireframe](docs/mockup.png)

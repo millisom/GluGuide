@@ -148,6 +148,8 @@ For more details, refer to the [Manage Blogpost Use Case](UCManagePost.md).
 ### 3.1.6 Manage comment
 The comment function allows users to engage in discussions. Users are able to reply to posts or other comments. They can also list all their comments and edit and delete them here.
 
+For more details, refer to the [Manage Comment Use Case](UCManageComment.md).
+
 ### 3.1.7 Track sugar
 The user is able to manually track their sugar.
 

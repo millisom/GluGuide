@@ -26,42 +26,52 @@ The user can edit one value at a time. The system validates the input, stores th
 ![Edit Account Activity Diagram](docs/UseCaseEditAccount/UCEditAccount.drawio.png)
 
 ### 2.2 Mock-up
-![Create Account Wireframe](docs/mockup.png)
+![Edit Account Wireframe landingpage](docs/UseCaseEditAccount/Mockup_EditAccount.png)
+![Edit Account Wireframe Accountinfo](docs/UseCaseEditAccount/Mockup_EditAccount2.png)
+![Edit Account Wireframe Edit view](docs/UseCaseEditAccount/Mockup_EditAccount3.png)
+![Edit Account Wireframe Success message](docs/UseCaseEditAccount/Mockup_EditAccount4.png)
 
 ### 2.3 Alternate Flow:
 - **Invalid Input:**
-   - If the user provides an invalid email or weak password, the system displays an error message and asks the user to correct the form.
+   - If the user provides an invalid user name or weak password, the system displays an error message and asks the user to correct the form.
 - **Duplicate Email/Username:**
-   - If the email or username already exists, the system shows the Account Dashboard accordingly.
+   - If the username already exists, the system displays an error message and informs the user, that the username is already taken.
 
 ### 2.4 Narrative
 ```gherkin
-Feature: Create Account
-    As a new user
-    I want to create an account
-    So that I can access the web application
+Feature: Edit Account
+    As a user
+    I want to edit my account information
+    So that I can change my username or password
   
-  Scenario: Open account creation page
-    Given I am on the homepage
-    When I click the "Register" button
-    Then I am redirected to the "Create Account" page
+  Scenario: Open account page
+    Given I am logged in
+    And I am on the landingpage
+    When I click the "Account" button
+    Then I am redirected to the "Account" page
 
-  Scenario: Enter valid data and create an account
-    Given I am on the "Create Account" page
-    When I enter "myusername" in the "Username" field
-    And I enter "myemail@example.com" in the "Email" field
-    And I enter "mypassword" in the "Password" field
-    And I press the "Create Account" button
+  Scenario: Enter valid data and change username
+    Given I am on the "Account" page
+    When I click on the "Edit Data" button
+    And I enter "myusername" in the "Username" field
+    And I press the "submit" button
+    And the username is not taken already
     Then I receive a "Success" message
-    And I am redirected to the "My Account" page
+    And I am redirected to the "Account" page
+
+Scenario: Enter valid data and change password
+    Given I am on the "Account" page
+    When I click on the "Edit Data" button
+    And I enter "%dh5!XEX" in the "password" field
+    And I press the "submit" button
+    Then I receive a "Success" message
+    And I am redirected to the "Account" page
 
   Scenario: Enter invalid data and receive error message
-    Given I am on the "Create Account" page
-    When I enter "myusername" in the "Username" field
-    And I enter "invalid-email" in the "Email" field
-    And I enter "short" in the "Password" field
-    And I press the "Create Account" button
-    Then I remain on the "Create Account" page
+    Given I am on the "Account" page
+    When I enter "short" in the "Password" field
+    And I press the "submit" button
+    Then I remain on the "Edit Account" page
     And I receive an "Error" message
 ```
 

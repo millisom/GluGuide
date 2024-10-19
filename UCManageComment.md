@@ -26,7 +26,7 @@ The creation of a new comment. The user must opened a post to write a comment.
 During editing, the user can modify the content of the comment.
 
 ![Edit Comment Diagram](docs/UseCaseManageComments/UCEditComment.drawio.png)
-![Edit Comment Mockup](docs/UseCaseManageComments/UCEditCommentMockUp.png)
+![Delete Comment Mockup](docs/UseCaseManageComments/UCEditCommentMockUp.png)
 ![Edit Comment Mockup](docs/UseCaseManageComments/UCEditCommentMockUp2.png)
 ![Edit Comment Mockup](docs/UseCaseManageComments/UCEditCommentMockUp3.png)
 ![Edit Comment Mockup](docs/UseCaseManageComments/UCEditCommentMockUp4.png)
@@ -44,8 +44,11 @@ The user wants to be able to view all posts with their comments. Therefore, the 
 ### 2.5 Delete  
 The user can delete a self written comment. There is a button in the edit view to delete the comment. To ensure the user does not accidentally delete a comment, we added a modal asking for confirmation.
 
-![Delete Post Diagram](docs/UseCaseManageComments/UCDeleteComment.drawio.png)
-![Delete Post Mockup](Assets/Delete.png)
+![Delete Comment Diagram](docs/UseCaseManageComments/UCDeleteComment.drawio.png)
+![Edit Comment Mockup](docs/UseCaseManageComments/UCEditCommentMockUp.png)
+![Delete Comment Mockup](docs/UseCaseManageComments/UCDeleteCommentMockUp.png)
+![Delete Comment Mockup](docs/UseCaseManageComments/UCDeleteCommentMockUp2.png)
+![Delete Comment Mockup](docs/UseCaseManageComments/UCDeleteCommentMockUp3.png)
 
 
 

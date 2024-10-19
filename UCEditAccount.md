@@ -34,7 +34,7 @@ The user can edit one value at a time. The system validates the input, stores th
 ### 2.3 Alternate Flow:
 - **Invalid Input:**
    - If the user provides an invalid user name or weak password, the system displays an error message and asks the user to correct the form.
-- **Duplicate Email/Username:**
+- **Duplicate Username:**
    - If the username already exists, the system displays an error message and informs the user, that the username is already taken.
 
 ### 2.4 Narrative
@@ -76,32 +76,31 @@ Scenario: Enter valid data and change password
 ```
 
 ## 3. Preconditions:
-- **User Access:** The user is on the registration page of the web application, which is accessible from the home page or other entry points.
-- **Authentication Status:** The user is not logged into the system. If the user is already logged in, they will be automatically redirected to their dashboard or shown a message informing them that they cannot create a new account while logged in.
-- **Network and Server Connection:** The registration page is fully functional, with an active connection to the backend services (e.g., database, authentication servers).
+- **User Access:** The user is on the landing page of the web application, which is accessible from the home page or other entry points.
+- **Authentication Status:** The user is logged into the system.
+- **Network and Server Connection:** The "Edit Accout" page is fully functional, with an active connection to the backend services (e.g., database, authentication servers).
 - **Form Availability:** All required fields (e.g., username, email, password) are visible and accessible on the form, with proper client-side validation scripts in place (e.g., for email format, password strength).
-- **User Information:** The user has not previously created an account using the same email or username, which will be checked during the submission process.
 
 ## 4. Postconditions:
-- **Account Creation:** A new user account is successfully created in the database. This includes:
+- **Account Edit:** The user account data is successfully edited in the database. This includes:
    - Storing the user’s username, email, and hashed password (along with any other optional data) in a secure manner.
    - Ensuring the account details adhere to the system’s validation rules (e.g., unique email and username, strong password).
 - **User Authentication:** Depending on the configuration:
-   - The user may be automatically logged in after account creation and redirected to their profile page or dashboard.
+   - The user may be automatically stay logged in after account editing and redirected to their profile page or dashboard.
    - Alternatively, the user may be shown a login prompt, requiring them to manually log in using the newly created credentials.
 - **Verification Process (Optional):** If email verification is enabled:
-   - The system sends a verification email to the user’s provided email address, containing a link or token that must be confirmed to activate the account fully.
+   - The system sends a verification email to the user’s provided email address, containing a link or token that must be confirmed to edit the accountdata fully.
    - The account status will be set as "unverified" until the user completes the email verification step.
 - **Error Handling (Optional):** In the event of issues during the process (e.g., server downtime, network issues), the system will display an error message, asking the user to try again later or contact support.
-- **User Notification:** A confirmation message is displayed, informing the user that the account was created successfully. If verification is required, the message will also mention the next steps (e.g., “Please check your email to verify your account.”).
-- **Session Management:** If the user was logged in automatically, a new session is created, and the session data is securely stored, allowing them to stay logged in during future interactions until they log out manually or the session expires.
+- **User Notification:** A confirmation message is displayed, informing the user that the account was edited successfully. If verification is required, the message will also mention the next steps (e.g., “Please check your email to verify your edit.”).
+- **Session Management:** If the user stayed logged in automatically, a new session is created, and the session data is securely stored, allowing them to stay logged in during future interactions until they log out manually or the session expires.
 
 ## 5. Exceptions:
-- **System Failure**: If the system encounters an issue during account creation (e.g., server is down), it informs the user to try again later.
+- **System Failure**: If the system encounters an issue during account editing (e.g., server is down), it informs the user to try again later.
 
 ## 6. Link to SRS:
 This use case is linked to the relevant section of the [Software Requirements Specification (SRS)](SRS.md).
 
 ## 7. CRUD Classification:
-- **Create**: This use case represents the **Create** operation in CRUD as it handles the creation of a new user account.
+- **UPDATE**: This use case represents the **UPDATE** operation in CRUD as it handles the update of a user account.
 

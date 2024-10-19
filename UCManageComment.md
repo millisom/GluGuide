@@ -39,7 +39,7 @@ The user wants to be able to view all posts with their comments. Therefore, the 
 ### 2.5 Delete  
 The user can delete a self written comment. There is a button in the edit view to delete the comment. To ensure the user does not accidentally delete a comment, we added a modal asking for confirmation.
 
-![Delete Post Diagram](Assets/Delete%20post%20.drawio.png)
+![Delete Post Diagram](docs/UseCaseManageComments/UCDeleteComment.drawio.png)
 ![Delete Post Mockup](Assets/Delete.png)
 
 

@@ -30,8 +30,10 @@ During editing, the user can modify the content of the comment.
 ### 2.4 List  
 The user wants to be able to view all posts with their comments. Therefore, the system presents a list with all entries.
 
-![List Post Diagram](Assets/ListUpdate.png)
-![List Mockup](Assets/List.png)
+![List Post Diagram](docs/UseCaseManageComments/UCListComment.drawio.png)
+![List Mockup](docs/UseCaseManageComments/UCListCommentMockUp.png)
+![List Mockup](docs/UseCaseManageComments/UCListCommentMockUp2.png)
+![List Mockup](docs/UseCaseManageComments/UCListCommentMockUp3.png)
 
 
 ### 2.5 Delete  

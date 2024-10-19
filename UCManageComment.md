@@ -16,8 +16,10 @@ In general, a user will open a post, view all comments, write a comment, edit or
 ### 2.2 Creation  
 The creation of a new comment. The user must opened a post to write a comment.
 
-![Create Post Diagram](docs/UseCaseManageComments/UCCreateComment.drawio.png)
-![Create Post Mockup](Assets/Create.png)
+![Create Comment Diagram](docs/UseCaseManageComments/UCCreateComment.drawio.png)
+![Create Comment Mockup](docs/UseCaseManageComments/UCCreateCommentMockUp.png)
+![Create Comment Mockup](docs/UseCaseManageComments/UCCreateCommentMockUp2.png)
+![Create Comment Mockup](docs/UseCaseManageComments/UCCreateCommentMockUp3.png)
 
 
 ### 2.3 Edit  

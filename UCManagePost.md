@@ -30,7 +30,7 @@ During editing, the user can modify the title and the content of the post.
 ### 2.4 List  
 The user wants to be able to view all of their posts. Therefore, the system presents a list with all entries.
 
-![List Post Diagram](Assets/ListUpdate.drawio.png)
+![List Post Diagram](Assets/ListUpdate.png)
 ![List Mockup](Assets/List.png)
 
 

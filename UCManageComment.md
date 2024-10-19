@@ -23,7 +23,7 @@ The creation of a new comment. The user must opened a post to write a comment.
 ### 2.3 Edit  
 During editing, the user can modify the content of the comment.
 
-![Edit Post Diagram](Assets/Edit%20post%20drawio.drawio.png)
+![Edit Post Diagram](docs/UseCaseManageComments/UCEditComment.drawio.png)
 ![Edit Post Mockup](Assets/Edit.png)
 
 

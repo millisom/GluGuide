@@ -143,6 +143,7 @@ Feature: Delete Comment
     Then the pop up window closes
     And I see the comment with no changes
 
+```
 ---
 
 ## 3. Special Requirements

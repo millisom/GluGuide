@@ -88,7 +88,9 @@ Push the changes to the main branch:
 ```bash
 git push origin main
 ```
-##Create a branch using Git CLI
+
+## Create a branch using Git CLI
+
 Before creating a new branch, pull the changes from upstream. Your master needs to be up to date.
 
 ```bash

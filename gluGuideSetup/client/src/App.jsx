@@ -5,7 +5,7 @@ import MyAccount from './pages/myaccount.jsx';
 import ContactUs from './pages/contactUs.jsx';
 import AboutUs from './pages/aboutUs.jsx';
 import Login from './pages/login.jsx';
-import Register from './pages/signUp.jsx';
+import SignUp from './pages/signUp.jsx';
 import Blogs from './pages/blogs.jsx';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
                     <Route path="/contact" element={<ContactUs />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route path="/signUp" element={<SignUp/>} />
                     <Route path="/blogs" element={<Blogs />} />
                 </Routes>
             </Router>

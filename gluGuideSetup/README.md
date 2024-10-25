@@ -29,7 +29,7 @@ This will start the Vite development server. The application will be accessible 
 #### 1. Navigate to the Server Directory
 
 ```bash
-cd server/routes
+cd server
 ```
 #### 2. Install Dependencies
 To install the necessary dependencies for the Express backend, run:
@@ -88,3 +88,21 @@ Push the changes to the main branch:
 ```bash
 git push origin main
 ```
+
+## Create a branch using Git CLI
+
+Before creating a new branch, pull the changes from upstream. Your master needs to be up to date.
+
+```bash
+$ git pull]
+```
+Create the branch on your local machine and switch in this branch:
+```bash
+$ git checkout -b [name_of_your_new_branch]
+```
+Push the branch on GitHub:
+```bash
+$ git push origin [name_of_your_new_branch]
+```
+
+

@@ -41,6 +41,7 @@ The user can delete posts. We added a button in the edit page to delete an entry
 ![Delete Post Mockup](Assets/Delete.png)
 
 
+
 ---
 
 ## 3. Special Requirements

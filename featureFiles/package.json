@@ -1,0 +1,17 @@
+{
+  "name": "featurefiles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.0.1",
+    "selenium-webdriver": "latest",
+    "chromedriver": "latest"
+  }
+}

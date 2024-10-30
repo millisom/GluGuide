@@ -1,15 +1,13 @@
-const Login = () => {
+import Login from "../components/login";
+import { Link } from "react-router-dom";
+import React from "react";
+
+const LoginPage = () => {
     return (
-        <div>
-            <h1>Login</h1>
-            <form>
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" />
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" />
-                <button type="submit">Login</button>
-            </form>
+        <div className="loginPage">
+            <Login />
+            <Link to="/signUp">Don't have an account? Sign up here</Link>
         </div>
     );
 }
-export default Login;
+export default LoginPage;

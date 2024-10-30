@@ -4,7 +4,7 @@ import HomePage from './pages/homepage.jsx';
 import MyAccount from './pages/myaccount.jsx';
 import ContactUs from './pages/contactUs.jsx';
 import AboutUs from './pages/aboutUs.jsx';
-import Login from './pages/login.jsx';
+import LoginPage from './pages/login.jsx';
 import SignUp from './pages/signUp.jsx';
 import Blogs from './pages/blogs.jsx';
 
@@ -19,7 +19,7 @@ function App() {
                     <Route path="/account" element={<MyAccount />} />
                     <Route path="/contact" element={<ContactUs />} />
                     <Route path="/about" element={<AboutUs />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<LoginPage />} />
                     <Route path="/signUp" element={<SignUp/>} />
                     <Route path="/blogs" element={<Blogs />} />
                 </Routes>

@@ -1,23 +1,30 @@
 const loginModel = require('../models/loginModel');
 
-const loginController = {
-    async login(req, res) {
-        try{
-            const { username, password} = req.body;
-            if(!username || !password){
-                return res.status(400).json({error: 'Username and password required'});
-            }
+const loginUser = (req, res) => {
+    // console.log('Received login request');
+    // console.log('Request Body:', req.body); // Log incoming request data
 
-            const user = await loginModel.login(username, password);
-            if(user){
-                return res.json({message: 'Login successful'});
-            } else {
-                return res.status(401).json({error: 'Invalid username or password'});
-            }
-        } catch(error){
-            console.error('Error in loginController:', error);
-            res.status(500).json({error: 'Internal Server Error'});
+    loginModel.getUserByUsername(req.body.username, (err, results) => {
+        if (err) {
+            // console.error('Database Error:', err.message); // Log the error message
+            // console.error('Error Stack:', err.stack); // Log the error stack trace for more details
+            return res.json({ Message: 'An error occurred: ' + err.message, Stack: err.stack });
         }
-    }
+
+        // console.log('Query Results:', results); // Log the raw results from the query
+        // console.log('Rows Retrieved:', results.rows); // Log the rows specifically
+
+        if (results.rows.length > 0) {
+            const user = results.rows[0];
+            req.session.username = user.username;
+            // console.log('User authenticated:', req.session.username); // Log the authenticated username
+
+            return res.json({ Login: true });
+        } else {
+            // console.log('No matching user found'); // Log if no user was found with the provided username
+            return res.json({ Login: false });
+        }
+    });
 };
-module.exports = loginController;
+
+module.exports = { loginUser };

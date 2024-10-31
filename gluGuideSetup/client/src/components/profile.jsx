@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Logout from './logout';
 
 const Profile = () => {
  const [user, setUser] = useState(null);
@@ -8,11 +9,13 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
     useEffect(() => {
       axios.get('http://localhost:8080/user')
       .then(res => {
         if (res.data.valid) {
           setUser(res.data.username);
+          navigate('/account');
         }else{
           navigate('/login');
           console.log('User:', res.data);
@@ -29,6 +32,7 @@ const Profile = () => {
     <div>
       <h1>Profile</h1>
       {user ? <p>Welcome, {user}!</p> : <p>No user data available.</p>}
+      <Logout />
     </div>
   );
 };

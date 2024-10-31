@@ -8,11 +8,10 @@ import LoginPage from './pages/login.jsx';
 import SignUp from './pages/signUp.jsx';
 import Blogs from './pages/blogs.jsx';
 
+
 function App() {
     return (
-        <div className="App">
-            <header className="App-header"></header>
-            <Router>
+        <Router>
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
@@ -23,8 +22,7 @@ function App() {
                     <Route path="/signUp" element={<SignUp/>} />
                     <Route path="/blogs" element={<Blogs />} />
                 </Routes>
-            </Router>
-        </div>
+        </Router>
     );
 }
 

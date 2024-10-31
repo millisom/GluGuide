@@ -1,5 +1,5 @@
 // Implement logic for user sign-up in controllers/authController.js.
-const User = require('../models/userModel');
+const User = require('../models/authModel');
 
 const authController = {
     async signUp(req, res) {

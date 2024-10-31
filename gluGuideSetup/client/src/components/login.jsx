@@ -1,31 +1,68 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [values, setValues] = useState({
+    username: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Submitting:', { username, password });
+  const handleInput = (event) => {
+    setValues(prev => ({ ...prev, [event.target.name]: event.target.value }));
+  };
+  axios.defaults.withCredentials = true;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError('');
 
     try {
-      const response = await axios.post('http://localhost:8080/login', { username, password });
-      console.log(response.data);
-      navigate('/account');
+      const response = await axios.post('http://localhost:8080/login', values);
+      if (response.data.Login) {
+        navigate('/account');
+      } else {
+        setError(response.data.Message || 'Invalid username or password');
+      }
+      console.log('Response:', response.data);
     } catch (error) {
-      console.error('Login error:', error.response ? error.response.data : error.message);
+      setError('An error occurred. Please try again.');
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Username:
+          <input 
+            type="text" 
+            name="username" 
+            onChange={handleInput} 
+            required 
+          />
+        </label>
+        <label>Password:
+          <input 
+            type="password" 
+            name="password" 
+            onChange={handleInput} 
+            required 
+          />
+        </label>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <Link to="/forgotPassword">Forgot Password</Link>
+    </div>
   );
 };
 

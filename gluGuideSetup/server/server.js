@@ -34,10 +34,11 @@ app.use(session({
 const authRoutes = require('./routes/authRoutes');
 const loginRoute = require('./routes/loginRoute');
 const userRoute = require('./routes/userRoute');
+const logoutRoute = require('./routes/logoutRoute');
 app.use('/', authRoutes);
 app.use('/', loginRoute);
 app.use('/', userRoute);
-
+app.use('/', logoutRoute);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error Stack:', err.stack);

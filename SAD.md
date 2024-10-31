@@ -26,7 +26,7 @@
 This document provides a comprehensive architectural overview of the system, using a number of different architectural views to depict different aspects of the system. It is intended to capture and convey the significant architectural decisions which have been made on the system.
 
 ### 1.2 Scope
-This document describes the technical architecture of the DigiWill project, including the structure of classes, modules and dependencies.
+This document describes the technical architecture of the GluGuide project, including the structure of classes, modules and dependencies.
 
 ### 1.3 Definitions, Acronyms and Abbreviations
 
@@ -53,42 +53,44 @@ as the Logical, Deployment, Implementation and Data Views.
 ## 2. Architectural Representation
 We are trying to implement according to the MVC pattern:
 
-![MVC structure](../SAD/mvc_structure.png)
+
 
 ## 3. Architectural Goals and Constraints
-We decided to use Spring MVC as our main framework. It allows us to unite backend, frontend development and the database integration in one code base.
+We decided to use react.js as our frontend framework. As our backend we use node.js. Our database is PostgreSQL.
 
 ## 4. Use-Case View
 Our overall UC diagram:
 
-![Overall-Use-Case-Diagram](../SRS/UC_Diagram.png)
+
 
 ## 5. Logical View
 
 ### 5.1 Overview
 The following image shows a UML diagram of our project whose elements are categorized by model, view and controller.
 
-![MVC class diagram](../SAD/mvc_class_diagram.png)
+
 
 ### 5.2 Architecturally Significant Design Packages
-We always try to classify our classes in modules. The module `de.digiwill.model` contains model classes for data preparation and handeling and `de.digiwill.repository` contains classes for access data from the database. Service-, controller- and utility-classes are also classified in seperate packages.
+
 
 ## 6. Process View
-TODO
+
 
 ## 7. Deployment View
 
-![Deployment View](./deployment_view.png)
+
 
 ## 9. Data View
 Our database structure in model classes:
 
-![Database](../db_schema.png)
+
 
 ## 10. Size and Performance
 n/a
 
 ## 11. Quality/Metrics
+
+(This is form another group but sounds nice)
 We are using Jenkins as an continuous integration tool to ensure a high quality of our development process. Whenever there is a new commit to a pull request or the master branch it automatically builds the project and executes all tests. The Jenkins build result will be displayed beside each commit on Github.
 In addition SonarQube and Codacy are used in our pipeline. Each pull request/commit is checked by both tools. To improve our code quality we are focusing on: 
 * Test Coverage: A high coverage ensures that existing functionality can not break during the development process. The coverage is calculated by the Jacoco Maven Plugin and the plugin results are pushed to SonarQube.

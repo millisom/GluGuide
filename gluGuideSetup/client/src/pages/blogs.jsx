@@ -1,8 +1,13 @@
+import React from 'react';
+import postList from '../components/postList'
+import createPost from '../components/createPost';
+
+
 const Blogs = () => {
     return (
         <div>
-            <h1>Blogs</h1>
-            <p>Here are some blogs</p>
+            <createPost />
+            <postList />
         </div>
     );
 }

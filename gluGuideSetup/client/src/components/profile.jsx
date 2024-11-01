@@ -4,35 +4,48 @@ import axios from 'axios';
 import Logout from './logout';
 
 const Profile = () => {
- const [user, setUser] = useState(null);
- const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // Ensure credentials are included in all axios requests
   axios.defaults.withCredentials = true;
-    useEffect(() => {
-      axios.get('http://localhost:8080/user')
-      .then(res => {
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get('http://localhost:8080/status');
         if (res.data.valid) {
           setUser(res.data.username);
-          navigate('/account');
-        }else{
+        } else {
           navigate('/login');
-          console.log('User:', res.data);
         }
+      } catch (err) {
+        console.error('Error fetching user:', err);
+        setError('Failed to fetch user data.');
+      } finally {
         setLoading(false);
-      })
-      .catch(err => console.error('Error:', err));
-      setLoading(false);
-    }, [navigate]);
-    if (loading) return <p>Loading...</p>;
+      }
+    };
+
+    fetchUser();
+  }, [navigate]);
+
+  if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
     <div>
       <h1>Profile</h1>
-      {user ? <p>Welcome, {user}!</p> : <p>No user data available.</p>}
-      <Logout />
+      {user ? (
+        <>
+          <p>Welcome, {user}!</p>
+          <Logout />
+        </>
+      ) : (
+        <p>No user data available.</p>
+      )}
     </div>
   );
 };

@@ -3,9 +3,13 @@
 
 const express = require('express');
 const router = express.Router();
+
 const authController = require('../controllers/authController');
 
 router.post('/signUp', authController.signUp);
+router.post('/login', authController.loginUser);
+router.get('/logout', authController.logout);
+router.get('/status', authController.getStatus);
 
 module.exports = router;
   

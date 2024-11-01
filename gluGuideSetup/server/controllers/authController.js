@@ -17,6 +17,46 @@ const authController = {
         console.error("Error in sign-up process:", error);
         res.status(500).json({ error: "Internal Server Error" });
       }
+    },
+    async loginUser(req, res) {
+      try {
+        const results = await User.getUserByUsername(req.body.username);
+  
+        if (results.rows.length > 0) {
+          const user = results.rows[0];
+          req.session.username = user.username;
+          return res.json({ Login: true });
+        } else {
+          return res.json({ Login: false });
+        }
+      } catch (err) {
+        console.error("An error occurred during login:", err);
+        res.status(500).json({ Message: 'An error occurred: ' + err.message, Stack: err.stack });
+      }
+    },
+    async logout(req, res) {
+      try {
+        await new Promise((resolve, reject) => {
+          req.session.destroy(err => {
+            if (err) {
+              console.error('Error destroying session:', err);
+              return reject(err);
+            }
+            resolve();
+          });
+        });
+        res.status(200).send('Session destroyed');
+      } catch (error) {
+        res.status(500).send('Error destroying session');
+      }
+    },
+
+    async getStatus(req, res) {
+      if (req.session.username) {
+        return res.json({ valid: true, username: req.session.username });
+      } else {
+        return res.json({ valid: false });
+      }
     }
   };
 

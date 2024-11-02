@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const app = express();
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -9,11 +10,9 @@ const cookieParser = require('cookie-parser');
 // Load environment variables
 dotenv.config();
 
-const app = express();
-
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
   credentials: true,
   optionsSuccessStatus: 200,
 }));
@@ -30,16 +29,14 @@ app.use(session({
   },
 }));
 
-// Import and use routes
+// Import routes
 const authRoutes = require('./routes/authRoutes');
-const loginRoute = require('./routes/loginRoute');
-const userRoute = require('./routes/userRoute');
-const logoutRoute = require('./routes/logoutRoute');
+const profileRoutes = require('./routes/profileRoutes');
 const postRoutes = require('./routes/postRoutes');
 app.use('/', authRoutes);
-app.use('/', loginRoute);
-app.use('/', userRoute);
-app.use('/', logoutRoute);
+app.use('/', profileRoutes);
+app.use('/uploads', express.static('uploads'));
+
 app.use('/', postRoutes);
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -48,7 +45,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!: ' + err.message);
   next();
 });
-
 
 
 // Start the server

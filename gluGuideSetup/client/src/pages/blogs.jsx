@@ -14,9 +14,15 @@ function Blog() {
         fetchPosts();
     }, []);
 
+    // Fetch post from backend API
     const fetchPosts = async () => {
-        const res = await axios.get('http://localhost:5000/api/posts');
-        setPosts(res.data);
+        try {
+            const res = await axios.get('http://localhost:5000/api/posts');
+            console.log("Posts received from backend:", res.data); // Log posts received from backend
+            setPosts(res.data);
+        } catch (error) {
+            console.error("Error fetching posts from backend:", error); // Log any errors encountered
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -64,12 +70,12 @@ function Blog() {
                 <button type="submit">{isEditing ? 'Update Post' : 'Add Post'}</button>
             </form>
             <ul>
-                {posts.map((post) => (
-                    <li key={post.id}>
-                        <h2>{post.title}</h2>
-                        <p>{post.content}</p>
-                        <button onClick={() => handleEdit(post)}>Edit</button>
-                        <button onClick={() => handleDelete(post.id)}>Delete</button>
+                {posts.map((posts) => (
+                    <li key={posts.id}>
+                        <h2>{posts.title}</h2>
+                        <p>{posts.content}</p>
+                        <button onClick={() => handleEdit(posts)}>Edit</button>
+                        <button onClick={() => handleDelete(posts.id)}>Delete</button>
                     </li>
                 ))}
             </ul>

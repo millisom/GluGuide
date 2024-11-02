@@ -55,6 +55,18 @@ const postController = {
             res.status(500).json({ error: 'Server error' });
         }
     }
+    
 };
+
+const fetchPosts = async () => {
+    try {
+        const res = await axios.get('http://localhost:5000/api/posts');
+        setPosts(res.data);
+        console.log(res.data); // Log the response data to verify it's being fetched
+    } catch (error) {
+        console.error("Error fetching posts:", error); // Check for any fetch errors
+    }
+};
+
 
 module.exports = postController;

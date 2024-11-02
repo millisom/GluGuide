@@ -18,7 +18,7 @@ const profileController = {
             if (!bio) {
                 return res.status(404).json({ error: "No user found" });
             } else if (bio.profile_bio === null) {
-                return res.status(404).json({ error: "No bio found" });
+                return res.json({ profile_bio: '' });
             } else {
                 return res.json(bio);
             }

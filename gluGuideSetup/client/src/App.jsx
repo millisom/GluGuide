@@ -8,18 +8,7 @@ import LoginPage from './pages/login.jsx';
 import SignUp from './pages/signUp.jsx';
 import Blogs from './pages/blogs.jsx';
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const { connectDB } = require('./models');
-const postRoutes = require('./routes/postRoutes');
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-app.use('/api', postRoutes);
-
-connectDB();
 
 function App() {
     return (

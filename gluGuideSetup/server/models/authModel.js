@@ -28,7 +28,19 @@ const User = {
         catch (error) {
             throw error;
         }    
+    },
+    async getUserByUsername(username) {
+      const query = 'SELECT username, password_hash FROM users WHERE username = $1';
+      const values = [username];
+  
+      try {
+        const result = await pool.query(query, values);
+        return result;
+      } catch (error) {
+        throw error;
+      }
     }
+  
 };
 
 module.exports = User;

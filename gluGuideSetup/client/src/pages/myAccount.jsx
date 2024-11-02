@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Profile from '../components/profile';
+import ProfileCard from '../components/profileCard';
 
 const MyAccount = () => {
 
     return (
         <div>
             <h1>My Account</h1>
-            <Profile />
+            <ProfileCard />
         </div>
 
     );

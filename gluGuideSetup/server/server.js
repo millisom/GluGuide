@@ -31,13 +31,15 @@ app.use(session({
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
+
 const profileRoutes = require('./routes/profileRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 // Use routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
+app.use('/', postRoutes);
 app.use('/uploads', express.static('uploads'));
-
 
 // Error handling middleware
 app.use((err, req, res, next) => {

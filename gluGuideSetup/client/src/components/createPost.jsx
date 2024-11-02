@@ -15,6 +15,7 @@ const createPost = () => {
   };
 
   return (
+    <div>
     <form onSubmit={handleSubmit}>
       <h2>Create Post</h2>
       <input
@@ -36,6 +37,8 @@ const createPost = () => {
       />
       <button type="submit">Post</button>
     </form>
+    
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const app = express();
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -8,8 +9,6 @@ const cookieParser = require('cookie-parser');
 
 // Load environment variables
 dotenv.config();
-
-const app = express();
 
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -30,9 +29,16 @@ app.use(session({
   },
 }));
 
-// Import and use routes
+// Import routes
 const authRoutes = require('./routes/authRoutes');
+const profileRoutes = require('./routes/profileRoutes');
+
+// Use routes
 app.use('/', authRoutes);
+app.use('/', profileRoutes);
+app.use('/uploads', express.static('uploads'));
+
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error Stack:', err.stack);
@@ -40,7 +46,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!: ' + err.message);
   next();
 });
-
 
 
 // Start the server

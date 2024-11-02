@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/navbar.jsx';
 import HomePage from './pages/homepage.jsx';
-import MyAccount from './pages/myaccount.jsx';
+import MyAccount from './pages/myAccount.jsx';
 import ContactUs from './pages/contactUs.jsx';
 import AboutUs from './pages/aboutUs.jsx';
 import LoginPage from './pages/login.jsx';
 import SignUp from './pages/signUp.jsx';
 import Blogs from './pages/blogs.jsx';
+
 
 
 function App() {

@@ -1,4 +1,3 @@
-// server/controllers/profileController.js
 const Profile = require('../models/profileModel');
 const upload = require('../config/multerConfig');
 const path = require('path');
@@ -59,7 +58,7 @@ const profileController = {
             if (!dp) {
                 return res.status(404).json({ error: "No user found" });
             } else if (dp.profile_picture === null) {
-                return res.status(404).json({ error: "No dp found" });
+                return res.json({ url: '' });
             } else {
                 const DpUrl = createDpUrl(req, path.basename(dp.profile_picture));
                 return res.json({ url: DpUrl });
@@ -84,6 +83,20 @@ const profileController = {
             if (req.file) {
                 const DpUrl = createDpUrl(req, req.file.filename);
                 try {
+                    const user = await Profile.getUserByName(username);
+                    if (user && user.profile_picture) {
+                        const oldDpPath = user.profile_picture;
+                        const oldDpFilename = path.basename(oldDpPath);
+                        const oldDpFullPath = path.join(__dirname, '..', 'uploads', oldDpFilename);
+    
+                        fs.unlink(oldDpFullPath, (err) => {
+                            if (err) {
+                                console.error('Error deleting old DP:', err);
+                            } else {
+                                console.log('Old DP deleted successfully');
+                            }
+                        });
+                    }
                     const rowsUpdated = await Profile.setUserDp(username, req.file.path);
                     if (rowsUpdated === 0) {
                         return res.status(404).json({ error: "No user found" });
@@ -97,9 +110,24 @@ const profileController = {
                 res.status(400).send('No file uploaded.');
             }
         });
+    },    
+    async deleteDp(req, res) {
+        const username = req.session?.username;
+        if (!username) {
+            return res.status(401).send('Unauthorized');
+        }
+    
+        try {
+            const rowsUpdated = await Profile.deleteDp(username);
+            if (rowsUpdated === 0) {
+                return res.status(404).json({ error: "No user found" });
+            }
+            return res.status(200).json({ message: "DP deleted successfully" });
+        } catch (error) {
+            console.error("Error deleting user DP:", error);
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
     }
-    
-    
 };
 
 module.exports = profileController;

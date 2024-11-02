@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const { getUserByUsername } = require('./authModel');
 
 const Profile = {
     async getuserbio(username) {
@@ -50,8 +51,31 @@ const Profile = {
         } catch (error) {
             throw new Error('Error setting user dp: ' + error.message);
         }
+    },
+
+    async deleteDp(username){
+        const query = 'UPDATE users SET profile_picture = NULL WHERE username = $1';
+        const values = [username];
+        try {
+            const result = await pool.query(query, values);
+            if (result.rowCount === 0) {
+                throw new Error('No rows updated');
+            }
+            return result.rowCount;
+        } catch (error) {
+            throw new Error('Error deleting user dp: ' + error.message);
+        }
+    },
+    async getUserByName(username) {
+        const query = 'SELECT * FROM users WHERE username = $1';
+        const values = [username];
+        try {
+            const result = await pool.query(query, values);
+            return result.rows;
+        } catch (error) {
+            throw new Error('Error fetching user: ' + error.message);
+        }
     }
-    
 };
 
 module.exports = Profile;

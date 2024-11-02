@@ -12,7 +12,7 @@ dotenv.config();
 
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
   credentials: true,
   optionsSuccessStatus: 200,
 }));

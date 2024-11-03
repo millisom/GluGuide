@@ -11,7 +11,7 @@ const CreatePost = () => {
     event.preventDefault();
     try {
         // Make the POST request
-        const response = await axios.post('http://localhost:8080/posts', { title, content, username, });
+        const response = await axios.post('http://localhost:8080/posts', { title, content, });
         console.log('Post created:', response.data); // Log the response for debugging
         // Reset fields or handle success here
       } catch (error) {

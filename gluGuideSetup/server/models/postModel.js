@@ -28,10 +28,25 @@ const Post = {
             // Ensure error is handled properly
             throw new Error('Error fetching user ID: ' + error.message); // Create a new Error instance
         }
-      }
+      },
 
+   // Method to get all posts for a specific user
+   async getPostsByUserId(userId) {
+    const query = `
+      SELECT id, title, content, created_at
+      FROM posts
+      WHERE user_id = $1
+      ORDER BY created_at DESC
+    `;
+    const values = [userId];
 
-
+    try {
+      const result = await pool.query(query, values);
+      return result.rows;
+    } catch (error) {
+      throw new Error('Error fetching user posts: ' + error.message);
+    }
+  },
 };
 
 module.exports = Post;

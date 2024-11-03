@@ -5,7 +5,7 @@ const session = require('express-session');
 const app = express();
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-const pool = require('./config/db');
+
 
 
 // Load environment variables

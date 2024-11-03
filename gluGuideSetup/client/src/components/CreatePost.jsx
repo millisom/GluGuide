@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 
 const CreatePost = () => {
@@ -37,7 +35,11 @@ const CreatePost = () => {
         </div>
         <div>
           <label>Content:</label>
-          <ReactQuill value={content} onChange={setContent} />
+          <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          />
         </div>
         <button type="submit">Create Post</button>
         {error && <p>{error}</p>} {/* Display error message */}

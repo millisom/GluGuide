@@ -1,5 +1,5 @@
-import Login from "../components/login";
 import { Link } from "react-router-dom";
+import Login from "../components/login";
 import React from "react";
 
 const LoginPage = () => {

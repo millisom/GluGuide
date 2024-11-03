@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../api/axiosConfig';
 import Logout from './logout';
 import './profileCard.css';
 
@@ -19,7 +19,6 @@ const ProfileCard = () => {
   const [selectedDpFile, setSelectedDpFile] = useState(null);
 
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
 
   useEffect(() => {
     const fetchUser = async () => {

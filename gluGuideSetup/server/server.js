@@ -30,6 +30,7 @@ app.use(session({
   },
 }));
 
+
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
@@ -54,5 +55,5 @@ app.use((err, req, res, next) => {
 // Start the server
 const PORT = 8080;
 app.listen(PORT, () => {
-  console.log('Server running on http://localhost:8080');
+  console.log('Server is running on http://localhost:8080');
 });

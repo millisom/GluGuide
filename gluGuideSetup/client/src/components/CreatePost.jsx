@@ -7,16 +7,17 @@ const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
         // Make the POST request
-        const response = await axios.post('http://localhost:8080/CreatePost', { title, content });
+        const response = await axios.post('http://localhost:8080/posts', { title, content, username, });
         console.log('Post created:', response.data); // Log the response for debugging
         // Reset fields or handle success here
       } catch (error) {
-        console.error('Error:', error); // Log the error for debugging
+       // console.error('Error:', error); // Log the error for debugging
         setError('Failed to create post'); // Set error message to display
       }
     };

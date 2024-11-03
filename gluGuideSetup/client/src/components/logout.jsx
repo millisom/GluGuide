@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from '../../api/axiosConfig';
 
 const Logout = () => {
     const navigate = useNavigate();
-    
 
-    axios.defaults.withCredentials = true;
+    useEffect(() => {
+    }, []);
+
     const handleLogout = async () => {
+        console.log('handleLogout called');
         try {
             await axios.get('http://localhost:8080/logout');
             console.log('Session destroyed');
@@ -22,6 +24,6 @@ const Logout = () => {
             <button onClick={handleLogout}>Logout</button>
         </div>
     );
-}
+};
 
 export default Logout;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +18,7 @@ const ProfileCard = () => {
   const [isEditingDp, setIsEditingDp] = useState(false);
   const [isEditingPosts, setIsEditingPosts] = useState(false);
   const [selectedDpFile, setSelectedDpFile] = useState(null);
-
+  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,11 +60,22 @@ const ProfileCard = () => {
           setError('Failed to fetch dp.');
         }
       }
+    }
+    const fetchPosts = async () => {
+      try {
+        const res = await axios.get('http://localhost:8080/getPosts');
+        setPosts(res.data || []);
+      } catch (err) {
+        console.error('Error fetching posts:', err);
+        setError('Failed to fetch posts.');
+      }
+      
     };
 
     fetchBio();
     fetchDp();
     fetchUser();
+    fetchPosts();
   }, [navigate]);
 
   const handleSaveBio = async () => {
@@ -126,6 +138,25 @@ const ProfileCard = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmDelete = prompt('Are you sure you want to delete your account?');
+    if (!confirmDelete) return;
+    try {
+      const response = await axios.post('http://localhost:8080/deleteAccount', {confirmDelete});
+
+      if (response.status === 200) {
+        alert('Account deleted successfully.');
+        navigate('/login');
+      } else {
+        console.error('Failed to delete account:', response.data.error);
+        setError('Failed to delete account.');
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      setError('Error deleting account.');
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
@@ -155,12 +186,12 @@ const ProfileCard = () => {
       </div>
 
       <div className="section">
-        <h3>Username</h3>
+        <h3 className='profile-card .header'>Username</h3>
         <p>{user}</p>
       </div>
 
       <div className="section">
-        <h3>Bio</h3>
+        <h3 className='profile-card .header'>Bio</h3>
         {isEditingBio ? (
           <>
             <textarea
@@ -181,31 +212,32 @@ const ProfileCard = () => {
       </div>
 
       <div className="section">
-        <h3>Posts</h3>
-        {isEditingPosts ? (
-          <>
-            <textarea
-              placeholder="Edit posts (no backend logic)"
-              onChange={(e) => {
-              }}
-            />
-            <button onClick={() => setIsEditingPosts(false)}>Save</button>
-          </>
-        ) : (
-          <>
-            <p>No posts yet</p>
-            <button onClick={() => setIsEditingPosts(true)}>
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-            <button>
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </>
-        )}
-      </div>
+        <h3 className='profile-card .header'>Posts</h3>
 
+        {posts.length === 0 ? (
+          <p>No posts found.</p>
+        ) : (
+          <div>
+            {posts.map((post) => (
+              <div key={post.id}>
+                <div>
+                  <h4>Title: {post.title}</h4>
+                  <div  className='content-box'>
+                    {parse(post.content)}</div>
+                  <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <button onClick={() => setIsEditingPosts(!isEditingPosts)}>
+          {isEditingPosts ? 'Save' : <FontAwesomeIcon icon={faEdit} />}
+        </button>
+      </div>
       <div className="actions">
-        <button className="delete-btn">Delete Account</button>
+        <button className="delete-btn"
+        onClick={handleDeleteAccount}
+        >Delete Account</button>
       </div>
 
       <div className="section">

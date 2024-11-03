@@ -5,7 +5,7 @@ const session = require('express-session');
 const app = express();
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-const pool = require('./config/db');
+const setUserIdInSession = require('./middleware/sessionMiddleware');
 
 
 // Load environment variables
@@ -50,6 +50,10 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!: ' + err.message);
   next();
 });
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// middleware usage
+app.use(setUserIdInSession);
 
 
 // Start the server

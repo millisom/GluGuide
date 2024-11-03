@@ -18,6 +18,8 @@ const authController = {
         res.status(500).json({ error: "Internal Server Error" });
       }
     },
+
+    // functions for login and logout and checking session status
     async loginUser(req, res) {
       try {
         const results = await User.getUserByUsername(req.body.username);
@@ -25,6 +27,7 @@ const authController = {
         if (results.rows.length > 0) {
           const user = results.rows[0];
           req.session.username = user.username;
+          req.session.userId = user.id;
           return res.json({ Login: true });
         } else {
           return res.json({ Login: false });

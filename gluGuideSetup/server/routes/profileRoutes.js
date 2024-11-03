@@ -8,5 +8,8 @@ router.post('/setBio', profileController.setBio);
 router.get('/dp', profileController.getDp);
 router.post('/setDp', profileController.setDp);
 router.delete('/deleteDp', profileController.deleteDp);
+router.get('/getPosts', profileController.getPosts);
+router.post('/deleteAccount', profileController.deleteAccount);
+router.post('/editPost', profileController.updatePosts);
 
 module.exports = router;

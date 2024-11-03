@@ -13,15 +13,19 @@ const CreatePost = () => {
     event.preventDefault();
     try {
         // Make the POST request
-        const response = await axios.post('http://localhost:8080/posts', { title, content });
+        const response = await axios.post('http://localhost:8080/posts', { title, content }, {withCredentials: true});
         console.log('Post created:', response.data); // Log the response for debugging
         // Reset fields or handle success here
         setTitle('');
         setContent('');
         setSuccessMessage('Post created successfully!');
       } catch (error) {
-        console.error('Error:', error); // Log the error for debugging
-        setError('Failed to create post'); // Set error message to display
+        if (error.response && error.response.status === 401) {
+          setError('You must be logged in to create a post.'); // Custom message for 401
+      } else {
+          console.error('Error:', error.response ? error.response.data : error.message);
+          setError('Failed to create post'); // General error message
+      }
       }
     };
 

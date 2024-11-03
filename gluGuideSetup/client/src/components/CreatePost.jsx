@@ -6,22 +6,24 @@ import axios from 'axios';
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/posts', { title, content });
-      alert('Post created successfully');
-      setTitle('');
-      setContent('');
-    } catch (error) {
-      alert('Failed to create post');
-    }
-  };
+        // Make the POST request
+        const response = await axios.post('http://localhost:8080/CreatePost', { title, content });
+        console.log('Post created:', response.data); // Log the response for debugging
+        // Reset fields or handle success here
+      } catch (error) {
+        console.error('Error:', error); // Log the error for debugging
+        setError('Failed to create post'); // Set error message to display
+      }
+    };
 
   return (
     <div>
-      <h2>Create Blog Post</h2>
+      <h2>Create new Blog Post</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Title:</label>
@@ -37,6 +39,7 @@ const CreatePost = () => {
           <ReactQuill value={content} onChange={setContent} />
         </div>
         <button type="submit">Create Post</button>
+        {error && <p>{error}</p>} {/* Display error message */}
       </form>
     </div>
   );

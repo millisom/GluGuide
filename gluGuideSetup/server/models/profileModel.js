@@ -67,13 +67,13 @@ const Profile = {
         }
     },
     async getUserByName(username) {
-        const query = 'SELECT * FROM users WHERE username = $1';
+        const query = 'SELECT id FROM users WHERE username = $1';
         const values = [username];
         try {
             const result = await pool.query(query, values);
             return result.rows;
         } catch (error) {
-            throw new Error('Error fetching user: ' + error.message);
+            throw new Error('Error fetching user by username: ' + error.message);
         }
     }
 };

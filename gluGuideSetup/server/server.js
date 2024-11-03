@@ -1,10 +1,11 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
 const app = express();
 const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const pool = require('./config/db');
 
 
 // Load environment variables
@@ -32,11 +33,13 @@ app.use(session({
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 // Use routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use('/', postRoutes);
 
 
 // Error handling middleware
@@ -49,6 +52,7 @@ app.use((err, req, res, next) => {
 
 
 // Start the server
-app.listen(8080, () => {
-  console.log('Server running on port ${PORT}');
+const PORT = 8080;
+app.listen(PORT, () => {
+  console.log('Server running on http://localhost:8080');
 });

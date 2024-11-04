@@ -31,20 +31,26 @@ const Post = {
       },
 
    // Method to get all posts for a specific user
-   async getPostsByUserId(userId) {
-    const query = `
-      SELECT id, title, content, created_at
-      FROM posts
-      WHERE user_id = $1
-      ORDER BY created_at DESC
-    `;
+   async getPosts(userId) {
     const values = [userId];
-
+    const query = 'SELECT * FROM posts WHERE user_id = $1';
     try {
-      const result = await pool.query(query, values);
-      return result.rows;
+        const result = await pool.query(query, values);
+        console.log('Posts:', result.rows);
+        return result.rows;
     } catch (error) {
-      throw new Error('Error fetching user posts: ' + error.message);
+        throw new Error('Error fetching posts for user: ' + error.message);
+    }
+ },
+
+    async updatePostForUser(userId, title, content) {
+      const values = [title, content, userId];
+      const query = 'UPDATE posts SET title = $1, content = $2 WHERE user_id = $3';
+      try {
+        const result = await pool.query(query, values);
+        return result.rowCount;
+    } catch (error) {
+        throw new Error('Error updating post for user: ' + error.message);
     }
   },
 };

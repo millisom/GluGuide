@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import parse from 'html-react-parser';
 
 const UserBlogEntries = () => {
   const [posts, setPosts] = useState([]);
@@ -9,8 +10,9 @@ const UserBlogEntries = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/posts'); // Fetch from backend
-        setPosts(response.data); // Set posts to the response data
+        const response = await axios.get('http://localhost:8080/getUserPost', {
+          withCredentials: true}); // Fetch from backend with cookies
+        setPosts(response.data || []); // Set posts to the response data
       } catch (error) {
         setError('Failed to fetch posts');
         console.error('Error fetching posts:', error.response ? error.response.data : error.message);
@@ -19,23 +21,26 @@ const UserBlogEntries = () => {
     fetchPosts();
   }, []);
 
+
   return (
     <div>
     <h2>Your Blog Entries</h2>
-    {error && <p>{error}</p>}
     {posts.length === 0 ? (
-      <p>No posts found.</p>
+          <p>No posts found.</p>
     ) : (
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-            <p><em>Created at: {new Date(post.created_at).toLocaleString()}</em></p>
-          </li>
-        ))}
-      </ul>
-    )}
+      <div>
+      {posts.map((post) => (
+        <div key={post.id}>
+          <div>
+            <h4>Title: {post.title}</h4>
+            <div  className='content-box'>
+              {parse(post.content)}</div>
+            <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
   </div>
 );
 };

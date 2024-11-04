@@ -45,8 +45,8 @@
     color: #1a202c;
   }
   
-  .profile-card .section p {
-    color: #4a5568;
+  .profile-card .section h3 {
+    color: #4872bb;
   }
   
   .profile-card .actions {
@@ -68,4 +68,14 @@
   .profile-card .actions .delete-btn {
     background-color: #f56565;
   }
+
+  /* profileCard.css */
+.content-box {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
   

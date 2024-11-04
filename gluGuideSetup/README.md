@@ -7,41 +7,31 @@ This project is a Vite-based React frontend with an Express.js backend with MVC 
 Make sure you have the following installed:
 - [Node.js](https://nodejs.org/en/) (which includes npm)
 ## App
-### Client Side (React Frontend)
+### Starting Client & Server Side
 #### 1. Navigate to the client folder
 
 ```bash
 cd client
 ```
-#### 2. Install Dependencies
-To install the necessary dependencies for the React frontend, run:
-```bash
-npm install
-```
-#### 3. Run the Frontend
-To run the React frontend, execute:
-```bash
-npm run dev
-```
-This will start the Vite development server. The application will be accessible at http://localhost:5173 by default.
-
-### Server Side (Express Backend)
-#### 1. Navigate to the Server Directory
-
+#### or  to the server folder
 ```bash
 cd server
 ```
+
 #### 2. Install Dependencies
-To install the necessary dependencies for the Express backend, run:
+To install the necessary dependencies on both client and server side, run:
 ```bash
 npm install
 ```
-#### 3. Start the Backend
-To start the backend server, run:
+#### 3. Start the Servers
+To start the backend and the client server, run:
 ```bash
 npm start
 ```
+in the client folder.
+
 The server will be running on http://localhost:8080 by default.
+And the client will be running on http://localhost:5173 by default.
 
 ## Github
 #### 1. Clone the repository

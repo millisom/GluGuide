@@ -1,5 +1,4 @@
 const pool = require('../config/db');
-const { getUserByUsername } = require('./authModel');
 
 const Profile = {
     async getuserbio(username) {
@@ -74,6 +73,37 @@ const Profile = {
             return result.rows;
         } catch (error) {
             throw new Error('Error fetching user by username: ' + error.message);
+        }
+    },
+    async getPostsForUser(userId) {
+        const query = 'SELECT * FROM posts WHERE user_id = $1';
+        const values = [userId];
+        try {
+            const result = await pool.query(query, values);
+            console.log('Posts:', result.rows);
+            return result.rows;
+        } catch (error) {
+            throw new Error('Error fetching posts for user: ' + error.message);
+        }
+    },
+    async updatePostForUser(userId, title, content) {
+        const query = 'UPDATE posts SET title = $1, content = $2 WHERE user_id = $3';
+        const values = [title, content, userId];
+        try {
+            const result = await pool.query(query, values);
+            return result.rowCount;
+        } catch (error) {
+            throw new Error('Error updating post for user: ' + error.message);
+        }
+    },
+    async deleteAccount(username) {
+        const query = 'DELETE FROM users WHERE username = $1';
+        const values = [username];
+        try {
+            const result = await pool.query(query, values);
+            return result.rowCount;
+        } catch (error) {
+            throw new Error('Error deleting user account: ' + error.message);
         }
     }
 };

@@ -5,15 +5,15 @@ const session = require('express-session');
 const app = express();
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-
+const setUserIdInSession = require('./middleware/sessionMiddleware');
 
 
 // Load environment variables
 dotenv.config();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS', 'PATCH'],
   credentials: true,
   optionsSuccessStatus: 200,
 }));
@@ -50,6 +50,10 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!: ' + err.message);
   next();
 });
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// middleware usage
+app.use(setUserIdInSession);
 
 
 // Start the server

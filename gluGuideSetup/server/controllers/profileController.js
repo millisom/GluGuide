@@ -127,6 +127,72 @@ const profileController = {
             console.error("Error deleting user DP:", error);
             return res.status(500).json({ error: "Internal Server Error" });
         }
+    },
+
+    async getPosts(req, res) {
+        const username = req.session?.username;
+        if (!username) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+    
+        try {
+            const userResult = await Profile.getUserByName(username);
+            
+            if (!userResult || userResult.length === 0) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            const userId = userResult[0].id;
+            const posts = await Profile.getPostsForUser(userId);
+    
+            return res.json(posts || []);
+        } catch (error) {
+            console.error('Error fetching posts for user:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+    async updatePosts(req, res) {
+
+        const username = req.session?.username;
+        if (!username) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        try {
+            const rowCount = await Profile.updatePostForUser(userId, title, content);
+            if (rowCount === 0) {
+                return res.status(404).json({ error: 'No user found' });
+            }
+            return res.status(200).json({ message: 'Post updated successfully' });
+        }
+        catch (error) {
+            console.error('Error updating post:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+
+    async deleteAccount(req, res) {
+        const username = req.session?.username;
+        if (!username) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+    
+        try {
+            const deletedRowCount = await Profile.deleteAccount(username);
+            
+            if (deletedRowCount === 0) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            req.session.destroy(err => {
+                if (err) {
+                    console.error('Error destroying session:', err);
+                    return res.status(500).json({ error: 'Failed to clear session after deletion' });
+                }
+                
+                return res.json({ message: 'Account deleted successfully' });
+            });
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
 };
 

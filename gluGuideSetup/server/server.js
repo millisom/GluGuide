@@ -12,8 +12,8 @@ const setUserIdInSession = require('./middleware/sessionMiddleware');
 dotenv.config();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS', 'PATCH'],
   credentials: true,
   optionsSuccessStatus: 200,
 }));

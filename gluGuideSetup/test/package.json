@@ -1,0 +1,21 @@
+{
+  "name": "featurefiles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js --require features/step_definitions/**/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.0.1",
+    "chromedriver": "^130.0.2",
+    "selenium-webdriver": "latest"
+  },
+  "dependencies": {
+    "geckodriver": "^5.0.0",
+    "nock": "^13.5.5"
+  }
+}

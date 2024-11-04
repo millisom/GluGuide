@@ -14,7 +14,7 @@ const ViewPost = () => {
         const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
           withCredentials: true
         });
-        setPost(response.data);
+        setPost(response.data || []);
       } catch (error) {
         setError('Failed to load post');
         console.error('Error loading post:', error.response ? error.response.data : error.message);

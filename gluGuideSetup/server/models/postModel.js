@@ -53,6 +53,22 @@ const Post = {
         throw new Error('Error updating post for user: ' + error.message);
     }
   },
+
+      // Get a specific post by ID
+      async getPostById(id) {
+        const query = 'SELECT * FROM posts WHERE id = $1'; // SQL query to select the post
+        const values = [id]; // Values for the SQL query
+        const result = await pool.query(query, values); // Execute the query
+        return result.rows.length > 0 ? result.rows[0] : null; // Return post if found, else null
+    },
+
+        // Update a specific post by ID
+        async updatePost(id, title, content) {
+          const query = 'UPDATE posts SET title = $1, content = $2 WHERE id = $3 RETURNING *';
+          const values = [title, content, id]; // Values for the SQL query
+          const result = await pool.query(query, values); // Execute the query
+          return result.rowCount > 0 ? result.rows[0] : null; // Return updated post if successful, else null
+      }
 };
 
 module.exports = Post;

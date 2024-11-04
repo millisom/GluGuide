@@ -50,44 +50,43 @@ const postController = {
 
 
 
+    // Get a specific post by ID
     async getPostById(req, res) {
-      const { id } = req.params; // Get the post ID from request parameters
+        const { id } = req.params; // Get the post ID from request parameters
 
-      try {
-          const query = 'SELECT * FROM posts WHERE id = $1'; // SQL query to select the post
-          const values = [id]; // Values for the SQL query
-          const result = await pool.query(query, values); // Execute the query
+        try {
+            const post = await Post.getPostById(id); // Call the model method to get the post
 
-          if (result.rows.length === 0) {
-              return res.status(404).json({ message: 'Post not found' }); // If no post found
+            if (!post) {
+                return res.status(404).json({ message: 'Post not found' }); // If no post found
             }
 
-          res.status(200).json(result.rows[0]); // Return the found post
-      } catch (error) {
-          console.error('Error fetching post:', error); // Log error
-          res.status(500).json({ message: 'Server error while fetching post' }); // Return server error
+            res.status(200).json(post); // Return the found post
+        } catch (error) {
+            console.error('Error fetching post:', error); // Log error
+            res.status(500).json({ message: 'Server error while fetching post' }); // Return server error
         }
     },
 
+    // Update a specific post by ID
     async updatePost(req, res) {
-      const { id } = req.params; // Get the post ID from request parameters
-      const { title, content } = req.body; // Extract title and content from request body
+        const { id } = req.params; // Get the post ID from request parameters
+        const { title, content } = req.body; // Extract title and content from request body
 
-      try {
-          const query = 'UPDATE posts SET title = $1, content = $2 WHERE id = $3 RETURNING *';
-          const values = [title, content, id];
-          const result = await pool.query(query, values);
+        try {
+            const updatedPost = await Post.updatePost(id, title, content); // Call the model method to update the post
 
-          if (result.rowCount === 0) {
-              return res.status(404).json({ message: 'Post not found' });
-          }
+            if (!updatedPost) {
+                return res.status(404).json({ message: 'Post not found' }); // If no post found
+            }
 
-          res.status(200).json(result.rows[0]); // Return the updated post
-      } catch (error) {
-          console.error('Error updating post:', error);
-          res.status(500).json({ message: 'Server error while updating post' });
-      }
-  }
+            res.status(200).json(updatedPost); // Return the updated post
+        } catch (error) {
+            console.error('Error updating post:', error); // Log error
+            res.status(500).json({ message: 'Server error while updating post' }); // Return server error
+        }
+    }
+  
 };
 
 module.exports = postController;

@@ -8,6 +8,8 @@ const postController = require('../controllers/postController'); // Import your 
 // Define the route for creating a post
 router.post('/createPost', postController.createPost); // This is where the logic is wired up
 router.get('/getUserPost', postController.getUserPost); //All posts for the logged in user
+router.get('/getUserPost/:id', postController.getPostById); 
+router.put('/posts/:id', postController.updatePost);
 
 module.exports = router;
 

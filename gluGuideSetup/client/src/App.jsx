@@ -7,6 +7,8 @@ import AboutUs from './pages/aboutUs.jsx';
 import LoginPage from './pages/login.jsx';
 import SignUp from './pages/signUp.jsx';
 import Blogs from './pages/blogs.jsx';
+import ViewPost from './components/viewPost.jsx';   
+import EditPost from './components/editPost.jsx';   
 
 
 
@@ -22,6 +24,8 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signUp" element={<SignUp/>} />
                     <Route path="/blogs" element={<Blogs />} />
+                    <Route path="/blogs/view/:id" element={<ViewPost />} />
+                    <Route path="/blogs/edit/:id" element={<EditPost />} />
                 </Routes>
         </Router>
     );

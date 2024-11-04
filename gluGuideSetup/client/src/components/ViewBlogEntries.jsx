@@ -33,8 +33,6 @@ const UserBlogEntries = () => {
         <div key={post.id}>
           <div>
             <h4>Title: {post.title}</h4>
-            <div  className='content-box'>
-              {parse(post.content)}</div>
             <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
           </div>
         </div>

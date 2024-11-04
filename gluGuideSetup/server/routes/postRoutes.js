@@ -6,7 +6,8 @@ const router = express.Router();
 const postController = require('../controllers/postController'); // Import your controller
 
 // Define the route for creating a post
-router.post('/posts', postController.createPost); // This is where the logic is wired up
+router.post('/createPost', postController.createPost); // This is where the logic is wired up
+router.get('/getUserPost', postController.getUserPost); //All posts for the logged in user
 
 module.exports = router;
 

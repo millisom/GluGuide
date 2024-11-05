@@ -82,6 +82,18 @@ async getPostById(postId) {
     } catch (error) {
         throw new Error('Error fetching post: ' + error.message);
     }
+},
+
+async deletePostById(id) {
+  const query = 'DELETE FROM posts WHERE id = $1 RETURNING *';
+  const values = [id];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rowCount; 
+  } catch (error) {
+    throw new Error('Error deleting post: ' + error.message);
+  }
 }
 };
 

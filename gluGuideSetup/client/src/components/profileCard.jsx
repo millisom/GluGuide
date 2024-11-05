@@ -159,7 +159,7 @@ const ProfileCard = () => {
           <input type="file" onChange={handleFileChange} />
           <button className={styles.squareButton} onClick={handleSaveDp}>Save</button>
           <button className={styles.squareButton} onClick={() => setIsEditingDp(false)}>Cancel</button>
-          <button className={styles.squareButton} onClick={() => handleDeleteDp}>Delete</button>
+          <button className={styles.squareButton} onClick={handleDeleteDp}>Delete</button>
         </>
       ) : (
         <>

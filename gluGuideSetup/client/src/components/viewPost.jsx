@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import parse from 'html-react-parser';
 
 const ViewPost = () => {
   const { id } = useParams(); // Get post ID from URL
@@ -28,7 +29,8 @@ const ViewPost = () => {
       {post ? (
         <div>
           <h2>{post.title}</h2>
-          <p>{post.content}</p>
+          <div  className='content-box'>
+          {parse(post.content)}</div>
           <button onClick={() => navigate(`/blogs/edit/${id}`)}>Edit</button> {/* Navigate to edit page */}
         </div>
       ) : (

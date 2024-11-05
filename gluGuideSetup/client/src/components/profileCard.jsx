@@ -60,7 +60,8 @@ const ProfileCard = () => {
           setError('Failed to fetch dp.');
         }
       }
-    }
+    };
+    
     const fetchPosts = async () => {
       try {
         const res = await axios.get('http://localhost:8080/getPosts');

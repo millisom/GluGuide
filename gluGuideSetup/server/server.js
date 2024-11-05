@@ -54,10 +54,15 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!: ' + err.message);
   next();
 });
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  console.log('Request Body:', req.body);
+  next();
+});
 
 // middleware usage
 app.use(setUserIdInSession);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 // Start the server

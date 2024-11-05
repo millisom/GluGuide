@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import parse from 'html-react-parser';
+import { useNavigate } from 'react-router-dom';
 
-const UserBlogEntries = () => {
+const ViewBlogEntries = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Initialize navigate for programmatic routing
 
-  // Fetch posts from the server when the component mounts
+
+  // Fetch posts when the component loads
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get('http://localhost:8080/getUserPost', {
-          withCredentials: true}); // Fetch from backend with cookies
-        setPosts(response.data || []); // Set posts to the response data
+          withCredentials: true
+        });
+        setPosts(response.data || []);
       } catch (error) {
         setError('Failed to fetch posts');
         console.error('Error fetching posts:', error.response ? error.response.data : error.message);
@@ -21,26 +24,41 @@ const UserBlogEntries = () => {
     fetchPosts();
   }, []);
 
+  // Handler for viewing a post
+  const handleViewClick = (postId) => {
+    navigate(`/blogs/view/${postId}`); // Navigate to the view page for the selected post
+  };
+
+  // Handler for editing a post
+  const handleEditClick = (postId) => {
+    navigate(`/blogs/edit/${postId}`); // Navigate to the edit page for the selected post
+  };
+
 
   return (
     <div>
-    <h2>Your Blog Entries</h2>
-    {posts.length === 0 ? (
-          <p>No posts found.</p>
-    ) : (
-      <div>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <div>
-            <h4>Title: {post.title}</h4>
-            <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
-          </div>
+      <h2>Your Blog Entries</h2>
+      {posts.length === 0 ? (
+        <p>No posts found.</p>
+      ) : (
+        <div>
+          {posts.map((post) => (
+            <div key={post.id} style={{ marginBottom: '1rem' }}>
+              <h4 
+                onClick={() => handleViewClick(post.id)} 
+                style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
+              >
+                {post.title}
+              </h4>
+              <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
+              <button onClick={() => handleEditClick(post.id)}>Edit</button> {/* Edit button */}
+            </div>
+          ))}
         </div>
-      ))}
+      )}
+      {error && <p>{error}</p>}
     </div>
-  )}
-  </div>
-);
+  );
 };
 
-export default UserBlogEntries;
+export default ViewBlogEntries;

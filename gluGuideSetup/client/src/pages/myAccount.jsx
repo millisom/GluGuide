@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import ProfileCard from '../components/profileCard';
 import CarouselComponent from '../components/CarouselComponent';
 

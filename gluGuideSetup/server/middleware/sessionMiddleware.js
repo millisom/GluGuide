@@ -24,4 +24,6 @@ const setUserIdInSession = async (req, res, next) => {
     next();
 };
 
+
+
 module.exports = setUserIdInSession;

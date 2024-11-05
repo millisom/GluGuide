@@ -68,37 +68,55 @@ const postController = {
         }
     },
 
-    // Update a specific post by ID
     async updatePost(req, res) {
       const { id } = req.params; // Get the post ID from request parameters
       const { title, content } = req.body; // Extract title and content from request body
       const username = req.session?.username; // Getting username from session
-
+    
       if (!username) {
           return res.status(401).json({ error: 'Unauthorized' });
       }
-
+    
       try {
           // Retrieve the user ID based on the username
           const userResult = await Profile.getUserByName(username);
-
+    
           if (!userResult || userResult.length === 0) {
               return res.status(404).json({ error: 'User not found' });
           }
           const userId = userResult[0].id;
+    
           // Call the model method to update the post
           const updatedPost = await Post.updatePost(id, userId, title, content);
-
+    
           if (!updatedPost) {
             return res.status(404).json({ message: 'Post not found' });
-        }
+          }
           return res.status(200).json({ success: true, post: updatedPost });
       } catch (error) {
           console.error('Error updating post:', error.message);
           return res.status(500).json({ error: 'Internal Server Error' });
       }
-  },
-  
-};
+    },
+
+// Delete a specific post by ID
+  async deletePost(req, res) {
+    const { id } = req.params; // Get the post ID from request parameters
+
+    try {
+      const deleted = await Post.deletePostById(id); // Call the model method to delete the post
+
+      if (deleted) {
+        return res.status(200).json({ message: 'Post deleted successfully' });
+      } else {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error.message);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+    
+  };
 
 module.exports = postController;

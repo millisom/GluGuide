@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
+import InputField from './InputField';
+import Button from './Button';
+import styles from './LoginForm.module.css';
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,32 +45,36 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Username:
-          <input
-            type="text"
-            name="username"
-            onChange={handleInput}
-            required
-          />
-        </label>
-        <label>Password:
-          <input
-            type="password"
-            name="password"
-            onChange={handleInput}
-            required
-          />
-        </label>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-      {error && <p style={{ color: 'red' }} data-testid="error-message">{error}</p>}
-      <Link to="/forgotPassword">Forgot Password</Link>
+    <form onSubmit={handleSubmit} className={styles.formLogIn}>
+    <h1 className={styles.title}>Login</h1>
+    <label className={styles.label}>Username:
+      <input
+        type="text"
+        name="username"
+        onChange={handleInput}
+        required
+        className={styles.input}
+      />
+    </label>
+    <label className={styles.label}>Password:
+      <input
+        type="password"
+        name="password"
+        onChange={handleInput}
+        required
+        className={styles.input}
+      />
+    </label>
+    <div className={styles.buttonGroup}>
+      <button type="submit" disabled={isLoading} className={styles.button}>
+        {isLoading ? 'Logging in...' : 'Login'}
+      </button>
     </div>
+    {error && <p className={styles.errorMessage} data-testid="error-message">{error}</p>}
+    <p><Link to="/forgotPassword" className={styles.forgotPassword}>Forgot Password</Link></p>
+    <p><Link to="/signUp" className={styles.forgotPassword}>Don't have an Account? Sign Up here</Link></p>
+  </form>
+
   );
 };
 

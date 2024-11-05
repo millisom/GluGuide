@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
-import InputField from './InputField';
-import Button from './Button';
 import styles from './LoginForm.module.css';
 
 
-const Login = () => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     username: '',
@@ -78,4 +76,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

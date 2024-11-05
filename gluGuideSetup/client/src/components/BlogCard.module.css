@@ -1,0 +1,97 @@
+.card {
+  border-radius: 8px;
+  background-color: #F7B5CA;
+  display: flex;
+  margin-top: 24px;
+  min-height: 194px;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(240, 168, 208, 1);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 500px;
+  padding: 16px 16px 16px 16px;
+}
+  
+  /* .cardImage {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 160px;
+    min-width: 160px;
+    min-height: 160px;
+    box-sizing: border-box;
+    width: 100%; /* Ensures responsiveness */
+  
+  .cardBody {
+    background-color: #FAF7F0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    flex-basis: 0;
+    width: 100%;
+}
+  
+  /* .cardContent {
+    background-color: #FAF7F0;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    overflow: hidden;
+  } */
+  .cardContent {
+    background-color: #FFEBD4;
+    border-radius: 8px;
+    padding: 10px 10px 10px 10px;
+    border: 2px solid #F7B5CA;
+    margin: 10px 10px 10px 10px;
+}
+  
+  .cardDescription {
+    color: var(--sds-color-text-default-secondary);
+    box-sizing: border-box;
+    background-color: #FFEBD4;
+    margin-top: 8px;
+    font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) / 22px var(--sds-typography-body-font-family);
+  }
+  
+  .buttonWrapper {
+    box-sizing: border-box;
+    display: flex;
+    margin-top: 16px;
+    width: 100%;
+    align-items: center;
+    gap: 16px;
+    color: var(--background, #ffebd4);
+    white-space: nowrap;
+    justify-content: flex-start;
+    font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) / 1 var(--sds-typography-body-font-family);
+  }
+  .cardButton {
+    align-self: stretch;
+    border-radius: 8px;
+    background-color: #F7B5CA;
+    gap: 8px;
+    overflow: hidden;
+    margin: auto 0;
+    padding: 12px;
+    border: 1px solid rgba(240, 168, 208, 1);
+  }
+  
+  
+  .visually-hidden {
+    box-sizing: border-box;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }

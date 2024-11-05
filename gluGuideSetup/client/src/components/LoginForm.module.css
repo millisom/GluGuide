@@ -7,7 +7,7 @@
     flex-direction: column;
     padding: 24px 24px 24px;
     font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) var(--sds-typography-body-font-family);
-    border:1px solid #F7B5CA;
+    border:10px solid #F7B5CA;
   }
   
   .inputField {

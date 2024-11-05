@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
 import Logout from './logout';
 import './profileCard.css';
+import BlogCard from './BlogCard';
 
 const ProfileCard = () => {
   const [user, setUser] = useState(null);
@@ -61,21 +62,10 @@ const ProfileCard = () => {
         }
       }
     }
-    const fetchPosts = async () => {
-      try {
-        const res = await axios.get('http://localhost:8080/getPosts');
-        setPosts(res.data || []);
-      } catch (err) {
-        console.error('Error fetching posts:', err);
-        setError('Failed to fetch posts.');
-      }
-      
-    };
 
     fetchBio();
     fetchDp();
     fetchUser();
-    fetchPosts();
   }, [navigate]);
 
   const handleSaveBio = async () => {
@@ -210,40 +200,16 @@ const ProfileCard = () => {
           </>
         )}
       </div>
-
-      <div>
-        <h3>Posts</h3>
-
-        {posts.length === 0 ? (
-          <p>No posts found.</p>
-        ) : (
-          <div>
-            {posts.map((post) => (
-              <div key={post.id}>
-                <div>
-                  <h4>Title: {post.title}</h4>
-                  <div>
-                    {parse(post.content)}</div>
-                  <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        <button onClick={() => setIsEditingPosts(!isEditingPosts)}>
-          {isEditingPosts ? 'Save' : <FontAwesomeIcon icon={faEdit} />}
-        </button>
-      </div>
       <div>
         <button
         onClick={handleDeleteAccount}
         >Delete Account</button>
       </div>
-
       <div className="section">
         <Logout />
       </div>
     </div>
+
   );
 };
 

@@ -1,32 +1,21 @@
 import { Link } from 'react-router-dom';
-
+import styles from './Navbar.module.css';
 function Navbar() {
     return (
-        <nav>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/account">My Account</Link>
-                </li>
-                <li>
-                    <Link to="/blogs">Blogs</Link>
-                </li>
-                <li>
-                    <Link to="/signUp">Sign Up</Link>
-                </li>
-                <li>
-                    <Link to="/login">Login</Link>
-                </li>
-                <li>
-                    <Link to="/contact">Contact</Link>
-                </li>
-                <li>
-                    <Link to="/about">About</Link>
-                </li>
-            </ul>
+        <header className={styles.header}>
+            <a href="/" className={styles.logo}>GluGuide</a>
+        <nav className={styles.navbar}>
+            <a href="/">Home</a>
+            <a href="/account">My Account</a>
+            <a href="/login">Login</a>
+            <a href="/signUp">Sign Up</a>
+            <a href="/blogs">Blogs</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+
+
         </nav>
+        </header>
     );
 }
 

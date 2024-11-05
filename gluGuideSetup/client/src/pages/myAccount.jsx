@@ -1,13 +1,14 @@
 import React from 'react';
 import ProfileCard from '../components/profileCard';
-import CarouselComponent from '../components/CarouselComponent';
+import BlogCard from '../components/BlogCard';
+import styles from './pages.module.css';
 
 const MyAccount = () => {
 
     return (
-        <div>
-            <h1>My Account</h1>
+        <div className={styles.myAccount}>
             <ProfileCard />
+            <BlogCard />
         </div>
 
     );

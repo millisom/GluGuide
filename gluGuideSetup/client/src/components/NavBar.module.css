@@ -1,0 +1,37 @@
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #F7B5CA;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+.logo{
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    margin-left: 40px;
+}
+.navbar a {
+    position: relative;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    margin-right: 40px;
+}
+.navbar a::before{
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #fff;
+    transition: all 0.3s;
+}
+.navbar a:hover::before{
+    width: 100%;
+}

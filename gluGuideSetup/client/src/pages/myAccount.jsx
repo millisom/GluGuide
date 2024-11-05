@@ -9,7 +9,6 @@ const MyAccount = () => {
         <div>
             <h1>My Account</h1>
             <ProfileCard />
-            <CarouselComponent />
         </div>
 
     );

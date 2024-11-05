@@ -161,8 +161,8 @@ const ProfileCard = () => {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div className="profile-card">
-      <div className="header">
+    <div >
+      <div>
         {isEditingDp ? (
           <>
             <input type="file" onChange={handleFileChange} />
@@ -185,13 +185,13 @@ const ProfileCard = () => {
         )}
       </div>
 
-      <div className="section">
-        <h3 className='profile-card .header'>Username</h3>
+      <div>
+        <h3 >Username</h3>
         <p>{user}</p>
       </div>
 
-      <div className="section">
-        <h3 className='profile-card .header'>Bio</h3>
+      <div >
+        <h3 >Bio</h3>
         {isEditingBio ? (
           <>
             <textarea
@@ -211,8 +211,8 @@ const ProfileCard = () => {
         )}
       </div>
 
-      <div className="section">
-        <h3 className='profile-card .header'>Posts</h3>
+      <div>
+        <h3>Posts</h3>
 
         {posts.length === 0 ? (
           <p>No posts found.</p>
@@ -222,7 +222,7 @@ const ProfileCard = () => {
               <div key={post.id}>
                 <div>
                   <h4>Title: {post.title}</h4>
-                  <div  className='content-box'>
+                  <div>
                     {parse(post.content)}</div>
                   <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
                 </div>
@@ -234,8 +234,8 @@ const ProfileCard = () => {
           {isEditingPosts ? 'Save' : <FontAwesomeIcon icon={faEdit} />}
         </button>
       </div>
-      <div className="actions">
-        <button className="delete-btn"
+      <div>
+        <button
         onClick={handleDeleteAccount}
         >Delete Account</button>
       </div>

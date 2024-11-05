@@ -51,7 +51,7 @@ const ViewBlogEntries = () => {
                 {post.title}
               </h4>
               <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
-              <button onClick={() => handleEditClick(post.id)}>Edit</button> {/* Edit button */}
+           {/*   <button onClick={() => handleEditClick(post.id)}>Edit</button>  Edit button */}
             </div>
           ))}
         </div>

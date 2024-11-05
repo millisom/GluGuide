@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
+import styles from './BlogCard.module.css';
 
 const Logout = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Logout = () => {
 
     return (
         <div>
-            <button onClick={handleLogout}>Logout</button>
+            <button className={styles.cardButton} onClick={handleLogout}>Logout</button>
         </div>
     );
 };

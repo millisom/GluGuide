@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
 import Logout from './logout';
 import './profileCard.css';
-import BlogCard from './BlogCard';
+import styles from './ProfileCard.module.css';
 
 const ProfileCard = () => {
   const [user, setUser] = useState(null);
@@ -17,9 +17,7 @@ const ProfileCard = () => {
   const [error, setError] = useState(null);
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [isEditingDp, setIsEditingDp] = useState(false);
-  const [isEditingPosts, setIsEditingPosts] = useState(false);
   const [selectedDpFile, setSelectedDpFile] = useState(null);
-  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -151,37 +149,48 @@ const ProfileCard = () => {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div >
-      <div>
-        {isEditingDp ? (
-          <>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleSaveDp}>Save</button>
-          </>
-        ) : (
-          <>
-            <img
-              src={dpUrl || ''}
-              alt="User Profile Picture"
-              onError={(e) => { e.target.onerror = null; e.target.src = ''; }}
-            />
-              <button onClick={handleDeleteDp}>
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-            <button onClick={setIsEditingDp}>
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-          </>
-        )}
-      </div>
-
-      <div>
-        <h3 >Username</h3>
-        <p>{user}</p>
-      </div>
-
-      <div >
-        <h3 >Bio</h3>
+    <div>
+      <h1>Profile</h1>
+    <section className={styles.cardBio}>
+    <div className={styles.cardBodyBio}>
+        <div>
+      {isEditingDp ? (
+        <>
+          <input type="file" onChange={handleFileChange} />
+          <button className={styles.squareButton} onClick={handleSaveDp}>Save</button>
+          <button className={styles.squareButton} onClick={() => setIsEditingDp(false)}>Cancel</button>
+          <button className={styles.squareButton} onClick={() => handleDeleteDp}>Delete</button>
+        </>
+      ) : (
+        <>
+        <div className={styles.bioContainer} >
+          <div className={styles.dpContainer}>
+        <img
+        className={styles.bioImg}
+        src={dpUrl || ''}
+        alt="User Profile Picture"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = '';
+        }}
+        style={{
+          height: '4rem',
+          width: '4rem',
+          borderRadius: '50%', // Ensures the image is round
+          objectFit: 'cover'    // Ensures it covers the container
+        }}
+      />
+        <button className={styles.icon2} onClick={() => setIsEditingDp(true)}>
+          <FontAwesomeIcon icon={faEdit} />
+        </button>
+        </div>
+          <p className={styles.username}>{user}</p>
+          </div>
+        </>
+      )}
+    </div>
+      <div className={styles.bioContainer2} >
+        <div className={styles.bio}>
         {isEditingBio ? (
           <>
             <textarea
@@ -189,25 +198,29 @@ const ProfileCard = () => {
               onChange={(e) => setBio(e.target.value)}
               placeholder="Edit your bio"
             />
-            <button onClick={handleSaveBio}>Save</button>
-          </>
+            <button className={styles.squareButton}onClick={handleSaveBio}>Save</button>
+            <button className={styles.squareButton} onClick={() => setIsEditingBio(false)}>Cancel</button>
+          </> 
         ) : (
           <>
             <p>{bio}</p>
-            <button onClick={setIsEditingBio}>
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
           </>
         )}
-      </div>
-      <div>
-        <button
-        onClick={handleDeleteAccount}
-        >Delete Account</button>
+        </div>
+      <button className={styles.icon} onClick={() => setIsEditingBio(true)}>
+    <FontAwesomeIcon icon={faEdit} />
+    </button>
       </div>
       <div className="section">
         <Logout />
       </div>
+      <div>
+        <button className={styles.squareButton}
+        onClick={handleDeleteAccount}
+        >Delete Account</button>
+      </div>
+    </div>
+    </section>
     </div>
 
   );

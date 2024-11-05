@@ -1,5 +1,4 @@
 .formLogIn {
-    border-radius: 10px;
     background-color: #FAF7F0;
     display: flex;
     min-width: 300px;
@@ -7,7 +6,7 @@
     flex-direction: column;
     padding: 24px 24px 24px;
     font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) var(--sds-typography-body-font-family);
-    border:10px solid #F7B5CA;
+    border: 10px solid #F7B5CA;
   }
   
   .inputField {
@@ -16,6 +15,7 @@
     width: 100%;
     box-sizing: border-box;
     flex-direction: column;
+    border-radius: 10px;
     margin-bottom: 24px;
   }
   

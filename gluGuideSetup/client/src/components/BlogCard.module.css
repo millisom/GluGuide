@@ -1,5 +1,4 @@
 .card {
-  border-radius: 8px;
   background-color: #F7B5CA;
   display: flex;
   margin-top: 24px;
@@ -11,8 +10,9 @@
   box-sizing: border-box;
   width: 100%;
   min-width: 500px;
-  padding: 16px 16px 16px 16px;
+  padding: 10px 10px 10px 10px;
 }
+
   
   /* .cardImage {
     aspect-ratio: 1;
@@ -26,13 +26,14 @@
   
   .cardBody {
     background-color: #FAF7F0;
-    border-radius: 8px;
     display: flex;
     flex-direction: column;
     flex: 1;
     flex-basis: 0;
-    width: 100%;
+
+
 }
+
   
   /* .cardContent {
     background-color: #FAF7F0;
@@ -79,6 +80,26 @@
     overflow: hidden;
     margin: auto 0;
     padding: 12px;
+    margin: 2px;
+    border: 1px solid rgba(240, 168, 208, 1);
+  }
+  .cardTitle{
+    font: var(--sds-typography-heading-font-weight-bold) var(--sds-typography-heading-size-large) / 32px var(--sds-typography-heading-font-family);
+    color: var(--sds-color-text-default-primary);
+    margin: 0;
+    box-sizing: border-box;
+    font-weight: bold;
+  }
+
+  .icon {
+    align-self: stretch;
+    border-radius: 50%;
+    background-color: #F7B5CA;
+    gap: 8px;
+    overflow: hidden;
+    margin: auto 0;
+    padding: 12px;
+    margin: 2px;
     border: 1px solid rgba(240, 168, 208, 1);
   }
   

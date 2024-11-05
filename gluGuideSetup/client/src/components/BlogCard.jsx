@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../api/axiosConfig'; 
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
-import Button from './Button.jsx';
-import editPost from './editPost.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 
 const BlogCard = () => {
@@ -30,7 +31,7 @@ const BlogCard = () => {
 
         return (
             <div>
-                <h1>Posts</h1>
+            <h1>Posts</h1>
             <section className={styles.card}>
               <div className={styles.cardBody}>
                 {posts.map((post) => (
@@ -40,18 +41,18 @@ const BlogCard = () => {
                       <p>{parse(post.content)}</p>
                       <div className={styles.buttonWrapper}>
                         <button
-                          className={styles.cardButton}
+                          className={styles.icon}
                           onClick={() => navigate(`/editPost/${post.id}`)}
                           aria-label={`Edit post titled ${post.title}`}
                         >
-                          Edit
+                          <FontAwesomeIcon icon={faEdit} />
                         </button>
                         <button
-                          className={styles.cardButton}
+                          className={styles.icon} 
                           onClick={() => navigate(`/deletePost/${post.id}`)}
                           aria-label={`Delete post titled ${post.title}`}
                         >
-                          Delete
+                          <FontAwesomeIcon icon={faTrash} />
                         </button>
                       </div>
                     </div>

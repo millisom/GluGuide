@@ -28,14 +28,16 @@ const EditPost = () => {
   }, [id]);
 
   const handleSave = async () => {
+    console.log('Title to be saved:', title);
     try {
+   
       await axios.put(`http://localhost:8080/updatePost/${id}`, {
         title,
         content
       }, {
         withCredentials: true
       });
-      navigate(`/blogs/view/${id}`); // Redirect back to view page after saving
+      navigate(`/blogs`); // Redirect back to view page after saving
     } catch (error) {
       setError('Failed to save changes');
       console.error('Error saving post:', error);

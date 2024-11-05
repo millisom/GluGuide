@@ -70,22 +70,34 @@ const postController = {
 
     // Update a specific post by ID
     async updatePost(req, res) {
-        const { id } = req.params; // Get the post ID from request parameters
-        const { title, content } = req.body; // Extract title and content from request body
+      const { id } = req.params; // Get the post ID from request parameters
+      const { title, content } = req.body; // Extract title and content from request body
+      const username = req.session?.username; // Getting username from session
 
-        try {
-            const updatedPost = await Post.updatePost(id, title, content); // Call the model method to update the post
+      if (!username) {
+          return res.status(401).json({ error: 'Unauthorized' });
+      }
 
-            if (!updatedPost) {
-                return res.status(404).json({ message: 'Post not found' }); // If no post found
-            }
+      try {
+          // Retrieve the user ID based on the username
+          const userResult = await Profile.getUserByName(username);
 
-            res.status(200).json(updatedPost); // Return the updated post
-        } catch (error) {
-            console.error('Error updating post:', error); // Log error
-            res.status(500).json({ message: 'Server error while updating post' }); // Return server error
+          if (!userResult || userResult.length === 0) {
+              return res.status(404).json({ error: 'User not found' });
+          }
+          const userId = userResult[0].id;
+          // Call the model method to update the post
+          const updatedPost = await Post.updatePost(id, userId, title, content);
+
+          if (!updatedPost) {
+            return res.status(404).json({ message: 'Post not found' });
         }
-    }
+          return res.status(200).json({ success: true, post: updatedPost });
+      } catch (error) {
+          console.error('Error updating post:', error.message);
+          return res.status(500).json({ error: 'Internal Server Error' });
+      }
+  },
   
 };
 

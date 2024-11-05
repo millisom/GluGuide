@@ -54,21 +54,35 @@ const Post = {
     }
   },
 
-      // Get a specific post by ID
-      async getPostById(id) {
-        const query = 'SELECT * FROM posts WHERE id = $1'; // SQL query to select the post
-        const values = [id]; // Values for the SQL query
-        const result = await pool.query(query, values); // Execute the query
-        return result.rows.length > 0 ? result.rows[0] : null; // Return post if found, else null
-    },
+  async updatePost(postId, userId, title, content) {
+    const query = 'UPDATE posts SET title = $1, content = $2 WHERE id = $3 AND user_id = $4 RETURNING *';
+    const values = [title, content, postId, userId]; // Ensure correct order of parameters
+    
+    try {
+        const result = await pool.query(query, values);
+        if (result.rowCount === 0) {
+            return null; // No post was updated
+        }
+        return result.rows[0]; // Return the updated post
+    } catch (error) {
+        throw new Error('Error updating post: ' + error.message);
+    }
+},
 
-        // Update a specific post by ID
-        async updatePost(id, title, content) {
-          const query = 'UPDATE posts SET title = $1, content = $2 WHERE id = $3 RETURNING *';
-          const values = [title, content, id]; // Values for the SQL query
-          const result = await pool.query(query, values); // Execute the query
-          return result.rowCount > 0 ? result.rows[0] : null; // Return updated post if successful, else null
-      }
+async getPostById(postId) {
+    const query = 'SELECT * FROM posts WHERE id = $1';
+    const values = [postId];
+
+    try {
+        const result = await pool.query(query, values);
+        if (result.rows.length === 0) {
+            return null; // No post found
+        }
+        return result.rows[0]; // Return the found post
+    } catch (error) {
+        throw new Error('Error fetching post: ' + error.message);
+    }
+}
 };
 
 module.exports = Post;

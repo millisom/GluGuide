@@ -6,8 +6,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
 import Logout from './logout';
-import './profileCard.css';
-import styles from './ProfileCard.module.css';
+import styles from '../styles/ProfileCard.module.css';
 
 const ProfileCard = () => {
   const [user, setUser] = useState(null);

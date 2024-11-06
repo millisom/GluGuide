@@ -22,9 +22,11 @@ const CreatePost = () => {
     formData.append('content', content);
     if (postPicture) formData.append('postPicture', postPicture);
     try {
-        // Make the POST request
-        const response = await axios.post('http://localhost:8080/CreatePost', formData, {withCredentials: true});
-        headers: { 'Content-Type': 'multipart/form-data' },
+      // Make the POST request
+      const response = await axios.post('http://localhost:8080/CreatePost', formData, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' }, // Set content type for file upload
+      });
         console.log('Post created:', response.data); // Log the response for debugging
         // Reset fields or handle success here
         setTitle('');

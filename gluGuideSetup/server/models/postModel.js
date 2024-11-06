@@ -70,8 +70,13 @@ const Post = {
 },
 
 async getPostById(postId) {
-    const query = 'SELECT * FROM posts WHERE id = $1';
-    const values = [postId];
+    const query = `
+    SELECT posts.*, users.username 
+    FROM posts 
+    JOIN users ON posts.user_id = users.id
+    WHERE posts.id = $1
+  `;
+  const values = [postId];
 
     try {
         const result = await pool.query(query, values);

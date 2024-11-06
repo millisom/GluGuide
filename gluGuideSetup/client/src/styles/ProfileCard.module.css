@@ -7,24 +7,24 @@
 .username {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #333;
+    color: var(--color-text-black);
   }
   .cardBio {
     margin: 10px 10px 10px 10px;
-    background-color: #F7B5CA;
+    background-color: var(--color-primary);
     display: flex;
     min-height: 194px;
     align-items: flex-start;
     gap: 24px;
     flex-wrap: wrap;
-    border: 1px solid #F7B5CA;
+    border: 1px solid var(--color-primary);
     box-sizing: border-box;
     width: 100%;
     padding: 10px 10px 10px 10px;
     align-items: center;
   }
   .cardBodyBio {
-    background-color: #FAF7F0;
+    background-color: var(--color-background);
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -35,11 +35,11 @@
   }
   
   .bio{
-    background-color: #FFEBD4;
+    background-color: var(--color-tertiary);
 
     padding: 10px 10px 10px 10px;
     border-radius: 8px;
-    border: 2px solid #F7B5CA;
+    border: 2px solid var(--color-primary);
     margin-left: 2px;
     margin-left: 10px;
     margin-right: 10px;
@@ -55,8 +55,8 @@
     width: 1.5rem; /* Adjust size as needed */
     height: 1.5rem;
     border-radius: 50%;
-    background-color: #F7B5CA;
-    border: 1px solid #F7B5CA;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,8 +73,8 @@
     width: 1.3rem; /* Adjust size as needed */
     height: 1.3rem;
     border-radius: 50%;
-    background-color: #F7B5CA;
-    border: 1px solid #F7B5CA;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,11 +84,11 @@
   .squareButton {
     align-self: stretch;
     border-radius: 8px;
-    background-color: #F7B5CA;
+    background-color: var(--color-primary);
     gap: 8px;
     overflow: hidden;
     padding: 12px;
-    border: 1px solid #F7B5CA;
+    border: 1px solid var(--color-primary);
     margin: 10px 10px 10px 10px;
 
   }

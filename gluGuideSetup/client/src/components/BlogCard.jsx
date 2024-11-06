@@ -1,4 +1,4 @@
-import styles from './Blogcard.module.css';
+import styles from '../styles/Blogcard.module.css';
 import React, { useEffect, useState } from 'react';
 import axios from '../../api/axiosConfig'; 
 import { useNavigate } from 'react-router-dom';

@@ -150,7 +150,6 @@ const ProfileCard = () => {
 
   return (
     <div>
-      <h1>Profile</h1>
     <section className={styles.cardBio}>
     <div className={styles.cardBodyBio}>
         <div>
@@ -211,9 +210,13 @@ const ProfileCard = () => {
     <FontAwesomeIcon icon={faEdit} />
     </button>
       </div>
+      <div>
+      <button className={styles.squareButton} onClick={() => navigate('/myBlogs')}>My Blogs</button>
+      </div>
       <div className="section">
         <Logout />
       </div>
+
       <div>
         <button className={styles.squareButton}
         onClick={handleDeleteAccount}

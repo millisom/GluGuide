@@ -4,8 +4,7 @@ import axios from '../../api/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 const BlogCard = () => {
@@ -29,31 +28,58 @@ const BlogCard = () => {
         fetchPosts();
       }, [navigate]);
 
+      const handleDelete = async (id) => {
+        console.log("Deleting post with ID:", id); // Add this line
+        if (window.confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
+          try {
+            await axios.delete(`http://localhost:8080/deletePost/${id}`, {
+              withCredentials: true
+            });
+            alert('Post deleted successfully.');
+            setPosts(posts.filter(post => post.id !== id)); // Update the posts state after deletion
+          } catch (error) {
+            setError('Failed to delete post');
+            console.error('Error deleting post:', error);
+          }
+        }
+    };
+
         return (
             <div>
-            <h1>Posts</h1>
+            <div className={styles.buttonWrapper}>
+            <button 
+            className={styles.cardButton} 
+            onClick={() => navigate('/create/post')} 
+            aria-label="Create a new post"
+        >
+            <FontAwesomeIcon icon={faPlus} /> Create new post
+        </button>
+
+            </div>
             <section className={styles.card}>
               <div className={styles.cardBody}>
                 {posts.map((post) => (
                   <div key={post.id}>
                     <div className={styles.cardContent}>
-                    <h2 className={styles.cardTitle}>{post.title}</h2>
-                      <p>{parse(post.content)}</p>
-                      <div className={styles.buttonWrapper}>
-                        <button
+                      <div className={styles.iconContainer}>
+                      <button
                           className={styles.icon}
-                          onClick={() => navigate(`/editPost/${post.id}`)}
+                          onClick={() => navigate(`/blogs/edit/${post.id}`)} // Corrected route
                           aria-label={`Edit post titled ${post.title}`}
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </button>
                         <button
-                          className={styles.icon} 
-                          onClick={() => navigate(`/deletePost/${post.id}`)}
+                          className={styles.icon}
+                          onClick={() => handleDelete(post.id)} // Pass post.id explicitly
                           aria-label={`Delete post titled ${post.title}`}
                         >
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
+                        </div>
+                    <h2 className={styles.cardTitle}>{post.title}</h2>
+                      <p>{parse(post.content)}</p>
+                      <div className={styles.buttonWrapper}>
                       </div>
                     </div>
                   </div>
@@ -63,5 +89,4 @@ const BlogCard = () => {
             </div>
           );
 };
-
 export default BlogCard;

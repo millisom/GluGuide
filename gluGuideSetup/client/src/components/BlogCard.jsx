@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 
 const BlogCard = () => {
@@ -44,49 +45,54 @@ const BlogCard = () => {
         }
     };
 
-        return (
-            <div>
-            <div className={styles.buttonWrapper}>
-            <button 
+    return (
+      <div>
+        <div className={styles.buttonWrapper}>
+          <button 
             className={styles.cardButton} 
             onClick={() => navigate('/create/post')} 
             aria-label="Create a new post"
-        >
+          >
             <FontAwesomeIcon icon={faPlus} /> Create new post
-        </button>
-
-            </div>
-            <section className={styles.card}>
-              <div className={styles.cardBody}>
-                {posts.map((post) => (
-                  <div key={post.id}>
-                    <div className={styles.cardContent}>
-                      <div className={styles.iconContainer}>
-                      <button
-                          className={styles.icon}
-                          onClick={() => navigate(`/blogs/edit/${post.id}`)} // Corrected route
-                          aria-label={`Edit post titled ${post.title}`}
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                        <button
-                          className={styles.icon}
-                          onClick={() => handleDelete(post.id)} // Pass post.id explicitly
-                          aria-label={`Delete post titled ${post.title}`}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </button>
-                        </div>
-                    <h2 className={styles.cardTitle}>{post.title}</h2>
-                      <p>{parse(post.content)}</p>
-                      <div className={styles.buttonWrapper}>
-                      </div>
-                    </div>
+          </button>
+        </div>
+  
+        <section className={styles.card}>
+          <div className={styles.cardBody}>
+            {posts.map((post) => (
+              <div key={post.id}>
+                <div className={styles.cardContent}>
+                  <div className={styles.iconContainer}>
+                    <button
+                      className={styles.icon}
+                      onClick={() => navigate(`/blogs/edit/${post.id}`)} // Corrected route
+                      aria-label={`Edit post titled ${post.title}`}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                    <button
+                      className={styles.icon}
+                      onClick={() => handleDelete(post.id)} // Pass post.id explicitly
+                      aria-label={`Delete post titled ${post.title}`}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
                   </div>
-                ))}
+  
+                  {/* Wrap the title with a Link component to navigate to the viewPost page */}
+                  <Link to={`/viewPost/${post.id}`} className={styles.cardTitle}>
+                    <h2>{post.title}</h2>
+                  </Link>
+  
+                  <p>{parse(post.content)}</p>
+                  <div className={styles.buttonWrapper}></div>
+                </div>
               </div>
-            </section>
-            </div>
-          );
+            ))}
+          </div>
+        </section>
+      </div>
+    );
+  
 };
 export default BlogCard;

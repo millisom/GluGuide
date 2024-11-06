@@ -60,21 +60,36 @@ const postController = {
 
     // Get a specific post by ID
     async getPostById(req, res) {
-        const { id } = req.params; // Get the post ID from request parameters
-
-        try {
-            const post = await Post.getPostById(id); // Call the model method to get the post
-
-            if (!post) {
-                return res.status(404).json({ message: 'Post not found' }); // If no post found
-            }
-
-            res.status(200).json(post); // Return the found post
-        } catch (error) {
-            console.error('Error fetching post:', error); // Log error
-            res.status(500).json({ message: 'Server error while fetching post' }); // Return server error
-        }
-    },
+      const { id } = req.params; // Get the post ID from request parameters
+  
+      // Check if ID is valid (number in this case, assuming posts have integer IDs)
+      if (isNaN(id)) {
+          return res.status(400).json({ message: 'Invalid post ID' });
+      }
+  
+      try {
+          const post = await Post.getPostById(id); // Call the model method to get the post
+  
+          if (!post) {
+              return res.status(404).json({ message: 'Post not found' }); // If no post found
+          }
+  
+          // Format the post data for response
+          const formattedPost = {
+              title: post.title,
+              content: post.content,
+              created_at: post.created_at,
+              updated_at: post.updated_at || null, // Only include if it exists
+              post_picture: post.post_picture,
+              username: post.username, // Assuming this is part of your post data after the join
+          };
+  
+          res.status(200).json(formattedPost); // Return formatted post data
+      } catch (error) {
+          console.error('Error fetching post:', error); // Log error
+          res.status(500).json({ message: 'Server error while fetching post' }); // Return server error
+      }
+  },
 
     async updatePost(req, res) {
       const { id } = req.params; // Get the post ID from request parameters

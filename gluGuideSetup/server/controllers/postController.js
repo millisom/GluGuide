@@ -1,5 +1,11 @@
 const Post = require('../models/postModel');
+const upload = require('../middleware/multer');  // Import multer middleware
+const path = require('path');
 const Profile = require('../models/profileModel');
+
+
+
+
 
 const postController = {
 
@@ -10,17 +16,19 @@ const postController = {
         if(!username){
           return res.status(401).send('Unauthorized');
         }
+        const postPicture = req.file ? req.file.filename : null;
 
         try {
           // Retrieve the user_id based on the username
           const userId = await Post.getUserIdByUsername(username);
-          const newPost = await Post.createPost(userId, title, content);
+          const newPost = await Post.createPost(userId, title, content, postPicture);
+
           return res.status(200).json({success: true, post: newPost});
         }catch (error) {
-            console.error('Error creating post:', error.message);
+            console.error('Error creating post:', error.message, error.stack);
             res.status(500).json({ success: false, message: 'Failed to create post.' });
-        }   
-    },
+          }
+      },
 
 
     async getUserPost(req, res) {
@@ -119,4 +127,7 @@ const postController = {
     
   };
 
-module.exports = postController;
+module.exports = {
+  ...postController,
+  upload, // Export the upload middleware for route handling
+};

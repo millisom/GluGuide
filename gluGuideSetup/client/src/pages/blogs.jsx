@@ -7,7 +7,6 @@ const Blogs = () => {
     return (
         <div className={StyleSheet.blogs}>
             <CreatePost />
-            <ViewBlogEntries />
         </div>
     );
 }

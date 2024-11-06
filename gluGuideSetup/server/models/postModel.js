@@ -2,9 +2,9 @@ const pool = require('../config/db'); // Import the PostgreSQL connection pool
 
 const Post = {
     // Method to create a new post
-    async createPost(userId, title, content) {
-        const query = 'INSERT INTO posts (user_id, title, content,created_at) VALUES ($1, $2, $3, NOW()) RETURNING *';
-        const values = [userId, title, content,]; // Use user_id in the query
+    async createPost(userId, title, content, postPicture) {
+        const query = 'INSERT INTO posts (user_id, title, content, created_at, post_picture) VALUES ($1, $2, $3, NOW(), $4) RETURNING *';
+        const values = [userId, title, content, postPicture]; // Use user_id in the query
         try {
             const result = await pool.query(query, values);
             return result.rows[0]; // Return the newly created post

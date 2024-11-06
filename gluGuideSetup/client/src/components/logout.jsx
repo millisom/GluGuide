@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
-import styles from './BlogCard.module.css';
+import styles from '../styles/BlogCard.module.css';
 
 const Logout = () => {
     const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './LoginForm.module.css';
+import styles from '../styles/LoginForm.module.css';
 
 const Button = ({ children }) => {
   return (

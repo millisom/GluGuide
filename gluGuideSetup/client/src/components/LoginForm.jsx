@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
-import styles from './LoginForm.module.css';
+import styles from '../styles/LoginForm.module.css';
 
 
 const LoginForm = () => {

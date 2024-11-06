@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import './signup.css';
 function SignUp() {
     const history = useNavigate();
     const [username, setUsername] = useState('');
@@ -46,43 +47,59 @@ function SignUp() {
     }
 
     return (
-       <div className="signUp">
-           <h1>Sign Up</h1>
-           <form onSubmit={register}>
-               <input
-                   type="text"
-                   onChange={(e) => setUsername(e.target.value)}
-                   placeholder="Username"
-                   required
-               />
-               <input
-                   type="email"
-                   onChange={(e) => setEmail(e.target.value)}
-                   placeholder="Email"
-                   required
-               />
-               <input
-                   type="password"
-                   onChange={(e) => setPassword(e.target.value)}
-                   placeholder="Password"
-                   required
-               />
-               <input
-                   type="password"
-                   onChange={(e) => setConfirmPassword(e.target.value)}
-                   placeholder="Confirm Password"
-                   required
-               />
-               <label>
-                   <input
-                       type="checkbox"
-                       onChange={(e) => setTermsAccepted(e.target.checked)}
-                   />
-                   I accept the Terms and Conditions
-               </label>
-               <button type="submit">Sign Up</button>
-           </form>
-       </div>
+        <div className="formSignUp">
+            <h1>Sign Up</h1>
+            <form onSubmit={register}>
+                <div className="inputField">
+                    <input
+                        type="text"
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                        required
+                        className="input"
+                    />
+                </div>
+                <div className="inputField">
+                    <input
+                        type="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email"
+                        required
+                        className="input"
+                    />
+                </div>
+                <div className="inputField">
+                    <input
+                        type="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        required
+                        className="input"
+                    />
+                </div>
+                <div className="inputField">
+                    <input
+                        type="password"
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm Password"
+                        required
+                        className="input"
+                    />
+                </div>
+                <label className="label">
+                    <input
+                        type="checkbox"
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                        style={{ marginRight: '8px' }}
+                    />
+                    I accept the Terms and Conditions
+                </label>
+                <div className="buttonGroup">
+                    <button type="submit" className="button">Sign Up</button>
+                </div>
+                <p><Link to="/login" className="forgotPassword">Already have an Account?Login here</Link></p>
+            </form>
+        </div>
     );
 }
 

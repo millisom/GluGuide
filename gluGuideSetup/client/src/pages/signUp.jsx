@@ -9,6 +9,7 @@ function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
+    const [message, setMessage] = useState('');
 
     async function register(e) {
         e.preventDefault();
@@ -31,14 +32,16 @@ function SignUp() {
                 termsAccepted
             })
             .then(res => {
+                console.log("Response data:", res.data); 
                 if (res.data === "exists") {
-                    alert("There is already a user account with this email");
+                    setMessage("User already exists");
                 } else if (res.data === "notexist") {
+                    setMessage("Account created successfully");
                     history("/", { state: { id: email } });
                 }
             })
             .catch(e => {
-                alert("Sign-up failed. Please check your details.");
+                setMessage("An error occurred. Please try again.");
                 console.log(e);
             });
         } catch (e) {
@@ -53,6 +56,7 @@ function SignUp() {
                 <div className="inputField">
                     <input
                         type="text"
+                        name="username"
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="Username"
                         required
@@ -62,6 +66,7 @@ function SignUp() {
                 <div className="inputField">
                     <input
                         type="email"
+                        name="email"
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         required
@@ -71,6 +76,7 @@ function SignUp() {
                 <div className="inputField">
                     <input
                         type="password"
+                        name="password"
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                         required
@@ -80,6 +86,7 @@ function SignUp() {
                 <div className="inputField">
                     <input
                         type="password"
+                        name="confirmPassword"
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm Password"
                         required
@@ -89,6 +96,7 @@ function SignUp() {
                 <label className="label">
                     <input
                         type="checkbox"
+                        name="termsAccepted"  
                         onChange={(e) => setTermsAccepted(e.target.checked)}
                         style={{ marginRight: '8px' }}
                     />
@@ -99,6 +107,15 @@ function SignUp() {
                 </div>
                 <p><Link to="/login" className="forgotPassword">Already have an Account?Login here</Link></p>
             </form>
+            
+             {message && (
+                <div
+                    data-testid={message === "Account created successfully" ? "success-message" : "error-message"}
+                    style={{ color: message === "Account created successfully" ? "green" : "red" }}
+                >
+                    {message}
+                </div>
+            )}
         </div>
     );
 }

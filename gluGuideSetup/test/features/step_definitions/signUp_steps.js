@@ -94,7 +94,7 @@ Then('I should see an alert with the message {string}', async function (expected
     const alert = await driver.switchTo().alert();
     const actualAlertMessage = await alert.getText();
     assert.strictEqual(actualAlertMessage, expectedAlertMessage);
-    await alert.accept();  // Close the alert
+    await alert.accept();  
 });
 
 

@@ -6,8 +6,29 @@ import 'react-quill/dist/quill.snow.css'; // Import Quill's CSS
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [postPicture, setPostPicture] = useState(null);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+        // Make the POST request
+        const response = await axios.post('http://localhost:8080/CreatePost', { title, content }, {withCredentials: true});
+        console.log('Post created:', response.data); // Log the response for debugging
+        // Reset fields or handle success here
+        setTitle('');
+        setContent('');
+        setSuccessMessage('Post created successfully!');
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          setError('You must be logged in to create a post.'); // Custom message for 401
+      } else {
+          console.error('Error:', error.response ? error.response.data : error.message);
+          setError('Failed to create post'); // General error message
+      }
+      }
+    };
 
   return (
     <div>

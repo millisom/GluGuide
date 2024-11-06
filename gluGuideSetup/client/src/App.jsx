@@ -32,6 +32,7 @@ function App() {
                     <Route path="/blogs/edit/:id" element={<EditPost />} />
                     <Route path="/create/post" element={<CreatePost />} />
                     <Route path="/myBlogs" element={<MyBlogs />} />
+                    <Route path="/viewPost/:id" element={<ViewPost />} /> {/* Individual post page */}
                 </Routes>
         </Router>
     );

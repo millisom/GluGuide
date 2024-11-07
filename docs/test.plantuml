@@ -1,0 +1,13 @@
+@startuml n
+class User {
+  +String name
+  +String email
+  +login()
+}
+
+class Admin {
+  +createPost()
+}
+
+User <|-- Admin
+@enduml

@@ -139,6 +139,7 @@ For more details, refer to the [Edit Account Use Case](UCEditAccount.md).
 
 ### 3.1.4 Delete account
 It is possible to delete the account. All data linked to it will be deleted too.
+For more details, refer to the [Delete Account Use Case.](UCDeleteAccount.md).
 
 ### 3.1.5 Manage blogpost
 To get in touch with others, ask questions, or simply share experiences, the user can write a blog post in the community feature. This function includes list posts, write, edit and delete post.

@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe6aa052-20c5-43fa-a781-6a013948d85d" name="Changes" comment="steps.js in step_definitions folder">
-      <change afterPath="$PROJECT_DIR$/docs/PlantUMLDiagrams" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/backend.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/post.plantuml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/test.plantuml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +137,7 @@
       <workItem from="1729752630639" duration="4297000" />
       <workItem from="1729866705060" duration="275000" />
       <workItem from="1730940181670" duration="315000" />
-      <workItem from="1730940508394" duration="826000" />
+      <workItem from="1730940508394" duration="1612000" />
     </task>
     <task id="LOCAL-00001" summary="feature files setup">
       <option name="closed" value="true" />

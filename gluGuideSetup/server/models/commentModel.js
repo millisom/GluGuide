@@ -32,7 +32,13 @@ const Comment = {
     
      // Method to get all comments for a specific post
     async getCommentsByPostId(postId) {
-        const query = 'SELECT * FROM comments WHERE post_id = $1 ORDER BY created_at DESC';
+        const query = `
+        SELECT comments.*, users.username 
+        FROM comments 
+        JOIN users ON comments.author_id = users.id 
+        WHERE comments.post_id = $1 
+        ORDER BY comments.created_at DESC
+        `;
         const values = [postId];
 
         try {

@@ -25,6 +25,19 @@ const commentController = {
             res.status(500).json({ success: false, message: 'Failed to create comment.' });
         }
     },
+
+    // New method to get comments for a post
+    async getComments(req, res) {
+        const { post_id } = req.params;
+
+        try {
+            const comments = await Comment.getCommentsByPostId(post_id);
+            res.status(200).json(comments);
+        } catch (error) {
+            console.error('Error fetching comments:', error.message);
+            res.status(500).json({ success: false, message: 'Failed to fetch comments.' });
+        }
+    },
 };
 
 module.exports = commentController;

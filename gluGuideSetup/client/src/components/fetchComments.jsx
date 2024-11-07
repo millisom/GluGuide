@@ -34,7 +34,7 @@ const CommentsList = () => {
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div key={comment.id} className="comment">
-              <p><strong>Author:</strong> {comment.username}</p>
+              <p><strong>Author :</strong> {comment.username}</p>
               <p>{comment.content}</p>
               <p><small>{new Date(comment.created_at).toLocaleString()}</small></p>
             </div>

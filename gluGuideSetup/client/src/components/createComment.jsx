@@ -1,33 +1,52 @@
-const Comment = require('../models/commentModel');
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const commentController = {
-    async createComment(req, res) {
-        const { postId, content } = req.body;
-        // const authorId = req.session?.userId; // Assuming userId is stored in session
-        const authorId = 23;
+const CreateComment = () => {
+  const { id: post_id } = useParams()
+  const [content, setContent] = useState('');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-        // if (!authorId) {
-        //     return res.status(401).send('Unauthorized');
-        // }
 
-        try {
-            const newComment = await Comment.createComment(postId, authorId, content);
-            res.status(200).json({ success: true, comment: newComment });
-        } catch (error) {
-            console.error('Error creating comment:', error.message);
-            res.status(500).json({ success: false, message: 'Failed to create comment.' });
-        }
-    },
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    async getComments(req, res) {
-        try {
-            const comments = await Comment.getCommentsByPostId(postId);
-            res.status(200).json(comments);
-        } catch (error) {
-            console.error('Error fetching comments:', error.message);
-            res.status(500).json({ success: false, message: 'Failed to fetch comments.' });
-        }
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/comments',
+        { post_id, content },
+        { withCredentials: true } // Ensure session credentials are sent
+      );
+
+      console.log('Comment created:', response.data);
+      setContent(''); // Clear the input field after submission
+      setSuccessMessage('Comment added successfully!');
+    } catch (error) {
+      console.error('Error creating comment:', error.response ? error.response.data : error.message);
+      setError('Failed to add comment');
     }
+  };
+
+  return (
+    <div>
+      <h3>Add a Comment</h3>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Comment:</label>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Submit Comment</button>
+        {error && <p>{error}</p>}
+        {successMessage && <p>{successMessage}</p>}
+      </form>
+    </div>
+  );
 };
 
-module.exports = commentController;
+export default CreateComment;
+

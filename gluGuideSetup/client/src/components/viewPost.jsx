@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import parse from 'html-react-parser';
+import CreateComment from "./createComment";
+import FetchComment from "./fetchComments";
 
 const ViewPost = () => {
   const { id } = useParams(); // Get post ID from URL
@@ -58,7 +60,10 @@ const ViewPost = () => {
         <p>Loading...</p>
       )}
       {error && <p>{error}</p>}
+      <CreateComment/>
+      <FetchComment/>
     </div>
+    
   );
 };
 

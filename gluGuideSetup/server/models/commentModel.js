@@ -28,7 +28,22 @@ const Comment = {
             throw new Error('Error fetching user ID: ' + error.message);
         }
     },
+
+    
+     // Method to get all comments for a specific post
+    async getCommentsByPostId(postId) {
+        const query = 'SELECT * FROM comments WHERE post_id = $1 ORDER BY created_at DESC';
+        const values = [postId];
+
+        try {
+            const result = await pool.query(query, values);
+            return result.rows; // Return all comments for the post
+        } catch (error) {
+            throw new Error('Error fetching comments for post: ' + error.message);
+        }
+    }
 };
+
 
 module.exports = Comment;
 

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from '../../api/axiosConfig';
+import styles from '../styles/LoginForm.module.css';
+
 function SignUp() {
     const history = useNavigate();
     const [username, setUsername] = useState('');
@@ -8,6 +10,7 @@ function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
+    const [notification, setNotification] = useState({ message: '', type: '' });
 
     async function register(e) {
         e.preventDefault();
@@ -46,44 +49,75 @@ function SignUp() {
     }
 
     return (
-       <div className="signUp">
-           <h1>Sign Up</h1>
-           <form onSubmit={register}>
-               <input
-                   type="text"
-                   onChange={(e) => setUsername(e.target.value)}
-                   placeholder="Username"
-                   required
-               />
-               <input
-                   type="email"
-                   onChange={(e) => setEmail(e.target.value)}
-                   placeholder="Email"
-                   required
-               />
-               <input
-                   type="password"
-                   onChange={(e) => setPassword(e.target.value)}
-                   placeholder="Password"
-                   required
-               />
-               <input
-                   type="password"
-                   onChange={(e) => setConfirmPassword(e.target.value)}
-                   placeholder="Confirm Password"
-                   required
-               />
-               <label>
-                   <input
-                       type="checkbox"
-                       onChange={(e) => setTermsAccepted(e.target.checked)}
-                   />
-                   I accept the Terms and Conditions
-               </label>
-               <button type="submit">Sign Up</button>
-           </form>
-       </div>
-    );
+        <div className={styles.formLogIn}>
+        <h2 className={styles.title}>Sign Up</h2>
+        <form onSubmit={register}>
+          <div className={styles.label}>
+            <label>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.label}>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.label}>
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.label}>
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm Password"
+              required
+              className={styles.input}
+            />
+          </div>
+          <label className={styles.label}>
+            <input
+              type="checkbox"
+              checked={termsAccepted}
+              onChange={(e) => setTermsAccepted(e.target.checked)}
+              className={styles.checkbox}
+            />
+            I accept the Terms and Conditions
+          </label>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.button}>
+              Sign Up
+            </button>
+          </div>
+        </form>
+        {notification.message && (
+          <p className={notification.type === 'error' ? styles.errorMessage : styles.successMessage}>
+            {notification.message}
+          </p>
+        )}
+    </div>
+);
 }
 
 export default SignUp;

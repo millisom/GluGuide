@@ -11,6 +11,8 @@ import ViewPost from './components/viewPost.jsx';
 import EditPost from './components/editPost.jsx';  
 import CreatePost from './pages/createPost.jsx';
 import MyBlogs from './pages/myBlogs.jsx';
+import ForgotPassword from './pages/forgotPassword.jsx';
+import ResetPassword from './pages/resetPassword.jsx';
 
 
 
@@ -32,7 +34,9 @@ function App() {
                     <Route path="/blogs/edit/:id" element={<EditPost />} />
                     <Route path="/create/post" element={<CreatePost />} />
                     <Route path="/myBlogs" element={<MyBlogs />} />
-                    <Route path="/viewPost/:id" element={<ViewPost />} /> {/* Individual post page */}
+                    <Route path="/viewPost/:id" element={<ViewPost />} />
+                    <Route path="/forgotPassword" element={<ForgotPassword />} />
+                    <Route path="/resetPassword/:token" element={<ResetPassword />} />
                 </Routes>
         </Router>
     );

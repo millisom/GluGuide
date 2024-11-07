@@ -29,6 +29,11 @@ const BlogCard = () => {
         fetchPosts();
       }, [navigate]);
 
+        // Handler for viewing a post
+  const handleViewClick = (postId) => {
+    navigate(`/blogs/view/${postId}`); // Navigate to the view page for the selected post
+  };
+
       const handleDelete = async (id) => {
         console.log("Deleting post with ID:", id); // Add this line
         if (window.confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
@@ -56,36 +61,55 @@ const BlogCard = () => {
             <FontAwesomeIcon icon={faPlus} /> Create new post
           </button>
         </div>
-  
+      
         <section className={styles.card}>
           <div className={styles.cardBody}>
             {posts.map((post) => (
               <div key={post.id}>
                 <div className={styles.cardContent}>
+                  <div className={styles.cardInnerContainer}>
+                    {post.post_picture && (
+                      <div className={styles.cardImage}>
+                        <img src={`http://localhost:8080/uploads/${post.post_picture}`} alt={post.title} />
+                      </div>
+                    )}
+                    <div>
+                      {/* Make the title clickable and styled as a link */}
+                      <h2 
+                        className={styles.cardTitle} 
+                        onClick={() => handleViewClick(post.id)}
+                        style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
+                      >
+                        {post.title}
+                      </h2>
+                      {post.content.length > 500 ? (
+                        <>
+                          {parse(`${post.content.slice(0, 500)}...`)}
+                          <Link to={`/viewPost/${post.id}`} className={styles.readMoreButton}>
+                            Read More
+                          </Link>
+                        </>
+                      ) : (
+                        parse(post.content)
+                      )}
+                    </div>
+                  </div>
                   <div className={styles.iconContainer}>
                     <button
                       className={styles.icon}
-                      onClick={() => navigate(`/blogs/edit/${post.id}`)} // Corrected route
+                      onClick={() => navigate(`/blogs/edit/${post.id}`)}
                       aria-label={`Edit post titled ${post.title}`}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <button
                       className={styles.icon}
-                      onClick={() => handleDelete(post.id)} // Pass post.id explicitly
+                      onClick={() => handleDelete(post.id)}
                       aria-label={`Delete post titled ${post.title}`}
                     >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </div>
-  
-                  {/* Wrap the title with a Link component to navigate to the viewPost page */}
-                  <Link to={`/viewPost/${post.id}`} className={styles.cardTitle}>
-                    <h2>{post.title}</h2>
-                  </Link>
-  
-                  <p>{parse(post.content)}</p>
-                  <div className={styles.buttonWrapper}></div>
                 </div>
               </div>
             ))}
@@ -93,6 +117,6 @@ const BlogCard = () => {
         </section>
       </div>
     );
-  
 };
+
 export default BlogCard;

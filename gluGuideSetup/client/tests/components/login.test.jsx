@@ -1,10 +1,10 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { describe, it, vi, beforeEach } from 'vitest';
+import { describe, it, vi, beforeEach, expect} from 'vitest';
 import '@testing-library/jest-dom';
 import axios from '../../api/axiosConfig';
-import Login from '../../src/components/login';
+import Login from '../../src/components/LoginForm';
+import React from 'react';
 
 // Mock axios
 vi.mock('../../api/axiosConfig');
@@ -31,8 +31,8 @@ describe('Login Component', () => {
     );
 
     expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
-    expect(screen.getByLabelText('Username:')).toBeInTheDocument();
-    expect(screen.getByLabelText('Password:')).toBeInTheDocument();
+    expect(screen.getByLabelText('Username')).toBeInTheDocument();
+    expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
     expect(screen.getByText('Forgot Password')).toBeInTheDocument();
   });
@@ -49,8 +49,8 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Username:'), { target: { value: 'testuser' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
+    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
@@ -72,8 +72,8 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Username:'), { target: { value: 'wronguser' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'wrongpassword' } });
+    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'wronguser' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'wrongpassword' } });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
@@ -89,8 +89,8 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Username:'), { target: { value: 'testuser' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
+    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
@@ -106,8 +106,8 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Username:'), { target: { value: 'testuser' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'password' } });
+    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 

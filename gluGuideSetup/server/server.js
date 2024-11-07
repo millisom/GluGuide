@@ -39,13 +39,14 @@ app.use(cors({
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const postRoutes = require('./routes/postRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 
 // Use routes
 app.use('/', authRoutes);
 app.use('/', profileRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/', postRoutes);
-
+app.use('/', commentRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

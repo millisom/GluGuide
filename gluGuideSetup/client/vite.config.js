@@ -10,4 +10,10 @@ export default defineConfig({
     include: ['**/*.test.js', '**/*.test.jsx'],
     exclude: ['node_modules'],
   },
+
+  server: {
+    hmr: {
+        overlay: false
+    }
+}
 })

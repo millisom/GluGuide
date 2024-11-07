@@ -8,7 +8,6 @@
     font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) var(--sds-typography-body-font-family);
     border: 10px solid #F7B5CA;
   }
-  
   .inputField {
     display: flex;
     background-color: var(--color-background);

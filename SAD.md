@@ -45,44 +45,114 @@ This document describes the technical architecture of the GluGuide project, incl
 
 | Title                                                              | Date       | Publishing organization   |
 | -------------------------------------------------------------------|:----------:| ------------------------- |
+| [GluGuide Blog](https://gdewomenhealth.wordpress.com/?_gl=1%2Aowhejp%2A_gcl_au%2ANjg0NDgyODI1LjE3MjYxMzk0NDA)| 07.11.2024 |GluGuide  |
+| [GitHub Repository](https://github.com/millisom/GluGuide)| 07.11.2024 |GluGuide  |
+| [Overall Use Case Diagram](https://github.com/millisom/GluGuide/blob/108096264f95006fb383c2f643020956055fbe90/docs/UCD2.drawio.svg)| 07.11.2024 |GluGuide  |
+| [SRS](SRS.md)| 07.11.2024 |GluGuide  |
+| [UC:Create Account](UCCreateAccount.md)| 07.11.2024 |GluGuide  |
+| [UC:Edit Account](UCEditAccount.md)| 07.11.2024 |GluGuide  |
+| [UC:Delete Account](UCDeleteAccount.md)| 07.11.2024 |GluGuide  |
+| [UC:Manage Blogpost](UCManagePost.md)| 07.11.2024 |GluGuide  |
+| [UC:Manage Comments](UCManageComment.md)| 07.11.2024 |GluGuide  |
+
 
 ### 1.5 Overview
 This document contains the Architectural Representation, Goals and Constraints as well
 as the Logical, Deployment, Implementation and Data Views.
 
 ## 2. Architectural Representation
-We are trying to implement according to the MVC pattern:
+We implementing according to the MVC pattern:
+
+![MVC](docs/mvc.png) <br>
+
+In the backend we have folders for our 'model' and 'controller' files.
+
+![backend](docs/backend_file_Screenshot.png) <br>
+
+In our frontend we manage the 'view' with components implemented on pages.
+
+![frontend](docs/frontend_file_Screenshot.png) <br>
 
 
 
 ## 3. Architectural Goals and Constraints
-We decided to use react.js as our frontend framework. As our backend we use node.js. Our database is PostgreSQL.
+We decided to use react.js as our frontend framework. As our backend we use node.js and express. Our database is PostgreSQL.
 
 ## 4. Use-Case View
 Our overall UC diagram:
 
+![UCD](docs/UCD2.drawio.svg) <br>
 
 
 ## 5. Logical View
 
-### 5.1 Overview
-The following image shows a UML diagram of our project whose elements are categorized by model, view and controller.
 
+### 5.1 Overview
+The our project our elements are categorized by model, view and controller.
+Data Flow:
+1. User Interaction (view)
+    A user interaction will trigger a function to handle the form submission.
+2. Request Handling (Controller)
+    The Controller receives the request, validates the data and passes it to the model.
+3. Database Interaction (Model)
+    Model interacts with our database and performes operations.
+4. Response (Controller & View) 
+    The Controller sends back the result (success or error), which is then handled by the view to update the user interface accordingly.
+
+Generating an Architectural UML diagram for a JavaScript (JS) application are challenging because most UML tools and generators are geared toward object-oriented languages (like Java or C#) with strict class-based structures.
+We've tried PlantUML and UML Generator in VSC but they didnt work.
+In Intelij PlantUML works, but it does not automatically generate UML Diagrams, but we have to code Diagrams ourselfs.
+
+![Post](/docs/PlantUMLDiagrams1/postdiagram.png) <br>
+
+![Post](/docs/PlantUMLDiagrams1/Postbackenddiagram.png) <br>
 
 
 ### 5.2 Architecturally Significant Design Packages
+- Multer (File Upload Middleware)
+- Quill (Text Editor)
+- Axios (HTTP Client)
+- Vite (Deployment performance)
+
+These can be considered architectually significant.
 
 
 ## 6. Process View
-
+        
+n/a
 
 ## 7. Deployment View
+
+Our Deployment setup includes a client and a server. 
+
+            ┌─────────────────────────────────────┐
+            │                                     │
+            │          React Frontend             │
+            │              Client                 │
+            │                                     │
+            └────────────────┬────────────────────┘
+                             │
+                             │
+       ┌─────────────────────▼─────────────────────┐
+       │                                           │
+       │       Node.js + Express Backend           │
+       │                  Server                   │
+       │                                           │
+       └─────────────────────┬─────────────────────┘
+                             │
+                             │
+                             ▼
+                 ┌──────────────────────┐
+                 │Database (PostgreSQL) │
+                 │                      │
+                 └──────────────────────┘
 
 
 
 ## 9. Data View
-Our database structure in model classes:
+Our database structure in a schema:
 
+![DatabaseSchema](/docs/db_Schema.png) <br>
 
 
 ## 10. Size and Performance
@@ -90,10 +160,8 @@ n/a
 
 ## 11. Quality/Metrics
 
-(This is form another group but sounds nice)
+(This text is from another group but it sounds nice and we want to implement it)
 We are using Jenkins as an continuous integration tool to ensure a high quality of our development process. Whenever there is a new commit to a pull request or the master branch it automatically builds the project and executes all tests. The Jenkins build result will be displayed beside each commit on Github.
 In addition SonarQube and Codacy are used in our pipeline. Each pull request/commit is checked by both tools. To improve our code quality we are focusing on: 
 * Test Coverage: A high coverage ensures that existing functionality can not break during the development process. The coverage is calculated by the Jacoco Maven Plugin and the plugin results are pushed to SonarQube.
 * Reducing the amount of Bugs/Issues/Code Smells raised by SonarQube.
-
-The SonarQube Metrics as well as the Pull Request Labels from Codacy are very helpful for improving our code quality and solving problem spots.

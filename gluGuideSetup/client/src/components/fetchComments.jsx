@@ -14,7 +14,7 @@ const CommentsList = () => {
         const response = await axios.get(`http://localhost:8080/comments/${post_id}`, {
           withCredentials: true,
         });
-        setComments(response.data); // Set comments in state
+        setComments(response.data); 
       } catch (error) {
         console.error('Error loading comments:', error);
         setError('Failed to load comments');
@@ -34,7 +34,7 @@ const CommentsList = () => {
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div key={comment.id} className="comment">
-              <p><strong>Author:</strong> {comment.author_id}</p>
+              <p><strong>Author:</strong> {comment.username}</p>
               <p>{comment.content}</p>
               <p><small>{new Date(comment.created_at).toLocaleString()}</small></p>
             </div>

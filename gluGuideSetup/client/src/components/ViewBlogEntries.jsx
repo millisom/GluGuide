@@ -29,10 +29,6 @@ const ViewBlogEntries = () => {
     navigate(`/blogs/view/${postId}`); // Navigate to the view page for the selected post
   };
 
-  // Handler for editing a post
-  const handleEditClick = (postId) => {
-    navigate(`/blogs/edit/${postId}`); // Navigate to the edit page for the selected post
-  };
 
 
   return (

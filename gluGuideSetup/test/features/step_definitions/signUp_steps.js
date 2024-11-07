@@ -68,14 +68,11 @@ When('I enter signup details {string} {string} {string} {string} without accepti
 When('I click the "Sign Up" button', async function () {
     const signUpButton = await driver.wait(until.elementLocated(By.xpath("//button[contains(text(),'Sign Up')]")), 20000);
     await signUpButton.click();
-    
-    // Wait briefly for any redirects to complete
     await driver.sleep(2000);
 });
 
 Then('I should be redirected to the homepage', async function () {
-    // Wait until the URL contains the homepage path
-    await driver.wait(until.urlIs('http://localhost:5173/'), 30000);  // Checks for exact match with the homepage URL
+    await driver.wait(until.urlIs('http://localhost:5173/'), 30000);  
     const currentUrl = await driver.getCurrentUrl();
     assert.strictEqual(currentUrl, 'http://localhost:5173/');
 });
@@ -89,6 +86,7 @@ Then('I should see the existing user message {string}', async function (expected
     const actualMessage = await errorMessage.getText();
     assert.strictEqual(actualMessage, expectedMessage);
 });
+
 
 Then('I should see an alert with the message {string}', async function (expectedAlertMessage) {
     const alert = await driver.switchTo().alert();

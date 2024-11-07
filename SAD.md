@@ -100,7 +100,12 @@ Data Flow:
     The Controller sends back the result (success or error), which is then handled by the view to update the user interface accordingly.
 
 Generating an Architectural UML diagram for a JavaScript (JS) application are challenging because most UML tools and generators are geared toward object-oriented languages (like Java or C#) with strict class-based structures.
-We've tried PlantUML and UML Generator but they didnt work.
+We've tried PlantUML and UML Generator in VSC but they didnt work.
+In Intelij PlantUML works, but it does not automatically generate UML Diagrams, but we have to code Diagrams ourselfs.
+
+![Post](/docs/PlantUMLDiagrams1/postdiagram.png) <br>
+
+![Post](/docs/PlantUMLDiagrams1/Postbackenddiagram.png) <br>
 
 
 ### 5.2 Architecturally Significant Design Packages

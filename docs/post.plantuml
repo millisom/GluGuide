@@ -1,0 +1,43 @@
+@startuml
+
+package "Frontend (React)" {
+  class BlogCard
+  class CreatePost
+  class ViewPost
+}
+
+package "Backend (Node/Express)" {
+  class PostController {
+    + createPost()
+    + getPosts()
+    + getPostById()
+    + updatePost()
+    + deletePost()
+  }
+
+  class PostModel {
+    + createPost(userId, title, content, postPicture)
+    + getUserIdByUsername(username)
+    + getPosts(userId)
+    + updatePostForUser(userId, title, content)
+    + getPostById(postId)
+    + deletePostById(id)
+  }
+}
+
+package "Database (PostgreSQL)" {
+  class Post {
+    + id: int
+    + title: string
+    + content: text
+    + created_at: timestamp
+    + user_id: int
+    + post_picture: string
+  }
+}
+
+BlogCard --> PostController : "GET /posts"
+CreatePost --> PostController : "POST /createPost"
+PostController --> Post : "SQL Queries"
+
+@enduml

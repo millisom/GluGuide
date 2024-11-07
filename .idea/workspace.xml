@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe6aa052-20c5-43fa-a781-6a013948d85d" name="Changes" comment="steps.js in step_definitions folder">
-      <change afterPath="$PROJECT_DIR$/gluGuideSetup/server/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/ADCA.drawio.svg" beforeDir="false" afterPath="$PROJECT_DIR$/docs/ADCA.drawio.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/PlantUMLDiagrams" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/backend.plantuml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/post.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/test.plantuml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,16 +24,20 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;hossei-cyber&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "state": "OPEN"
+    }
+  ],
+  "lastFilter": {
+    "state": "OPEN"
   }
-}</component>
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/millisom/GluGuide.git&quot;,
-    &quot;accountId&quot;: &quot;3122254d-a66f-467a-a730-74211cdba32f&quot;
+    &quot;accountId&quot;: &quot;4f5dca73-6421-451b-9fce-fdd75ae94727&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -50,6 +57,9 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2nUA1hCKtS7yffNT5Sb2pi0tX5e" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -59,11 +69,11 @@
     "Node.js.UCCA_steps.js.executor": "Run",
     "Node.js.test.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "pages__base__setup",
+    "git-widget-placeholder": "SAD",
     "javascript.nodejs.core.library.configured.version": "20.18.0",
-    "javascript.nodejs.core.library.typings.version": "20.16.11",
+    "javascript.nodejs.core.library.typings.version": "20.17.6",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/asifi/Documents/gde/GluGuide/gluGuideSetup/client/src/assets",
+    "last_opened_file_path": "C:/Users/Emi/OneDrive/Desktop/GluGuide/GluGuide/docs/PlantUMLDiagrams1",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -109,8 +119,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
       </set>
     </attachedChunks>
   </component>
@@ -130,6 +140,8 @@
       <workItem from="1729152989717" duration="4507000" />
       <workItem from="1729752630639" duration="4297000" />
       <workItem from="1729866705060" duration="275000" />
+      <workItem from="1730940181670" duration="315000" />
+      <workItem from="1730940508394" duration="826000" />
     </task>
     <task id="LOCAL-00001" summary="feature files setup">
       <option name="closed" value="true" />
@@ -187,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729153355400</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="steps.js in step_definitions folder">
+      <option name="closed" value="true" />
+      <created>1730940546621</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1730940546621</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers>
       <YouTrack url="https://gluguide.youtrack.cloud">
         <option name="defaultSearch" value="Assignee: me sort by: updated#unresolved" />
@@ -218,5 +238,9 @@
     <MESSAGE value="tables created" />
     <MESSAGE value="steps.js in step_definitions folder" />
     <option name="LAST_COMMIT_MESSAGE" value="steps.js in step_definitions folder" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

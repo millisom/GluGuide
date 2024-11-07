@@ -1,0 +1,49 @@
+@startuml
+
+class User {
+  +id: UUID
+  +username: String
+  +email: String
+  +passwordHash: String
+  +createdAt: DateTime
+}
+
+class Post {
+  +id: UUID
+  +userId: UUID
+  +title: String
+  +content: String
+  +createdAt: DateTime
+  +postPicture: String
+}
+
+class Profile {
+  +id: UUID
+  +userId: UUID
+  +bio: String
+  +avatarUrl: String
+  +createdAt: DateTime
+}
+
+class PostController {
+  +createPost()
+  +getUserPost()
+  +getPostById()
+  +updatePost()
+  +deletePost()
+}
+
+class AuthMiddleware {
+  +isAuthenticated()
+  +authorizeRoles()
+}
+
+
+User "1" -- "0..*" Post : creates
+User "1" -- "1" Profile : has
+
+
+PostController --> AuthMiddleware : uses
+AuthMiddleware --> User : verifies
+
+@enduml

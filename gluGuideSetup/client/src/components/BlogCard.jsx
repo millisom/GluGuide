@@ -47,51 +47,61 @@ const BlogCard = () => {
 
     return (
       <div>
-        <div className={styles.buttonWrapper}>
-          <button 
-            className={styles.cardButton} 
-            onClick={() => navigate('/create/post')} 
-            aria-label="Create a new post"
-          >
-            <FontAwesomeIcon icon={faPlus} /> Create new post
-          </button>
-        </div>
-  
-        <section className={styles.card}>
-          <div className={styles.cardBody}>
-            {posts.map((post) => (
-              <div key={post.id}>
-                <div className={styles.cardContent}>
-                  <div className={styles.iconContainer}>
-                    <button
-                      className={styles.icon}
-                      onClick={() => navigate(`/blogs/edit/${post.id}`)} // Corrected route
-                      aria-label={`Edit post titled ${post.title}`}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <button
-                      className={styles.icon}
-                      onClick={() => handleDelete(post.id)} // Pass post.id explicitly
-                      aria-label={`Delete post titled ${post.title}`}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
+      <div className={styles.buttonWrapper}>
+        <button 
+          className={styles.cardButton} 
+          onClick={() => navigate('/create/post')} 
+          aria-label="Create a new post"
+        >
+          <FontAwesomeIcon icon={faPlus} /> Create new post
+        </button>
+      </div>
+    
+      <section className={styles.card}>
+        <div className={styles.cardBody}>
+          {posts.map((post) => (
+            <div key={post.id}>
+              <div className={styles.cardContent}>
+                <div className={styles.cardInnerContainer}>
+                  <div className={styles.cardImage}>
+                    <img src={`http://localhost:8080/uploads/${post.post_picture}`} alt={post.title} />
                   </div>
-  
-                  {/* Wrap the title with a Link component to navigate to the viewPost page */}
-                  <Link to={`/viewPost/${post.id}`} className={styles.cardTitle}>
-                    <h2>{post.title}</h2>
-                  </Link>
-  
-                  <p>{parse(post.content)}</p>
-                  <div className={styles.buttonWrapper}></div>
+                  <div>
+                    <h2 className={styles.cardTitle}>{post.title}</h2>
+                    {post.content.length > 500 ? (
+                      <>
+                        {parse(`${post.content.slice(0, 500)}...`)}
+                        <Link to={`/viewPost/${post.id}`} className={styles.readMoreButton}>
+                          Read More
+                        </Link>
+                      </>
+                    ) : (
+                      parse(post.content)
+                    )}
+                  </div>
+                </div>
+                <div className={styles.iconContainer}>
+                  <button
+                    className={styles.icon}
+                    onClick={() => navigate(`/blogs/edit/${post.id}`)}
+                    aria-label={`Edit post titled ${post.title}`}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    className={styles.icon}
+                    onClick={() => handleDelete(post.id)}
+                    aria-label={`Delete post titled ${post.title}`}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-      </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
     );
   
 };

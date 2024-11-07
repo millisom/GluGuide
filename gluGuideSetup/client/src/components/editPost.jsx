@@ -38,7 +38,7 @@ const EditPost = () => {
       }, {
         withCredentials: true
       });
-      navigate(`/account`); // Redirect back to view page after saving
+      navigate(`/viewPost/${id}`); // Redirect back to view page after saving
     } catch (error) {
       setError('Failed to save changes');
       console.error('Error saving post:', error);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import ReactQuill from 'react-quill'; // Import Quill
 import 'react-quill/dist/quill.snow.css'; // Import Quill's CSS
+import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
@@ -9,6 +10,7 @@ const CreatePost = () => {
   const [postPicture, setPostPicture] = useState(null);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
 
   const handleFileChange = (e) => {
@@ -31,10 +33,12 @@ const CreatePost = () => {
     });
         console.log('Post created:', response.data); // Log the response for debugging
         // Reset fields or handle success here
+        const { id } = response.data.post;
         setTitle('');
         setContent('');
         setPostPicture(null);
         setSuccessMessage('Post created successfully!');
+        navigate(`/viewPost/${id}`); // Redirect to myBlogs page after successful creation
       } catch (error) {
         if (error.response && error.response.status === 401) {
           setError('You must be logged in to create a post.'); // Custom message for 401

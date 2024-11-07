@@ -8,22 +8,49 @@
   flex-wrap: wrap;
   border: 1px solid rgba(240, 168, 208, 1);
   box-sizing: border-box;
-  width: 100%;
+  width: 500px;
   min-width: 900px;
   padding: 10px 10px 10px 10px;
 }
 
   
-  /* .cardImage {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 160px;
-    min-width: 160px;
-    min-height: 160px;
-    box-sizing: border-box;
-    width: 100%; /* Ensures responsiveness */
-  
+.cardImage {
+  /* width: 350px;
+  height: 300px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  box-sizing: border-box;
+  border: 2px solid var(--color-primary);
+  margin: 10px 10px 10px 10px;
+  flex: 0 0 200px; /* Fixed width for image container */
+  max-width: 200px; 
+}
+.cardInnerContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+
+
+
+.cardImage img {
+
+  width: 100%;
+  border-radius: 8px;
+  height: 100%;
+  object-fit: cover; /* cover the container while preserving aspect ratio */
+  object-position: center;
+  height: auto;
+}
+.cardText {
+  flex: 1; /* Allow the text container to take remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
   .cardBody {
     background-color: #FAF7F0;
     display: flex;
@@ -35,16 +62,6 @@
 
 }
 
-  
-  /* .cardContent {
-    background-color: #FAF7F0;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    overflow: hidden;
-  } */
   .cardContent {
     background-color: #FFEBD4;
     border-radius: 8px;
@@ -52,15 +69,43 @@
     border: 2px solid #F7B5CA;
     margin: 10px 10px 10px 10px;
     position: relative; /* Allows absolute positioning of children */
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px; 
+}
+.contentBox {
+  border: 2px solid var(--color-primary); 
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px; /* Add space above */
+  background-color: var(--color-background);
 }
   
-  .cardDescription {
-    color: var(--sds-color-text-default-secondary);
-    box-sizing: border-box;
-    background-color: #FFEBD4;
-    margin-top: 8px;
-    font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) / 22px var(--sds-typography-body-font-family);
-  }
+.cardTitle {
+  font-size: 32px !important;
+  font-weight: bold !important;
+  font-family: Arial, sans-serif;
+  color: var(--sds-color-text-default-primary, #333);
+  margin: 0;
+  box-sizing: border-box;
+}
+/* .cardTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+} */
+  
+.cardDescription {
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--sds-color-text-default-secondary);
+}
+.readMoreButton {
+  color: var(--color-primary);
+  font-weight: bold;
+  text-decoration: underline;
+  margin-top: 10px;
+}
   
   .buttonWrapper {
     box-sizing: border-box;
@@ -69,7 +114,7 @@
     width: fit-content;
     align-items: center;
     gap: 16px;
-    color: var(--background, #ffebd4);
+    color: var(--sds-color-text-default-primary);
     white-space: nowrap;
     justify-content: flex-start;
     font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) / 1 var(--sds-typography-body-font-family);

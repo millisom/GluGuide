@@ -49,20 +49,36 @@ const profileController = {
 
     async getDp(req, res) {
         const username = req.session?.username;
-        console.log('Session:', req.session);
+        console.log('Session:', req.session); // Log the session details
+    
+        // Check if the user is authenticated
         if (!username) {
+            console.log('Unauthorized request: No username in session');
             return res.status(401).send('Unauthorized');
         }
+    
         try {
+            // Fetch the user's profile picture
             const dp = await Profile.getUserDp(username);
+            console.log('Profile Picture Data:', dp);
+    
+            // Check if user data was found
             if (!dp) {
+                console.log('No user found for username:', username);
                 return res.status(404).json({ error: "No user found" });
-            } else if (dp.profile_picture === null) {
-                return res.json({ url: '' });
-            } else {
-                const DpUrl = createDpUrl(req, path.basename(dp.profile_picture));
-                return res.json({ url: DpUrl });
             }
+    
+            // Check if the profile picture is null
+            if (!dp.profile_picture) {
+                console.log('User has no profile picture');
+                return res.json({ url: '' });
+            }
+    
+            // Generate URL if profile picture exists
+            const DpUrl = createDpUrl(req, path.basename(dp.profile_picture));
+            console.log('Generated DpUrl:', DpUrl);
+            return res.json({ url: DpUrl });
+    
         } catch (error) {
             console.error("Error fetching user dp:", error);
             return res.status(500).json({ error: "Internal Server Error" });

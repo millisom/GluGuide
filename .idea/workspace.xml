@@ -151,7 +151,7 @@
       <workItem from="1730582903225" duration="435000" />
       <workItem from="1730583343589" duration="16943000" />
       <workItem from="1730912673137" duration="3697000" />
-      <workItem from="1730946230870" duration="359000" />
+      <workItem from="1730946230870" duration="676000" />
     </task>
     <task id="LOCAL-00001" summary="feature files setup">
       <option name="closed" value="true" />
@@ -217,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730946532166</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="testing update">
+      <option name="closed" value="true" />
+      <created>1730946821767</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1730946821767</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers>
       <YouTrack url="https://gluguide.youtrack.cloud">
         <option name="defaultSearch" value="Assignee: me sort by: updated#unresolved" />

@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe6aa052-20c5-43fa-a781-6a013948d85d" name="Changes" comment="testing update" />
+    <list default="true" id="fe6aa052-20c5-43fa-a781-6a013948d85d" name="Changes" comment="testing update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/client/src/components/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/client/src/components/LoginForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/client/src/styles/LoginForm.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/client/src/styles/LoginForm.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/server/config/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/server/config/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/server/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/server/controllers/authController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/test/features/login.feature" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/test/features/login.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/test/features/step_definitions/login_steps.js" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/test/features/step_definitions/login_steps.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,6 +61,10 @@
     &quot;repository&quot;: &quot;GluGuide&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/gluGuideSetup/client/package.json" />
   </component>

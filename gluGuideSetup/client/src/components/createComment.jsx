@@ -2,11 +2,14 @@ const Comment = require('../models/commentModel');
 
 const commentController = {
     async createComment(req, res) {
-        const { postId, content, authorId } = req.body;
-        if (!authorId) {
-            console.warn("Unauthorized access attempt: No authorId in request body");
-            return res.status(401).send('Unauthorized');
-        }
+        const { postId, content } = req.body;
+        // const authorId = req.session?.userId; // Assuming userId is stored in session
+        const authorId = 23;
+
+        // if (!authorId) {
+        //     return res.status(401).send('Unauthorized');
+        // }
+
         try {
             const newComment = await Comment.createComment(postId, authorId, content);
             res.status(200).json({ success: true, comment: newComment });

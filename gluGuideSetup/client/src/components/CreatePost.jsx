@@ -10,15 +10,30 @@ const CreatePost = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+
+  const handleFileChange = (e) => {
+    setPostPicture(e.target.files[0]);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-        // Make the POST request
-        const response = await axios.post('http://localhost:8080/CreatePost', { title, content }, {withCredentials: true});
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    if (postPicture) formData.append('post_picture', postPicture);
+  try {
+    const response = await axios.post('http://localhost:8080/CreatePost', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      withCredentials: true,
+    });
         console.log('Post created:', response.data); // Log the response for debugging
         // Reset fields or handle success here
         setTitle('');
         setContent('');
+        setPostPicture(null);
         setSuccessMessage('Post created successfully!');
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -30,34 +45,41 @@ const CreatePost = () => {
       }
     };
 
-  return (
-    <div>
-      <h2>Create new Blog Post</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Content:</label>
-          {/* Use ReactQuill instead of textarea */}
-          <ReactQuill
-            value={content}
-            onChange={setContent} // Update content state
-            required
-          />
-        </div>
-        <button type="submit">Create Post</button>
-        {error && <p>{error}</p>} {/* Display error message */}
-        {successMessage && <p>{successMessage}</p>} {/* Display success message */}
-      </form>
-    </div>
-  );
-};
+    return (
+      <div>
+        <h2>Create new Blog Post</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Title:</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Content:</label>
+            <ReactQuill
+              value={content}
+              onChange={setContent}
+              required
+            />
+          </div>
+          <div>
+            <label>Upload Picture:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+          </div>
+          <button type="submit">Create Post</button>
+          {error && <p>{error}</p>}
+          {successMessage && <p>{successMessage}</p>}
+        </form>
+      </div>
+    );
+  };
 
 export default CreatePost;

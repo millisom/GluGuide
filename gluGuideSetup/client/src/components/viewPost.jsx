@@ -7,8 +7,6 @@ const ViewPost = () => {
   const { id } = useParams(); // Get post ID from URL
   const [post, setPost] = useState(null);
   const [error, setError] = useState('');
-  const [comments, setComments] = useState([]);
-  const [commentContent, setCommentContent] = useState('');
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -23,35 +21,38 @@ const ViewPost = () => {
       }
     };
     fetchPost();
-  }, [id]
-);
+  }, [id]);
 
-const handleDelete = async () => {
-  if (window.confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
-    try {
-      await axios.delete(`http://localhost:8080/deletePost/${id}`, {
-        withCredentials: true
-      });
-      alert('Post deleted successfully.');
-      navigate(`/blogs`); // Redirect back to the list of posts after deletion
-    } catch (error) {
-      setError('Failed to delete post');
-      console.error('Error deleting post:', error);
-    }
+  if (error) {
+    return <p>{error}</p>;
   }
-};
+
+  if (!post) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
       {post ? (
         <div>
           <h2>{post.title}</h2>
-          <div  className='content-box'>
-          {parse(post.content)}</div>
-          <button onClick={() => navigate(`/blogs/edit/${id}`)}>Edit</button> {/* Navigate to edit page */}
-          <button onClick={handleDelete} style={{ marginLeft: '10px', backgroundColor: 'red', color: 'white' }}>
-            Delete Post
-          </button>
+          <p>Author: {post.username}</p>
+          <p>Created on: {new Date(post.created_at).toLocaleDateString()}</p>
+          {post.updated_at && (
+            <p><strong>Last Edited:</strong> {new Date(post.updated_at).toLocaleString()}</p>
+          )}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginTop: '20px' }}>
+            {post.post_picture && (
+              <img
+                src={`http://localhost:8080/uploads/${post.post_picture}`}
+                alt="Blog post"
+                style={{ width: '50%', height: 'auto', objectFit: 'cover' }}
+              />
+            )}
+            <div className="content-box" style={{ width: '100%' }}>
+              {parse(post.content)}
+            </div>
+          </div>
         </div>
       ) : (
         <p>Loading...</p>
@@ -60,4 +61,5 @@ const handleDelete = async () => {
     </div>
   );
 };
+
 export default ViewPost;

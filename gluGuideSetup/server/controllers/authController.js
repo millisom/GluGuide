@@ -23,29 +23,37 @@ const authController = {
     },
 
     // functions for login and logout and checking session status
-    async loginUser(req, res) {
-      try {
-        const { username, password } = req.body;
-        const results = await User.getUserByUsername(username);
-  
-        if (results.rows.length > 0) {
-          const user = results.rows[0];
+  async loginUser(req, res) {
+    try {
+      console.log("Received login request with body:", req.body);
 
-          const validPassword = await argon2.verify(user.password_hash, password);
-          if (validPassword) {
+      const { username, password } = req.body;
+      const results = await User.getUserByUsername(username);
+
+      if (results.rows.length > 0) {
+        const user = results.rows[0];
+        console.log("User found:", user);
+
+        const validPassword = await argon2.verify(user.password_hash, password);
+        if (validPassword) {
+          console.log("Password verified successfully");
 
           req.session.username = user.username;
           req.session.userId = user.id;
           return res.json({ Login: true });
         } else {
+          console.log("Password verification failed");
           return res.json({ Login: false, Message: 'Invalid username or password' });
         }
+      } else {
+        console.log("No user found with the provided username");
+        return res.json({ Login: false, Message: 'Invalid username or password' });
       }
-      } catch (err) {
-        console.error("An error occurred during login:", err);
-        res.status(500).json({ Message: 'An error occurred: ' + err.message, Stack: err.stack });
-      }
-    },
+    } catch (err) {
+      console.error("An error occurred during login:", err);
+      res.status(500).json({ Message: 'An error occurred: ' + err.message, Stack: err.stack });
+    }
+  },
     async logout(req, res) {
       try {
         await new Promise((resolve, reject) => {

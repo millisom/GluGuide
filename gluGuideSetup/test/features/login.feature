@@ -26,3 +26,7 @@ Feature: Login functionality
   Scenario: Redirect to sign up page
     When I click on the "Sign up here" link
     Then I should be redirected to the "signUp" page
+
+    Scenario: Redirect to forgot password page
+        When I click on the "Forgot password?" link
+        Then I should be redirected to the "forgotPassword" page

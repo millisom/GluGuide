@@ -1,7 +1,6 @@
-// Implement logic for user sign-up in controllers/authController.js.
+/// Implement logic for user sign-up in controllers/authController.js.
 const User = require('../models/authModel');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 const argon2 = require('argon2');
 
 const authController = {

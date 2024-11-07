@@ -1,4 +1,5 @@
 import React from 'react';
+import ViewBlogEntries from "../components/ViewBlogEntries";
 const Homepage = () => {
 
     return (
@@ -9,6 +10,7 @@ const Homepage = () => {
             levels and provides you with personalized recommendations to help you
             manage your diabetes.
         </p>
+        <ViewBlogEntries />
         </div>
     );
 }

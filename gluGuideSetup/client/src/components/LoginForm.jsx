@@ -22,11 +22,11 @@ const LoginForm = () => {
     setIsLoading(true);
     setError('');
 
-      try {
-        // Simulate a server error if the username is "triggerError"
-        if (values.username === "triggerError") {
-          throw new Error("Simulated server error");
-        }
+    try {
+      // Simulate a server error if the username is "triggerError"
+      if (values.username === "triggerError") {
+        throw new Error("Simulated server error");
+      }
       const response = await axios.post('http://localhost:8080/login', values);
       if (response.data.Login) {
         navigate('/account');
@@ -43,35 +43,35 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formLogIn}>
-    <h2 className={styles.title}>Login</h2>
-    <label className={styles.label}>Username
-      <input
-        type="text"
-        name="username"
-        onChange={handleInput}
-        required
-        className={styles.input}
-      />
-    </label>
-    <label className={styles.label}>Password
-      <input
-        type="password"
-        name="password"
-        onChange={handleInput}
-        required
-        className={styles.input}
-      />
-    </label>
-    <div className={styles.buttonGroup}>
-      <button type="submit" disabled={isLoading} className={styles.button}>
-        {isLoading ? 'Logging in...' : 'Login'}
-      </button>
-    </div>
-    {error && <p className={styles.errorMessage} data-testid="error-message">{error}</p>}
-    <p><Link to="/forgotPassword" className={styles.forgotPassword}>Forgot Password</Link></p>
-    <p><Link to="/signUp" className={styles.forgotPassword}>Don't have an Account? Sign Up here</Link></p>
-  </form>
+      <form onSubmit={handleSubmit} className={styles.formLogIn}>
+        <h2 className={styles.title}>Login</h2>
+        <label className={styles.label}>Username
+          <input
+              type="text"
+              name="username"
+              onChange={handleInput}
+              required
+              className={styles.input}
+          />
+        </label>
+        <label className={styles.label}>Password
+          <input
+              type="password"
+              name="password"
+              onChange={handleInput}
+              required
+              className={styles.input}
+          />
+        </label>
+        <div className={styles.buttonGroup}>
+          <button type="submit" disabled={isLoading} className={styles.button}>
+            {isLoading ? 'Logging in...' : 'Login'}
+          </button>
+        </div>
+        {error && <p className={styles.errorMessage} data-testid="error-message">{error}</p>}
+        <p><Link to="/forgotPassword" className={styles.forgotPassword}>Forgot Password?</Link></p>
+        <p><Link to="/signUp" className={styles.forgotPassword}>Sign up here</Link></p>
+      </form>
 
   );
 };

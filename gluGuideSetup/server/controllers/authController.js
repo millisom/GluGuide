@@ -1,5 +1,8 @@
 // Implement logic for user sign-up in controllers/authController.js.
 const User = require('../models/authModel');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const argon2 = require('argon2');
 
 const authController = {
     async signUp(req, res) {
@@ -22,16 +25,22 @@ const authController = {
     // functions for login and logout and checking session status
     async loginUser(req, res) {
       try {
-        const results = await User.getUserByUsername(req.body.username);
+        const { username, password } = req.body;
+        const results = await User.getUserByUsername(username);
   
         if (results.rows.length > 0) {
           const user = results.rows[0];
+
+          const validPassword = await argon2.verify(user.password_hash, password);
+          if (validPassword) {
+
           req.session.username = user.username;
           req.session.userId = user.id;
           return res.json({ Login: true });
         } else {
-          return res.json({ Login: false });
+          return res.json({ Login: false, Message: 'Invalid username or password' });
         }
+      }
       } catch (err) {
         console.error("An error occurred during login:", err);
         res.status(500).json({ Message: 'An error occurred: ' + err.message, Stack: err.stack });
@@ -60,7 +69,72 @@ const authController = {
       } else {
         return res.json({ valid: false });
       }
+    },
+
+    async forgotPasswordRequest(req, res) {
+      try {
+        const { email } = req.body;
+  
+        const user = await User.forgotPassword(email);
+        if (user.rows.length === 0) {
+          return res.status(404).json({ message: "User does not exist" });
+        }
+  
+        const token = crypto.randomBytes(20).toString('hex');
+        const expiry = new Date(Date.now() + 3600000);// 1 hour from now
+        await User.passwordToken(token, expiry, email);
+  
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+          }
+        });
+        const frontendURL = 'http://localhost:5173';
+        const resetLink = `${frontendURL}/resetPassword/${token}`;
+        
+        const mailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: 'Password Reset Request',
+          text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+          Please click on the following link, or paste this into your browser to complete the process:\n\n
+          ${resetLink}\n\n
+          If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+        };
+  
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: 'Password reset email sent' });
+  
+      } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    },
+
+    async passwordReset(req, res) {
+      const { token, newPassword } = req.body;
+  
+      try {
+        const tokenResult = await User.verifyResetToken(token);
+        if (tokenResult.rows.length === 0) {
+          return res.status(404).json({ message: 'Invalid or expired token' });
+        }
+        const user = tokenResult.rows[0];
+        const username = user.username;
+        const expiry = user.password_reset_expires;
+        if (Date.now() > new Date(expiry).getTime()) {
+          return res.status(404).json({ message: 'Token expired' });
+        }
+        const hashedPassword = await argon2.hash(newPassword);
+        await User.updatePassword(username, hashedPassword);
+        await User.clearResetToken(username);
+        res.status(200).json({ message: 'Password updated successfully' });
+      } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+      }
     }
+
   };
 
 

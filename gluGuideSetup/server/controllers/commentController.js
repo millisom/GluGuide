@@ -26,7 +26,7 @@ const commentController = {
         }
     },
 
-    // method to get comments for a post
+    // New method to get comments for a post
     async getComments(req, res) {
         const { post_id } = req.params;
 

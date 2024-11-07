@@ -32,8 +32,9 @@ function SignUp() {
                 termsAccepted
             })
             .then(res => {
-                console.log("Response data:", res.data); 
+
                 if (res.data === "exists") {
+                    alert("There is already a user account with this email");
                     setMessage("User already exists");
                 } else if (res.data === "notexist") {
                     setMessage("Account created successfully");

@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe6aa052-20c5-43fa-a781-6a013948d85d" name="Changes" comment="steps.js in step_definitions folder">
-      <change afterPath="$PROJECT_DIR$/docs/PlantUMLDiagrams" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/backend.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/post.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/test.plantuml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/client/src/components/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/client/src/components/LoginForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gluGuideSetup/client/tests/components/login.test.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/gluGuideSetup/client/tests/components/login.test.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +17,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="testing_cucumber" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="main" />
@@ -24,20 +37,16 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
-    {
-      "state": "OPEN"
-    }
-  ],
-  "lastFilter": {
-    "state": "OPEN"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;hossei-cyber&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/millisom/GluGuide.git&quot;,
-    &quot;accountId&quot;: &quot;4f5dca73-6421-451b-9fce-fdd75ae94727&quot;
+    &quot;accountId&quot;: &quot;22ff7e98-748e-4a94-9f5f-21e16135885d&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -50,6 +59,9 @@
     &quot;repository&quot;: &quot;GluGuide&quot;
   }
 }</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/gluGuideSetup/client/package.json" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -57,8 +69,8 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2nUA1hCKtS7yffNT5Sb2pi0tX5e" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -66,18 +78,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Cucumber.js.login.feature.executor": "Run",
     "Node.js.UCCA_steps.js.executor": "Run",
     "Node.js.test.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "SAD",
-    "javascript.nodejs.core.library.configured.version": "20.18.0",
-    "javascript.nodejs.core.library.typings.version": "20.17.6",
+    "git-widget-placeholder": "testing__cucumber",
+    "javascript.nodejs.core.library.configured.version": "20.13.1",
+    "javascript.nodejs.core.library.typings.version": "20.13.0",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Emi/OneDrive/Desktop/GluGuide/GluGuide/docs/PlantUMLDiagrams1",
+    "last_opened_file_path": "C:/Users/asifi/Documents/gde/GluGuide/gluGuideSetup/client/src/assets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.cucumber.cucumber_node_package_dir": "/Users/hossay/IdeaProjects/GluGuide/gluGuideSetup/client/node_modules/cucumber",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "timeTracker.activityTracker": "null",
@@ -101,7 +115,7 @@
     "timeTracker.startTime": "0",
     "timeTracker.timeInMills": "0",
     "timeTracker.type": "Development",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -119,8 +133,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
       </set>
     </attachedChunks>
   </component>
@@ -140,8 +154,9 @@
       <workItem from="1729152989717" duration="4507000" />
       <workItem from="1729752630639" duration="4297000" />
       <workItem from="1729866705060" duration="275000" />
-      <workItem from="1730940181670" duration="315000" />
-      <workItem from="1730940508394" duration="826000" />
+      <workItem from="1730582903225" duration="435000" />
+      <workItem from="1730583343589" duration="16943000" />
+      <workItem from="1730912673137" duration="3697000" />
     </task>
     <task id="LOCAL-00001" summary="feature files setup">
       <option name="closed" value="true" />
@@ -199,15 +214,7 @@
       <option name="project" value="LOCAL" />
       <updated>1729153355400</updated>
     </task>
-    <task id="LOCAL-00008" summary="steps.js in step_definitions folder">
-      <option name="closed" value="true" />
-      <created>1730940546621</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1730940546621</updated>
-    </task>
-    <option name="localTasksCounter" value="9" />
+    <option name="localTasksCounter" value="8" />
     <servers>
       <YouTrack url="https://gluguide.youtrack.cloud">
         <option name="defaultSearch" value="Assignee: me sort by: updated#unresolved" />
@@ -238,9 +245,5 @@
     <MESSAGE value="tables created" />
     <MESSAGE value="steps.js in step_definitions folder" />
     <option name="LAST_COMMIT_MESSAGE" value="steps.js in step_definitions folder" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>

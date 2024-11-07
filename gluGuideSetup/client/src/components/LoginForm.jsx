@@ -70,7 +70,7 @@ const LoginForm = () => {
     </div>
     {error && <p className={styles.errorMessage} data-testid="error-message">{error}</p>}
     <p><Link to="/forgotPassword" className={styles.forgotPassword}>Forgot Password</Link></p>
-    <p><Link to="/signUp" className={styles.forgotPassword}>Don't have an Account? Sign Up here</Link></p>
+    <p><Link to="/signUp" className={styles.forgotPassword}>Sign up here</Link></p>
   </form>
 
   );

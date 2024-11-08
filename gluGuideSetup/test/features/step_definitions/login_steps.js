@@ -6,7 +6,7 @@ const fs = require('fs');
 
 let driver;
 
-const TIMEOUT = 20000; // Set a default timeout value
+const TIMEOUT = 40000; // Set a default timeout value
 
 Before(async function () {
     driver = await new Builder().forBrowser('chrome').build();

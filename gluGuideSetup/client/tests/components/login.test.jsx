@@ -34,7 +34,7 @@ describe('Login Component', () => {
     expect(screen.getByLabelText('Username')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
-    expect(screen.getByText('Forgot Password')).toBeInTheDocument();
+    expect(screen.getByText('Forgot Password?')).toBeInTheDocument();
   });
 
   it('handles form submission and navigates on success', async () => {

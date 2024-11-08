@@ -8,10 +8,13 @@ const upload = require('../middleware/multer');
 
 // Define the route for creating a post
 router.post('/createPost', upload, postController.createPost); // This is where the logic is wired up
-router.get('/getUserPost', postController.getUserPost); //All posts for the logged in user
-router.get('/getUserPost/:id', postController.getPostById); //get specific post
-router.put('/updatePost/:id', postController.updatePost); //update Post
+router.get('/getUserPosts', postController.getUserPosts); //All posts for the logged in user
+router.get('/getUserPosts/:id', postController.getPostById); //get specific post
+router.put('/updatePost/:id', upload, postController.updatePost);
+router.put('/uploadImage/:id', upload, postController.uploadImage);
+router.delete('/deleteImage/:id', postController.deleteImage);
 router.delete('/deletePost/:id', postController.deletePost);
+
 
 module.exports = router;
 

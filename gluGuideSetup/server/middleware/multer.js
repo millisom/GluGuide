@@ -7,11 +7,23 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');  // Store uploaded images in the 'uploads' folder
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // Set unique filename using timestamp
+    // Set unique filename using timestamp to avoid file overwrites
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
-// Create an upload instance that can handle single file uploads
-const upload = multer({ storage: storage }).single('post_picture');
+// File filter (optional, to only allow image file types)
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];  // Only allow specific image types
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);  // Accept the file
+  } else {
+    cb(new Error('Invalid file type'), false);  // Reject the file
+  }
+};
 
+// Create an upload instance that handles single file uploads
+const upload = multer({ storage: storage, fileFilter: fileFilter }).single('post_picture');  // Handle 'post_picture' field
+
+// Export the upload middleware
 module.exports = upload;

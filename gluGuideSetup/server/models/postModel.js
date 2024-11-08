@@ -9,9 +9,13 @@ const Post = {
             const result = await pool.query(query, values);
             return result.rows[0]; // Return the newly created post
         } catch (error) {
+            if (error.code === '23503') { // Foreign key violation
+                throw new Error('Invalid user ID');
+            }
             throw new Error('Error creating post: ' + error.message);
         }
     },
+    
 
     // Method to get User from usertabel by name and get ID
     async getUserIdByUsername(username) {
@@ -30,18 +34,25 @@ const Post = {
         }
       },
 
-   // Method to get all posts for a specific user
-   async getPosts(userId) {
-    const values = [userId];
-    const query = 'SELECT * FROM posts WHERE user_id = $1';
-    try {
-        const result = await pool.query(query, values);
-        console.log('Posts:', result.rows);
-        return result.rows;
-    } catch (error) {
-        throw new Error('Error fetching posts for user: ' + error.message);
-    }
- },
+      async getPosts(userId, page = 1, limit = 10) {
+        const offset = (page - 1) * limit;
+        const query = `
+            SELECT * FROM posts
+            WHERE user_id = $1
+            ORDER BY created_at DESC
+            LIMIT $2 OFFSET $3
+        `;
+        const values = [userId, limit, offset];
+    
+        try {
+          const result = await pool.query(query, values);
+          return result.rows; // Return paginated posts
+      } catch (error) {
+          console.error(`Error fetching posts for userId ${userId}: ${error.message}`); // Log detailed error
+          throw new Error('Error fetching posts for user: ' + error.message);
+      }
+    },
+    
 
     async updatePostForUser(userId, title, content) {
       const values = [title, content, userId];
@@ -55,9 +66,14 @@ const Post = {
   },
 
   async updatePost(postId, userId, title, content) {
-    const query = 'UPDATE posts SET title = $1, content = $2 WHERE id = $3 AND user_id = $4 RETURNING *';
-    const values = [title, content, postId, userId]; // Ensure correct order of parameters
-    
+    const query = `
+        UPDATE posts
+        SET title = $1, content = $2, updated_at = NOW()
+        WHERE id = $3 AND user_id = $4
+        RETURNING *
+    `;
+    const values = [title, content, postId, userId];
+
     try {
         const result = await pool.query(query, values);
         if (result.rowCount === 0) {
@@ -69,37 +85,72 @@ const Post = {
     }
 },
 
-async getPostById(postId) {
-    const query = `
-    SELECT posts.*, users.username 
-    FROM posts 
-    JOIN users ON posts.user_id = users.id
-    WHERE posts.id = $1
+async updatePostImage(postId, imageFilename) {
+  const query = `
+      UPDATE posts
+      SET post_picture = $1, updated_at = NOW()
+      WHERE id = $2
+      RETURNING *
+  `;
+  const values = [imageFilename, postId];
+
+  try {
+      const result = await pool.query(query, values);
+      return result.rows[0]; // Return the updated post with the new image
+  } catch (error) {
+      throw new Error('Error updating post image: ' + error.message);
+  }
+},
+
+async removePostImage(postId) {
+  const query = `
+      UPDATE posts
+      SET post_picture = NULL, updated_at = NOW()
+      WHERE id = $1
+      RETURNING *
   `;
   const values = [postId];
 
-    try {
-        const result = await pool.query(query, values);
-        if (result.rows.length === 0) {
-            return null; // No post found
-        }
-        return result.rows[0]; // Return the found post
-    } catch (error) {
-        throw new Error('Error fetching post: ' + error.message);
-    }
+  try {
+      const result = await pool.query(query, values);
+      return result.rows[0]; // Return the updated post without an image
+  } catch (error) {
+      throw new Error('Error removing post image: ' + error.message);
+  }
 },
+
+async getPostById(postId) {
+  const query = 'SELECT * FROM posts WHERE id = $1';
+  const values = [postId];
+
+  try {
+      const result = await pool.query(query, values);
+      if (result.rows.length === 0) {
+          return null; // No post found
+      }
+      return result.rows[0]; // Return the found post
+  } catch (error) {
+      throw new Error('Error fetching post by ID: ' + error.message);
+  }
+},
+
 
 async deletePostById(id) {
   const query = 'DELETE FROM posts WHERE id = $1 RETURNING *';
   const values = [id];
 
   try {
-    const result = await pool.query(query, values);
-    return result.rowCount; 
+      const result = await pool.query(query, values);
+      if (result.rowCount === 0) {
+          throw new Error('Post not found');
+      }
+      return result.rows[0]; // Return the deleted post data
   } catch (error) {
-    throw new Error('Error deleting post: ' + error.message);
+      throw new Error('Error deleting post: ' + error.message);
   }
-}
+},
+
+
 };
 
 module.exports = Post;

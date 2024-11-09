@@ -50,6 +50,7 @@
     color: var(--sds-color-text-brand-on-brand);
     line-height: 1;
     padding: 12px;
+    font-weight: bold;
     border: 1px solid #F7B5CA;
     cursor: pointer;
 }

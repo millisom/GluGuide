@@ -1,0 +1,100 @@
+comments.css *
+.commentsContainer {
+    background-color: #FAF7F0;
+    border: 1px solid #F7B5CA;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+
+.commentsContainer h3 {
+    color: var(--sds-color-text-default-default);
+    margin-bottom: 16px;
+}
+
+
+.error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+
+.successMessage {
+    color: green;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.comment {
+    background-color: #ffffff;
+    border: 1px solid #F7B5CA;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.comment strong {
+    color: var(--sds-color-text-default-default);
+}
+
+.comment p {
+    color: var(--sds-color-text-default-default);
+    margin: 4px 0;
+}
+
+.comment small {
+    color: #888;
+    font-size: 0.85em;
+}
+
+.noComments {
+    color: #666;
+    font-style: italic;
+}
+
+
+.addCommentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #ffffff;
+    padding: 16px;
+    border: 1px solid #F7B5CA;
+    border-radius: 10px;
+}
+
+.addCommentForm label {
+    color: var(--sds-color-text-default-default);
+    font-weight: bold;
+}
+
+.addCommentForm textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #F7B5CA;
+    box-sizing: border-box;
+    resize: none;
+    line-height: 1.5;
+}
+
+.submitButton {
+    background-color: #F7B5CA;
+    color: var(--sds-color-text-brand-on-brand);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 150px; 
+    height: 40px; 
+}
+
+
+ .submitButton:hover {
+    background-color: #F7A5BA;
+}

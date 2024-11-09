@@ -57,10 +57,16 @@ const EditPost = () => {
   // Handle image deletion
   const handleImageDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/deleteImage/${id}`, {
+      const response = await axios.delete(`http://localhost:8080/deleteImage/${id}`, {
         withCredentials: true
       });
-      setImage(null); // Remove the image from the state after deletion
+      if (response.status === 200){
+        setImage(null);
+      } else {
+        console.error('Failed to delete Post Picture:', response.data.error);
+        setError('Failed to delete Post Picture.');
+      }
+
     } catch (error) {
       setError('Failed to delete image');
       console.error('Error deleting image:', error);
@@ -82,13 +88,14 @@ const EditPost = () => {
         });
         
         // Assuming response contains the URL to the uploaded image
-        setImage(response.data.imageUrl); // Update with the new image URL from the response
+        setImage(response.data.url); // Update with the new image URL from the response
       } catch (error) {
         setError('Failed to upload new image');
         console.error('Error uploading image:', error.response || error.message);
       }
     }
   };
+
 
   return (
     <div>
@@ -103,15 +110,15 @@ const EditPost = () => {
 
       {/* Image display and upload */}
       {image ? (
-        <div>
-          <img src={image} alt="Post" style={{ maxWidth: '200px', marginTop: '10px' }} />
+      <div>
+        <img src={image || ''} alt="Post" style={{ maxWidth: '200px', marginTop: '10px' }} />
           <button onClick={handleImageDelete}>Delete Image</button>
         </div>
-      ) : (
-        <div>
-          <input type="file" onChange={handleImageChange} />
-        </div>
-      )}
+  ) : (
+    <div>
+     <input type="file" onChange={handleImageChange} />
+    </div>
+  )}
 
       <button onClick={handleSave}>Save</button>
       {error && <p>{error}</p>}

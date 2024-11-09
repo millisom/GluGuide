@@ -38,6 +38,30 @@ const commentController = {
             res.status(500).json({ success: false, message: 'Failed to fetch comments.' });
         }
     },
+
+    async toggleLike(req, res) {
+        const { id: commentId } = req.params;
+    
+        try {
+          const { likes, dislikes } = await Comment.toggleLike(commentId);
+          res.status(200).json({ success: true, likes, dislikes });
+        } catch (error) {
+          console.error('Error toggling like:', error.message);
+          res.status(500).json({ error: 'Internal Server Error' });
+        }
+      },
+    
+    async toggleDislike(req, res) {
+        const { id: commentId } = req.params;
+
+        try {
+            const { likes, dislikes } = await Comment.toggleDislike(commentId);
+            res.status(200).json({ success: true, likes, dislikes });
+        } catch (error) {
+            console.error('Error toggling dislike:', error.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
 };
 
 module.exports = commentController;

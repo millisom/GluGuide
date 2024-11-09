@@ -13,5 +13,7 @@ router.get('/getUserPost/:id', postController.getPostById); //get specific post
 router.put('/updatePost/:id', postController.updatePost); //update Post
 router.delete('/deletePost/:id', postController.deletePost);
 
-module.exports = router;
+// Route to like or unlike a post
+router.post('/toggleLike/:id', postController.toggleLike);
 
+module.exports = router;

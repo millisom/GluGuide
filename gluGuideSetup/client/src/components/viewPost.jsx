@@ -9,18 +9,20 @@ const ViewPost = () => {
   const { id } = useParams(); // Get post ID from URL
   const [post, setPost] = useState(null);
   const [error, setError] = useState('');
+  const [infoMessage, setInfoMessage] = useState('');
 
   useEffect(() => {
     const fetchPost = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
-          withCredentials: true,
-        });
-        setPost(response.data || {});
-      } catch (error) {
-        setError('Failed to load post');
-        console.error('Error loading post:', error.response ? error.response.data : error.message);
-      }
+        try {
+            const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
+                withCredentials: true,
+            });
+            console.log('Fetched post data:', response.data);  // Log the full response
+            setPost(response.data || {});
+        } catch (error) {
+            setError('Failed to load post');
+            console.error('Error loading post:', error.response ? error.response.data : error.message);
+        }
     };
     fetchPost();
   }, [id]);
@@ -28,6 +30,23 @@ const ViewPost = () => {
   if (error) {
     return <p>{error}</p>;
   }
+
+  const handleLike = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8080/toggleLike/${id}`, {}, { withCredentials: true });
+      setPost(prevPost => ({
+        ...prevPost,
+        likes: response.data.likesCount ? Array(response.data.likesCount).fill('user') : []
+      }));
+      setInfoMessage(''); // Clear any previous message
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setInfoMessage(error.response.data.message);
+      } else {
+        console.error('Error liking post:', error);
+      }
+    }
+  };
 
   if (!post) {
     return <p>Loading...</p>;
@@ -55,15 +74,16 @@ const ViewPost = () => {
               {parse(post.content)}
             </div>
           </div>
+          <button onClick={handleLike}>{`Like (${post.likes ? post.likes.length : 0})`}</button>
+          {infoMessage && <p style={{ color: 'orange' }}>{infoMessage}</p>}
         </div>
       ) : (
         <p>Loading...</p>
       )}
       {error && <p>{error}</p>}
-      <CreateComment/>
-      <FetchComment/>
+      <CreateComment />
+      <FetchComment />
     </div>
-    
   );
 };
 

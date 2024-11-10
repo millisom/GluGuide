@@ -1,0 +1,7 @@
+.blogs {
+    display: flex;
+    flex-direction: column;  /* Stack items vertically */
+    gap: 20px;  /* Space between CreatePost and ViewBlogEntries */
+    padding: 20px;
+  }
+  

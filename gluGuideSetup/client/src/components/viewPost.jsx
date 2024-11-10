@@ -56,7 +56,7 @@ const ViewPost = () => {
   return (
     <div className={styles.viewPostContainer}>
       {post ? (
-        <div className={styles.contentRectangle}>
+        <div className={styles.contentRectangle}>  {/* Wrap all content with a rectangle */}
           <h2 className={styles.postTitle}>{post.title}</h2>
           <p className={styles.authorInfo}>Author: {post.username}</p>
           <p className={styles.postDate}>
@@ -66,21 +66,19 @@ const ViewPost = () => {
             <p><strong>Last Edited:</strong> {new Date(post.updated_at).toLocaleString()}</p>
           )}
           <div className={styles.postContainerBody}>
-            {post.post_picture ? (
+            {post.post_picture && (
               <img
                 src={`http://localhost:8080/uploads/${post.post_picture}`}
                 alt="Blog post"
                 className={styles.image}
               />
-            ) : null}
-            <div
-              className={`${styles.postContainerContentBox} ${
-                post.post_picture ? '' : styles.fullWidthContentBox
-              }`}
-            >
+            )}
+            <div className={styles.postContainerContentBox}>
               {parse(post.content)}
             </div>
           </div>
+          <button onClick={handleLike}>{`Like (${post.likes ? post.likes.length : 0})`}</button>
+          {infoMessage && <p style={{ color: 'orange' }}>{infoMessage}</p>}
         </div>
       ) : (
         <p>Loading...</p>

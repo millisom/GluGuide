@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import parse from 'html-react-parser';
-import CreateComment from "./createComment";
-import FetchComment from "./fetchComments";
+import CreateComment from './createComment';
+import FetchComment from './fetchComments';
+import styles from '../styles/SingleBlog.module.css'; // Import CSS module
 
 const ViewPost = () => {
   const { id } = useParams(); // Get post ID from URL
@@ -28,7 +29,7 @@ const ViewPost = () => {
   }, [id]);
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className={styles.errorMessage}>{error}</p>; // Apply error styling
   }
 
   const handleLike = async () => {
@@ -49,28 +50,30 @@ const ViewPost = () => {
   };
 
   if (!post) {
-    return <p>Loading...</p>;
+    return <p className={styles.loadingMessage}>Loading...</p>; // Apply loading message styling
   }
 
   return (
-    <div>
+    <div className={styles.viewPostContainer}>
       {post ? (
-        <div>
-          <h2>{post.title}</h2>
-          <p>Author: {post.username}</p>
-          <p>Created on: {new Date(post.created_at).toLocaleDateString()}</p>
+        <div className={styles.contentRectangle}>  {/* Wrap all content with a rectangle */}
+          <h2 className={styles.postTitle}>{post.title}</h2>
+          <p className={styles.authorInfo}>Author: {post.username}</p>
+          <p className={styles.postDate}>
+            Created on: {new Date(post.created_at).toLocaleDateString()}
+          </p>
           {post.updated_at && (
             <p><strong>Last Edited:</strong> {new Date(post.updated_at).toLocaleString()}</p>
           )}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginTop: '20px' }}>
+          <div className={styles.postContainerBody}>
             {post.post_picture && (
               <img
                 src={`http://localhost:8080/uploads/${post.post_picture}`}
                 alt="Blog post"
-                style={{ width: '50%', height: 'auto', objectFit: 'cover' }}
+                className={styles.image}
               />
             )}
-            <div className="content-box" style={{ width: '100%' }}>
+            <div className={styles.postContainerContentBox}>
               {parse(post.content)}
             </div>
           </div>

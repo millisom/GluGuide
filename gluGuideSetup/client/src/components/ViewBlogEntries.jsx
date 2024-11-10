@@ -49,6 +49,7 @@ const ViewBlogEntries = () => {
               </h4>
               <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
            {/*   <button onClick={() => handleEditClick(post.id)}>Edit</button>  Edit button */}
+            <p><strong>Likes:</strong> {post.likes ? post.likes.length : 0}</p>
             </div>
           ))}
         </div>

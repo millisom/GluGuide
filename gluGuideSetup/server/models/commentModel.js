@@ -47,6 +47,48 @@ const Comment = {
         } catch (error) {
             throw new Error('Error fetching comments for post: ' + error.message);
         }
+    },
+
+    async toggleLike(commentId, userId) {
+        const queryCheckDislike = 'SELECT dislikes FROM comments WHERE id = $1';
+        const queryUpdateLikes = `
+          UPDATE comments 
+          SET likes = CASE WHEN likes = 0 THEN likes + 1 ELSE likes - 1 END, 
+              dislikes = CASE WHEN dislikes > 0 THEN dislikes - 1 ELSE dislikes END 
+          WHERE id = $1 RETURNING likes, dislikes
+        `;
+        try {
+          // First, check if the user has disliked the comment
+          const resultCheck = await pool.query(queryCheckDislike, [commentId]);
+          const dislikes = resultCheck.rows[0].dislikes;
+    
+          // If user has disliked, remove a dislike before adding a like
+          const resultUpdate = await pool.query(queryUpdateLikes, [commentId]);
+          return resultUpdate.rows[0]; // Return updated likes and dislikes count
+        } catch (error) {
+          throw new Error('Error toggling like: ' + error.message);
+        }
+      },
+    
+      async toggleDislike(commentId, userId) {
+        const queryCheckLike = 'SELECT likes FROM comments WHERE id = $1';
+        const queryUpdateDislikes = `
+          UPDATE comments 
+          SET dislikes = CASE WHEN dislikes = 0 THEN dislikes + 1 ELSE dislikes - 1 END, 
+              likes = CASE WHEN likes > 0 THEN likes - 1 ELSE likes END 
+          WHERE id = $1 RETURNING likes, dislikes
+        `;
+        try {
+          // First, check if the user has liked the comment
+          const resultCheck = await pool.query(queryCheckLike, [commentId]);
+          const likes = resultCheck.rows[0].likes;
+    
+          // If user has liked, remove a like before adding a dislike
+          const resultUpdate = await pool.query(queryUpdateDislikes, [commentId]);
+          return resultUpdate.rows[0]; // Return updated likes and dislikes count
+        } catch (error) {
+          throw new Error('Error toggling dislike: ' + error.message);
+        }
     }
 };
 

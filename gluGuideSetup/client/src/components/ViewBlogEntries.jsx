@@ -2,21 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 const ViewBlogEntries = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Initialize navigate for programmatic routing
 
-
-  // Fetch posts when the component loads
+  // Fetch all posts when the component loads
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/getUserPost', {
+        const response = await axios.get('http://localhost:8080/getAllPosts', {
           withCredentials: true
         });
-        setPosts(response.data || []);
+        
+        // Sort posts by creation time, most recent first
+        const sortedPosts = response.data?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        setPosts(sortedPosts || []);
       } catch (error) {
         setError('Failed to fetch posts');
         console.error('Error fetching posts:', error.response ? error.response.data : error.message);
@@ -30,11 +31,9 @@ const ViewBlogEntries = () => {
     navigate(`/blogs/view/${postId}`); // Navigate to the view page for the selected post
   };
 
-
-
   return (
     <div>
-      <h2>Your Blog Entries</h2>
+      <h2>All Blog Entries</h2>
       {posts.length === 0 ? (
         <p>No posts found.</p>
       ) : (
@@ -47,9 +46,9 @@ const ViewBlogEntries = () => {
               >
                 {post.title}
               </h4>
-              <p>Created at: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
-           {/*   <button onClick={() => handleEditClick(post.id)}>Edit</button>  Edit button */}
-            <p><strong>Likes:</strong> {post.likes ? post.likes.length : 0}</p>
+              <p>Author: {post.username}</p>
+              <p>Created on: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
+              <p><strong>Likes:</strong> {post.likes ? post.likes.length : 0}</p>
             </div>
           ))}
         </div>

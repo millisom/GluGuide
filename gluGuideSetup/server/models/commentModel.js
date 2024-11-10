@@ -49,9 +49,34 @@ const Comment = {
         } catch (error) {
             throw new Error('Error fetching comments for post: ' + error.message);
         }
+    },
+
+    // Method to get a comment by ID
+    async getCommentById(commentId) {
+        const query = 'SELECT * FROM comments WHERE id = $1';
+        const values = [commentId];
+    
+        try {
+            const result = await pool.query(query, values);
+            return result.rows[0];
+        } catch (error) {
+            throw new Error('Error fetching comment: ' + error.message);
+        }
+    },
+
+    // Method to delete a comment by ID
+
+    async deleteCommentById(commentId) {
+        const query = 'DELETE FROM comments WHERE id = $1';
+        const values = [commentId];
+    
+        try {
+            await pool.query(query, values);
+        } catch (error) {
+            throw new Error('Error deleting comment: ' + error.message);
+        }
     }
 };
 
 
 module.exports = Comment;
-

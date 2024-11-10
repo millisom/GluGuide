@@ -96,6 +96,10 @@ async updatePostImage(postId, imageFilename) {
 
   try {
       const result = await pool.query(query, values);
+        if(result.rowCount === 0){
+            console.error('No post found with ID: ${postId}');
+        }
+
       return result.rows[0]; // Return the updated post with the new image
   } catch (error) {
       throw new Error('Error updating post image: ' + error.message);

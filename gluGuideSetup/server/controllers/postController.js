@@ -1,8 +1,10 @@
 const Post = require('../models/postModel');
+const multer = require('multer');
 const upload = require('../middleware/multer');  // Import multer middleware
 const path = require('path');
 const fs = require('fs');
 const Profile = require('../models/profileModel');
+const fs = require('fs');
 
 
 
@@ -153,6 +155,8 @@ const postController = {
     }
 },
 
+
+
 // Delete a specific post by ID
   async deletePost(req, res) {
     const { id } = req.params; // Get the post ID from request parameters
@@ -170,6 +174,37 @@ const postController = {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   }, 
+
+  async getPostPicture(req, res) {
+    const { id } = req.params;
+
+    try {
+        // Fetch the post by ID
+        const post = await Post.getPostById(id);
+
+        // Check if the post was found
+        if (!post) {
+            console.log('No post found for ID:', id);
+            return res.status(404).json({ error: "Post not found" });
+        }
+
+        // Check if the post has an associated picture
+        if (!post.post_picture) {
+            console.log('Post has no picture');
+            return res.json({ url: '' });
+        }
+
+        // Generate the full URL to the post picture
+        const pictureUrl = createPictureUrl(req, path.basename(post.post_picture));
+        console.log('Generated picture URL:', pictureUrl);
+        return res.json({ url: pictureUrl });
+
+    } catch (error) {
+        console.error("Error fetching post picture:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+},
+
 
   async deleteImage(req, res) {
     const { id } = req.params; // Get the post ID from request parameters
@@ -228,15 +263,15 @@ const postController = {
  ,
 
     async uploadImage(req, res) {
-      const { id } = req.params; // Get the post ID from request parameters
-      const username = req.session?.username; // Getting username from session
+      const { id } = req.params; 
+      const username = req.session?.username; 
    
       if (!username) {
           return res.status(401).json({ error: 'Unauthorized' });
       }
    
       // Use multer middleware to handle file upload
-      upload('image')(req, res, async function(err) {
+      upload(req, res, async function(err) {
           if (err instanceof multer.MulterError) {
               console.error('Multer error:', err);
               return res.status(500).json({ error: 'Multer error occurred during upload' });

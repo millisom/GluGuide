@@ -10,7 +10,7 @@ const EditPost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
-  const [image, setImage] = useState(null);  // State for the existing image
+  const [image, setImage] = useState(null);  // State for image URL or file
 
   // Fetch the post details on load
   useEffect(() => {
@@ -21,7 +21,7 @@ const EditPost = () => {
         });
         setTitle(response.data.title);
         setContent(response.data.content);
-        setImage(response.data.image);  // Assuming `image` URL or data is in the response
+        setImage(response.data.image);  // Assuming `image` URL is in the response as `image`
       } catch (error) {
         setError('Failed to load post');
         console.error('Error loading post:', error.response ? error.response.data : error.message);
@@ -76,26 +76,26 @@ const EditPost = () => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file); // Set the file as the new image
+      setImage(file);
   
       const formData = new FormData();
       formData.append('post_picture', file);
   
       try {
-        const response = await axios.put(`http://localhost:8080/uploadImage/${id}`, formData, {
+        const response = await axios.post(`http://localhost:8080/uploadImage/${id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials: true
         });
         
-        // Assuming response contains the URL to the uploaded image
-        setImage(response.data.url); // Update with the new image URL from the response
+        // Correctly set the image URL in the response data
+        setImage(response.data.imageUrl);
       } catch (error) {
         setError('Failed to upload new image');
         console.error('Error uploading image:', error.response || error.message);
       }
     }
   };
-
+  
 
   return (
     <div>
@@ -111,14 +111,19 @@ const EditPost = () => {
       {/* Image display and upload */}
       {image ? (
       <div>
-        <img src={image || ''} alt="Post" style={{ maxWidth: '200px', marginTop: '10px' }} />
-          <button onClick={handleImageDelete}>Delete Image</button>
+        {/* Display existing image URL or newly uploaded image */}
+        {typeof image === 'string' ? (
+          <img src={image} alt="Post" style={{ maxWidth: '200px', marginTop: '10px' }} />
+        ) : (
+          <p>New image selected but not yet saved.</p>
+        )}
+        <button onClick={handleImageDelete}>Delete Image</button>
+      </div>
+      ) : (
+        <div>
+          <input type="file" onChange={handleImageChange} />
         </div>
-  ) : (
-    <div>
-     <input type="file" onChange={handleImageChange} />
-    </div>
-  )}
+      )}
 
       <button onClick={handleSave}>Save</button>
       {error && <p>{error}</p>}
@@ -127,3 +132,4 @@ const EditPost = () => {
 };
 
 export default EditPost;
+

@@ -1,4 +1,3 @@
-/* SingleBlog.module.css */
 .viewPostContainer {
   padding: 20px;
   max-width: 1200px;
@@ -7,12 +6,13 @@
   color: #333;
 }
 
-.postContainer {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
-  color: #333;
+/* New class to add the square border around all content */
+.contentRectangle {
+  border: 2px solid #F7B5CA;  /* Border color */
+  border-radius: 10px;         /* Rounded corners */
+  padding: 20px;               /* Padding inside the border */
+  background-color: #FAF7F0;   /* Light background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
 .postTitle {
@@ -43,10 +43,11 @@
   align-items: flex-start;
   gap: 20px;
   margin-top: 20px;
+  width: 100%;
 }
 
 .image {
-  width: 50%;
+  width: 50%; /* Image takes up 50% width */
   height: auto;
   object-fit: cover;
   border-radius: 8px;
@@ -54,13 +55,15 @@
 }
 
 .postContainerContentBox {
-  flex: 1;
+  flex: 1; /* Content box takes the remaining space */
   background-color: #FAF7F0;
   border: 2px solid #F7B5CA;
   padding: 20px;
   border-radius: 8px;
   box-sizing: border-box;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: auto;
+  overflow-y: auto; /* Ensures the text is scrollable if it overflows */
 }
 
 .postContainerContentBox p {
@@ -77,12 +80,12 @@
   }
 
   .image {
-    width: 80%;
+    width: 80%; /* Image takes up 80% width on smaller screens */
     margin-bottom: 20px;
   }
 
   .postContainerContentBox {
-    width: 100%;
+    width: 100%; /* Content box takes up 100% width on mobile */
   }
 }
 
@@ -120,49 +123,5 @@
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 8px;
-  border: 2px solid #F7B5CA;
-}
-
-.commentsSection .comment .author {
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
-.commentsSection .comment .content {
-  font-size: 1rem;
-  color: #555;
-}
-
-/* Styles for the CreateComment component */
-.createComment {
-  margin-top: 30px;
-}
-
-.createComment textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #F7B5CA;
-  border-radius: 8px;
-  resize: vertical;
-  min-height: 100px;
-}
-
-.createComment button {
-  background-color: #F7B5CA;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.createComment button:hover {
-  background-color: #F59BBD;
-}
-
-/* Styles for FetchComment */
-.fetchComment {
-  margin-top: 20px;
+  border: 2px s
 }

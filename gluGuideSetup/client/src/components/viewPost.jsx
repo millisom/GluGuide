@@ -36,41 +36,35 @@ const ViewPost = () => {
 
   return (
     <div className={styles.viewPostContainer}>
-      <div className={styles.postContainer}>
-        {post ? (
-          <div>
-            <h2 className={styles.postTitle}>{post.title}</h2>
-            <p className={styles.authorInfo}>Author: {post.username}</p>
-            <p className={styles.postDate}>
-              Created on: {new Date(post.created_at).toLocaleDateString()}
-            </p>
-            {post.updated_at && (
-              <p>
-                <strong>Last Edited:</strong> {new Date(post.updated_at).toLocaleString()}
-              </p>
+      {post ? (
+        <div className={styles.contentRectangle}>  {/* Wrap all content with a rectangle */}
+          <h2 className={styles.postTitle}>{post.title}</h2>
+          <p className={styles.authorInfo}>Author: {post.username}</p>
+          <p className={styles.postDate}>
+            Created on: {new Date(post.created_at).toLocaleDateString()}
+          </p>
+          {post.updated_at && (
+            <p><strong>Last Edited:</strong> {new Date(post.updated_at).toLocaleString()}</p>
+          )}
+          <div className={styles.postContainerBody}>
+            {post.post_picture && (
+              <img
+                src={`http://localhost:8080/uploads/${post.post_picture}`}
+                alt="Blog post"
+                className={styles.image}
+              />
             )}
-            <div className={styles.postContainerBody}>
-              {post.post_picture && (
-                <img
-                  src={`http://localhost:8080/uploads/${post.post_picture}`}
-                  alt="Blog post"
-                  className={styles.image} // Apply image styling
-                />
-              )}
-              <div className={styles.postContainerContentBox}>
-                {parse(post.content)} {/* Parsing HTML content */}
-              </div>
+            <div className={styles.postContainerContentBox}>
+              {parse(post.content)}
             </div>
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-      <div className={styles.commentsSection}>
-        <CreateComment />
-        <FetchComment />
-      </div>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
+      {error && <p>{error}</p>}
+      <CreateComment />
+      <FetchComment />
     </div>
   );
 };

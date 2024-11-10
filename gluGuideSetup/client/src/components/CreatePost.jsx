@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactQuill from 'react-quill'; // Import Quill
 import 'react-quill/dist/quill.snow.css'; // Import Quill's CSS
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/CreateBlogPost.module.css';
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
@@ -50,40 +51,42 @@ const CreatePost = () => {
     };
 
     return (
-      <div>
-        <h2>Create new Blog Post</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Title:</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Content:</label>
-            <ReactQuill
-              value={content}
-              onChange={setContent}
-              required
-            />
-          </div>
-          <div>
-            <label>Upload Picture:</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-          </div>
-          <button type="submit">Create Post</button>
-          {error && <p>{error}</p>}
-          {successMessage && <p>{successMessage}</p>}
-        </form>
+      <div className={styles.createPostContainer}>
+        <div className={styles.createPostRectangle}>
+          <h2>Create new Blog Post</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Title:</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>Content:</label>
+              <ReactQuill
+                value={content}
+                onChange={setContent}
+                required
+              />
+            </div>
+            <div>
+              <label>Upload Picture:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </div>
+            <button type="submit">Create Post</button>
+            {error && <p className={styles.errorMessage}>{error}</p>}
+            {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+          </form>
+        </div>
       </div>
     );
   };
-
+  
 export default CreatePost;

@@ -2,7 +2,7 @@
 const User = require('../models/authModel');
 const crypto = require('crypto');
 const argon2 = require('argon2');
-// const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
 const authController = {
   async signUp(req, res) {

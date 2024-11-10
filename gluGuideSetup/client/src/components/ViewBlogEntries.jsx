@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/ViewBlogEntries.module.css';
 
 const ViewBlogEntries = () => {
   const [posts, setPosts] = useState([]);
@@ -32,28 +33,28 @@ const ViewBlogEntries = () => {
   };
 
   return (
-    <div>
+    <div className={styles.viewBlogEntries}>
       <h2>All Blog Entries</h2>
       {posts.length === 0 ? (
-        <p>No posts found.</p>
+        <p className={styles.noPostsFound}>No posts found.</p>
       ) : (
-        <div>
+        <div className={styles.postContainer}>
           {posts.map((post) => (
-            <div key={post.id} style={{ marginBottom: '1rem' }}>
+            <div key={post.id} className={styles.postCard}>
               <h4 
                 onClick={() => handleViewClick(post.id)} 
-                style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
+                className={styles.postTitle}
               >
                 {post.title}
               </h4>
-              <p>Author: {post.username}</p>
-              <p>Created on: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
-              <p><strong>Likes:</strong> {post.likes ? post.likes.length : 0}</p>
+              <p className={styles.postInfo}>Author: {post.username}</p>
+              <p className={styles.postInfo}>Created on: {new Date(post.created_at).toLocaleDateString('en-US')}</p>
+              <p className={styles.postLikes}><strong>Likes:</strong> {post.likes ? post.likes.length : 0}</p>
             </div>
           ))}
         </div>
       )}
-      {error && <p>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };

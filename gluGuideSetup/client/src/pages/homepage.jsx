@@ -10,7 +10,6 @@ const Homepage = () => {
             levels and provides you with personalized recommendations to help you
             manage your diabetes.
         </p>
-        <ViewBlogEntries />
         </div>
     );
 }

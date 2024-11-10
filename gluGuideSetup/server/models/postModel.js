@@ -30,6 +30,27 @@ const Post = {
     }
   },
 
+  async getAllPostsOrderedByTime() {
+    const query = `
+      SELECT 
+        posts.*, 
+        users.username, 
+        array_length(posts.likes, 1) AS likes_count
+      FROM 
+        posts
+      JOIN 
+        users ON posts.user_id = users.id
+      ORDER BY 
+        posts.created_at DESC
+    `;
+    try {
+      const result = await pool.query(query);
+      return result.rows; // Return all posts ordered by creation date, newest first
+    } catch (error) {
+      throw new Error('Error fetching posts: ' + error.message);
+    }
+  },
+
   // Method to get all posts for a specific user
   async getPosts(userId) {
     const query = `

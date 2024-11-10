@@ -1,5 +1,6 @@
 .viewPostContainer {
   padding: 20px;
+
   max-width: 1200px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
@@ -37,7 +38,6 @@
   font-weight: bold;
 }
 
-/* Container for the image and content */
 .postContainerBody {
   display: flex;
   align-items: flex-start;
@@ -55,24 +55,22 @@
 }
 
 .postContainerContentBox {
-  flex: 1; /* Content box takes the remaining space */
+  flex: 1;
   background-color: #FAF7F0;
   border: 2px solid #F7B5CA;
   padding: 20px;
   border-radius: 8px;
   box-sizing: border-box;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: auto;
-  overflow-y: auto; /* Ensures the text is scrollable if it overflows */
+  overflow-y: auto;
 }
 
-.postContainerContentBox p {
-  line-height: 1.6;
-  font-size: 1rem;
-  color: var(--sds-color-text-default-primary, #333);
+/* If no image is present, make the content box take up full width */
+.fullWidthContentBox {
+  width: 100%; /* Takes up full width if there's no image */
 }
 
-/* Handling the image and content layout in mobile view */
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .postContainerBody {
     flex-direction: column;
@@ -80,12 +78,13 @@
   }
 
   .image {
-    width: 80%; /* Image takes up 80% width on smaller screens */
+    width: 80%;
     margin-bottom: 20px;
   }
 
-  .postContainerContentBox {
-    width: 100%; /* Content box takes up 100% width on mobile */
+  .postContainerContentBox,
+  .fullWidthContentBox {
+    width: 100%;
   }
 }
 
@@ -106,22 +105,3 @@
   margin-top: 20px;
 }
 
-/* Comments section */
-.commentsSection {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 2px solid #F7B5CA;
-}
-
-.commentsSection h3 {
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.commentsSection .comment {
-  background-color: #FFEBD4;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  border: 2px s
-}

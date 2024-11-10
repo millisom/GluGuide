@@ -26,6 +26,23 @@ const postController = {
     }
   },
 
+  async getAllPosts(req, res){
+    try {
+      // Fetch all posts and sort by creation date in descending order
+      const posts = await Post.getAllPostsOrderedByTime();
+
+      if (posts.length === 0) {
+        return res.status(404).json({ message: 'No posts found' });
+      }
+
+      res.json(posts); // Return posts as JSON
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ error: 'Failed to fetch posts' });
+    }
+  },
+
+
   async getUserPost(req, res) {
     console.log('Session:', req.session);
     const username = req.session?.username;

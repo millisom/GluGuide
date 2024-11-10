@@ -12,6 +12,7 @@ router.get('/getUserPost', postController.getUserPost); //All posts for the logg
 router.get('/getUserPost/:id', postController.getPostById); //get specific post
 router.put('/updatePost/:id', postController.updatePost); //update Post
 router.delete('/deletePost/:id', postController.deletePost);
+router.get('/getAllPosts', postController.getAllPosts);
 
 // Route to like or unlike a post
 router.post('/toggleLike/:id', postController.toggleLike);

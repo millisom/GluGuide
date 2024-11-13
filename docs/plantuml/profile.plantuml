@@ -1,0 +1,51 @@
+@startuml
+package "Frontend (React)" {
+  class ProfileCard
+
+
+}
+
+package "Backend (Node/Express)" {
+  class ProfileController {
+    + getBio()
+    + setBio()
+    + getDb()
+    + setDb()
+    + deleteDp()
+    + deleteAccount()
+  }
+
+  class ProfileModel {
+    + getuserbio(username)
+    + setUserbio(username, bio)
+    + getUserDb(username)
+    + setDb(username, db)
+    + deleteDp(username)
+    + getUserByName(username)
+    + deleteAccount(username)
+  }
+}
+
+package "Database (PostgreSQL)" {
+  class Users {
+    + id: int
+    + username: string
+    + email: string
+    + password_hash: string
+    + created_at: timestamp
+    + profile_bio: text
+    + profile_picture: string
+    + terms_accepted: boolean
+    + password_reset_token: string
+    + password_reset_expires: date
+  }
+}
+
+' Define relationships between frontend classes and backend controller
+ProfileCard --> ProfileController : "GET /users"
+
+
+' Define relationships between backend controller and database model
+ProfileController --> ProfileModel : "Uses"
+ProfileModel --> Users : "SQL Queries"
+@enduml 

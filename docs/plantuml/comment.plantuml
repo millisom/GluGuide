@@ -1,0 +1,41 @@
+@startuml
+package "Frontend (React)" {
+    class createComment
+    class fetchComment
+}
+
+package "Backend (Node/Express)" {
+class commentController {
+    + createComment()
+    + getComment()
+    + deleteComment()
+    + toggleLike()
+}
+
+class commentModel {
+    + createComment(postId, userId, content)
+    + getUserIdByUsername(username)
+    + getCommentsByPost(postId)
+    + getCommentById(commentId)
+    + deleteCommenById(commentId)
+    }
+}
+
+package "Database (PostgreSQL)" {
+    class comments {
+        + id: int
+        + author_id: int
+        + content: text
+        + created_at : data
+        + likes: int 
+    }
+}
+' Define relationships between frontend classes and backend controller
+createComment --> commentController : "POST /comment"
+fetchComment ---> commentController :"GET /comment"
+
+
+' Define relationships between backend controller and database model
+commentController --> commentModel : "comments"
+commentModel --> comments : "SQL Queries"
+@enduml 

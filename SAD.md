@@ -103,9 +103,23 @@ Generating an Architectural UML diagram for a JavaScript (JS) application are ch
 We've tried PlantUML and UML Generator in VSC but they didnt work.
 In Intelij PlantUML works, but it does not automatically generate UML Diagrams, but we have to code Diagrams ourselfs.
 
-![Post](/docs/PlantUMLDiagrams1/postdiagram.png) <br>
+This is the class diagram for the feature Authentification
 
-![Post](/docs/PlantUMLDiagrams1/Postbackenddiagram.png) <br>
+![Post](./docs/PlantUMLDiagrams1/auth_Classes.png) <br>
+
+This is the class diagram for the feature POST
+
+![Post](./docs/PlantUMLDiagrams1/Post_Classes.png) <br>
+
+This is the class diagram for the feature Comment
+
+![Post](./docs/PlantUMLDiagrams1/Comment_Classes.png) <br>
+
+This is the class diagram for the feature Profile
+
+![Post](./docs/PlantUMLDiagrams1/Profile_Classes.png) <br>
+
+
 
 
 ### 5.2 Architecturally Significant Design Packages

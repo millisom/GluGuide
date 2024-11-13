@@ -3,41 +3,60 @@
 package "Frontend (React)" {
   class BlogCard
   class CreatePost
+  class ViewBlogEntries
   class ViewPost
+  class EditPost
 }
 
 package "Backend (Node/Express)" {
   class PostController {
     + createPost()
-    + getPosts()
+    + getAllPosts()
     + getPostById()
+    + getUserPosts()
     + updatePost()
     + deletePost()
+    + toggleLike()
   }
 
   class PostModel {
     + createPost(userId, title, content, postPicture)
     + getUserIdByUsername(username)
+    + getAllPostsOrderedByTime()
     + getPosts(userId)
     + updatePostForUser(userId, title, content)
+    + updatePost(postId, userId, title, content)
     + getPostById(postId)
     + deletePostById(id)
+    + toggleLike(postId, userId)
+    + updateLikes(postId, likes)
   }
 }
 
 package "Database (PostgreSQL)" {
   class Post {
     + id: int
+    + user_id: int
     + title: string
     + content: text
     + created_at: timestamp
-    + user_id: int
+    + updated_at: timestamp
+    + category_id: int
+    + tags: string
     + post_picture: string
+    + likes: int
   }
 }
 
+' Define relationships between frontend classes and backend controller
 BlogCard --> PostController : "GET /posts"
+ViewBlogEntries --> PostController : "GET /posts"
+ViewPost --> PostController : "GET /post"
 CreatePost --> PostController : "POST /createPost"
-PostController --> Post : "SQL Queries"
+EditPost --> PostController : "PUT /updatePost"
+
+' Define relationships between backend controller and database model
+PostController --> PostModel : "Uses"
+PostModel --> Post : "SQL Queries"
 
 @enduml

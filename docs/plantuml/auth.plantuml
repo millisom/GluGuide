@@ -1,0 +1,57 @@
+@startuml
+package "Frontend (React)" {
+    class signUp
+    class login 
+    class ForgotPasswordForm
+    class ResetPasswordForm
+}
+
+package "Backend (Node/Express)" {
+class authController {
+    + signUp()
+    + loginUser() 
+    + logout() 
+    + getStatus() 
+    + forgotPasswordRequest()
+    + passwordReset()
+
+}
+
+class authModel {
+    + createUser(username, email, password, termAccepted)
+    + findUserByEmail(email)
+    + getUserByUsername(username)
+    + forgotPassword(email)
+    + passwordToken(token, expires, email)
+    + verifyResetToken(token)
+    + updatePassword(username, harshedPassword)
+    + clearResetToken(username)
+
+    }
+}
+
+package "Database (PostgreSQL)" {
+  class Users {
+    + id: int
+    + username: string
+    + email: string
+    + password_hash: string
+    + created_at: timestamp
+    + profile_bio: text
+    + profile_picture: string
+    + terms_accepted: boolean
+    + password_reset_token: string
+    + password_reset_expires: date
+  }
+}
+' Define relationships between frontend classes and backend controller
+signUp --> authController : "POST /signUp"
+login --> authController : "GET /loginUser"
+ForgotPasswordFrom --> authController : "GET /forgotPasswordRequest"
+ResetPasswordForm --> authController :"PUT /passwordReset"
+
+
+' Define relationships between backend controller and database model
+authController --> authModel : "uses"
+authModel --> Users : "SQL Queries"
+@enduml 

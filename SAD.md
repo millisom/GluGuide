@@ -63,7 +63,7 @@ as the Logical, Deployment, Implementation and Data Views.
 ## 2. Architectural Representation
 We implementing according to the MVC pattern:
 
-![MVC](docs/mvc.png) <br>
+![MVC](docs/architecturalRepresentation.drawio.svg) <br>
 
 In the backend we have folders for our 'model' and 'controller' files.
 
@@ -166,7 +166,7 @@ Our Deployment setup includes a client and a server.
 ## 9. Data View
 Our database structure in a schema:
 
-![DatabaseSchema](/docs/db_Schema.png) <br>
+![DatabaseSchema](./docs/db_Schema.png) <br>
 
 
 ## 10. Size and Performance
@@ -174,8 +174,4 @@ n/a
 
 ## 11. Quality/Metrics
 
-(This text is from another group but it sounds nice and we want to implement it)
-We are using Jenkins as an continuous integration tool to ensure a high quality of our development process. Whenever there is a new commit to a pull request or the master branch it automatically builds the project and executes all tests. The Jenkins build result will be displayed beside each commit on Github.
-In addition SonarQube and Codacy are used in our pipeline. Each pull request/commit is checked by both tools. To improve our code quality we are focusing on: 
-* Test Coverage: A high coverage ensures that existing functionality can not break during the development process. The coverage is calculated by the Jacoco Maven Plugin and the plugin results are pushed to SonarQube.
-* Reducing the amount of Bugs/Issues/Code Smells raised by SonarQube.
+n/a

@@ -9,7 +9,7 @@
 
 /* New class to add the square border around all content */
 .contentRectangle {
-  border: 2px solid #F7B5CA;  /* Border color */
+  border: 2px solid var(--color-primary);  /* Border color */
   border-radius: 10px;         /* Rounded corners */
   padding: 20px;               /* Padding inside the border */
   background-color: #FAF7F0;   /* Light background color */
@@ -57,7 +57,7 @@
 .postContainerContentBox {
   flex: 1;
   background-color: #FAF7F0;
-  border: 2px solid #F7B5CA;
+  border: 2px solid var(--color-primary);
   padding: 20px;
   border-radius: 8px;
   box-sizing: border-box;
@@ -100,7 +100,7 @@
 .loadingMessage {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #F7B5CA;
+  color: var(--color-primary);
   text-align: center;
   margin-top: 20px;
 }

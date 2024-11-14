@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    background: #F7B5CA;
+    background: linear-gradient(#9d9bcf, #94b9ff);
     display: flex;
     justify-content: space-between;
     align-items: center;

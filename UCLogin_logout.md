@@ -81,7 +81,4 @@ The Login/Logout functionality allows a user to access their account on the web 
 - **System Failure**: In case of system issues during login, the system will notify the user to retry later.
 
 ## 6. Link to SRS
-This use case is linked to the relevant section of the Software Requirements Specification (SRS).
-
-## 7. CRUD Classification
-- **Read**: This use case reads the user's credentials to authenticate and manage the session.
+This use case is linked to the relevant section of the [Software Requirements Specification (SRS)](SRS.md).

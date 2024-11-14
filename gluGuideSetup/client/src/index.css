@@ -25,7 +25,7 @@ body {
     font-family: 'DM Sans', sans-serif;
     font-weight: 400;
     color: #333; /* Adjust as per theme */
-    background-color: #f9f9f9; /* Optional: base background color */
+    background: linear-gradient(#faf3e3, #cfceed); /* Optional: base background color */
     min-height: 100vh;
     display: flex;
     flex-direction: column;

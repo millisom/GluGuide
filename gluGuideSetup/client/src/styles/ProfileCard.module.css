@@ -35,7 +35,7 @@
   }
   
   .bio{
-    background-color: var(--color-tertiary);
+    background-color: var( --color-text-white);
 
     padding: 10px 10px 10px 10px;
     border-radius: 8px;

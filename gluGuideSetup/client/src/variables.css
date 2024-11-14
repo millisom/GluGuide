@@ -1,6 +1,6 @@
 :root{
-    --color-primary: #F7B5CA;
-    --color-secondary: #FFC6C6;
+    --color-primary: #9d9bcf;
+    --color-secondary: #94b9ff;
     --color-tertiary: #FFEBD4;
     --color-background: #FAF7F0;
     --color-text-black: #000000;
@@ -12,4 +12,5 @@
     --color-warning: #FFA500;
     --color-info: #0000FF;
 
+    --color-primaryBackground:linear-gradient( #b8b6eb, #e6dddd);
 }

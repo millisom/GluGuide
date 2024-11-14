@@ -24,10 +24,10 @@
   
   /* Individual blog post card */
   .postCard {
-    background-color: #F7B5CA;
+    background-color: var(--color-primary);
     padding: 20px;
     border-radius: 8px;
-    border: 2px solid rgba(240, 168, 208, 1);
+    border: 2px solid var(--color-primary);
     display: flex;
     flex-direction: column;
     gap: 10px;

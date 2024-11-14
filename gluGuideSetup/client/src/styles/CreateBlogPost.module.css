@@ -9,11 +9,11 @@
 
 /* Rectangle styling */
 .createPostRectangle {
-  border: 2px solid #F7B5CA;
+  border: 2px solid var(--color-primary);
   border-radius: 10px;
   padding: 30px;
-  background-color: #FAF7F0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background);
+  border: 10px solid var(--color-primary);
 }
 
 /* Heading styling */
@@ -40,29 +40,27 @@
 }
 
 /* Styling for text input and file input with white background */
-.createPostContainer input[type='text'],
 .createPostContainer input[type='file'] {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-primary);
   border-radius: 8px;
   font-size: 1rem;
   width: 100%;
-  background-color: white; /* Set background to white */
+  background-color: var(--color-text-white); /* Set background to white */
   box-sizing: border-box;
 }
 
 /* Styling for the Quill editor */
 .createPostContainer .ql-container {
-  border: 1px solid #ccc;
+  border: 2px solid var(--color-primary);
   border-radius: 8px;
-  background-color: white; /* Set background to white */
+  background-color: var(--color-text-white); /* Set background to white */
   padding: 10px;
 }
 
 /* Button styling */
 .createPostContainer button {
-  background-color: #F7B5CA;
-  color: white;
+  background-color: var(--color-primary);
   font-size: 1rem;
   padding: 10px 20px;
   border: none;
@@ -72,18 +70,6 @@
   transition: background-color 0.3s ease;
 }
 
-/* Button hover effect */
-.createPostContainer button:hover {
-  background-color: #F59BBD;
-}
-
-/* Error message styling */
-.createPostContainer .errorMessage {
-  color: red;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-}
 
 /* Success message styling */
 .createPostContainer .successMessage {

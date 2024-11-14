@@ -131,6 +131,7 @@ For more details, refer to the [Create Account Use Case](UCCreateAccount.md).
 
 ### 3.1.2 Logging in / out
 The webapp will provide the possiblity manually log in and out to use the functions.
+For more details, refer to the [Edit Account Use Case](UCLogin_logout.md).
 
 ### 3.1.3 Edit account
 The user is able to edit the username and password. 

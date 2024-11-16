@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileCard from '../components/profileCard';
-import styles from './pages.module.css';
+import ProfileCard from '../components/ProfileCard';
+import styles from '../styles/MyAccount.module.css';
 
 const MyAccount = () => {
     return (
@@ -10,6 +10,6 @@ const MyAccount = () => {
             </div>
         </div>
     );
-}
+};
 
 export default MyAccount;

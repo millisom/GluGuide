@@ -40,11 +40,12 @@ const ForgotPasswordForm = () => {
 
   return (
     <div className={styles.formLogIn}>
-      <h2 className={styles.title}>Forgot Password</h2>
-      <p className={styles.label}>Please enter your email address to receive a password reset link.</p>
+      <p className={styles.label}>
+        Please enter your email address to receive a password reset link.
+      </p>
       <form onSubmit={handleSubmit}>
-        <div className={styles.label}>
-          <label>Email</label>
+        <div className={styles.inputField}>
+          <label className={styles.label}>Email</label>
           <input
             type="email"
             name="email"
@@ -62,7 +63,11 @@ const ForgotPasswordForm = () => {
         </div>
       </form>
       {notification.message && (
-        <p className={notification.type === 'error' ? styles.errorMessage : styles.successMessage}>
+        <p
+          className={
+            notification.type === 'error' ? styles.errorMessage : styles.successMessage
+          }
+        >
           {notification.message}
         </p>
       )}

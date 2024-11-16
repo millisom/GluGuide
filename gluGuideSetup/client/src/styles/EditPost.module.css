@@ -1,0 +1,86 @@
+.editPostContainer {
+    max-width: 800px;
+    margin: 0 auto 25px;
+    padding: 20px;
+    background-color: #faf3e3;
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .errorMessage {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .input {
+    padding: 10px;
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .quillEditor {
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-primary);
+  }
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .saveButton,
+  .cancelButton {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+  
+  .saveButton {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+  }
+  
+  .saveButton:hover {
+    background-color: var(--color-secondary);
+  }
+  
+  .cancelButton {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .cancelButton:hover {
+    background-color: #bbb;
+  }
+  

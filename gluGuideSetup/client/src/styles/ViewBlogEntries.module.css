@@ -1,83 +1,107 @@
-/* ViewBlogEntries.module.css */
-
-/* Main container for the view blog entries page */
+/* Main container for the blog entries page */
 .viewBlogEntries {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
-  }
-  
-  /* Title of the page */
-  .viewBlogEntries h2 {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Wrapper for all blog posts */
-  .postContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Individual blog post card */
-  .postCard {
-    background-color: var(--color-primary);
-    padding: 20px;
-    border-radius: 8px;
-    border: 2px solid var(--color-primary);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-sizing: border-box;
-  }
-  
-  /* Title styling of the post */
-  .postTitle {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  
-  .postTitle:hover {
-    color: #0056b3;
-  }
-  
-  /* Styling for the metadata (author, date) */
-  .postInfo {
-    font-size: 14px;
-    color: #666;
-  }
-  
-  /* Styling for the likes count */
-  .postLikes {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  /* Button styles for "Read More" */
-  .readMoreButton {
-    color: #007BFF;
-    text-decoration: underline;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  /* Styling for the error message */
-  .error {
-    color: red;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 20px;
-  }
-  
-  /* Styling when no posts are found */
-  .noPostsFound {
-    color: #999;
-    font-size: 16px;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Title styling */
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+
+/* Wrapper for all blog posts */
+.postContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Individual blog post card */
+.postCard {
+  background-color: var(--color-secondary);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.postCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styling */
+.postImage {
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.postImage img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Title of the blog post */
+.postTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.postTitle:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Details section of the blog post */
+.postDetails {
+  text-align: left;
+  color: var(--color-text-white);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Likes and metadata styling */
+.postInfo {
+  margin: 5px 0;
+  color: var(--color-background);
+}
+
+.postLikes {
+  font-weight: bold;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.likeIcon {
+  font-size: 1.2rem;
+}
+
+/* Error message styling */
+.error {
+  color: red;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+/* Styling when no posts are found */
+.noPostsFound {
+  color: #999;
+  font-size: 1.5rem;
+  font-style: italic;
+}

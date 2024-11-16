@@ -13,31 +13,33 @@ import CreatePost from './pages/createPost.jsx';
 import MyBlogs from './pages/myBlogs.jsx';
 import ForgotPassword from './pages/forgotPassword.jsx';
 import ResetPassword from './pages/resetPassword.jsx';
-
-
+import Footer from './components/Footer';
 
 function App() {
     return (
         <Router>
-                <div style={{ paddingTop: '80px' }}> {/* Adjust padding based on navbar height */}
-                    <Navbar />
-                </div>
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/account" element={<MyAccount />} />
-                    <Route path="/contact" element={<ContactUs />} />
-                    <Route path="/about" element={<AboutUs />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/signUp" element={<SignUp/>} />
-                    <Route path="/blogs" element={<Blogs />} />
-                    <Route path="/blogs/view/:id" element={<ViewPost />} />
-                    <Route path="/blogs/edit/:id" element={<EditPost />} />
-                    <Route path="/create/post" element={<CreatePost />} />
-                    <Route path="/myBlogs" element={<MyBlogs />} />
-                    <Route path="/viewPost/:id" element={<ViewPost />} />
-                    <Route path="/forgotPassword" element={<ForgotPassword />} />
-                    <Route path="/resetPassword/:token" element={<ResetPassword />} />
-                </Routes>
+            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                <Navbar />
+                <main style={{ flex: 1 }}>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/account" element={<MyAccount />} />
+                        <Route path="/contact" element={<ContactUs />} />
+                        <Route path="/about" element={<AboutUs />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/signUp" element={<SignUp />} />
+                        <Route path="/blogs" element={<Blogs />} />
+                        <Route path="/blogs/view/:id" element={<ViewPost />} />
+                        <Route path="/blogs/edit/:id" element={<EditPost />} />
+                        <Route path="/create/post" element={<CreatePost />} />
+                        <Route path="/myBlogs" element={<MyBlogs />} />
+                        <Route path="/viewPost/:id" element={<ViewPost />} />
+                        <Route path="/forgotPassword" element={<ForgotPassword />} />
+                        <Route path="/resetPassword/:token" element={<ResetPassword />} />
+                    </Routes>
+                </main>
+                <Footer />
+            </div>
         </Router>
     );
 }

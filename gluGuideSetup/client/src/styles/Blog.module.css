@@ -1,7 +1,33 @@
 .blogs {
-    display: flex;
-    flex-direction: column;  /* Stack items vertically */
-    gap: 20px;  /* Space between CreatePost and ViewBlogEntries */
-    padding: 20px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px; /* Increased spacing for readability */
+  padding: 40px 20px; /* Padding on top/bottom and sides */
+  max-width: 1200px; /* Center the content */
+  margin: 0 auto;
+}
+
+.pageTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.description {
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--color-text-grey);
+  max-width: 800px; /* Restrict paragraph width */
+}
+
+.section {
+  width: 100%;
+  background-color: var(--color-background);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -30,18 +29,18 @@ const CreateComment = () => {
   };
 
   return (
-    <div className={styles.commentsContainer}>
+    <div className={styles.addCommentContainer}>
       <h3 className={styles.title}>Add a Comment</h3>
       <form onSubmit={handleSubmit} className={styles.addCommentForm}>
-        <label className={styles.label}>Comment:</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
+          placeholder="Write your comment here..."
           className={styles.commentTextarea}
         />
-        <button type="submit" className={styles.submitButton}>Submit Comment</button>
-        {error && <p className={styles.errorMessage}>{error}</p>}
+        <button type="submit" className={styles.submitButton}>Submit</button>
+        {error && <p className={styles.error}>{error}</p>}
         {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
       </form>
     </div>

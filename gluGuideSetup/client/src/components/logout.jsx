@@ -1,29 +1,24 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../api/axiosConfig';
 import styles from '../styles/BlogCard.module.css';
 
 const Logout = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-    }, []);
-
     const handleLogout = async () => {
-        console.log('handleLogout called');
         try {
-            await axios.get('http://localhost:8080/logout');
-            console.log('Session destroyed');
-            navigate('/login');
+            await fetch('http://localhost:8080/logout', { credentials: 'include' }); // Same as Navbar
+            alert('You have been logged out successfully.');
+            navigate('/'); // Redirect to the homepage
+            window.location.reload(); // Reload the page to reflect logout status
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error logging out:', error);
+            alert('Failed to log out. Please try again.');
         }
     };
 
     return (
-        <div>
-            <button className={styles.cardButton} onClick={handleLogout}>Logout</button>
-        </div>
+        <button className={styles.squareButton} onClick={handleLogout}>Logout</button>
     );
 };
 

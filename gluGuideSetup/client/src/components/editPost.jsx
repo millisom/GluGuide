@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import styles from '../styles/EditPost.module.css';
 
 const EditPost = () => {
   const { id } = useParams();
@@ -11,12 +11,13 @@ const EditPost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
-          withCredentials: true
+          withCredentials: true,
         });
         setTitle(response.data.title);
         setContent(response.data.content);
@@ -29,36 +30,57 @@ const EditPost = () => {
   }, [id]);
 
   const handleSave = async () => {
-    console.log('Title to be saved:', title);
+    setIsLoading(true);
     try {
-   
-      await axios.put(`http://localhost:8080/updatePost/${id}`, {
-        title,
-        content
-      }, {
-        withCredentials: true
-      });
-      navigate(`/viewPost/${id}`); // Redirect back to view page after saving
+      await axios.put(
+        `http://localhost:8080/updatePost/${id}`,
+        { title, content },
+        { withCredentials: true }
+      );
+      navigate(`/viewPost/${id}`); // Redirect back to the view page after saving
     } catch (error) {
       setError('Failed to save changes');
       console.error('Error saving post:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-
-
   return (
-    <div>
-      <h2>Edit Post</h2>
-      <input 
-        type="text" 
-        value={title} 
-        onChange={(e) => setTitle(e.target.value)} 
-        placeholder="Post title"
-      />
-      <ReactQuill value={content} onChange={setContent} />
-      <button onClick={handleSave}>Save</button>
-      {error && <p>{error}</p>}
+    <div className={styles.editPostContainer}>
+      <h2 className={styles.title}>Edit Post</h2>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.form}>
+        <label className={styles.label}>Post Title:</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Post title"
+          className={styles.input}
+        />
+        <label className={styles.label}>Content:</label>
+        <ReactQuill
+          value={content}
+          onChange={setContent}
+          className={styles.quillEditor}
+        />
+        <div className={styles.buttonGroup}>
+          <button
+            onClick={handleSave}
+            disabled={isLoading}
+            className={styles.saveButton}
+          >
+            {isLoading ? 'Saving...' : 'Save'}
+          </button>
+          <button
+            onClick={() => navigate(`/viewPost/${id}`)}
+            className={styles.cancelButton}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -209,19 +209,12 @@ const ProfileCard = () => {
     <FontAwesomeIcon icon={faEdit} />
     </button>
       </div>
-      <div>
-      <button className={styles.squareButton} onClick={() => navigate('/myBlogs')}>My Blogs</button>
-      </div>
-      <div className="section">
+      <div className={styles.buttonGroup}>
+        <button className={styles.squareButton} onClick={() => navigate('/myBlogs')}>My Blogs</button>
         <Logout />
+        <button className={styles.squareButton} onClick={handleDeleteAccount}>Delete Account</button>
       </div>
-
-      <div>
-        <button className={styles.squareButton}
-        onClick={handleDeleteAccount}
-        >Delete Account</button>
       </div>
-    </div>
     </section>
     </div>
 

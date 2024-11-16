@@ -53,39 +53,42 @@ const CreatePost = () => {
     return (
       <div className={styles.createPostContainer}>
         <div className={styles.createPostRectangle}>
-          <h2>Create new Blog Post</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Title:</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Content:</label>
-              <ReactQuill
-                value={content}
-                onChange={setContent}
-                required
-              />
-            </div>
-            <div>
-              <label>Upload Picture:</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-            </div>
-            <button type="submit">Create Post</button>
-            {error && <p className={styles.errorMessage}>{error}</p>}
-            {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
-          </form>
+            <h2 className={styles.formTitle}>Create New Blog Post</h2>
+            <form onSubmit={handleSubmit}>
+                <div className={styles.inputGroup}>
+                    <label className={styles.label}>Title:</label>
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className={styles.input}
+                        required
+                    />
+                </div>
+                <div className={styles.inputGroup}>
+                    <label className={styles.label}>Content:</label>
+                    <ReactQuill
+                        value={content}
+                        onChange={setContent}
+                        className={styles.quillEditor}
+                        required
+                    />
+                </div>
+                <div className={styles.inputGroup}>
+                    <label className={styles.label}>Upload Picture:</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className={styles.fileInput}
+                    />
+                </div>
+                <button type="submit" className={styles.submitButton}>Create Post</button>
+                {error && <p className={styles.errorMessage}>{error}</p>}
+                {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+            </form>
         </div>
-      </div>
+    </div>
     );
   };
   

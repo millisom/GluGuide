@@ -1,0 +1,39 @@
+.homepageContainer {
+    max-width: 1200px;
+    margin: 0 auto 25px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--color-background);
+    border-radius: 10px;
+}
+
+.heroSection {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    color: var(--color-text-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.blogSection {
+    margin-top: 40px;
+}
+
+.subtitle {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+}

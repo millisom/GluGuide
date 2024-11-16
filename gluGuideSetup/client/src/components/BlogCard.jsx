@@ -1,120 +1,72 @@
 import styles from '../styles/Blogcard.module.css';
-import React, { useEffect, useState } from 'react';
-import axios from '../../api/axiosConfig'; 
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import axios from '../../api/axiosConfig';
 
-
-const BlogCard = () => {
-
-    const [posts, setPosts] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+const BlogCard = ({ blog }) => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-              const res = await axios.get('http://localhost:8080/getPosts');
-              setPosts(res.data || []);
-            } catch (err) {
-              console.error('Error fetching posts:', err);
-              setError('Failed to fetch posts.');
-            }
-        };
-        fetchPosts();
-    }, [navigate]);
-
-    // Handler for viewing a post
-    const handleViewClick = (postId) => {
-      navigate(`/blogs/view/${postId}`); // Navigate to the view page for the selected post
+    const handleViewClick = () => {
+        navigate(`/blogs/view/${blog.id}`);
     };
 
-    const handleDelete = async (id) => {
-        console.log("Deleting post with ID:", id);
+    const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
-          try {
-            await axios.delete(`http://localhost:8080/deletePost/${id}`, {
-              withCredentials: true
-            });
-            alert('Post deleted successfully.');
-            setPosts(posts.filter(post => post.id !== id)); // Update the posts state after deletion
-          } catch (error) {
-            setError('Failed to delete post');
-            console.error('Error deleting post:', error);
-          }
+            try {
+                await axios.delete(`http://localhost:8080/deletePost/${blog.id}`, {
+                    withCredentials: true,
+                });
+                alert('Post deleted successfully.');
+                window.location.reload(); // Reload to update the state
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                alert('Failed to delete post.');
+            }
         }
     };
 
     return (
-      <div>
-        <div className={styles.buttonWrapper}>
-          <button 
-            className={styles.cardButton} 
-            onClick={() => navigate('/create/post')} 
-            aria-label="Create a new post"
-          >
-            <FontAwesomeIcon icon={faPlus} /> Create new post
-          </button>
-        </div>
-
-        <section className={styles.card}>
-          <div className={styles.cardBody}>
-            {posts.map((post) => (
-              <div key={post.id} className={styles.cardContent}>
-                <div className={styles.cardInnerContainer}>
-                  {post.post_picture && (
-                    <div className={styles.cardImage}>
-                      <img src={`http://localhost:8080/uploads/${post.post_picture}`} alt={post.title} />
+        <div className={styles.card}>
+            {blog.post_picture && (
+                <div className={styles.cardImage}>
+                    <img src={`http://localhost:8080/uploads/${blog.post_picture}`} alt={blog.title} />
+                </div>
+            )}
+            <div className={styles.cardContent}>
+                <h2 className={styles.cardTitle} onClick={handleViewClick}>
+                    {blog.title}
+                </h2>
+                <p className={styles.cardDescription}>
+                    {blog.content.length > 150
+                        ? parse(`${blog.content.slice(0, 150)}...`)
+                        : parse(blog.content)}
+                </p>
+                <div className={styles.cardFooter}>
+                    <p className={styles.postLikes}>
+                        ❤️ {blog.likes ? blog.likes.length : 0} Likes
+                    </p>
+                    <div className={styles.iconContainer}>
+                        <button
+                            className={styles.iconButton}
+                            onClick={() => navigate(`/blogs/edit/${blog.id}`)}
+                            aria-label={`Edit post titled ${blog.title}`}
+                        >
+                            <FontAwesomeIcon icon={faEdit} />
+                        </button>
+                        <button
+                            className={styles.iconButton}
+                            onClick={handleDelete}
+                            aria-label={`Delete post titled ${blog.title}`}
+                        >
+                            <FontAwesomeIcon icon={faTrash} />
+                        </button>
                     </div>
-                  )}
-                  <div>
-                    {/* Make the title clickable and styled as a link */}
-                    <h2 
-                      className={styles.cardTitle} 
-                      onClick={() => handleViewClick(post.id)}
-                      style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
-                    >
-                      {post.title}
-                    </h2>
-                    {post.content.length > 500 ? (
-                      <>
-                        {parse(`${post.content.slice(0, 500)}...`)}
-                        <Link to={`/viewPost/${post.id}`} className={styles.readMoreButton}>
-                          Read More
-                        </Link>
-                      </>
-                    ) : (
-                      parse(post.content)
-                    )}
-                    {/* Display the likes count */}
-                    <p><strong>Likes:</strong> {post.likes ? post.likes.length : 0}</p>
-                  </div>
                 </div>
-                <div className={styles.iconContainer}>
-                  <button
-                    className={styles.icon}
-                    onClick={() => navigate(`/blogs/edit/${post.id}`)}
-                    aria-label={`Edit post titled ${post.title}`}
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                  <button
-                    className={styles.icon}
-                    onClick={() => handleDelete(post.id)}
-                    aria-label={`Delete post titled ${post.title}`}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+            </div>
+        </div>
     );
 };
 

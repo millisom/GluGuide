@@ -12,11 +12,12 @@ const setUserIdInSession = require('./middleware/sessionMiddleware');
 dotenv.config();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], // Frontend URLs
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS', 'PATCH'],
-  credentials: true,
-  optionsSuccessStatus: 200,
+  credentials: true, // Allow cookies to be sent
+  optionsSuccessStatus: 200, // To handle legacy browsers
 }));
+
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
@@ -29,11 +30,11 @@ app.use(session({
     secure: false,
   },
 }));
-app.use(cors({
-  origin: 'http://localhost:5173', // Frontend URL
-  credentials: true                // Allow cookies to be sent
-}));
 
+// Middleware usage
+app.use(setUserIdInSession);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -59,12 +60,6 @@ app.use((req, res, next) => {
   console.log('Request Body:', req.body);
   next();
 });
-
-// middleware usage
-app.use(setUserIdInSession);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 
 // Start the server
 const PORT = 8080;

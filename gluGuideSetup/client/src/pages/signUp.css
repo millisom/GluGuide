@@ -4,9 +4,11 @@
     background-color: #FAF7F0;
     display: flex;
     min-width: 300px;
-    max-width: 350px;
+    max-width: 600px;
     flex-direction: column;
+    margin: 50px auto;
     padding: 24px;
+    text-align: center;
     font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) var(--sds-typography-body-font-family);
     border: 10px solid var(--color-primary);
 }

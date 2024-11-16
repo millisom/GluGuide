@@ -1,100 +1,126 @@
 .bioContainer {
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between image and username */
+  gap: 12px; /* Increased spacing for better aesthetics */
 }
 
 .username {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text-black);
-  }
-  .cardBio {
-    margin: 10px 10px 10px 10px;
-    background-color: var(--color-primary);
-    display: flex;
-    min-height: 194px;
-    align-items: flex-start;
-    gap: 24px;
-    flex-wrap: wrap;
-    border: 1px solid var(--color-primary);
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px 10px 10px 10px;
-    align-items: center;
-  }
-  .cardBodyBio {
-    background-color: var(--color-background);
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    flex-basis: 0;
-    width: 100%;
-    align-items: center;
-    padding: 16px 16px 16px 16px;
-  }
-  
-  .bio{
-    background-color: var( --color-text-white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-black);
+}
 
-    padding: 10px 10px 10px 10px;
-    border-radius: 8px;
-    border: 2px solid var(--color-primary);
-    margin-left: 2px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
-    min-height: 200px;
-    margin-bottom: 10px;
-  
-  }
-  .icon {
-    position: absolute;
-    top: 8px; /* Position the icon in the top-right corner */
-    right: 8px;
-    width: 1.5rem; /* Adjust size as needed */
-    height: 1.5rem;
-    border-radius: 50%;
-    background-color: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-  }
-  .dpContainer {
-    position: relative;
-    display: inline-block; /* Allows the container to wrap content tightly */
-  }
-  .icon2 {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 1.3rem; /* Adjust size as needed */
-    height: 1.3rem;
-    border-radius: 50%;
-    background-color: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-    cursor: pointer;
-  }
-  .squareButton {
-    align-self: stretch;
-    border-radius: 8px;
-    background-color: var(--color-primary);
-    gap: 8px;
-    overflow: hidden;
-    padding: 12px;
-    border: 1px solid var(--color-primary);
-    margin: 10px 10px 10px 10px;
+.cardBio {
+  margin: 10px;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px;
+}
 
-  }
+.cardBodyBio {
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  flex-basis: 0;
+  width: 100%;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+}
 
-  .bioContainer2 {
-    position: relative;
-    display: inline-block; /* Allows the container to wrap content tightly */
-    width: 100%; /* Adjust width as needed */
-  }
+.bio {
+  background-color: var(--color-text-white);
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid var(--color-primary);
+  margin: 10px 0;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.dpContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.bioImg {
+  height: 4rem;
+  width: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+}
+
+.icon2 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.squareButton {
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
+  font-weight: bold;
+  padding: 12px 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.squareButton:hover {
+  background-color: var(--color-secondary);
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center; /* Centers the buttons horizontally */
+  gap: 20px; /* Adds space between the buttons */
+  margin-top: 20px; /* Adds some spacing above the button group */
+}
+
+.bioContainer2 {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.section {
+  margin-top: 20px;
+}

@@ -60,18 +60,17 @@ const authController = {
 
   async logout(req, res) {
     try {
-      await new Promise((resolve, reject) => {
         req.session.destroy(err => {
-          if (err) {
-            console.error('Error destroying session:', err);
-            return reject(err);
-          }
-          resolve();
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).json({ error: 'Failed to log out. Please try again.' });
+            }
+            res.clearCookie('connect.sid', { path: '/' }); // Clear the session cookie
+            return res.redirect('/'); // Redirect to the homepage
         });
-      });
-      res.status(200).send('Session destroyed');
     } catch (error) {
-      res.status(500).send('Error destroying session');
+        console.error('Logout error:', error);
+        res.status(500).json({ error: 'Internal server error during logout' });
     }
   },
 

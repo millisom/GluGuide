@@ -1,13 +1,17 @@
-import { Link } from "react-router-dom";
-import Login from "../components/LoginForm";
-import styles from "./pages.module.css";
 import React from "react";
+import LoginForm from "../components/LoginForm";
+import styles from "../styles/LoginForm.module.css";
 
 const LoginPage = () => {
-    return (
-        <div className={styles.loginPage}>
-            <Login />
-        </div>
-    );
-}
+  return (
+    <div className={styles.loginContainer}>
+        <h1 className={styles.pageTitle}>Welcome Back!</h1>
+        <p className={styles.pageDescription}>
+            Login to your GluGuide account to track your health journey and explore the latest updates.
+        </p>
+        <LoginForm />
+    </div>
+  );
+};
+
 export default LoginPage;

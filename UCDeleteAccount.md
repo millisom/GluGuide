@@ -11,7 +11,7 @@ requires confirmation.
 
 ## 2. Basic Flow
 
-1. **Navigation**: The user logs in and navigates to the _Account Settings_ page.
+1. **Navigation**: The user logs in and navigates to the _User Profile_ page.
 2. **Delete Account Option**: The user selects the _“Delete Account”_ option.
 3. **Confirmation Prompt**: A modal dialog appears, prompting the user to confirm deletion with a warning about the 
 permanence of this action.
@@ -42,7 +42,7 @@ Feature: Delete Account
   
   Scenario: Open account deletion page
     Given I am logged in
-    And I am on the "Account Settings" page
+    And I am on the "User Profile" page
     When I click the "Delete Account" button
     Then a confirmation modal appears
 
@@ -68,7 +68,7 @@ Feature: Delete Account
 * **User Authentication**: The user is logged into their account and authenticated. Access to the Delete Account feature 
 is restricted to logged-in users only.
 
-* **Account Settings Access**: The user is on the Account Settings page, where the Delete Account option is visible and accessible.
+* **Account Settings Access**: The user is on the User Profile page, where the Delete Account option is visible and accessible.
 
 * **Network and Server Connection**: The system is connected to the backend services (e.g., database, authentication servers) 
 required to validate the user's credentials and complete the deletion request without errors.

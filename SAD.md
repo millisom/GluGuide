@@ -54,6 +54,8 @@ This document describes the technical architecture of the GluGuide project, incl
 | [UC:Delete Account](UCDeleteAccount.md)| 07.11.2024 |GluGuide  |
 | [UC:Manage Blogpost](UCManagePost.md)| 07.11.2024 |GluGuide  |
 | [UC:Manage Comments](UCManageComment.md)| 07.11.2024 |GluGuide  |
+| [UC:Like Post](UCLikePost.md)| 16.11.2024 |GluGuide  |
+| [UC:Like Comments](UCLikeDislikeComment.md)| 16.11.2024 |GluGuide  |
 
 
 ### 1.5 Overview
@@ -61,9 +63,9 @@ This document contains the Architectural Representation, Goals and Constraints a
 as the Logical, Deployment, Implementation and Data Views.
 
 ## 2. Architectural Representation
-We implementing according to the MVC pattern:
+The back-end server uses Node.js + Express for REST APIs, front-end side is a React.js client with React Router and Axios. We follow the Model-View-Control.
 
-![MVC](docs/architecturalRepresentation.drawio.svg) <br>
+![MVC](docs/Stack_Architecture.png) <br>
 
 In the backend we have folders for our 'model' and 'controller' files.
 
@@ -76,7 +78,16 @@ In our frontend we manage the 'view' with components implemented on pages.
 
 
 ## 3. Architectural Goals and Constraints
-We decided to use react.js as our frontend framework. As our backend we use node.js and express. Our database is PostgreSQL.
+As mentioned in the second chapter, frontend and backend are using MVC pattern. This enables a clean software architecture with separate view, controller and model. 
+
+### Front-end
+React serves as the front-end framework. It manages the UI and consumes data via API calls
+
+### Back-end
+Node.js and Express provides the back-end framework, offering RESTful endpoints for the front-end to use.
+
+The front-end and back-end are spearate but communicate via a REST API.
+They are both written in Javascript. 
 
 ## 4. Use-Case View
 Our overall UC diagram:
@@ -90,6 +101,9 @@ Our overall UC diagram:
 ### 5.1 Overview
 The our project our elements are categorized by model, view and controller.
 Data Flow:
+
+![MVC](docs/architecturalRepresentation.drawio.svg) <br>
+
 1. User Interaction (view)
     A user interaction will trigger a function to handle the form submission.
 2. Request Handling (Controller)
@@ -102,6 +116,8 @@ Data Flow:
 Generating an Architectural UML diagram for a JavaScript (JS) application are challenging because most UML tools and generators are geared toward object-oriented languages (like Java or C#) with strict class-based structures.
 We've tried PlantUML and UML Generator in VSC but they didnt work.
 In Intelij PlantUML works, but it does not automatically generate UML Diagrams, but we have to code Diagrams ourselfs.
+
+[You can see our components here.](/GluGuide/gluGuideSetup/client/src/components)
 
 This is the class diagram for the feature Authentification
 

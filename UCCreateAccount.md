@@ -7,9 +7,9 @@ A user can create a new account to access the web application. During account cr
 - **Username**
 - **Email**
 - **Password**
-- (Optional) **Confirm Password**
+- **Confirm Password**
 
-The system validates the input, stores the user's information, and may require email verification. After successful account creation, the user is either logged in automatically or prompted to log in.
+The system validates the input and stores the user's information. After successful account creation, the user is either logged in automatically or prompted to log in.
 
 ## 2. Basic Flow
 1. The user navigates to the registration page.

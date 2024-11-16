@@ -98,3 +98,40 @@ comments.css *
  .submitButton:hover {
     background-color: var(--color-primary);
 }
+
+.submitButton {
+    background-color: var(--color-primary);
+    color: var(--sds-color-text-brand-on-brand);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 150px;
+    height: 40px;
+}
+
+.editButton {
+    background-color: var(--color-primary);
+    color: var(--sds-color-text-brand-on-brand);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 150px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.deleteButton {
+    background-color: var(--color-primary);
+    color: var(--sds-color-text-brand-on-brand);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 150px;
+    height: 40px;
+}

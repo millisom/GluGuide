@@ -134,6 +134,8 @@ For more details, refer to the [Create Account Use Case](UCCreateAccount.md).
 ### 3.1.2 Logging in / out
 The webapp will provide the possiblity to manually log in and out. Loggin in is essential to use the functions.
 
+For more details, refer to the [Log in Log out Use Case](UCLogin_logout.md).
+
 ### 3.1.3 Edit account
 The user is able to edit the username and password. 
 
@@ -163,19 +165,19 @@ The like comment function allows users to engage some more in discussions. Users
 
 For more details, refer to the [Manage Comment Use Case](UCLikeDislikeComment.md).
 
-### 3.1.7 Track sugar
+### 3.1.9 Track sugar
 The user is able to manually track their sugar.
 
-### 3.1.8 Track macros
+### 3.2.0 Track macros
 The user is able to manually track their macros.
 
-### 3.1.9 Track meals
+### 3.2.1 Track meals
 The user is able to manually track their meals.
 
-### 3.2.0 Generate graph
+### 3.2.2 Generate graph
 The application can generate graphs from the collected data. 
 
-### 3.2.1 Alerts
+### 3.2.3 Alerts
 The user can set alerts to remind them to track their data.
 
 

@@ -135,3 +135,38 @@ comments.css *
     width: 150px;
     height: 40px;
 }
+
+.editWrapper {
+    display: flex;
+    align-items: center; /* Align items to the top */
+    gap: 10px; /* Space between the input and buttons */
+    margin: 10px 0; /* Space around the edit area */
+}
+
+.editInput {
+    flex: 1; /* Allow the input to take up available space */
+    padding: 12px;
+    height: 100px; /* Adjust height as needed */
+    border-radius: 8px;
+    border: 1px solid var(--color-primary);
+    box-sizing: border-box;
+    resize: none; /* Prevent manual resizing */
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-right: 10px;
+}
+
+.saveButton,
+.cancelButton {
+    align-self: flex-start; /* Align buttons to the top of the input */
+    background-color: var(--color-primary);
+    color: var(--sds-color-text-brand-on-brand);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 40px; /* Match height with edit input */
+    margin-left: 20 px;
+    margin-right: 10px;
+}

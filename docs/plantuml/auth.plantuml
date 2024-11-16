@@ -47,7 +47,7 @@ package "Database (PostgreSQL)" {
 ' Define relationships between frontend classes and backend controller
 signUp --> authController : "POST /signUp"
 login --> authController : "GET /loginUser"
-ForgotPasswordFrom --> authController : "GET /forgotPasswordRequest"
+ForgotPasswordForm --> authController : "GET /forgotPasswordRequest"
 ResetPasswordForm --> authController :"PUT /passwordReset"
 
 

@@ -75,8 +75,21 @@ const Comment = {
         } catch (error) {
             throw new Error('Error deleting comment: ' + error.message);
         }
+    },
+
+    // Method to edit comment 
+    async updateCommentById(commentId, newContent) {
+        const query = 'UPDATE comments SET content = $1, created_at = NOW() WHERE id = $2 RETURNING *';
+        const values = [newContent, commentId];
+        try {
+            const result = await pool.query(query, values);
+            return result.rows[0]; // Return the updated comment
+        } catch (error) {
+            throw new Error('Error updating comment: ' + error.message);
+        }
     }
-};
+
+}
 
 
 module.exports = Comment;

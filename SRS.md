@@ -107,16 +107,18 @@ By November, we plan to implement:
 - 3.1.2 Logging in / out
 - 3.1.3 Edit account
 - 3.1.4 Deleting account
-- 3.1.5 manage blogpost
-- 3.1.6 manage comment
+- 3.1.5 Manage blogpost
+- 3.1.6 Manage comment
+- 3.1.7 Like Post
+- 3.1.8 Like Comment
 
 By June, we plan to implement:
 
-- 3.1.7 Track sugar
-- 3.1.8 Track macros
-- 3.1.9 Track meals
-- 3.2.0 Generate graph
-- 3.2.1 generate alert
+- 3.1.9 Track sugar
+- 3.2.0 Track macros
+- 3.2.1 Track meals
+- 3.2.2 Generate graph
+- 3.2.3 Generate alert
 
 
 
@@ -130,7 +132,7 @@ To ensure user identification, the web application requires an account system th
 For more details, refer to the [Create Account Use Case](UCCreateAccount.md).
 
 ### 3.1.2 Logging in / out
-The webapp will provide the possiblity manually log in and out to use the functions.
+The webapp will provide the possiblity to manually log in and out. Loggin in is essential to use the functions.
 
 ### 3.1.3 Edit account
 The user is able to edit the username and password. 
@@ -147,9 +149,19 @@ To get in touch with others, ask questions, or simply share experiences, the use
 For more details, refer to the [Manage Blogpost Use Case](UCManagePost.md).
 
 ### 3.1.6 Manage comment
-The comment function allows users to engage in discussions. Users are able to reply to posts or other comments. They can also list all their comments and edit and delete them here.
+The comment function allows users to engage in discussions. Users are able to reply to posts or other comments. They can also edit and delete their comments.
 
 For more details, refer to the [Manage Comment Use Case](UCManageComment.md).
+
+### 3.1.7 Like Post
+The Like Post function allows users show support. They can also unlike the Post.
+
+For more details, refer to the [Like Post](UCLikePost.md).
+
+### 3.1.8 Like Comment
+The like comment function allows users to engage some more in discussions. Users are able to like comments to show agreement. They can also unlike comments again.
+
+For more details, refer to the [Manage Comment Use Case](UCLikeDislikeComment.md).
 
 ### 3.1.7 Track sugar
 The user is able to manually track their sugar.
@@ -207,6 +219,7 @@ Our frontend, backend, and individual functionalities will be distinctly separat
 We will use the following languages, which will be well supported in the future:
 - JavaScript
 - HTML
+- CSS
 
 
 ## 3.6 Design Constraints
@@ -223,26 +236,38 @@ We aim to create an intuitive and user-friendly interface that allows users to n
 ## 3.9 Interfaces
 
 ### 3.9.1 User Interfaces
-(tbd)
-- add mockups later 
+This is the sign up page:<br>
+![picture](./docs/Screenshots/Sign_UP.png)<br>
+
+This is the log in page:<br>
+![picture](./docs/Screenshots/Log_in.png)<br>
+
+This is the profile page:<br>
+![picture](./docs/Screenshots/Profile.png)<br>
+
+This is the blog page:<br>
+![picture](./docs/Screenshots/CreateBlogPost.png)<br>
+
+This is a blogpost view:<br>
+![picture](./docs/Screenshots/BlogPost.png)<br>
 
 ### 3.9.2 Hardware Interfaces
 (tbd)
 
 ### 3.9.3 Software Interfaces
-(tbd)
+n/a
 
 ### 3.9.4 Communications Interfaces
 (tbd)
 
 ## 3.10 Licensing Requirements
-(tbd)
+n/a
 
 ## 3.11 Legal, Copyright, and Other Notices
-(tbd)
+n/a
 
 ## 3.12 Applicable Standards
-(tbd)
+n/a
 
 ---
 

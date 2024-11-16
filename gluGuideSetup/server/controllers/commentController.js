@@ -105,6 +105,38 @@ const commentController = {
             console.error('Error toggling dislike:', error.message);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+    },
+
+    // edit comment
+    async editComment(req, res) {
+        const { commentId } = req.params;
+        const { content } = req.body; // New content for the comment
+        const username = req.session?.username;
+    
+        if (!username) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+    
+        try {
+            // Get the user ID from the username
+            const userId = await Comment.getUserIdByUsername(username);
+            if (!userId) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+    
+            // Check if the comment belongs to the user
+            const comment = await Comment.getCommentById(commentId);
+            if (!comment || comment.author_id !== userId) {
+                return res.status(403).json({ message: 'You can only edit your own comments' });
+            }
+    
+            // Update the comment
+            const updatedComment = await Comment.updateCommentById(commentId, content);
+            res.status(200).json({ success: true, comment: updatedComment });
+        } catch (error) {
+            console.error('Error editing comment:', error.message);
+            res.status(500).json({ success: false, message: 'Failed to edit comment' });
+        }
     }
 }
 module.exports = commentController;

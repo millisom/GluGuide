@@ -182,7 +182,7 @@ Our Deployment setup includes a client and a server.
 ## 9. Data View
 Our database structure in a schema:
 
-![DatabaseSchema](./docs/db_Schema.png) <br>
+![DatabaseSchema](./docs/dbD.png) <br>
 
 
 ## 10. Size and Performance

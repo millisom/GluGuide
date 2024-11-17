@@ -27,12 +27,11 @@ const ForgotPasswordForm = () => {
 
   return (
     <div className={styles.loginContainer}>
-      <h1 className={styles.pageTitle}>Forgot Password</h1>
       <p className={styles.pageDescription}>
         Enter your registered email address below, and we'll send you a password reset link.
       </p>
       <form onSubmit={handleSubmit} className={styles.formLogIn}>
-        <label className={styles.label} htmlFor="email">Email Address</label>
+      <h1 className={styles.pageTitle}>Forgot Password</h1>
         <input
           type="email"
           id="email"
@@ -40,7 +39,7 @@ const ForgotPasswordForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          placeholder="Enter your email"
+          placeholder="Email"
           className={`${styles.input} ${styles.mt}`}
         />
         <div className={styles.buttonGroup}>

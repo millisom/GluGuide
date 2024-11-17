@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
 import styles from '../styles/LoginForm.module.css';
+import '../pages/signup.css';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -43,7 +44,8 @@ const LoginForm = () => {
         Log in to your account and manage your content effortlessly.
       </p>
       <form onSubmit={handleSubmit} className={styles.formLogIn}>
-        <label htmlFor="username" className={styles.label}>Username</label>
+      <h1 className="pageTitle">Login</h1>
+        <div className='inputField'>
         <input
           type="text"
           name="username"
@@ -51,9 +53,10 @@ const LoginForm = () => {
           onChange={handleInput}
           required
           className={styles.input}
-          placeholder="Enter your username"
+          placeholder="Username"
         />
-        <label htmlFor="password" className={`${styles.label} ${styles.mt}`}>Password</label>
+        </div>
+        <div className='inputField'>
         <input
           type="password"
           name="password"
@@ -61,8 +64,9 @@ const LoginForm = () => {
           onChange={handleInput}
           required
           className={styles.input}
-          placeholder="Enter your password"
+          placeholder="Password"
         />
+        </div>
         <div className={`${styles.buttonGroup} ${styles.mt}`}>
           <button type="submit" disabled={isLoading} className={styles.button}>
             {isLoading ? 'Logging in...' : 'Login'}

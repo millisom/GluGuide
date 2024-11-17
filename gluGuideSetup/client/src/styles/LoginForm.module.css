@@ -8,8 +8,7 @@
   font: var(--sds-typography-body-font-weight-regular)
     var(--sds-typography-body-size-medium)
     var(--sds-typography-body-font-family);
-  border: 2px solid var(--color-primary);
-  border-radius: 10px;
+  border: 8px solid var(--color-primary);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   margin: 40px auto; /* Center and add spacing */

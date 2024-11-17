@@ -63,7 +63,7 @@ const ViewPost = () => {
         <div className={styles.postContainerBody}>
           {post.post_picture && (
             <img
-              src={`http://localhost:8080/uploads/${post.post_picture}`}
+            src={`http://localhost:8080/uploads/${post.post_picture}`} // Ensure the correct path to the image
               alt="Blog post"
               className={styles.image}
             />

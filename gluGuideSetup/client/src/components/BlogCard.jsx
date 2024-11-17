@@ -39,11 +39,11 @@ const BlogCard = ({ blog }) => {
                 <h2 className={styles.cardTitle} onClick={handleViewClick}>
                     {blog.title}
                 </h2>
-                <p className={styles.cardDescription}>
+                <div className={styles.cardDescription}>
                     {blog.content.length > 150
                         ? parse(`${blog.content.slice(0, 150)}...`)
                         : parse(blog.content)}
-                </p>
+                </div>
                 <div className={styles.cardFooter}>
                     <p className={styles.postLikes}>
                         ❤️ {blog.likes ? blog.likes.length : 0} Likes

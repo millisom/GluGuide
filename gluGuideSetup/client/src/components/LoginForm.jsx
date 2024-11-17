@@ -43,29 +43,27 @@ const LoginForm = () => {
         Log in to your account and manage your content effortlessly.
       </p>
       <form onSubmit={handleSubmit} className={styles.formLogIn}>
-        <label className={styles.label}>
-          Username
-          <input
-            type="text"
-            name="username"
-            onChange={handleInput}
-            required
-            className={styles.input}
-            placeholder="Enter your username"
-          />
-        </label>
-        <label className={styles.label}>
-          Password
-          <input
-            type="password"
-            name="password"
-            onChange={handleInput}
-            required
-            className={styles.input}
-            placeholder="Enter your password"
-          />
-        </label>
-        <div className={styles.buttonGroup}>
+        <label htmlFor="username" className={styles.label}>Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          onChange={handleInput}
+          required
+          className={styles.input}
+          placeholder="Enter your username"
+        />
+        <label htmlFor="password" className={`${styles.label} ${styles.mt}`}>Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          onChange={handleInput}
+          required
+          className={styles.input}
+          placeholder="Enter your password"
+        />
+        <div className={`${styles.buttonGroup} ${styles.mt}`}>
           <button type="submit" disabled={isLoading} className={styles.button}>
             {isLoading ? 'Logging in...' : 'Login'}
           </button>

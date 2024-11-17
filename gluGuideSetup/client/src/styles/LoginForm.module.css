@@ -1,83 +1,79 @@
-/* Wrapper for the entire login page */
-.loginContainer {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  text-align: center;
-}
+/* General container for the form */
 
-/* Page title */
-.pageTitle {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--color-primary);
-  margin-bottom: 10px;
-}
-
-/* Page description */
-.pageDescription {
-  font-size: 1.1rem;
-  color: var(--color-text-grey);
-  margin-bottom: 30px;
-}
-
-/* Form container */
 .formLogIn {
   background-color: var(--color-background);
-  padding: 24px;
-  border: 2px solid var(--color-primary);
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  padding: 24px;
+  font: var(--sds-typography-body-font-weight-regular)
+    var(--sds-typography-body-size-medium)
+    var(--sds-typography-body-font-family);
+  border: 2px solid var(--color-primary);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 40px auto; /* Center and add spacing */
 }
 
-/* Labels for inputs */
-.label {
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--color-primary);
+.mt {
+  margin-top: 1rem;
+}
+
+/* Input field container */
+.inputField {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* Input labels */
+.label {
+  color: var(--sds-color-text-default-default);
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 /* Input styling */
 .input {
+  border-radius: 8px;
   padding: 12px;
   border: 1px solid var(--color-primary);
-  border-radius: 8px;
-  font-size: 1rem;
+  box-sizing: border-box;
   background-color: var(--color-text-white);
-  transition: border-color 0.3s ease;
+  font-size: 1rem;
 }
 
-.input:focus {
-  border-color: var(--color-secondary);
-  outline: none;
-}
-
-/* Button group */
+/* Button group for alignment */
 .buttonGroup {
   display: flex;
   justify-content: center;
 }
 
+/* Login button styling */
 .button {
+  border-radius: 8px;
   background-color: var(--color-primary);
   color: var(--color-text-white);
   padding: 12px 24px;
   font-size: 1rem;
   font-weight: bold;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
+
 .button:hover {
   background-color: var(--color-secondary);
+}
+
+/* Success message styling */
+.successMessage {
+  color: var(--color-confirm);
+  font-weight: bold;
+  text-align: center;
+  margin-top: 16px;
 }
 
 /* Error message styling */
@@ -88,11 +84,12 @@
   margin-top: 16px;
 }
 
-/* Link group for navigation */
+/* Links below the form */
 .linkGroup {
-  text-align: center;
   margin-top: 16px;
+  text-align: center;
 }
+
 
 .link {
   color: var(--color-primary);
@@ -104,4 +101,29 @@
 
 .link:hover {
   color: var(--color-secondary);
+}
+/* Wrapper for the form */
+.formWrapper {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Title and description above the form */
+.pageTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--color-primary);
+}
+.pageDescription {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: var(--color-text-grey);
+}
+.loginContainer {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
 }

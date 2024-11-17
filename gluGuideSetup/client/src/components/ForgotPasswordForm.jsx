@@ -32,9 +32,7 @@ const ForgotPasswordForm = () => {
         Enter your registered email address below, and we'll send you a password reset link.
       </p>
       <form onSubmit={handleSubmit} className={styles.formLogIn}>
-        <label className={styles.label} htmlFor="email">
-          Email Address
-        </label>
+        <label className={styles.label} htmlFor="email">Email Address</label>
         <input
           type="email"
           id="email"
@@ -43,10 +41,10 @@ const ForgotPasswordForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
           placeholder="Enter your email"
-          className={styles.input}
+          className={`${styles.input} ${styles.mt}`}
         />
         <div className={styles.buttonGroup}>
-          <button type="submit" disabled={isLoading} className={styles.button}>
+          <button type="submit" disabled={isLoading} className={`${styles.button} ${styles.mt}`}>
             {isLoading ? 'Sending...' : 'Send Reset Link'}
           </button>
         </div>

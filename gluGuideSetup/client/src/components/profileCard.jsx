@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
 import Logout from './logout';
 import styles from '../styles/ProfileCard.module.css';
+import ReactQuill from 'react-quill';
 
 const ProfileCard = () => {
   const [user, setUser] = useState(null);
@@ -191,17 +192,20 @@ const ProfileCard = () => {
         <div className={styles.bio}>
         {isEditingBio ? (
           <>
-            <textarea
+            <ReactQuill
+              theme="snow"
               value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder="Edit your bio"
+              onChange={(value) => setBio(value)}
             />
-            <button className={styles.squareButton}onClick={handleSaveBio}>Save</button>
+            <button className={styles.squareButton} onClick={handleSaveBio}>Save</button>
             <button className={styles.squareButton} onClick={() => setIsEditingBio(false)}>Cancel</button>
-          </> 
+          </>
         ) : (
           <>
-            <p>{bio}</p>
+            <div>{parse(bio)}</div> {/* Correct usage to render HTML content */}
+            <button className={styles.icon} onClick={() => setIsEditingBio(true)}>
+              <FontAwesomeIcon icon={faEdit} />
+            </button>
           </>
         )}
         </div>
@@ -211,9 +215,10 @@ const ProfileCard = () => {
       </div>
       <div className={styles.buttonGroup}>
         <button className={styles.squareButton} onClick={() => navigate('/myBlogs')}>My Blogs</button>
-        <Logout />
-        <button className={styles.squareButton} onClick={handleDeleteAccount}>Delete Account</button>
       </div>
+      <div className={styles.buttonGroup}>
+        <button className={styles.squareButton} onClick={handleDeleteAccount}>Delete Account</button>
+        </div>
       </div>
     </section>
     </div>

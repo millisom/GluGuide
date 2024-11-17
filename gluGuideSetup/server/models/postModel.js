@@ -85,18 +85,18 @@ const Post = {
 
   async updatePost(postId, userId, title, content) {
     const query = 'UPDATE posts SET title = $1, content = $2 WHERE id = $3 AND user_id = $4 RETURNING *';
-    const values = [title, content, postId, userId]; // Ensure correct order of parameters
+    const values = [title, content, postId, userId]; // Correct order of parameters
 
     try {
-      const result = await pool.query(query, values);
-      if (result.rowCount === 0) {
-        return null; // No post was updated
-      }
-      return result.rows[0]; // Return the updated post
+        const result = await pool.query(query, values);
+        if (result.rowCount === 0) {
+            return null; // No post was updated
+        }
+        return result.rows[0]; // Return the updated post
     } catch (error) {
-      throw new Error('Error updating post: ' + error.message);
+        throw new Error('Error updating post: ' + error.message);
     }
-  },
+},
 
   async getPostById(postId) {
     const query = `
@@ -117,6 +117,17 @@ const Post = {
       throw new Error('Error fetching post: ' + error.message);
     }
   },
+
+  async setPostImage(id, imagePath) {
+    const query = 'UPDATE posts SET post_picture = $1 WHERE id = $2';
+    try {
+        const result = await pool.query(query, [imagePath, id]);
+        return result.rowCount;
+    } catch (error) {
+        throw new Error('Error setting post image: ' + error.message);
+    }
+},
+
 
   async deletePostById(id) {
     const query = 'DELETE FROM posts WHERE id = $1 RETURNING *';

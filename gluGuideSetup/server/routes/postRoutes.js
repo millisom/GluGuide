@@ -4,15 +4,16 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController'); // Import your controller
-const upload = require('../middleware/multer');
+const upload = require('../config/multerConfig');
 
 // Define the route for creating a post
-router.post('/createPost', upload, postController.createPost); // This is where the logic is wired up
+router.post('/createPost', postController.createPost); // This is where the logic is wired up
 router.get('/getUserPost', postController.getUserPost); //All posts for the logged in user
 router.get('/getUserPost/:id', postController.getPostById); //get specific post
 router.put('/updatePost/:id', postController.updatePost); //update Post
 router.delete('/deletePost/:id', postController.deletePost);
 router.get('/getAllPosts', postController.getAllPosts);
+router.post('/uploadPostImage/:id', postController.uploadPostImage);
 
 // Route to like or unlike a post
 router.post('/toggleLike/:id', postController.toggleLike);

@@ -8,7 +8,6 @@
 }
 
 .heroSection {
-    margin-bottom: 40px;
     padding: 20px;
     background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
     color: var(--color-text-white);
@@ -25,10 +24,6 @@
 .description {
     font-size: 1.2rem;
     line-height: 1.6;
-}
-
-.blogSection {
-    margin-top: 40px;
 }
 
 .subtitle {

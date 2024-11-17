@@ -52,7 +52,7 @@ function SignUp() {
 
     return (
         <div className="formSignUp">
-            <h1>Sign Up</h1>
+            <h1 className="pageTitle">Sign Up</h1>
             <form onSubmit={register}>
                 <div className="inputField">
                     <input
@@ -106,7 +106,7 @@ function SignUp() {
                 <div className="buttonGroup">
                     <button type="submit" className="button">Sign Up</button>
                 </div>
-                <p><Link to="/login" className="forgotPassword">Already have an Account?Login here</Link></p>
+                <p><Link to="/login" className="forgotPassword">Already have an Account? Login here</Link></p>
             </form>
             
              {message && (

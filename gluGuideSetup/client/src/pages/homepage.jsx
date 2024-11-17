@@ -14,7 +14,6 @@ const Homepage = () => {
                 </p>
             </div>
             <div className={styles.blogSection}>
-                <h2 className={styles.subtitle}>Explore Blogs</h2>
                 <ViewBlogEntries />
             </div>
         </div>

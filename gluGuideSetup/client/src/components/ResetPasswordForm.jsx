@@ -46,8 +46,8 @@ const ResetPasswordForm = () => {
 
   return (
     <form onSubmit={handlePasswordReset} className={styles.formLogIn}>
-      <h2 className={styles.title}>Reset Password</h2>
-      <label className={styles.label}>New Password
+        <h1 className="pageTitle">Reset Password</h1>
+        <div className='inputField'>
         <input
           type="password"
           name="newPassword"
@@ -55,9 +55,10 @@ const ResetPasswordForm = () => {
           onChange={(e) => setNewPassword(e.target.value)}
           required
           className={styles.input}
+          placeholder='New Password'
         />
-      </label>
-      <label className={styles.label}>Confirm Password
+        </div>
+        <div className='inputField'>
         <input
           type="password"
           name="confirmPassword"
@@ -65,8 +66,9 @@ const ResetPasswordForm = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
           className={styles.input}
+          placeholder='Confirm Password'
         />
-      </label>
+        </div>
       <div className={styles.buttonGroup}>
         <button type="submit" disabled={isLoading} className={styles.button}>
           {isLoading ? 'Resetting...' : 'Reset Password'}

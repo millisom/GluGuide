@@ -16,49 +16,35 @@ const ForgotPasswordForm = () => {
       const response = await axios.post('http://localhost:8080/forgotPassword', { email });
       setNotification({ message: response.data.message, type: 'success' });
     } catch (error) {
-      setNotification({ message: error.response?.data?.message || 'Something went wrong', type: 'error' });
+      setNotification({
+        message: error.response?.data?.message || 'Something went wrong. Please try again.',
+        type: 'error',
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Inline FormInput Component
-  const FormInput = ({ label, type, name, value, onChange, required, placeholder }) => (
-    <div>
-      {label && <label htmlFor={name}>{label}</label>}
-      <input
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-        placeholder={placeholder || label}
-      />
-    </div>
-  );
-
   return (
-    <div className={styles.formLogIn}>
-      <p className={styles.label}>
-        Please enter your email address to receive a password reset link.
+    <div className={styles.loginContainer}>
+      <p className={styles.pageDescription}>
+        Enter your registered email address below, and we'll send you a password reset link.
       </p>
-      <form onSubmit={handleSubmit}>
-        <div className={styles.inputField}>
-          <label className={styles.label}>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Enter your email address"
-            className={styles.input}
-          />
-        </div>
+      <form onSubmit={handleSubmit} className={styles.formLogIn}>
+      <h1 className={styles.pageTitle}>Forgot Password</h1>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          placeholder="Email"
+          className={`${styles.input} ${styles.mt}`}
+        />
         <div className={styles.buttonGroup}>
-          <button type="submit" disabled={isLoading} className={styles.button}>
-            {isLoading ? 'Sending...' : 'Request Reset Link'}
+          <button type="submit" disabled={isLoading} className={`${styles.button} ${styles.mt}`}>
+            {isLoading ? 'Sending...' : 'Send Reset Link'}
           </button>
         </div>
       </form>

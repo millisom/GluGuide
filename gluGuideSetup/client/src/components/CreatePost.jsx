@@ -13,7 +13,6 @@ const CreatePost = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-
   const handleFileChange = (e) => {
     setPostPicture(e.target.files[0]);
   };
@@ -25,71 +24,75 @@ const CreatePost = () => {
     formData.append('title', title);
     formData.append('content', content);
     if (postPicture) formData.append('post_picture', postPicture);
-  try {
-    const response = await axios.post('http://localhost:8080/CreatePost', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      withCredentials: true,
-    });
-        console.log('Post created:', response.data); // Log the response for debugging
-        // Reset fields or handle success here
-        const { id } = response.data.post;
-        setTitle('');
-        setContent('');
-        setPostPicture(null);
-        setSuccessMessage('Post created successfully!');
-        navigate(`/viewPost/${id}`); // Redirect to myBlogs page after successful creation
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          setError('You must be logged in to create a post.'); // Custom message for 401
-      } else {
-          console.error('Error:', error.response ? error.response.data : error.message);
-          setError('Failed to create post'); // General error message
-      }
-      }
-    };
 
-    return (
-      <div className={styles.createPostContainer}>
-        <div className={styles.createPostRectangle}>
-            <h2 className={styles.formTitle}>Create New Blog Post</h2>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.inputGroup}>
-                    <label className={styles.label}>Title:</label>
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        className={styles.input}
-                        required
-                    />
-                </div>
-                <div className={styles.inputGroup}>
-                    <label className={styles.label}>Content:</label>
-                    <ReactQuill
-                        value={content}
-                        onChange={setContent}
-                        className={styles.quillEditor}
-                        required
-                    />
-                </div>
-                <div className={styles.inputGroup}>
-                    <label className={styles.label}>Upload Picture:</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className={styles.fileInput}
-                    />
-                </div>
-                <button type="submit" className={styles.submitButton}>Create Post</button>
-                {error && <p className={styles.errorMessage}>{error}</p>}
-                {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
-            </form>
-        </div>
-    </div>
-    );
+    try {
+      const response = await axios.post('http://localhost:8080/CreatePost', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });
+
+      console.log('Post created:', response.data); // Log the response for debugging
+      const { id } = response.data.post;
+      setTitle('');
+      setContent('');
+      setPostPicture(null);
+      setSuccessMessage('Post created successfully!');
+      navigate(`/viewPost/${id}`); // Redirect to the post view page
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setError('You must be logged in to create a post.'); // Custom message for 401
+      } else {
+        console.error('Error:', error.response ? error.response.data : error.message);
+        setError('Failed to create post'); // General error message
+      }
+    }
   };
-  
+
+  return (
+    <div className={styles.createPostContainer}>
+      <div className={styles.createPostRectangle}>
+        <h2 className={styles.formTitle}>Create New Blog Post</h2>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Title:</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={styles.input}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Content:</label>
+            <ReactQuill
+              value={content}
+              onChange={setContent}
+              className={styles.quillEditor}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Upload Picture:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className={styles.fileInput}
+            />
+          </div>
+          <button type="submit" className={styles.submitButton}>
+            Create Post
+          </button>
+          {error && <p className={styles.errorMessage}>{error}</p>}
+          {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default CreatePost;
+

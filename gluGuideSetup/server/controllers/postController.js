@@ -11,25 +11,41 @@ const createImageUrl = (req, filename) => {
 const postController = {
 
   async createPost(req, res) {
+
+    upload.single('post_picture')(req, res, async (err) => {
+      if (err) {
+          console.error('Multer error:', err);
+          return res.status(500).json({ error: 'File upload failed' });
+      }
+
+
     const { title, content } = req.body; // Extract title and content from the request body
     const username = req.session?.username; // getting username from cookie
-
-    if(!username){
+  
+    if (!username) {
       return res.status(401).send('Unauthorized');
     }
+  
     const postPicture = req.file ? req.file.filename : null;
-
+  
     try {
-      // Retrieve the user_id based on the username
+      // Log to debug issues
+      console.log('Request body:', req.body);
+      console.log('Uploaded file:', req.file);
+
+      if (!title) {
+        return res.status(400).json({ success: false, message: 'Title is required.' });
+      }
       const userId = await Post.getUserIdByUsername(username);
       const newPost = await Post.createPost(userId, title, content, postPicture);
-
-      return res.status(200).json({success: true, post: newPost});
-    }catch (error) {
-        console.error('Error creating post:', error.message, error.stack);
-        res.status(500).json({ success: false, message: 'Failed to create post.' });
+  
+      return res.status(200).json({ success: true, post: newPost });
+    } catch (error) {
+      console.error('Error creating post:', error.message, error.stack);
+      res.status(500).json({ success: false, message: 'Failed to create post.' });
     }
-  },
+  })
+},
 
   async getAllPosts(req, res){
     try {
@@ -164,6 +180,50 @@ async uploadPostImage(req, res) {
       }
 
       const { id } = req.params;
+
+      // Check if a file is uploaded
+      if (req.file) {
+          // Use only the filename, not the full path
+          const filename = req.file.filename;  // Just use the filename like 1731840320864-cat-8185712_1280.jpg
+
+          try {
+              // Get the current post from the database
+              const post = await Post.getPostById(id);
+              
+              if (post && post.image_url) {
+                  // If the post already has an image, delete the old one from the server
+                  const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(post.image_url));
+                  fs.unlink(oldImagePath, (err) => {
+                      if (err) console.error('Error deleting old image:', err);
+                  });
+              }
+
+              // Save the new image filename to the database (not the full URL)
+              const rowsUpdated = await Post.setPostImage(id, filename);
+
+              if (rowsUpdated === 0) {
+                  return res.status(404).json({ error: "Post not found" });
+              }
+
+              // Return the relative URL to the image (we're only sending the filename to the client)
+              return res.status(200).json({ imageUrl: `http://localhost:8080/uploads/${filename}` });
+          } catch (error) {
+              console.error('Error saving image:', error);
+              return res.status(500).json({ error: "Internal Server Error" });
+          }
+      } else {
+          return res.status(400).json({ error: 'No file uploaded' });
+      }
+  });
+},
+
+async uploadPostImageInCreate(req, res) {
+  // Use multer to handle the file upload
+  upload.single('postImage')(req, res, async (err) => {
+      if (err) {
+          console.error('Multer error:', err);
+          return res.status(500).json({ error: 'File upload failed' });
+      }
 
       // Check if a file is uploaded
       if (req.file) {

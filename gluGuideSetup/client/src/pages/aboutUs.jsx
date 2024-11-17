@@ -14,8 +14,8 @@ const AboutUs = () => {
             image: 'https://gdewomenhealth.wordpress.com/wp-content/uploads/2024/09/integration-2031395_1920.png',
         },
         {
-            name: 'Hossey',
-            role: 'Database Designer',
+            name: 'Hossay',
+            role: 'Application & Database Architect',
             image: 'https://gdewomenhealth.wordpress.com/wp-content/uploads/2024/09/database-4941338_1920-1.png',
         },
         {

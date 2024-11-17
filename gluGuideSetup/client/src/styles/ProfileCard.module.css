@@ -1,7 +1,9 @@
 .bioContainer {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px; /* Increased spacing for better aesthetics */
+
 }
 
 .username {
@@ -20,8 +22,8 @@
   border: 1px solid var(--color-primary);
   border-radius: 8px;
   box-sizing: border-box;
-  width: 100%;
-  padding: 16px;
+  max-width: fit-content;
+  padding: 10px;
 }
 
 .cardBodyBio {
@@ -30,7 +32,7 @@
   flex-direction: column;
   flex: 1;
   flex-basis: 0;
-  width: 100%;
+  max-width: fit-content;
   align-items: center;
   padding: 16px;
   gap: 16px;

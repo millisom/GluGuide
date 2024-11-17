@@ -8,14 +8,16 @@
 
 .card {
   background-color: var(--color-background);
-  border: 2px solid var(--color-primary);
+  border: 10px solid var(--color-primary);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  max-width: 350px;
+  width: 300px;
+  height: 300px; /* Fixed card height */
   display: flex;
   flex-direction: column;
+  position: relative; /* Enable absolute positioning for child elements */
   margin-top: 20px;
+  overflow: hidden; /* Prevent content from overflowing */
 }
 
 .cardImage img {
@@ -50,20 +52,28 @@
 
 .cardFooter {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Align likes and icons */
   align-items: center;
-  margin-top: auto;
+  position: absolute; /* Fixes the footer at the bottom of the card */
+  bottom: 0; /* Stick to the bottom */
+  left: 0;
+  right: 0;
+  padding: 10px; /* Add padding for spacing */
+  background-color: var(--color-background); /* Optional: Match the card's background */
+  border-top: 1px solid var(--color-primary); /* Optional: Add a border for separation */
 }
 
 .postLikes {
   font-size: 1rem;
   font-weight: bold;
   color: var(--color-primary);
+  margin: 0; /* Remove default margin */
 }
 
 .iconContainer {
   display: flex;
-  gap: 10px;
+  gap: 10px; /* Space between icons */
+  align-items: center;
 }
 
 .iconButton {

@@ -30,11 +30,6 @@ const BlogCard = ({ blog }) => {
 
     return (
         <div className={styles.card}>
-            {blog.post_picture && (
-                <div className={styles.cardImage}>
-                    <img src={`http://localhost:8080/uploads/${blog.post_picture}`} alt={blog.title} />
-                </div>
-            )}
             <div className={styles.cardContent}>
                 <h2 className={styles.cardTitle} onClick={handleViewClick}>
                     {blog.title}

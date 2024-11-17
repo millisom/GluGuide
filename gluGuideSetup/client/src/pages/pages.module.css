@@ -10,9 +10,13 @@
 
 .myAccount {
   display: flex;
-  flex-direction: column;
   align-items: flex-start; /* Aligns items to the top of the container */
   padding: 16px; /* Optional padding around the content */
+
+}
+.blogCardContainer {
+  display: flex;
+  gap: 10px;
 }
 
 .profileCardContainer {

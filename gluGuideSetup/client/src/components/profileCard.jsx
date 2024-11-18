@@ -164,21 +164,11 @@ const ProfileCard = () => {
         <>
         <div className={styles.bioContainer} >
           <div className={styles.dpContainer}>
-        <img
-        className={styles.bioImg}
-        src={dpUrl || ''}
-        alt="User Profile Picture"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = '';
-        }}
-        style={{
-          height: '4rem',
-          width: '4rem',
-          borderRadius: '50%', // Ensures the image is round
-          objectFit: 'cover'    // Ensures it covers the container
-        }}
-      />
+          <img
+            className={styles.bioImg}
+            src={dpUrl || ''}
+            alt="User Profile Picture"
+          />
         <button className={styles.icon2} onClick={() => setIsEditingDp(true)}>
           <FontAwesomeIcon icon={faEdit} />
         </button>

@@ -26,23 +26,22 @@ const MyBlogs = () => {
 
     return (
         <div className={styles.myAccount}>
-            <div className={styles.buttonWrapper}>
-                <button 
-                    className={styles.cardButton} 
-                    onClick={() => navigate('/create/post')} 
-                    aria-label="Create a new post"
-                >
-                    <FontAwesomeIcon icon={faPlus} /> Create new post
-                </button>
-            </div>
-            <div className={styles.blogCardContainer}>
-                {blogs.map((blog) => (
-                    <div key={blog.id}>
-                        <BlogCard blog={blog} />
-                    </div>
-                ))}
-            </div>
+        <div className={styles.buttonWrapper}>
+            <button 
+                className={styles.cardButton} 
+                onClick={() => navigate('/create/post')} 
+                aria-label="Create a new post"
+            >
+                <FontAwesomeIcon icon={faPlus} /> Create new post
+            </button>
         </div>
+
+        <div className={styles.blogCardContainer}>
+            {blogs.map((blog) => (
+                <BlogCard key={blog.id} blog={blog} />
+            ))}
+        </div>
+    </div>
     );
 };
 

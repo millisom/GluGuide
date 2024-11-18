@@ -3,8 +3,7 @@
     margin: 0 auto;
     padding: 20px;
     background-color: var(--color-background);
-    border: 2px solid var(--color-primary);
-    border-radius: 10px;
+    border: 8px solid var(--color-primary);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'DM Sans', sans-serif;
 }

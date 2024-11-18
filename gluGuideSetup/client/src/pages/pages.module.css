@@ -1,41 +1,35 @@
-.blogs{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 50px;
-}
-
 .myAccount {
   display: flex;
-  align-items: flex-start; /* Aligns items to the top of the container */
-  padding: 16px; /* Optional padding around the content */
-
-}
-.blogCardContainer {
-  display: flex;
-  gap: 10px;
-}
-
-.profileCardContainer {
-  top: 0;
-  right: 0 ;
-  margin-top: 40px
-}
-
-.blogCardContainer {
-  top: 0;
-  left: 0;
-  justify-content: center;
-  padding: 20px;
+  flex-direction: column; /* Stack children vertically */
+  align-items: flex-start; /* Align items to the left */
+  gap: 20px; /* Space between buttonWrapper and blog cards */
+  width: 100%;
+  max-width: 1500px; /* Limit the width of the section */
+  margin: 0 auto; /* Center the section */
+  padding: 0; /* Ensure no extra padding */
+  box-sizing: border-box; /* Include padding/border in width */
 }
 
 .buttonWrapper {
-  padding-left: 20px;
+  display: flex;
+  justify-content: flex-end; /* Align the button to the right */
+  width: 100%; /* Full width */
+  margin: 0; /* Remove extra margin */
+  padding: 0; /* Remove extra padding */
 }
-  
+
+.blogCardContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allow blog cards to wrap */
+  justify-content: flex-start; /* Align cards to the left */
+  gap: 20px; /* Space between cards */
+  width: 100%; /* Full container width */
+  max-width: 1500px; /* Match container width */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove extra margin */
+  box-sizing: border-box; /* Include padding/border in width */
+}
+
 .cardButton {
   padding: 10px 20px;
   font-size: 1rem;
@@ -47,7 +41,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-  
+
 .cardButton:hover {
   background-color: var(--color-secondary);
 }

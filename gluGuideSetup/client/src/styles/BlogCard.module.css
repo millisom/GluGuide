@@ -36,6 +36,7 @@
 
 .cardTitle {
   font-size: 1.5rem;
+  color: var(--color-primary);
   font-weight: bold;
   color: var(--sds-color-text-default-primary, #333);
   cursor: pointer;

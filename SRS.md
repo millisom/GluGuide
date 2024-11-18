@@ -197,7 +197,7 @@ Our Server should ensure a 95% up-time. Since our priority is to develop an appl
 ### 3.3.2 Accuracy
 We cannot guarantee the accuracy of the information in the blog posts, comments, or tracking data, as this content will be submitted by users
 
-### 3.3.3 Blug classes
+### 3.3.3 Bug classes
 We classify bugs in two categories
 
 - Critical bug: arises when the database unintentionally loses data, exposes sensitive user information such as passwords, or prevents users from accessing the application entirely

@@ -119,6 +119,7 @@ In Intelij PlantUML works, but it does not automatically generate UML Diagrams, 
 
 [You can see our components here.](https://github.com/millisom/GluGuide/tree/9eb097c782f0119172f047879f77f3ddf21ca77b/gluGuideSetup/client/src/components)
 
+
 This is the class diagram for the feature Authentification
 
 ![Post](./docs/PlantUMLDiagrams1/auth_Classes.png) <br>

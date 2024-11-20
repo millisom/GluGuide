@@ -117,7 +117,7 @@ Generating an Architectural UML diagram for a JavaScript (JS) application are ch
 We've tried PlantUML and UML Generator in VSC but they didnt work.
 In Intelij PlantUML works, but it does not automatically generate UML Diagrams, but we have to code Diagrams ourselfs.
 
-[You can see our components here.](/GluGuide/gluGuideSetup/client/src/components)
+[You can see our components here.](https://github.com/millisom/GluGuide/tree/4e6ddeddb950e6e31f96191412fb1557652970ea/gluGuideSetup/client/src/components)
 
 This is the class diagram for the feature Authentification
 

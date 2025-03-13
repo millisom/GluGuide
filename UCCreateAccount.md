@@ -32,7 +32,8 @@ The system validates the input and stores the user's information. After successf
 ![Create Account Activity Diagram](docs/ADCA.drawio.svg)
 
 ### 2.2 Mock-up
-![Create Account Wireframe](docs/mockup.png)
+This is the sign up page:<br>
+![picture](./docs/Screenshots/Sign_UP.png)<br>
 
 ### 2.3 Alternate Flow:
 - **Invalid Input:**

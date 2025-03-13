@@ -26,10 +26,16 @@ The user can edit one value at a time. The system validates the input, stores th
 ![Edit Account Activity Diagram](docs/UseCaseEditAccount/UCEditAccount.drawio.png)
 
 ### 2.2 Mock-up
+
+This is the profile page:<br>
+![picture](./docs/Screenshots/Profile.png)<br>
+
+This is the Mock-up for edit Account Data:
 ![Edit Account Wireframe landingpage](docs/UseCaseEditAccount/Mockup_EditAccount.png)
 ![Edit Account Wireframe Accountinfo](docs/UseCaseEditAccount/Mockup_EditAccount2.png)
 ![Edit Account Wireframe Edit view](docs/UseCaseEditAccount/Mockup_EditAccount3.png)
 ![Edit Account Wireframe Success message](docs/UseCaseEditAccount/Mockup_EditAccount4.png)
+
 
 ### 2.3 Alternate Flow:
 - **Invalid Input:**

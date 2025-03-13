@@ -13,11 +13,16 @@ This use case describes the creation, reading, updating, and deleting of posts (
 ### 2.1 Basic Flow  
 In general, a user will create a post, view all posts, edit them as needed, and occasionally delete posts.
 
-### 2.2 Creation  
+### 2.2 Creation 
+
 The creation of a new post. The user will be asked to enter a title and the content of the post.
 
 ![Create Post Diagram](Assets/Create%20post%20drawio.drawio.png)
-![Create Post Mockup](Assets/Create.png)
+
+This is what our blog looks like in our application:
+<br>
+![picture](./docs/Screenshots/CreateBlogPost.png)<br>
+
 
 
 ### 2.3 Edit  
@@ -40,7 +45,9 @@ The user can delete posts. We added a button in the edit page to delete an entry
 ![Delete Post Diagram](Assets/Delete%20post%20.drawio.png)
 ![Delete Post Mockup](Assets/Delete.png)
 
-
+### 2.6 View Blogpost
+This is a blogpost view:<br>
+![picture](./docs/Screenshots/BlogPost.png)<br>
 
 ---
 

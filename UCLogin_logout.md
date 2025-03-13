@@ -25,7 +25,8 @@ The Login/Logout functionality allows a user to access their account on the web 
 ![Log in and Log out Diagram](Assets/Login%20post%20drawio.drawio.png)
 
 ## 2.2 Mock-up
-![Delete Account Mockup](Assets/Login.png)
+This is the log in page:<br>
+![picture](./docs/Screenshots/Log_in.png)<br>
 
 ## 2.3 Alternate Flow
 

@@ -165,19 +165,22 @@ The like comment function allows users to engage some more in discussions. Users
 
 For more details, refer to the [Manage Comment Use Case](UCLikeDislikeComment.md).
 
-### 3.1.9 Track sugar
+### 3.1.9 Reset Password
+The user is able to reset their password.
+
+### 3.2.0 Track sugar
 The user is able to manually track their sugar.
 
-### 3.2.0 Track macros
+### 3.2.1 Track macros
 The user is able to manually track their macros.
 
-### 3.2.1 Track meals
+### 3.2.2 Track meals
 The user is able to manually track their meals.
 
-### 3.2.2 Generate graph
+### 3.2.3 Generate graph
 The application can generate graphs from the collected data. 
 
-### 3.2.3 Alerts
+### 3.2.4 Alerts
 The user can set alerts to remind them to track their data.
 
 
@@ -236,22 +239,7 @@ We aim to create an intuitive and user-friendly interface that allows users to n
 (n/a)
 
 ## 3.9 Interfaces
-
-### 3.9.1 User Interfaces
-This is the sign up page:<br>
-![picture](./docs/Screenshots/Sign_UP.png)<br>
-
-This is the log in page:<br>
-![picture](./docs/Screenshots/Log_in.png)<br>
-
-This is the profile page:<br>
-![picture](./docs/Screenshots/Profile.png)<br>
-
-This is the blog page:<br>
-![picture](./docs/Screenshots/CreateBlogPost.png)<br>
-
-This is a blogpost view:<br>
-![picture](./docs/Screenshots/BlogPost.png)<br>
+Tbd
 
 ### 3.9.2 Hardware Interfaces
 (tbd)

@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe6aa052-20c5-43fa-a781-6a013948d85d" name="Changes" comment="testing update">
-      <change afterPath="$PROJECT_DIR$/gluGuideSetup/server/uploads/1732067565213-Yellowstone-1452599710.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAD.md" beforeDir="false" afterPath="$PROJECT_DIR$/SAD.md" afterDir="false" />
+    <list default="true" id="fe6aa052-20c5-43fa-a781-6a013948d85d" name="Changes" comment="Added new link for components in SAD. Tested Images in view.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,22 +39,22 @@
     &quot;assignee&quot;: &quot;hossei-cyber&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/millisom/GluGuide.git",
-    "accountId": "4f5dca73-6421-451b-9fce-fdd75ae94727"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/millisom/GluGuide.git&quot;,
+    &quot;accountId&quot;: &quot;4f5dca73-6421-451b-9fce-fdd75ae94727&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "millisom",
-    "repository": "GluGuide"
+    &quot;owner&quot;: &quot;millisom&quot;,
+    &quot;repository&quot;: &quot;GluGuide&quot;
   }
-}]]></component>
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -77,49 +76,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Cucumber.js.login.feature.executor": "Run",
-    "Node.js.UCCA_steps.js.executor": "Run",
-    "Node.js.test.js.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "imageTest",
-    "javascript.nodejs.core.library.configured.version": "20.18.0",
-    "javascript.nodejs.core.library.typings.version": "20.17.6",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/asifi/Documents/gde/GluGuide/gluGuideSetup/client/src/assets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.cucumber.cucumber_node_package_dir": "/Users/hossay/IdeaProjects/GluGuide/gluGuideSetup/client/node_modules/cucumber",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "timeTracker.activityTracker": "null",
-    "timeTracker.comment": "",
-    "timeTracker.inactivityPeriodInMills": "600000",
-    "timeTracker.isAutoTrackingEnable": "false",
-    "timeTracker.isAutoTrackingTemporaryDisabled": "false",
-    "timeTracker.isManualTrackingEnable": "false",
-    "timeTracker.isPaused": "true",
-    "timeTracker.isPostAfterCommitEnabled": "false",
-    "timeTracker.isPostedScheduled": "true",
-    "timeTracker.isRunning": "false",
-    "timeTracker.isScheduledEnabled": "false",
-    "timeTracker.isWhenProjectClosedEnabled": "false",
-    "timeTracker.issueId": "Default",
-    "timeTracker.issueIdReadable": "Default",
-    "timeTracker.pausedTime": "0",
-    "timeTracker.query": "",
-    "timeTracker.recordedTime": "0",
-    "timeTracker.scheduledPeriod": "19:00:0",
-    "timeTracker.startTime": "0",
-    "timeTracker.timeInMills": "0",
-    "timeTracker.type": "Development",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Cucumber.js.login.feature.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.UCCA_steps.js.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.test.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.18.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.17.6&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/asifi/Documents/gde/GluGuide/gluGuideSetup/client/src/assets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.cucumber.cucumber_node_package_dir&quot;: &quot;/Users/hossay/IdeaProjects/GluGuide/gluGuideSetup/client/node_modules/cucumber&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;timeTracker.activityTracker&quot;: &quot;null&quot;,
+    &quot;timeTracker.comment&quot;: &quot;&quot;,
+    &quot;timeTracker.inactivityPeriodInMills&quot;: &quot;600000&quot;,
+    &quot;timeTracker.isAutoTrackingEnable&quot;: &quot;false&quot;,
+    &quot;timeTracker.isAutoTrackingTemporaryDisabled&quot;: &quot;false&quot;,
+    &quot;timeTracker.isManualTrackingEnable&quot;: &quot;false&quot;,
+    &quot;timeTracker.isPaused&quot;: &quot;true&quot;,
+    &quot;timeTracker.isPostAfterCommitEnabled&quot;: &quot;false&quot;,
+    &quot;timeTracker.isPostedScheduled&quot;: &quot;true&quot;,
+    &quot;timeTracker.isRunning&quot;: &quot;false&quot;,
+    &quot;timeTracker.isScheduledEnabled&quot;: &quot;false&quot;,
+    &quot;timeTracker.isWhenProjectClosedEnabled&quot;: &quot;false&quot;,
+    &quot;timeTracker.issueId&quot;: &quot;Default&quot;,
+    &quot;timeTracker.issueIdReadable&quot;: &quot;Default&quot;,
+    &quot;timeTracker.pausedTime&quot;: &quot;0&quot;,
+    &quot;timeTracker.query&quot;: &quot;&quot;,
+    &quot;timeTracker.recordedTime&quot;: &quot;0&quot;,
+    &quot;timeTracker.scheduledPeriod&quot;: &quot;19:00:0&quot;,
+    &quot;timeTracker.startTime&quot;: &quot;0&quot;,
+    &quot;timeTracker.timeInMills&quot;: &quot;0&quot;,
+    &quot;timeTracker.type&quot;: &quot;Development&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\asifi\Documents\gde\GluGuide\gluGuideSetup\client\src\assets" />
@@ -160,6 +159,11 @@
       <workItem from="1730912673137" duration="3697000" />
       <workItem from="1730946230870" duration="676000" />
       <workItem from="1732068322172" duration="585000" />
+      <workItem from="1732284930091" duration="2000" />
+      <workItem from="1732350116254" duration="44000" />
+      <workItem from="1732553274651" duration="5000" />
+      <workItem from="1733057451771" duration="1000" />
+      <workItem from="1740471919356" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="feature files setup">
       <option name="closed" value="true" />

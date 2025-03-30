@@ -124,7 +124,10 @@ const CommentsList = () => {
                 <p className={styles.commentContent}>{comment.content}</p>
               )}
               <p className={styles.commentDate}>
-                Commented at: {new Date(comment.created_at).toLocaleString()} | Last updated at: {new Date(comment.updated_at).toLocaleString()}
+                Commented at: {new Date(comment.created_at).toLocaleString()}
+                {new Date(comment.created_at).getTime() !== new Date(comment.updated_at).getTime() && (
+                  <> | Last updated at: {new Date(comment.updated_at).toLocaleString()}</>
+                )}
               </p>
               
               <div className={styles.commentFooter}>

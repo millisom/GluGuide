@@ -124,37 +124,29 @@ const CommentsList = () => {
                 <p className={styles.commentContent}>{comment.content}</p>
               )}
               <p className={styles.commentDate}>
-                {new Date(comment.created_at).toLocaleString()}
+                Commented at: {new Date(comment.created_at).toLocaleString()} | Last updated at: {new Date(comment.updated_at).toLocaleString()}
               </p>
-              <div className={styles.buttonGroup}>
-                <button
-                  onClick={() => handleLike(comment.id)}
-                  className={styles.likeButton}
-                >
-                  👍 Like ({comment.likes})
-                </button>
-                <button
-                  onClick={() => handleDislike(comment.id)}
-                  className={styles.dislikeButton}
-                >
-                  👎 Dislike ({comment.dislikes})
-                </button>
-                {currentUserId === comment.author_id && (
-                  <>
-                    <button
-                      onClick={() => startEditing(comment.id, comment.content)}
-                      className={styles.editButton}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(comment.id)}
-                      className={styles.deleteButton}
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
+              
+              <div className={styles.commentFooter}>
+                <div className={styles.buttonGroup}>
+                  <button onClick={() => handleLike(comment.id)} className={styles.likeButton}>
+                    👍 Like ({comment.likes})
+                  </button>
+                  <button onClick={() => handleDislike(comment.id)} className={styles.dislikeButton}>
+                    👎 Dislike ({comment.dislikes})
+                  </button>
+                  {currentUserId === comment.author_id && (
+                    <>
+                      <button onClick={() => startEditing(comment.id, comment.content)} className={styles.editButton}>
+                        Edit
+                      </button>
+                      <button onClick={() => handleDelete(comment.id)} className={styles.deleteButton}>
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
+                <small className={styles.commentId}>Comment ID: (#{comment.id})</small>
               </div>
             </div>
           ))

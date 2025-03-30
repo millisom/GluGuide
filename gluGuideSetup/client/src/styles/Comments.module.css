@@ -172,3 +172,15 @@
 .submitButton:hover {
   background-color: var(--color-secondary);
 }
+
+.commentFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.commentId {
+  font-size: 0.75rem;
+  color: #666;
+}

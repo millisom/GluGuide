@@ -161,7 +161,34 @@ const adminController = {
         }
     },
 
-    editComment: async (req, res) => { },
+    // Edit a comment by id
+    editComment: async (req, res) => {
+        const commentId = req.params.id;
+        const { content } = req.body;
+
+        try {
+            // Verify if the comment exists
+            const existingComment = await pool.query('SELECT * FROM comments WHERE id = $1', [commentId]);
+
+            if (existingComment.rows.length === 0) {
+                return res.status(404).json({ error: 'Comment not found.' });
+            }
+
+            // Update the comment content
+            const updatedComment = await pool.query(
+                `UPDATE comments SET content = COALESCE($1, content), updated_at = NOW()
+             WHERE id = $2 RETURNING id, content, updated_at`,
+                [content, commentId]
+            );
+
+            res.status(200).json(updatedComment.rows[0]);
+
+        } catch (err) {
+            console.error('Error editing comment:', err);
+            res.status(500).json({ error: 'Server error editing comment.' });
+        }
+    },
+
     deleteComment: async (req, res) => { },
 };
 

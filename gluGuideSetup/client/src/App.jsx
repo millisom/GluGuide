@@ -13,6 +13,7 @@ import CreatePost from './pages/createPost.jsx';
 import MyBlogs from './pages/myBlogs.jsx';
 import ForgotPassword from './pages/forgotPassword.jsx';
 import ResetPassword from './pages/resetPassword.jsx';
+import AdminDashboard from './pages/AdminDashboard';
 import Footer from './components/Footer';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                         <Route path="/viewPost/:id" element={<ViewPost />} />
                         <Route path="/forgotPassword" element={<ForgotPassword />} />
                         <Route path="/resetPassword/:token" element={<ResetPassword />} />
+                        <Route path="/admin" element={<AdminDashboard />} />
                     </Routes>
                 </main>
                 <Footer />

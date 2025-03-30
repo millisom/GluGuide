@@ -3,6 +3,7 @@ const User = require('../models/authModel');
 const crypto = require('crypto');
 const argon2 = require('argon2');
 const nodemailer = require('nodemailer');
+const pool = require('../config/db');
 
 const authController = {
   async signUp(req, res) {
@@ -76,7 +77,9 @@ const authController = {
 
   async getStatus(req, res) {
     if (req.session.username) {
-      return res.json({ valid: true, username: req.session.username });
+      const result = await pool.query('SELECT is_admin FROM users WHERE username = $1', [req.session.username]);
+      const is_admin = result.rows[0]?.is_admin || false;
+      return res.json({ valid: true, username: req.session.username, is_admin });
     } else {
       return res.json({ valid: false });
     }

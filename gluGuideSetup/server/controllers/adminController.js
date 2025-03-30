@@ -106,7 +106,38 @@ const adminController = {
         }
     },
 
-    editPost: async (req, res) => { },
+    // Edit a post by id
+    editPost: async (req, res) => {
+        const postId = req.params.id;
+        const { title, content } = req.body;
+
+        try {
+            // Check if post exists
+            const existingPost = await pool.query('SELECT * FROM posts WHERE id = $1', [postId]);
+
+            if (existingPost.rows.length === 0) {
+                return res.status(404).json({ error: 'Post not found.' });
+            }
+
+            // Update the post details
+            const updatedPost = await pool.query(
+                `UPDATE posts SET
+              title = COALESCE($1, title),
+              content = COALESCE($2, content),
+              updated_at = NOW()
+             WHERE id = $3
+             RETURNING id, title, content, updated_at`,
+                [title, content, postId]
+            );
+
+            res.status(200).json(updatedPost.rows[0]);
+
+        } catch (err) {
+            console.error('Error editing post:', err);
+            res.status(500).json({ error: 'Server error editing post.' });
+        }
+    },
+
     deletePost: async (req, res) => { },
     editComment: async (req, res) => { },
     deleteComment: async (req, res) => { },

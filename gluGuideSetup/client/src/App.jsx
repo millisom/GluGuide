@@ -14,6 +14,7 @@ import MyBlogs from './pages/myBlogs.jsx';
 import ForgotPassword from './pages/forgotPassword.jsx';
 import ResetPassword from './pages/resetPassword.jsx';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminUsers from './pages/AdminUsers';
 import Footer from './components/Footer';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                         <Route path="/forgotPassword" element={<ForgotPassword />} />
                         <Route path="/resetPassword/:token" element={<ResetPassword />} />
                         <Route path="/admin" element={<AdminDashboard />} />
+                        <Route path="/admin/users" element={<AdminUsers />} />
                     </Routes>
                 </main>
                 <Footer />

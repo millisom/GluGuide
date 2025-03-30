@@ -51,7 +51,39 @@ const adminController = {
         }
     },
 
-    editUser: async (req, res) => { },
+
+    // Edit an existing user
+    editUser: async (req, res) => {
+        const userId = req.params.id;
+        const { username, email, is_admin } = req.body;
+
+        try {
+            // Fetch existing user
+            const existingUser = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+
+            if (existingUser.rows.length === 0) {
+                return res.status(404).json({ error: 'User not found.' });
+            }
+
+            // Update user details
+            const updatedUser = await pool.query(
+                `UPDATE users SET 
+              username = COALESCE($1, username), 
+              email = COALESCE($2, email), 
+              is_admin = COALESCE($3, is_admin)
+             WHERE id = $4
+             RETURNING id, username, email, is_admin`,
+                [username, email, is_admin, userId]
+            );
+
+            res.status(200).json(updatedUser.rows[0]);
+
+        } catch (err) {
+            console.error('Error editing user:', err);
+            res.status(500).json({ error: 'Server error editing user.' });
+        }
+    },
+
     deleteUser: async (req, res) => { },
     editPost: async (req, res) => { },
     deletePost: async (req, res) => { },

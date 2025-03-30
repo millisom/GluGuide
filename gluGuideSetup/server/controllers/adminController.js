@@ -51,7 +51,6 @@ const adminController = {
         }
     },
 
-
     // Edit an existing user
     editUser: async (req, res) => {
         const userId = req.params.id;
@@ -84,7 +83,29 @@ const adminController = {
         }
     },
 
-    deleteUser: async (req, res) => { },
+    // Delete a user by id
+    deleteUser: async (req, res) => {
+        const userId = req.params.id;
+
+        try {
+            // First check if user exists
+            const existingUser = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+
+            if (existingUser.rows.length === 0) {
+                return res.status(404).json({ error: 'User not found.' });
+            }
+
+            // Delete the user
+            await pool.query('DELETE FROM users WHERE id = $1', [userId]);
+
+            res.status(200).json({ message: 'User deleted successfully.' });
+
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            res.status(500).json({ error: 'Server error deleting user.' });
+        }
+    },
+
     editPost: async (req, res) => { },
     deletePost: async (req, res) => { },
     editComment: async (req, res) => { },

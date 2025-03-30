@@ -189,7 +189,27 @@ const adminController = {
         }
     },
 
-    deleteComment: async (req, res) => { },
+    deleteComment: async (req, res) => {
+        const commentId = req.params.id;
+    
+        try {
+          // First, verify if the comment exists
+          const existingComment = await pool.query('SELECT * FROM comments WHERE id = $1', [commentId]);
+    
+          if (existingComment.rows.length === 0) {
+            return res.status(404).json({ error: 'Comment not found.' });
+          }
+    
+          // Delete the comment
+          await pool.query('DELETE FROM comments WHERE id = $1', [commentId]);
+    
+          res.status(200).json({ message: 'Comment deleted successfully.' });
+    
+        } catch (err) {
+          console.error('Error deleting comment:', err);
+          res.status(500).json({ error: 'Server error deleting comment.' });
+        }
+      },
 };
 
 module.exports = adminController;

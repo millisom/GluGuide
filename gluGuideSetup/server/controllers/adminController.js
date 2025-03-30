@@ -138,7 +138,29 @@ const adminController = {
         }
     },
 
-    deletePost: async (req, res) => { },
+    // Delete a post by id
+    deletePost: async (req, res) => {
+        const postId = req.params.id;
+
+        try {
+            // First verify if the post exists
+            const existingPost = await pool.query('SELECT * FROM posts WHERE id = $1', [postId]);
+
+            if (existingPost.rows.length === 0) {
+                return res.status(404).json({ error: 'Post not found.' });
+            }
+
+            // Delete the post
+            await pool.query('DELETE FROM posts WHERE id = $1', [postId]);
+
+            res.status(200).json({ message: 'Post deleted successfully.' });
+
+        } catch (err) {
+            console.error('Error deleting post:', err);
+            res.status(500).json({ error: 'Server error deleting post.' });
+        }
+    },
+
     editComment: async (req, res) => { },
     deleteComment: async (req, res) => { },
 };

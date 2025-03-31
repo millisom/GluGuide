@@ -15,6 +15,7 @@ import ForgotPassword from './pages/forgotPassword.jsx';
 import ResetPassword from './pages/resetPassword.jsx';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminUsers from './pages/AdminUsers';
+import AdminCreateUser from './pages/AdminCreateUser';
 import Footer from './components/Footer';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                         <Route path="/resetPassword/:token" element={<ResetPassword />} />
                         <Route path="/admin" element={<AdminDashboard />} />
                         <Route path="/admin/users" element={<AdminUsers />} />
+                        <Route path="/admin/createUser" element={<AdminCreateUser />} />
                     </Routes>
                 </main>
                 <Footer />

@@ -41,7 +41,7 @@ const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');
-const logRoutes = require('./routes/logRoutes');
+const logRoutes = require('./routes/glucoseRoutes');
 
 // Use routes
 app.use('/', authRoutes);

@@ -1,4 +1,4 @@
-const Log = require('../models/logModel'); // Import your log model
+const Log = require('../models/glucoseModel'); // Import your log model
 
 const logController = {
 

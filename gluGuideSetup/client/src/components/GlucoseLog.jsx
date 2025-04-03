@@ -38,7 +38,11 @@ const GlucoseLog = () => {
                 setLogs(response.data); // Update logs state
             } catch (error) {
                 console.error('Error fetching logs:', error.response ? error.response.data : error.message);
-                setError('Failed to fetch glucose logs.');
+                if (error.response && error.response.status === 404) {
+                    setLogs([]); // Handle 404 by setting logs to an empty array
+                } else {
+                    setError('Failed to fetch glucose logs.');
+                }
             }
         };
 
@@ -116,38 +120,41 @@ const GlucoseLog = () => {
             <div className={styles.logsContainer}>
                 <h3>Logged Data</h3>
                 {logs.length > 0 ? (
-                    <table className={styles.logsTable}>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Glucose Level</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {logs.map((log) => (
-                                <tr key={log.id}>
-                                    <td>{new Date(log.date).toLocaleDateString()}</td>
-                                    <td>{log.time}</td>
-                                    <td>{log.glucose_level}</td>
+                    <>
+                        <table className={styles.logsTable}>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Glucose Level</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {logs.map((log) => (
+                                    <tr key={log.id}>
+                                        <td>{new Date(log.date).toLocaleDateString()}</td>
+                                        <td>{log.time}</td>
+                                        <td>{log.glucose_level}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <h3>Glucose Levels Over Time</h3>
+                        <LineChart width={600} height={300} data={formatLogsForGraph}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Line type="monotone" dataKey="glucose" stroke="#8884d8" />
+                        </LineChart>
+                    </>
                 ) : (
-                    <p>No glucose logs found for this user.</p>
+                    <p>No glucose logs found for this user. Please log your glucose levels above!</p>
                 )}
-                <h3>Glucose Levels Over Time</h3>
-                <LineChart width={600} height={300} data={formatLogsForGraph}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="glucose" stroke="#8884d8" />
-                </LineChart>
             </div>
         </div>
     );
 };
 
 export default GlucoseLog;
+

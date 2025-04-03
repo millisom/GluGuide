@@ -17,4 +17,6 @@ router.put('/log/:id', glucoseController.updateGlucoseLog);
 // Route to delete a glucose log by ID
 router.delete('/log/:id', glucoseController.deleteGlucoseLog);
 
+
+
 module.exports = router;

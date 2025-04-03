@@ -14,9 +14,6 @@ const Homepage = () => {
                     diabetes with confidence and ease.
                 </p>
             </div>
-            <div className={styles.blogSection}>
-                <ViewBlogEntries />
-            </div>
             <div className={styles.glucoseLogSection}>
                 <h2 className={styles.sectionTitle}>Track Your Glucose</h2>
                 <GlucoseLog /> {/* Add the GlucoseLog component here */}

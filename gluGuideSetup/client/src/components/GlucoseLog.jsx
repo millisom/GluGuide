@@ -1,57 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from '../styles/GlucoseLog.module.css'; // Add styles specific to this component
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import styles from '../styles/GlucoseLog.module.css';
 
 const GlucoseLog = () => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [glucoseLevel, setGlucoseLevel] = useState('');
     const [logs, setLogs] = useState([]);
+    const [userId, setUserId] = useState(null); // State to store userId
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const fetchLogs = async () => {
-        try {
-            const userId = 1; // Replace with dynamic user ID retrieval logic
-            const response = await axios.get(`http://localhost:8080/glucose/${userId}`, {
-                withCredentials: true,
-            });
-            setLogs(response.data);
-        } catch (error) {
-            console.error('Error fetching logs:', error);
-            setError('Failed to fetch glucose logs');
-        }
-    };
-
+    // Fetch the current user's ID when the component mounts
     useEffect(() => {
-        fetchLogs(); // Fetch logs on component mount
+        const fetchUserId = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/currentUser', { withCredentials: true });
+                setUserId(response.data.userId); // Store userId in state
+                console.log(`Logged-in userId: ${response.data.userId}`);
+            } catch (error) {
+                console.error('Error fetching userId:', error.response ? error.response.data : error.message);
+                setError('Failed to retrieve user information. Please log in.');
+            }
+        };
+        fetchUserId();
     }, []);
 
+    // Fetch glucose logs for the current user
+    useEffect(() => {
+        const fetchLogs = async () => {
+            if (!userId) return; // Wait until userId is available
+
+            try {
+                const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { withCredentials: true });
+                console.log('Fetched logs:', response.data);
+                setLogs(response.data); // Update logs state
+            } catch (error) {
+                console.error('Error fetching logs:', error.response ? error.response.data : error.message);
+                setError('Failed to fetch glucose logs.');
+            }
+        };
+
+        fetchLogs(); // Call fetchLogs after userId is available
+    }, [userId]); // Rerun the effect whenever userId changes
+
+    // Submit a new glucose log for the current user
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const userId = 1; // Replace with dynamic user ID retrieval logic
-            const data = { userId, date, time, glucoseLevel };
+            const data = { date, time, glucoseLevel, userId }; // Include userId in request
             await axios.post('http://localhost:8080/glucose/log', data, { withCredentials: true });
-            
+
             setDate('');
             setTime('');
             setGlucoseLevel('');
             setSuccessMessage('Glucose log added successfully!');
             setError('');
-            fetchLogs(); // Refresh logs after submission
+
+            // Refresh logs
+            const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { withCredentials: true });
+            setLogs(response.data);
         } catch (error) {
-            console.error('Error logging glucose:', error);
-            setError('Failed to add glucose log');
+            console.error('Error adding glucose log:', error.response ? error.response.data : error.message);
+            setError('Failed to add glucose log.');
             setSuccessMessage('');
         }
     };
 
+    // Format logs for graph
     const formatLogsForGraph = logs.map((log) => ({
-        name: `${log.date} ${log.time}`,
-        glucose: log.glucose_level,
+        name: `${new Date(log.date).toLocaleDateString()} ${log.time}`, // Format date and time for X-axis labels
+        glucose: parseFloat(log.glucose_level), // Ensure glucose_level is numeric
     }));
 
     return (
@@ -94,24 +115,28 @@ const GlucoseLog = () => {
             </div>
             <div className={styles.logsContainer}>
                 <h3>Logged Data</h3>
-                <table className={styles.logsTable}>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Glucose Level</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {logs.map((log, index) => (
-                            <tr key={index}>
-                                <td>{log.date}</td>
-                                <td>{log.time}</td>
-                                <td>{log.glucose_level}</td>
+                {logs.length > 0 ? (
+                    <table className={styles.logsTable}>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Glucose Level</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {logs.map((log) => (
+                                <tr key={log.id}>
+                                    <td>{new Date(log.date).toLocaleDateString()}</td>
+                                    <td>{log.time}</td>
+                                    <td>{log.glucose_level}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>No glucose logs found for this user.</p>
+                )}
                 <h3>Glucose Levels Over Time</h3>
                 <LineChart width={600} height={300} data={formatLogsForGraph}>
                     <CartesianGrid strokeDasharray="3 3" />

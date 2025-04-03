@@ -35,6 +35,13 @@ app.use(session({
 app.use(setUserIdInSession);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.get('/currentUser', (req, res) => {
+  if (req.session && req.session.userId) {
+      return res.status(200).json({ userId: req.session.userId });
+  }
+  res.status(401).json({ message: 'User not logged in' });
+});
+
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -49,7 +56,7 @@ app.use('/', profileRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/', postRoutes);
 app.use('/', commentRoutes);
-app.use('/', glucoseRoutes);
+app.use('/glucose', glucoseRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

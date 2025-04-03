@@ -4,20 +4,37 @@ const logController = {
 
     // Log a new glucose entry
     async logGlucose(req, res) {
-        const { userId, date, time, glucoseLevel } = req.body;
-
+        // Log the incoming request for debugging
+        console.log('Received request at POST /glucose/log');
+        console.log('Request body:', req.body);
+    
+        const userId = req.session?.userId;
+        const { date, time, glucoseLevel } = req.body;
+    
+        // Validate input fields
         if (!userId || !date || !time || !glucoseLevel) {
-            return res.status(400).json({ error: 'All fields are required' });
+            console.error('Validation error: Missing fields in request body');
+            return res.status(400).json({ error: 'All fields are required: userId, date, time, glucoseLevel' });
         }
-
+    
         try {
+            // Log the parameters before sending to the database
+            console.log('Calling Log.createLog with:', { userId, date, time, glucoseLevel });
+    
+            // Attempt to insert the data into the database
             const newLog = await Log.createLog(userId, date, time, glucoseLevel);
+    
+            // Log the result of the database operation
+            console.log('Database insert successful. New log:', newLog);
+    
             return res.status(201).json({ success: true, log: newLog });
         } catch (error) {
-            console.error('Error logging glucose:', error);
-            return res.status(500).json({ error: 'Failed to log glucose entry' });
+            // Catch and log any database-related errors
+            console.error('Error logging glucose:', error.message);
+            return res.status(500).json({ error: 'Failed to log glucose entry. Please try again later.' });
         }
-    },
+    }
+    ,
 
     // Get all logs for a specific user
     async getUserGlucoseLogs(req, res) {

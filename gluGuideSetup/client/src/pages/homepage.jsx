@@ -1,5 +1,6 @@
 import React from 'react';
 import ViewBlogEntries from "../components/ViewBlogEntries";
+import GlucoseLog from "../components/GlucoseLog"; // Import your new component
 import styles from '../styles/Homepage.module.css';
 
 const Homepage = () => {
@@ -13,11 +14,13 @@ const Homepage = () => {
                     diabetes with confidence and ease.
                 </p>
             </div>
-            <div className={styles.blogSection}>
-                <ViewBlogEntries />
+            <div className={styles.glucoseLogSection}>
+                <h2 className={styles.sectionTitle}>Track Your Glucose</h2>
+                <GlucoseLog /> {/* Add the GlucoseLog component here */}
             </div>
         </div>
     );
 };
 
 export default Homepage;
+

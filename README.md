@@ -25,4 +25,4 @@ Documenting our development process helps us stay focused on what truly mattersâ
 
 ## How to run the Project
 
-Please refere to the [README.md](/gluGuideSetup/README.md) inside the `gluGuideSetup` folder to have an overview on how to run this project.
+Please refer to the [README.md](/gluGuideSetup/README.md) inside the `gluGuideSetup` folder to have an overview on how to run this project.

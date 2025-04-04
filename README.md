@@ -1,6 +1,6 @@
 # GluGuide
 
-![RandomPicture](docs/%20gluguidereadmephoto.jpg)
+![RandomPicture](docs/_gluguidereadmephoto.jpg)
 
 ## Introduction
 

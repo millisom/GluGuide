@@ -54,6 +54,38 @@ const logController = {
         }
     },
 
+    async getGlucoseLogsByTimePeriod(req, res) {
+        const { userId } = req.params;
+        const { timePeriod } = req.query; // Expect 'timePeriod' to be passed as a query parameter
+
+        console.log('Controller: User ID:', userId);
+        console.log('Controller: Time Period:', timePeriod);
+
+        if (!userId) {
+            console.error('Error: Missing user ID in session.');
+            return res.status(400).json({ error: 'User ID is required for this operation.' });
+        }
+    
+        if (!timePeriod || !['1 day', '7 days', '30 days'].includes(timePeriod)) {
+            console.error('Error: Invalid time period.');
+            return res.status(400).json({ error: 'Valid time period is required (e.g., 1 day, 7 days, 30 days).' });
+        }
+
+        try {
+            const logs = await Log.getLogsByTimePeriod(userId, timePeriod); // Call the new model function
+
+            if (logs.length === 0) {
+                return res.status(404).json({ message: 'No logs found for the specified time period' });
+            }
+
+            return res.status(200).json(logs);
+        } catch (error) {
+            console.error('Error fetching glucose logs by time period:', error);
+            return res.status(500).json({ error: 'Failed to fetch glucose logs' });
+        }
+    },
+
+
     // Get a specific log by ID
     async getGlucoseLogById(req, res) {
         const { id } = req.params;

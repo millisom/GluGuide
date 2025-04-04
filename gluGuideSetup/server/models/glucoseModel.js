@@ -26,6 +26,32 @@ const LogModel = {
         }
     },
 
+    getLogsByTimePeriod: async (userId, timePeriod) => {
+        if (!userId || !timePeriod) {
+            throw new Error('User ID and time period are required.');
+        }
+    
+        const query = `
+            SELECT * 
+            FROM glucose_logs 
+            WHERE user_id = $1 
+              AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - $2::INTERVAL
+            ORDER BY date, time
+        `;
+        const values = [userId, timePeriod]; // Ensure the parameters are defined and valid
+    
+        try {
+            console.log('Executing query:', query); // Log the query for debugging
+            console.log('With values:', values); // Log the parameter values
+            const result = await db.query(query, values);
+            return result.rows;
+        } catch (err) {
+            console.error('Error in getLogsByTimePeriod:', err);
+            throw err;
+        }
+    },
+    
+
     // Function to fetch a specific log by its ID
     getLogById: async (id) => {
         const query = `SELECT * FROM glucose_logs WHERE id = $1`;

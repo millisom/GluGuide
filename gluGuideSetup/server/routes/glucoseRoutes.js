@@ -8,6 +8,9 @@ router.post('/log', glucoseController.logGlucose);
 // Route to retrieve all glucose logs for a user
 router.get('/:userId', glucoseController.getUserGlucoseLogs);
 
+// Route to retrieve logs for a specific time period (new feature)
+router.get('/:userId/time-period', glucoseController.getGlucoseLogsByTimePeriod);
+
 // Route to retrieve a specific glucose log by ID
 router.get('/log/:id', glucoseController.getGlucoseLogById);
 

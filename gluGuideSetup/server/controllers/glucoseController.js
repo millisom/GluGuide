@@ -16,6 +16,11 @@ const logController = {
             console.error('Validation error: Missing fields in request body');
             return res.status(400).json({ error: 'All fields are required: userId, date, time, glucoseLevel' });
         }
+        if (isNaN(glucoseLevel) || glucoseLevel <= 0) {
+            console.error('Validation error: Invalid glucose level');
+            return res.status(400).json({ error: 'Glucose level must be a positive number.' });
+        }
+        
     
         try {
             // Log the parameters before sending to the database

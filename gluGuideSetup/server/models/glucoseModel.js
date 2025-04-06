@@ -20,8 +20,9 @@ const LogModel = {
         }
     
         let query;
-        let values = [userId];
+        let values = [userId]; // User ID as the first parameter
     
+        // Filter logic based on specified filter criteria
         switch (filter) {
             case '3months':
                 query = `
@@ -30,6 +31,7 @@ const LogModel = {
                       AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '3 months'
                     ORDER BY date, time`;
                 break;
+    
             case '1week':
                 query = `
                     SELECT * FROM glucose_logs 
@@ -37,6 +39,7 @@ const LogModel = {
                       AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '7 days'
                     ORDER BY date, time`;
                 break;
+    
             case '24hours':
                 query = `
                     SELECT * FROM glucose_logs 
@@ -44,7 +47,9 @@ const LogModel = {
                       AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '1 day'
                     ORDER BY date, time`;
                 break;
+    
             default:
+                // Default to returning all logs if no valid filter is provided
                 query = `
                     SELECT * FROM glucose_logs 
                     WHERE user_id = $1 
@@ -52,10 +57,13 @@ const LogModel = {
         }
     
         try {
-            console.log('Executing query for filter:', filter); // Log the filter
-            console.log('Query being executed:', query); // Log the query
+            // Log query execution for debugging
+            console.log(`Executing query for filter: ${filter}`);
+            console.log(`Query being executed: ${query}`);
+    
             const result = await db.query(query, values);
-            console.log('Query result:', result.rows); // Log the result
+            console.log('Query result:', result.rows); // Log the result set
+    
             return result.rows;
         } catch (err) {
             console.error('Error in getLogsByFilter:', err);

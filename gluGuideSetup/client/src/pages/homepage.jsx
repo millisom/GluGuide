@@ -18,7 +18,6 @@ const Homepage = () => {
             <div className={styles.glucoseLogSection}>
                 <h2 className={styles.sectionTitle}>Track Your Glucose</h2>
                 <GlucoseLog /> 
-                <Dashboard /> 
             </div>
         </div>
     );

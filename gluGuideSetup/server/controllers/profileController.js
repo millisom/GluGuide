@@ -113,7 +113,10 @@ const profileController = {
                             }
                         });
                     }
-                    const rowsUpdated = await Profile.setUserDp(username, req.file.path);
+                    const rowsUpdated = await Profile.setUserDp(
+                        username,
+                        req.file.filename
+                    );
                     if (rowsUpdated === 0) {
                         return res.status(404).json({ error: "No user found" });
                     }

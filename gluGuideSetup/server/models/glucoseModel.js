@@ -14,6 +14,65 @@ const LogModel = {
         }
     },
 
+    getLogsByFilter: async (userId, filter) => {
+        if (!userId) {
+            throw new Error('User ID is required.');
+        }
+    
+        let query;
+        let values = [userId]; // User ID as the first parameter
+    
+        // Filter logic based on specified filter criteria
+        switch (filter) {
+            case '3months':
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                      AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '3 months'
+                    ORDER BY date, time`;
+                break;
+    
+            case '1week':
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                      AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '7 days'
+                    ORDER BY date, time`;
+                break;
+    
+            case '24hours':
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                      AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '1 day'
+                    ORDER BY date, time`;
+                break;
+    
+            default:
+                // Default to returning all logs if no valid filter is provided
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                    ORDER BY date, time`;
+        }
+    
+        try {
+            // Log query execution for debugging
+            console.log(`Executing query for filter: ${filter}`);
+            console.log(`Query being executed: ${query}`);
+    
+            const result = await db.query(query, values);
+            console.log('Query result:', result.rows); // Log the result set
+    
+            return result.rows;
+        } catch (err) {
+            console.error('Error in getLogsByFilter:', err);
+            throw err;
+        }
+    },
+    
+
+
     // Function to fetch all logs for a specific user
     getLogsByUser: async (userId) => {
         const query = `SELECT * FROM glucose_logs WHERE user_id = $1 ORDER BY date, time`;
@@ -25,6 +84,32 @@ const LogModel = {
             throw err;
         }
     },
+
+    getLogsByTimePeriod: async (userId, timePeriod) => {
+        if (!userId || !timePeriod) {
+            throw new Error('User ID and time period are required.');
+        }
+    
+        const query = `
+            SELECT * 
+            FROM glucose_logs 
+            WHERE user_id = $1 
+              AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - $2::INTERVAL
+            ORDER BY date, time
+        `;
+        const values = [userId, timePeriod]; // Ensure the parameters are defined and valid
+    
+        try {
+            console.log('Executing query:', query); // Log the query for debugging
+            console.log('With values:', values); // Log the parameter values
+            const result = await db.query(query, values);
+            return result.rows;
+        } catch (err) {
+            console.error('Error in getLogsByTimePeriod:', err);
+            throw err;
+        }
+    },
+    
 
     // Function to fetch a specific log by its ID
     getLogById: async (id) => {

@@ -60,8 +60,7 @@ const FoodItem = ({ onAdd }) => {
     return (
         <div className={styles.foodItemContainer}>
             <div className={styles.header}>
-                <h2 className={styles.foodItemTitle}>{food.foodName}</h2>
-                
+                <h1 className={styles.foodItemTitle}>{food.foodName}</h1>
                 <h2 className={styles.foodItemTitle2}>Serving: 100 grams</h2>
                 <button className={styles.addButton} onClick={() => onAdd(food)}>+</button>
                 </div>

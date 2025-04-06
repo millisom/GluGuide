@@ -4,7 +4,6 @@ const logController = {
 
     // Log a new glucose entry
     async logGlucose(req, res) {
-        // Log the incoming request for debugging
         console.log('Received request at POST /glucose/log');
         console.log('Request body:', req.body);
     
@@ -20,25 +19,30 @@ const logController = {
             console.error('Validation error: Invalid glucose level');
             return res.status(400).json({ error: 'Glucose level must be a positive number.' });
         }
-        
+    
+        // Combine date and time into a single Date object
+        const submittedTimestamp = new Date(`${date}T${time}`);
+        const currentTimestamp = new Date();
+    
+        // Validate that the date/time is not in the future
+        if (submittedTimestamp > currentTimestamp) {
+            console.error('Validation error: Date and time are in the future');
+            return res.status(400).json({ error: 'You cannot log glucose levels for a future date or time.' });
+        }
     
         try {
-            // Log the parameters before sending to the database
             console.log('Calling Log.createLog with:', { userId, date, time, glucoseLevel });
     
-            // Attempt to insert the data into the database
             const newLog = await Log.createLog(userId, date, time, glucoseLevel);
-    
-            // Log the result of the database operation
             console.log('Database insert successful. New log:', newLog);
     
             return res.status(201).json({ success: true, log: newLog });
         } catch (error) {
-            // Catch and log any database-related errors
             console.error('Error logging glucose:', error.message);
             return res.status(500).json({ error: 'Failed to log glucose entry. Please try again later.' });
         }
     }
+    
     ,
 
     // Get all logs for a specific user

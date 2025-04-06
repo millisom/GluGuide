@@ -57,26 +57,35 @@ const GlucoseLog = () => {
     // Submit a new glucose log for the current user
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         try {
             const data = { date, time, glucoseLevel, userId };
             await axios.post('http://localhost:8080/glucose/log', data, { withCredentials: true });
-
+    
+            // Reset input fields and display success message
             setDate('');
             setTime('');
             setGlucoseLevel('');
             setSuccessMessage('Glucose log added successfully!');
             setError('');
-
+    
             // Refresh logs
             const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { params: { filter }, withCredentials: true });
             setLogs(response.data);
         } catch (error) {
             console.error('Error adding glucose log:', error.response ? error.response.data : error.message);
-            setError('Failed to add glucose log.');
-            setSuccessMessage('');
+    
+            // Update the error message based on the server response
+            if (error.response && error.response.data.error) {
+                setError(error.response.data.error); // Display specific error from backend
+            } else {
+                setError('Failed to add glucose log. Please try again.');
+            }
+    
+            setSuccessMessage(''); // Clear success message in case of error
         }
     };
+    
 
     // Format logs for graph
     const formatLogsForGraph = logs.map((log) => ({

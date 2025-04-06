@@ -24,12 +24,19 @@
 
 /* Individual blog post card */
 .postCard {
+  display: flex; /* Make the card a flex container */
+  flex-direction: column; /* Stack content vertically */
+  justify-content: space-between;
   background-color: var(--color-secondary);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
+}
+
+.postContent {
+  flex: 1; /* Fill remaining space */
 }
 
 .postCard:hover {
@@ -94,7 +101,7 @@
 
 /* Error message styling */
 .error {
-  color: red;
+  color: #e68484;
   font-size: 1.2rem;
   margin-top: 20px;
 }
@@ -104,4 +111,42 @@
   color: #999;
   font-size: 1.5rem;
   font-style: italic;
+}
+
+.adminActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.editButton,
+.deleteButton {
+  border: none;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  margin: 4px;
+  cursor: pointer;
+  border-radius: 3px;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.editButton {
+  background-color: #1cc198;
+}
+
+.editButton:hover {
+  background-color: #169d7b;
+}
+
+.deleteButton {
+  background-color: #e68484;
+}
+
+.deleteButton:hover {
+  background-color: #c56f6f;
+}
+
+.heart {
+  color: #e68484;
 }

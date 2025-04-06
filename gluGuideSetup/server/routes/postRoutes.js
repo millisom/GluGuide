@@ -4,7 +4,6 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController'); // Import your controller
-const upload = require('../config/multerConfig');
 
 // Define the route for creating a post
 router.post('/createPost', postController.createPost); // This is where the logic is wired up
@@ -14,8 +13,12 @@ router.put('/updatePost/:id', postController.updatePost); //update Post
 router.delete('/deletePost/:id', postController.deletePost);
 router.get('/getAllPosts', postController.getAllPosts);
 router.post('/uploadPostImage/:id', postController.uploadPostImage);
+router.delete('/deletePostImage/:id', postController.deletePostImage);
 
 // Route to like or unlike a post
 router.post('/toggleLike/:id', postController.toggleLike);
+
+// Route for Admin to edit specific post
+router.get('/getPost/:id', postController.getPostById);
 
 module.exports = router;

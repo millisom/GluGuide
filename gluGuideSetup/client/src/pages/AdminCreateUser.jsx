@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import styles from '../styles/Admin.module.css';
 
 const AdminCreateUser = () => {
   const [username, setUsername] = useState('');
@@ -12,82 +16,115 @@ const AdminCreateUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
+    if (!termsAccepted) {
+      setMessage('Terms must be accepted.');
+      return;
+    }
 
     try {
-      const res = await fetch('http://localhost:8080/admin/createUser', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ username, email, password, termsAccepted, is_admin: isAdmin }),
-      });
+      const res = await axios.post(
+        'http://localhost:8080/admin/createUser',
+        { username, email, password, termsAccepted, is_admin: isAdmin },
+        { withCredentials: true }
+      );
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setMessage(`User created successfully: ${data.username}`);
-        setTimeout(() => navigate('/admin/users'), 1500);
-      } else {
-        setMessage(`Error: ${data.error || 'Something went wrong.'}`);
-      }
+      setMessage(`User created successfully: ${res.data.username}`);
+      setTimeout(() => navigate('/admin'), 1500);
     } catch (err) {
-      setMessage(`Error: ${err.message}`);
+      setMessage(err.response?.data?.error || 'An error occurred.');
     }
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-      <h2>Create New User</h2>
-
+    <div className={styles.formAdminCreate}>
+      <h1 className={styles.title}>Create New User</h1>
+      <br />
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <label>
+        <div className={styles.inputField}>
+          <label className={styles.label}>Username</label>
           <input
-            type="checkbox"
+            type='text'
+            className={styles.input}
+            placeholder='Username'
+            value={username}
+            required
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.inputField}>
+          <label className={styles.label}>Email</label>
+          <input
+            type='email'
+            className={styles.input}
+            placeholder='Email'
+            value={email}
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.inputField}>
+          <label className={styles.label}>Password</label>
+          <input
+            type='password'
+            className={styles.input}
+            placeholder='Password'
+            value={password}
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <label className={styles.labelCheckbox}>
+          <input
+            type='checkbox'
             checked={termsAccepted}
             onChange={(e) => setTermsAccepted(e.target.checked)}
-          /> Terms Accepted
+            className={styles.iconSpacing}
+          />
+          I accept the Terms and Conditions
         </label>
 
-        <label>
+        <label className={styles.labelCheckbox}>
           <input
-            type="checkbox"
+            type='checkbox'
             checked={isAdmin}
             onChange={(e) => setIsAdmin(e.target.checked)}
-          /> Make Admin
+            className={styles.iconSpacing}
+          />
+          Make Admin
         </label>
 
-        <button type="submit">Create User 🚀</button>
+        {message && (
+          <p
+            className={styles.message}
+            style={{
+              color: message.includes('successfully') ? 'green' : 'red',
+            }}
+          >
+            {message}
+          </p>
+        )}
+
+        <div className={styles.buttonGroup}>
+          <button
+            type='button'
+            className={styles.secondaryButton}
+            onClick={() => navigate('/admin')}
+          >
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className={styles.iconSpacing}
+            />
+            Back to Dashboard
+          </button>
+          <button type='submit' className={styles.primaryButton}>
+            <FontAwesomeIcon icon={faUserPlus} className={styles.iconSpacing} />
+            Create User
+          </button>
+        </div>
       </form>
-
-      {message && <p>{message}</p>}
-
-      <Link to="/admin/users">← Back to User List</Link>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const GlucoseLog = () => {
     const [userId, setUserId] = useState(null);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [filter, setFilter] = useState('all'); // New state to store filter criteria
+    const [filter, setFilter] = useState('24hours'); // Default filter set to "Last 24 Hours"
 
     // Fetch the current user's ID when the component mounts
     useEffect(() => {
@@ -28,7 +28,7 @@ const GlucoseLog = () => {
         fetchUserId();
     }, []);
 
-    // Fetch glucose logs for the current user with filtering
+    // Fetch glucose logs for the current user with the default filter ("Last 24 Hours")
     useEffect(() => {
         const fetchLogs = async () => {
             if (!userId) return;
@@ -140,12 +140,12 @@ const GlucoseLog = () => {
                         setFilter(e.target.value);
                         console.log('Filter changed to:', e.target.value); // Add this for debugging
                     }}
-                    value={filter}
+                    value={filter} // Default filter is "24hours"
                 >
-                    <option value="all">All Data</option>
-                    <option value="3months">Last 3 Months</option>
-                    <option value="1week">Last Week</option>
                     <option value="24hours">Last 24 Hours</option>
+                    <option value="1week">Last Week</option>
+                    <option value="3months">Last 3 Months</option>
+                    <option value="all">All Data</option>
                 </select>
             </div>
 
@@ -190,3 +190,4 @@ const GlucoseLog = () => {
 };
 
 export default GlucoseLog;
+

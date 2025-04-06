@@ -14,10 +14,10 @@ import MyBlogs from './pages/myBlogs.jsx';
 import ForgotPassword from './pages/forgotPassword.jsx';
 import ResetPassword from './pages/resetPassword.jsx';
 import AdminDashboard from './pages/AdminDashboard';
-import AdminUsers from './pages/AdminUsers';
 import AdminCreateUser from './pages/AdminCreateUser';
 import AdminEditUser from './pages/AdminEditUser';
 import Footer from './components/Footer';
+import AdminEditPost from './pages/AdminEditPost';
 
 function App() {
     return (
@@ -41,9 +41,9 @@ function App() {
                         <Route path="/forgotPassword" element={<ForgotPassword />} />
                         <Route path="/resetPassword/:token" element={<ResetPassword />} />
                         <Route path="/admin" element={<AdminDashboard />} />
-                        <Route path="/admin/users" element={<AdminUsers />} />
                         <Route path="/admin/createUser" element={<AdminCreateUser />} />
                         <Route path="/admin/editUser/:id" element={<AdminEditUser />} />
+                        <Route path="/admin/editPost/:id" element={<AdminEditPost />} />
                     </Routes>
                 </main>
                 <Footer />

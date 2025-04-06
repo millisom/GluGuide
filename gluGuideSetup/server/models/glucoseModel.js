@@ -14,6 +14,57 @@ const LogModel = {
         }
     },
 
+    getLogsByFilter: async (userId, filter) => {
+        if (!userId) {
+            throw new Error('User ID is required.');
+        }
+    
+        let query;
+        let values = [userId];
+    
+        switch (filter) {
+            case '3months':
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                      AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '3 months'
+                    ORDER BY date, time`;
+                break;
+            case '1week':
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                      AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '7 days'
+                    ORDER BY date, time`;
+                break;
+            case '24hours':
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                      AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - INTERVAL '1 day'
+                    ORDER BY date, time`;
+                break;
+            default:
+                query = `
+                    SELECT * FROM glucose_logs 
+                    WHERE user_id = $1 
+                    ORDER BY date, time`;
+        }
+    
+        try {
+            console.log('Executing query for filter:', filter); // Log the filter
+            console.log('Query being executed:', query); // Log the query
+            const result = await db.query(query, values);
+            console.log('Query result:', result.rows); // Log the result
+            return result.rows;
+        } catch (err) {
+            console.error('Error in getLogsByFilter:', err);
+            throw err;
+        }
+    },
+    
+
+
     // Function to fetch all logs for a specific user
     getLogsByUser: async (userId) => {
         const query = `SELECT * FROM glucose_logs WHERE user_id = $1 ORDER BY date, time`;

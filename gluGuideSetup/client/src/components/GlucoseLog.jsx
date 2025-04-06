@@ -8,16 +8,17 @@ const GlucoseLog = () => {
     const [time, setTime] = useState('');
     const [glucoseLevel, setGlucoseLevel] = useState('');
     const [logs, setLogs] = useState([]);
-    const [userId, setUserId] = useState(null); // State to store userId
+    const [userId, setUserId] = useState(null);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [filter, setFilter] = useState('all'); // New state to store filter criteria
 
     // Fetch the current user's ID when the component mounts
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/currentUser', { withCredentials: true });
-                setUserId(response.data.userId); // Store userId in state
+                setUserId(response.data.userId);
                 console.log(`Logged-in userId: ${response.data.userId}`);
             } catch (error) {
                 console.error('Error fetching userId:', error.response ? error.response.data : error.message);
@@ -27,34 +28,38 @@ const GlucoseLog = () => {
         fetchUserId();
     }, []);
 
-    // Fetch glucose logs for the current user
+    // Fetch glucose logs for the current user with filtering
     useEffect(() => {
         const fetchLogs = async () => {
-            if (!userId) return; // Wait until userId is available
-
+            if (!userId) return;
+    
             try {
-                const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { withCredentials: true });
-                console.log('Fetched logs:', response.data);
-                setLogs(response.data); // Update logs state
+                console.log('Sending request with filter:', filter); // Log the filter being sent
+                const response = await axios.get(`http://localhost:8080/glucose/${userId}`, {
+                    params: { filter }, // Include the filter in the request
+                    withCredentials: true,
+                });
+                console.log('Fetched logs with filter:', filter, response.data); // Log the response data
+                setLogs(response.data);
             } catch (error) {
                 console.error('Error fetching logs:', error.response ? error.response.data : error.message);
                 if (error.response && error.response.status === 404) {
-                    setLogs([]); // Handle 404 by setting logs to an empty array
+                    setLogs([]);
                 } else {
                     setError('Failed to fetch glucose logs.');
                 }
             }
         };
-
-        fetchLogs(); // Call fetchLogs after userId is available
-    }, [userId]); // Rerun the effect whenever userId changes
+    
+        fetchLogs();
+    }, [userId, filter]); 
 
     // Submit a new glucose log for the current user
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const data = { date, time, glucoseLevel, userId }; // Include userId in request
+            const data = { date, time, glucoseLevel, userId };
             await axios.post('http://localhost:8080/glucose/log', data, { withCredentials: true });
 
             setDate('');
@@ -64,7 +69,7 @@ const GlucoseLog = () => {
             setError('');
 
             // Refresh logs
-            const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { withCredentials: true });
+            const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { params: { filter }, withCredentials: true });
             setLogs(response.data);
         } catch (error) {
             console.error('Error adding glucose log:', error.response ? error.response.data : error.message);
@@ -75,8 +80,8 @@ const GlucoseLog = () => {
 
     // Format logs for graph
     const formatLogsForGraph = logs.map((log) => ({
-        name: `${new Date(log.date).toLocaleDateString()} ${log.time}`, // Format date and time for X-axis labels
-        glucose: parseFloat(log.glucose_level), // Ensure glucose_level is numeric
+        name: `${new Date(log.date).toLocaleDateString()} ${log.time}`,
+        glucose: parseFloat(log.glucose_level),
     }));
 
     return (
@@ -117,6 +122,25 @@ const GlucoseLog = () => {
                 {error && <p className={styles.errorMessage}>{error}</p>}
                 {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
             </div>
+
+            {/* Filter Options */}
+            <div className={styles.filterContainer}>
+                <h3>Filter Data</h3>
+                <select
+                    onChange={(e) => {
+                        setFilter(e.target.value);
+                        console.log('Filter changed to:', e.target.value); // Add this for debugging
+                    }}
+                    value={filter}
+                >
+                    <option value="all">All Data</option>
+                    <option value="3months">Last 3 Months</option>
+                    <option value="1week">Last Week</option>
+                    <option value="24hours">Last 24 Hours</option>
+                </select>
+            </div>
+
+            {/* Table and Graph */}
             <div className={styles.logsContainer}>
                 <h3>Logged Data</h3>
                 {logs.length > 0 ? (
@@ -157,4 +181,3 @@ const GlucoseLog = () => {
 };
 
 export default GlucoseLog;
-

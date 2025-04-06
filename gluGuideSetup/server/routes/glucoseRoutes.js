@@ -14,11 +14,16 @@ router.get('/:userId/time-period', glucoseController.getGlucoseLogsByTimePeriod)
 // Route to retrieve a specific glucose log by ID
 router.get('/log/:id', glucoseController.getGlucoseLogById);
 
+router.get('/:userId', glucoseController.getFilteredGlucoseLogs);
+
+
 // Route to update a glucose log by ID
 router.put('/log/:id', glucoseController.updateGlucoseLog);
 
 // Route to delete a glucose log by ID
 router.delete('/log/:id', glucoseController.deleteGlucoseLog);
+
+
 
 
 

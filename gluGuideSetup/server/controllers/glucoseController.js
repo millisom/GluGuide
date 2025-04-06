@@ -54,6 +54,35 @@ const logController = {
         }
     },
 
+    async getFilteredGlucoseLogs(req, res) {
+        console.log('Request reached the controller'); // Debug log at the start
+        const { userId } = req.params;
+        const { filter } = req.query;
+    
+        console.log('Controller: User ID:', userId);
+        console.log('Controller: Filter received:', filter);
+    
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID is required for this operation.' });
+        }
+    
+        try {
+            const logs = await Log.getLogsByFilter(userId, filter);
+            console.log('Controller: Logs returned from model:', logs); // Log the result from the model
+    
+            if (logs.length === 0) {
+                return res.status(404).json({ message: 'No logs found for the specified filter' });
+            }
+    
+            return res.status(200).json(logs);
+        } catch (error) {
+            console.error('Error fetching filtered logs:', error);
+            return res.status(500).json({ error: 'Failed to fetch glucose logs.' });
+        }
+    },    
+    
+    
+
     async getGlucoseLogsByTimePeriod(req, res) {
         const { userId } = req.params;
         const { timePeriod } = req.query; // Expect 'timePeriod' to be passed as a query parameter

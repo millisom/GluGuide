@@ -136,3 +136,7 @@
 .squareButton:hover {
   background-color: var(--color-secondary);
 }
+
+.heart {
+  color: #e68484;
+}

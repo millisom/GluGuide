@@ -31,6 +31,7 @@
   color: #666;
   font-style: italic;
   text-align: center;
+  margin-top: 1rem;
 }
 
 .commentCard {
@@ -81,30 +82,30 @@
 }
 
 .likeButton {
-  background-color: var(--color-confirm);
+  background-color: #1cc198;
   color: var(--color-text-white);
 }
 
 .likeButton:hover {
-  background-color: #2a5b35;
+  background-color: #169d7b;
 }
 
 .dislikeButton {
-  background-color: rgb(192, 154, 84);
-  color: var(--color-text-white);
+  background-color: #ffd177;
+  color: #333;
 }
 
 .dislikeButton:hover {
-  background-color: rgb(139, 90, 0);
+  background-color: #e0b96c;
 }
 
 .deleteButton {
-  background-color: rgb(200, 71, 71);
+  background-color: #e68484;
   color: var(--color-text-white);
 }
 
 .deleteButton:hover {
-  background-color: darkred;
+  background-color: #c56f6f;
 }
 
 .editButton {
@@ -112,18 +113,26 @@
   color: var(--color-text-white);
 }
 
-.editButton:hover, .saveButton:hover, .cancelButton:hover {
-  background-color: var(--color-secondary);
+.editButton:hover {
+  background-color: #8a89b9;
 }
 
 .saveButton {
-  background-color: var(--color-confirm);
+  background-color: #1cc198;
   color: var(--color-text-white);
+}
+
+.saveButton:hover {
+  background-color: #169d7b;
 }
 
 .cancelButton {
   background-color: #ccc;
   color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #a8a8a8;
 }
 
 .editContainer {

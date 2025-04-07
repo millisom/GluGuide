@@ -1,0 +1,38 @@
+.glucoseLogContainer {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.formContainer {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.logsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.logsTable th, .logsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.logsTable th {
+    background-color: #f2f2f2;
+}
+
+.successMessage {
+    color: green;
+    margin-top: 10px;
+}
+
+.errorMessage {
+    color: red;
+    margin-top: 10px;
+}

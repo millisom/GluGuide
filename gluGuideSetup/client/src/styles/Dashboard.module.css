@@ -1,0 +1,55 @@
+.selectorContainer {
+    margin-bottom: 20px;
+}
+
+.periodBlock {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.periodBlock h3 {
+    margin: 0 0 10px;
+}
+
+.periodBlock button {
+    float: right;
+    padding: 5px 10px;
+    background-color: #ff6666;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.periodBlock button:hover {
+    background-color: #cc0000;
+}
+
+.glucoseLogContainer {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.logsContainer {
+    margin-top: 20px;
+}
+
+.logsTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.logsTable th, .logsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.logsTable th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}

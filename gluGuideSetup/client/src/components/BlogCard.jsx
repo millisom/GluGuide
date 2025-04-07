@@ -1,9 +1,8 @@
 import styles from '../styles/Blogcard.module.css';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faHeart } from '@fortawesome/free-solid-svg-icons';
 import axios from '../../api/axiosConfig';
 
 const BlogCard = ({ blog }) => {
@@ -41,7 +40,8 @@ const BlogCard = ({ blog }) => {
                 </div>
                 <div className={styles.cardFooter}>
                     <p className={styles.postLikes}>
-                        ❤️ {blog.likes ? blog.likes.length : 0} Likes
+                        <FontAwesomeIcon icon={faHeart} className={styles.heart} />{" "}
+                        {blog.likes ? blog.likes.length : 0} Likes
                     </p>
                     <div className={styles.iconContainer}>
                         <button

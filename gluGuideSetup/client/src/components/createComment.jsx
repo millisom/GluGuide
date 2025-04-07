@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import axios from 'axios';
 import styles from '../styles/Comments.module.css';
 
-const CreateComment = () => {
-  const { id: post_id } = useParams();
-  const [content, setContent] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+const CreateComment = ({ postId, onCommentCreated }) => {
+  const [content, setContent] = useState("");
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/comments',
-        { post_id, content },
+      await axios.post(
+        "http://localhost:8080/comments",
+        { post_id: postId, content },
         { withCredentials: true }
       );
 
-      console.log('Comment created:', response.data);
-      setContent('');
-      setSuccessMessage('Comment added successfully!');
+      setContent("");
+      setSuccessMessage("Comment added successfully!");
+
+      onCommentCreated();
     } catch (error) {
-      console.error('Error creating comment:', error.response ? error.response.data : error.message);
-      setError('Failed to add comment');
+      console.error("Error creating comment:", error);
+      setError("Failed to add comment");
     }
   };
 
@@ -39,9 +38,13 @@ const CreateComment = () => {
           placeholder="Write your comment here..."
           className={styles.commentTextarea}
         />
-        <button type="submit" className={styles.submitButton}>Submit</button>
+        <button type="submit" className={styles.submitButton}>
+          Submit
+        </button>
         {error && <p className={styles.error}>{error}</p>}
-        {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+        {successMessage && (
+          <p className={styles.successMessage}>{successMessage}</p>
+        )}
       </form>
     </div>
   );

@@ -1,55 +1,49 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import styles from '../styles/EditPost.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faXmark, faSave } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import styles from "../styles/EditPost.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faXmark, faSave } from "@fortawesome/free-solid-svg-icons";
 
-const EditPost = () => {
+const AdminEditPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [error, setError] = useState('');
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
-const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
-          withCredentials: true,
-        });
-        setTitle(response.data.title);
-        setContent(response.data.content);
+    axios
+      .get(`http://localhost:8080/getPost/${id}`, { withCredentials: true })
+      .then((res) => {
+        setTitle(res.data.title);
+        setContent(res.data.content);
         setImageUrl(
-          response.data.post_picture
-            ? `http://localhost:8080/uploads/${response.data.post_picture}`
+          res.data.post_picture
+            ? `http://localhost:8080/uploads/${res.data.post_picture}`
             : ""
         );
-      } catch (error) {
-        setError('Failed to load post');
-        console.error('Error loading post:', error.response ? error.response.data : error.message);
-      }
-    };
-    fetchPost();
+      })
+      .catch(() => setError("Failed to load post."));
   }, [id]);
 
   const handleSave = async () => {
     setIsLoading(true);
     try {
       await axios.put(
-        `http://localhost:8080/updatePost/${id}`,
+        `http://localhost:8080/admin/posts/${id}`,
         { title, content },
         { withCredentials: true }
       );
-      navigate(`/viewPost/${id}`); // Redirect back to the view page after saving
-    } catch (error) {
-      setError('Failed to save changes');
-      console.error('Error saving post:', error);
+      navigate(`/blogs/view/${id}`);
+    } catch (err) {
+      setError("Failed to save post.");
     } finally {
       setIsLoading(false);
     }
@@ -62,15 +56,17 @@ const [imageUrl, setImageUrl] = useState('');
     }
 
     const formData = new FormData();
-    formData.append('postImage', image);
-  
+    formData.append("postImage", image);
+
     try {
-      const response = await axios.post(`http://localhost:8080/uploadPostImage/${id}`, formData, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `http://localhost:8080/uploadPostImage/${id}`,
+        formData,
+        { withCredentials: true }
+      );
       setImageUrl(response.data.imageUrl);
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
       setError("Failed to upload image.");
     }
   };
@@ -80,16 +76,16 @@ const [imageUrl, setImageUrl] = useState('');
       await axios.delete(`http://localhost:8080/deletePostImage/${id}`, {
         withCredentials: true,
       });
-      setImageUrl('');
+      setImageUrl("");
     } catch (error) {
-      console.error('Error deleting image:', error);
+      console.error("Error deleting image:", error);
       setError("Failed to delete image.");
     }
   };
 
   return (
     <div className={styles.editPostContainer}>
-      <h2 className={styles.title}>Edit Your Post</h2>
+      <h2 className={styles.title}>Edit Post "{title}" (as Admin)</h2>
       {error && <p className={styles.errorMessage}>{error}</p>}
 
       <div className={styles.form}>
@@ -99,21 +95,18 @@ const [imageUrl, setImageUrl] = useState('');
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Post title"
           className={styles.input}
         />
-  
-        {/* Post Content */}
 
+        {/* Post Content */}
         <label className={styles.label}>Content:</label>
         <ReactQuill
           value={content}
           onChange={setContent}
           className={styles.quillEditor}
         />
-  
-        {/* Image Upload Section */}
 
+        {/* Current Post Image */}
         <label className={styles.label}>Current Post Image:</label>
         {imageUrl ? (
           <>
@@ -163,11 +156,10 @@ const [imageUrl, setImageUrl] = useState('');
         <button onClick={handleUploadImage} className={styles.uploadButton}>
           Upload Image
         </button>
-  
         {/* Action Buttons */}
-
         <div className={styles.buttonGroup}>
           <button
+            type="button"
             onClick={handleSave}
             disabled={isLoading}
             className={styles.saveButton}
@@ -176,7 +168,8 @@ const [imageUrl, setImageUrl] = useState('');
             {isLoading ? "Saving..." : "Save"}
           </button>
           <button
-            onClick={() => navigate(`/viewPost/${id}`)}
+            type="button"
+            onClick={() => navigate(`/blogs/view/${id}`)}
             className={styles.cancelButton}
           >
             <FontAwesomeIcon icon={faXmark} className={styles.iconSpacing} />
@@ -188,4 +181,4 @@ const [imageUrl, setImageUrl] = useState('');
   );
 };
 
-export default EditPost;
+export default AdminEditPost;

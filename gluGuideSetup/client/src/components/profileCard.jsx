@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
-import Logout from './logout';
 import styles from '../styles/ProfileCard.module.css';
 import ReactQuill from 'react-quill';
 
@@ -59,7 +57,7 @@ const ProfileCard = () => {
           setError('Failed to fetch dp.');
         }
       }
-    }
+    };
 
     fetchBio();
     fetchDp();
@@ -69,7 +67,7 @@ const ProfileCard = () => {
   const handleSaveBio = async () => {
     try {
       const response = await axios.post('http://localhost:8080/setBio', { profile_bio: bio });
-      
+
       if (response.status === 200) {
         setIsEditingBio(false);
       } else {
@@ -81,14 +79,14 @@ const ProfileCard = () => {
       setError('Failed to update bio.');
     }
   };
-  
+
 
   const handleSaveDp = async () => {
     if (!selectedDpFile) {
       alert("Please select a file before saving.");
       return;
     }
-    
+
     const formData = new FormData();
     formData.append('dp', selectedDpFile);
 
@@ -130,7 +128,7 @@ const ProfileCard = () => {
     const confirmDelete = prompt('Are you sure you want to delete your account?');
     if (!confirmDelete) return;
     try {
-      const response = await axios.post('http://localhost:8080/deleteAccount', {confirmDelete});
+      const response = await axios.post('http://localhost:8080/deleteAccount', { confirmDelete });
 
       if (response.status === 200) {
         alert('Account deleted successfully.');
@@ -150,69 +148,110 @@ const ProfileCard = () => {
 
   return (
     <div>
-    <section className={styles.cardBio}>
-    <div className={styles.cardBodyBio}>
-        <div>
-      {isEditingDp ? (
-        <>
-          <input type="file" onChange={handleFileChange} />
-          <button className={styles.squareButton} onClick={handleSaveDp}>Save</button>
-          <button className={styles.squareButton} onClick={() => setIsEditingDp(false)}>Cancel</button>
-          <button className={styles.squareButton} onClick={handleDeleteDp}>Delete</button>
-        </>
-      ) : (
-        <>
-        <div className={styles.bioContainer} >
-          <div className={styles.dpContainer}>
-          <img
-            className={styles.bioImg}
-            src={dpUrl || ''}
-            alt="User Profile Picture"
-          />
-        <button className={styles.icon2} onClick={() => setIsEditingDp(true)}>
-          <FontAwesomeIcon icon={faEdit} />
-        </button>
-        </div>
-          <p className={styles.username}>{user}</p>
+      <section className={styles.cardBio}>
+        <div className={styles.cardBodyBio}>
+          <div>
+            {isEditingDp ? (
+              <>
+                <input type='file' onChange={handleFileChange} />
+                <button className={styles.squareButton} onClick={handleSaveDp}>
+                  Save
+                </button>
+                <button
+                  className={styles.squareButton}
+                  onClick={() => setIsEditingDp(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.squareButton}
+                  onClick={handleDeleteDp}
+                >
+                  Delete
+                </button>
+              </>
+            ) : (
+              <>
+                <div className={styles.bioContainer}>
+                  <div className={styles.dpContainer}>
+                    <img
+                      className={styles.bioImg}
+                      src={dpUrl || ''}
+                      alt='User Profile Picture'
+                    />
+                    <button
+                      className={styles.icon2}
+                      onClick={() => setIsEditingDp(true)}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                  </div>
+                  <p className={styles.username}>{user}</p>
+                </div>
+              </>
+            )}
           </div>
-        </>
-      )}
-    </div>
-      <div className={styles.bioContainer2} >
-        <div className={styles.bio}>
-        {isEditingBio ? (
-          <>
-            <ReactQuill
-              theme="snow"
-              value={bio}
-              onChange={(value) => setBio(value)}
-            />
-            <button className={styles.squareButton} onClick={handleSaveBio}>Save</button>
-            <button className={styles.squareButton} onClick={() => setIsEditingBio(false)}>Cancel</button>
-          </>
-        ) : (
-          <>
-            <div>{parse(bio)}</div> {/* Correct usage to render HTML content */}
-            <button className={styles.icon} onClick={() => setIsEditingBio(true)}>
+          <div className={styles.bioContainer2}>
+            <div className={styles.bio}>
+              {isEditingBio ? (
+                <>
+                  <ReactQuill
+                    theme='snow'
+                    value={bio}
+                    onChange={(value) => setBio(value)}
+                  />
+                  <button
+                    className={styles.squareButton}
+                    onClick={handleSaveBio}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className={styles.squareButton}
+                    onClick={() => setIsEditingBio(false)}
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div>{parse(bio)}</div>{' '}
+                  {/* Correct usage to render HTML content */}
+                  <button
+                    className={styles.icon}
+                    onClick={() => setIsEditingBio(true)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                </>
+              )}
+            </div>
+            <button
+              className={styles.icon}
+              onClick={() => setIsEditingBio(true)}
+            >
               <FontAwesomeIcon icon={faEdit} />
             </button>
-          </>
-        )}
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/myBlogs')}
+            >
+              My Blogs
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={handleDeleteAccount}
+            >
+              Delete Account
+            </button>
+          </div>
         </div>
-      <button className={styles.icon} onClick={() => setIsEditingBio(true)}>
-    <FontAwesomeIcon icon={faEdit} />
-    </button>
-      </div>
-      <div className={styles.buttonGroup}>
-        <button className={styles.squareButton} onClick={() => navigate('/myBlogs')}>My Blogs</button>
-      </div>
-      <div className={styles.buttonGroup}>
-        <button className={styles.squareButton} onClick={handleDeleteAccount}>Delete Account</button>
-        </div>
-      </div>
-    </section>
+      </section>
     </div>
-
   );
 };
 

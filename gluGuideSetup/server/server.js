@@ -48,6 +48,7 @@ const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const glucoseRoutes = require('./routes/glucoseRoutes');
 
 // Use routes
@@ -56,6 +57,7 @@ app.use('/', profileRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/', postRoutes);
 app.use('/', commentRoutes);
+app.use('/', adminRoutes);
 app.use('/glucose', glucoseRoutes);
 
 // Error handling middleware

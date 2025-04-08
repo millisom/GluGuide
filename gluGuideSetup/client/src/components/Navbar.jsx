@@ -4,6 +4,8 @@ import styles from '../styles/Navbar.module.css';
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,6 +14,7 @@ const Navbar = () => {
             const response = await fetch('http://localhost:8080/status', { credentials: 'include' });
             const data = await response.json();
             setIsLoggedIn(data.valid);
+            setIsAdmin(data.is_admin);
         };
 
         fetchSessionStatus();
@@ -36,6 +39,9 @@ const Navbar = () => {
                 <Link to="/">Home</Link>
                 {isLoggedIn ? (
                     <>
+                        {isAdmin && (
+                            <Link to="/admin">Admin Dashboard</Link>
+                        )}
                         <Link to="/account">My Account</Link>
                         <Link to="/myBlogs">My Blogs</Link>
                         <Link className={styles.navLink} onClick={handleLogout}>Logout</Link>

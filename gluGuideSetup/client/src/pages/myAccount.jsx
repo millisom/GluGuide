@@ -1,4 +1,3 @@
-import React from 'react';
 import ProfileCard from '../components/ProfileCard';
 import styles from '../styles/MyAccount.module.css';
 

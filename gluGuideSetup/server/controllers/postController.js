@@ -189,13 +189,18 @@ async uploadPostImage(req, res) {
           try {
               // Get the current post from the database
               const post = await Post.getPostById(id);
-              
-              if (post && post.image_url) {
-                  // If the post already has an image, delete the old one from the server
-                  const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(post.image_url));
-                  fs.unlink(oldImagePath, (err) => {
-                      if (err) console.error('Error deleting old image:', err);
-                  });
+
+              if (post && post.post_picture) {
+                // If the post already has an image, delete the old one from the server
+                const oldImagePath = path.join(
+                  __dirname,
+                  '..',
+                  'uploads',
+                  path.basename(post.post_picture)
+                );
+                fs.unlink(oldImagePath, (err) => {
+                  if (err) console.error('Error deleting old image:', err);
+                });
               }
 
               // Save the new image filename to the database (not the full URL)
@@ -233,13 +238,18 @@ async uploadPostImageInCreate(req, res) {
           try {
               // Get the current post from the database
               const post = await Post.getPostById(id);
-              
-              if (post && post.image_url) {
-                  // If the post already has an image, delete the old one from the server
-                  const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(post.image_url));
-                  fs.unlink(oldImagePath, (err) => {
-                      if (err) console.error('Error deleting old image:', err);
-                  });
+
+              if (post && post.post_picture) {
+                // If the post already has an image, delete the old one from the server
+                const oldImagePath = path.join(
+                  __dirname,
+                  '..',
+                  'uploads',
+                  path.basename(post.post_picture)
+                );
+                fs.unlink(oldImagePath, (err) => {
+                  if (err) console.error('Error deleting old image:', err);
+                });
               }
 
               // Save the new image filename to the database (not the full URL)
@@ -265,15 +275,23 @@ async deletePostImage(req, res) {
     const { id } = req.params;
     try {
         const post = await Post.getPostById(id);
-        if (!post || !post.image_url) {
-            return res.status(404).json({ error: "Image not found" });
+
+        if (!post || !post.post_picture) {
+            return res.status(404).json({ error: 'Image not found' });
         }
 
-        const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(post.image_url));
+        // Remove old file from disk
+        const oldImagePath = path.join(
+          __dirname,
+          '..',
+          'uploads',
+          path.basename(post.post_picture)
+        );
         fs.unlink(oldImagePath, (err) => {
             if (err) console.error('Error deleting image:', err);
         });
 
+        // Null out post_picture in DB
         const rowsUpdated = await Post.setPostImage(id, null);
         if (rowsUpdated === 0) {
             return res.status(404).json({ error: "Post not found" });

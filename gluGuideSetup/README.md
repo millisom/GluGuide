@@ -77,9 +77,9 @@ To run the frontend tests, navigate to the `/client` folder and run the tests by
 cd client
 npm run test
 ```
-This will execute the tests using Jest and React Testing Library.
-Results should look like this:
-![Screenshot](/Assets/component_test.PNG)
+This will execute the tests using Jest and React Testing Library.  
+Results should look like this:  
+![Screenshot](../Assets/component_test.PNG)
 
 ### Backend Testing
 Create a test file inside the corresponding MVC subfolder under  `/server/tests/` folder. The test files should be named with a `.test.js` extension.
@@ -89,9 +89,9 @@ To run the backend tests, navigate to the `/server` folder and run the tests by 
 cd server
 npm run test
 ```
-This will execute the tests using Jest.
-Results should look like this:
-![Screenshot](/Assets/jest_backend_test.PNG)
+This will execute the tests using Jest.  
+Results should look like this:  
+![Screenshot](../Assets/jest_backend_test.PNG)
 
 ### End-to-End Testing
 A complete guide can be found in the [Cucumber+Selenium.md](../featureFiles/Cucumber+Selenium.md).
@@ -127,9 +127,9 @@ npm install -g newman
 ```bash
 newman run newman run path/to/GluGuide_collection.json
 ```
-This will execute all the requests in the collection and display the results in the terminal.
-Results should look like this:
-![Screenshot](/Assets/API_test.PNG)
+This will execute all the requests in the collection and display the results in the terminal.  
+Results should look like this:  
+![Screenshot](../Assets/api_test.PNG)
 
 ## Github
 

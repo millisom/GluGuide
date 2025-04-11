@@ -79,7 +79,7 @@ npm run test
 ```
 This will execute the tests using Jest and React Testing Library.
 Results should look like this:
-![Screenshot](/Assets/component_test.PNG)
+![Screenshot](../Assets/component_test.PNG)
 
 ### Backend Testing
 Create a test file inside the corresponding MVC subfolder under  `/server/tests/` folder. The test files should be named with a `.test.js` extension.
@@ -91,7 +91,7 @@ npm run test
 ```
 This will execute the tests using Jest.
 Results should look like this:
-![Screenshot](/Assets/jest_backend_test.PNG)
+![Screenshot](../Assets/jest_backend_test.PNG)
 
 ### End-to-End Testing
 A complete guide can be found in the [Cucumber+Selenium.md](../featureFiles/Cucumber+Selenium.md).
@@ -129,7 +129,7 @@ newman run newman run path/to/GluGuide_collection.json
 ```
 This will execute all the requests in the collection and display the results in the terminal.
 Results should look like this:
-![Screenshot](/Assets/API_test.PNG)
+![Screenshot](../Assets/api_test.PNG)
 
 ## Github
 

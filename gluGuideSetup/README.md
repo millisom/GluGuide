@@ -2,6 +2,13 @@
 
 This project is a Vite-based React frontend with an Express.js backend with MVC pattern.
 
+## Technologies Used
+- **Frontend**: React, Vite
+- **Backend**: Node.js, Express.js, PostgreSQL
+- **Database**: PostgreSQL
+- **Testing**: Jest, React Testing Library, Cypress
+- **Version Control**: Git, GitHub
+
 ## Prerequisites
 
 Make sure you have the following installed:
@@ -59,6 +66,70 @@ If you wish to also work on the server, navigate to the `/server` folder and use
 
 The server will be running on http://localhost:8080 by default.
 And the client will be running on http://localhost:5173 by default.
+
+## Testing
+To check why is the particular test stack chosen, please refer to the [TestingDoc.md](../TestingDoc.md) file.
+### Frontend Testing
+Create a test file in the `/client/src` folder. The test files should be named with a `.test.jsx` extension.
+To run the frontend tests, navigate to the `/client` folder and run the tests by running the following commands:
+
+```bash
+cd client
+npm run test
+```
+This will execute the tests using Jest and React Testing Library.
+Results should look like this:
+![Screenshot](/Assets/component_test.PNG)
+
+### Backend Testing
+Create a test file inside the corresponding MVC subfolder under  `/server/tests/` folder. The test files should be named with a `.test.js` extension.
+To run the backend tests, navigate to the `/server` folder and run the tests by running the following commands:
+
+```bash
+cd server
+npm run test
+```
+This will execute the tests using Jest.
+Results should look like this:
+![Screenshot](/Assets/jest_backend_test.PNG)
+
+### End-to-End Testing
+A complete guide can be found in the [Cucumber+Selenium.md](../featureFiles/Cucumber+Selenium.md).
+To implement end-to-end tests using Cucumber.js, follow these steps:
+1. Create a .feature file in the `/tests/features` folder. The feature files should be named with a `.feature` extension.
+2. Create a corresponding step definition file in the `/test/features/step_definitions` folder. The step definition files should be named with a `.js` extension.
+3. To run the end-to-end tests, navigate to the `/test` folder and run the tests by running the following commands:
+
+```bash
+cd test
+npm test
+```
+This will execute the end-to-end tests using Cucumber.js.
+To see the results and the complete guide please refer to the [Cucumber+Selenium.md](../featureFiles/Cucumber+Selenium.md) file.
+
+
+### 'Automating' API Testing with Postman
+1. Install Postman from the [official website](https://www.postman.com/downloads/).
+2. Open Postman and create new collection.
+3. Add requests to the collection for each API endpoint you want to test.
+4. Set the request method (GET, POST, PUT, DELETE) and enter the URL for the API endpoint.
+5. Add any required headers, parameters, or request body as needed.
+6. Click the "Send" button to send the request and view the response.
+7. You can also add tests to each request to validate the response. Postman allows you to write JavaScript code to check the response status, headers, and body.
+8. Save your collection by exporting the collection as a JSON file. This will allow you import it into your codebase and automate the testing process.
+9. To run the collection, you can use the Postman CLI tool called Newman. Install Newman globally using npm:
+
+```bash
+npm install -g newman
+```
+10. Run the collection using Newman by executing the following command in your terminal:
+
+```bash
+newman run newman run path/to/GluGuide_collection.json
+```
+This will execute all the requests in the collection and display the results in the terminal.
+Results should look like this:
+![Screenshot](/Assets/API_test.PNG)
 
 ## Github
 

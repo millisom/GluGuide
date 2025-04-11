@@ -8,8 +8,8 @@ const MyAccount = () => {
         <div className={styles.myAccount}>
             <div className={styles.profileCardContainer}>
                 <ProfileCard />
-                <FoodItem/>
             </div>
+            <FoodItem/>
         </div>
     );
 };

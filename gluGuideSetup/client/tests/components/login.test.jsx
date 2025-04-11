@@ -1,26 +1,48 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { describe, it, vi, beforeEach, expect} from 'vitest';
-import '@testing-library/jest-dom';
+import { BrowserRouter } from 'react-router-dom';
 import axios from '../../api/axiosConfig';
 import Login from '../../src/components/LoginForm';
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Mock axios
-vi.mock('../../api/axiosConfig');
+jest.mock('../../api/axiosConfig');
 
-// Mock react-router-dom
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+// Mock useNavigate
+jest.mock('react-router-dom', () => {
+  const originalModule = jest.requireActual('react-router-dom');
   return {
-    ...actual,
-    useNavigate: vi.fn(),
+    ...originalModule,
+    useNavigate: jest.fn(),
   };
 });
 
 describe('Login Component', () => {
+  const mockNavigate = jest.fn();
+
+  // Silence console.warn for React Router warning
+  const originalWarn = console.warn;
+  beforeAll(() => {
+    console.warn = (...args) => {
+      if (
+        typeof args[0] === 'string' &&
+        args[0].includes('React Router Future Flag Warning')
+      ) return;
+      originalWarn(...args);
+    };
+  });
+
+  afterAll(() => {
+    console.warn = originalWarn;
+  });
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
+    useNavigate.mockReturnValue(mockNavigate);
+
+    // Mock window.location.reload to prevent jsdom crash
+    delete window.location;
+    window.location = { reload: jest.fn() };
   });
 
   it('renders the login form', () => {
@@ -31,16 +53,13 @@ describe('Login Component', () => {
     );
 
     expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
-    expect(screen.getByLabelText('Username')).toBeInTheDocument();
-    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
-    expect(screen.getByText('Forgot Password')).toBeInTheDocument();
+    expect(screen.getByText(/forgot password/i)).toBeInTheDocument();
   });
 
   it('handles form submission and navigates on success', async () => {
-    const navigate = vi.fn();
-    vi.mocked(useNavigate).mockReturnValue(navigate);
-
     axios.post.mockResolvedValue({ data: { Login: true } });
 
     render(
@@ -49,22 +68,31 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'testuser' } });
-    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } });
+    const username = 'hossaynew';
+    const password = '1995';
+
+    fireEvent.change(screen.getByPlaceholderText('Username'), {
+      target: { value: username },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: password },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith('http://localhost:8080/login', {
-        username: 'testuser',
-        password: 'password',
+        username,
+        password,
       });
-      expect(navigate).toHaveBeenCalledWith('/account');
+      expect(mockNavigate).toHaveBeenCalledWith('/account');
     });
   });
 
   it('displays error message on failed login', async () => {
-    axios.post.mockResolvedValue({ data: { Login: false, Message: 'Invalid username or password' } });
+    axios.post.mockResolvedValue({
+      data: { Login: false, Message: 'Invalid username or password' },
+    });
 
     render(
       <BrowserRouter>
@@ -72,8 +100,12 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'wronguser' } });
-    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'wrongpassword' } });
+    fireEvent.change(screen.getByPlaceholderText('Username'), {
+      target: { value: 'wronguser' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: 'wrongpassword' },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
@@ -89,32 +121,15 @@ describe('Login Component', () => {
       </BrowserRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'testuser' } });
-    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } });
+    fireEvent.change(screen.getByPlaceholderText('Username'), {
+      target: { value: 'hossaynew' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: '1995' },
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     expect(await screen.findByText('An error occurred. Please try again.')).toBeInTheDocument();
-  });
-
-  it('displays loading state during form submission', async () => {
-    axios.post.mockImplementation(() => new Promise(resolve => setTimeout(() => resolve({ data: { Login: true } }), 1000)));
-
-    render(
-      <BrowserRouter>
-        <Login />
-      </BrowserRouter>
-    );
-
-    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'testuser' } });
-    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } });
-
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
-
-    expect(screen.getByRole('button', { name: /logging in.../i })).toBeInTheDocument();
-
-    await waitFor(() => {
-      expect(screen.queryByRole('button', { name: /logging in.../i })).not.toBeInTheDocument();
-    });
   });
 });

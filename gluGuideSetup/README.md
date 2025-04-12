@@ -6,7 +6,7 @@ This project is a Vite-based React frontend with an Express.js backend with MVC 
 - **Frontend**: React, Vite
 - **Backend**: Node.js, Express.js, PostgreSQL
 - **Database**: PostgreSQL
-- **Testing**: Jest, React Testing Library, Cypress
+- **Testing**: Jest, React Testing Library, Cucumber and Selenium, Postman
 - **Version Control**: Git, GitHub
 
 ## Prerequisites

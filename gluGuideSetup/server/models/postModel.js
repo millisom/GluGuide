@@ -181,7 +181,42 @@ const Post = {
     } catch (error) {
       throw new Error('Error updating likes: ' + error.message);
     }
-  }  
+  },
+
+async getAuthorProfileByUsername(username) {
+  const userQuery = `
+    SELECT id, username, profile_bio, profile_picture 
+    FROM users 
+    WHERE username = $1
+  `;
+
+  const postsQuery = `
+    SELECT id, title, created_at 
+    FROM posts 
+    WHERE user_id = $1
+    ORDER BY created_at DESC
+  `;
+
+  try {
+    // Fetch user details
+    const userResult = await pool.query(userQuery, [username]);
+    if (userResult.rows.length === 0) {
+      return null; // No user found
+    }
+
+    const user = userResult.rows[0]; // Get user details
+    const userId = user.id;
+
+    // Fetch posts created by the user
+    const postsResult = await pool.query(postsQuery, [userId]);
+    const posts = postsResult.rows;
+
+    return { user, posts }; // Return both user details and their posts
+  } catch (error) {
+    throw new Error('Error fetching author profile: ' + error.message);
+  }
+}
+ 
 };
 
 module.exports = Post;

@@ -39,9 +39,10 @@ const UserProfile = () => {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
+        {/* Updated image handling logic */}
         {authorData.user.profile_picture ? (
           <img
-            src={`http://localhost:8080/uploads/${authorData.user.profile_picture}`}
+            src={authorData.user.profile_picture} // Directly use the backend URL for the image
             alt={`${authorData.user.username}'s profile`}
             className={styles.profilePicture}
           />
@@ -78,3 +79,4 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+

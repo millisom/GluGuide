@@ -1,5 +1,6 @@
 import ProfileCard from '../components/ProfileCard';
 import styles from '../styles/MyAccount.module.css';
+import FoodItem from '../components/loggingFoodItem';
 
 const MyAccount = () => {
     return (
@@ -7,6 +8,7 @@ const MyAccount = () => {
             <div className={styles.profileCardContainer}>
                 <ProfileCard />
             </div>
+            <FoodItem/>
         </div>
     );
 };

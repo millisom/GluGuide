@@ -1,4 +1,4 @@
-# Project Setup Instructions
+# E2E - Testing Setup Instructions
 
 Follow the steps below to set up the project and install the necessary dependencies for working with feature files and running tests
 

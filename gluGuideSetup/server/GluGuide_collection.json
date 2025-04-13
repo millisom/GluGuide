@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "75e3eed0-f3b1-4f82-a508-96a2dd3ec8c8",
+		"name": "GluGuide API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38100507"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/forgotPassword",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/forgotPassword"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/forgotPassword",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/forgotPassword"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/status",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/status"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/signUp",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/signUp"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"hossaynew\",\r\n  \"password\": \"1995\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/login"
+			},
+			"response": []
+		}
+	]
+}

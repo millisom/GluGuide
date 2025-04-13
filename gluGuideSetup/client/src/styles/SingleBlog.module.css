@@ -21,10 +21,27 @@
   margin-bottom: 10px;
 }
 
-.authorInfo {
+.authorButton {
+  background-color: var(--color-primary); /* Matches the 'like' button */
+  color: var(--color-text-white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
   font-size: 1rem;
-  margin-bottom: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px; /* Consistent spacing above */
+  margin-bottom: 15px; /* Added space below the button */
+  display: inline-flex; /* Center content inside the button */
+  align-items: center;
+  justify-content: center;
 }
+
+.authorButton:hover {
+  background-color: var(--color-secondary); /* Darker shade on hover */
+}
+
 
 .postDate {
   font-size: 0.9rem;

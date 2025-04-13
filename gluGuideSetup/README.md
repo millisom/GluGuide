@@ -6,7 +6,7 @@ This project is a Vite-based React frontend with an Express.js backend with MVC 
 - **Frontend**: React, Vite
 - **Backend**: Node.js, Express.js, PostgreSQL
 - **Database**: PostgreSQL
-- **Testing**: Jest, React Testing Library, Cypress
+- **Testing**: Jest, React Testing Library, Cucumber and Selenium, Postman
 - **Version Control**: Git, GitHub
 
 ## Prerequisites
@@ -77,8 +77,8 @@ To run the frontend tests, navigate to the `/client` folder and run the tests by
 cd client
 npm run test
 ```
-This will execute the tests using Jest and React Testing Library.
-Results should look like this:
+This will execute the tests using Jest and React Testing Library.  
+Results should look like this:  
 ![Screenshot](../Assets/component_test.PNG)
 
 ### Backend Testing
@@ -89,8 +89,8 @@ To run the backend tests, navigate to the `/server` folder and run the tests by 
 cd server
 npm run test
 ```
-This will execute the tests using Jest.
-Results should look like this:
+This will execute the tests using Jest.  
+Results should look like this:  
 ![Screenshot](../Assets/jest_backend_test.PNG)
 
 ### End-to-End Testing
@@ -127,8 +127,8 @@ npm install -g newman
 ```bash
 newman run newman run path/to/GluGuide_collection.json
 ```
-This will execute all the requests in the collection and display the results in the terminal.
-Results should look like this:
+This will execute all the requests in the collection and display the results in the terminal.  
+Results should look like this:  
 ![Screenshot](../Assets/api_test.PNG)
 
 ## Github

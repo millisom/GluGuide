@@ -12,4 +12,7 @@ router.get('/getPosts', profileController.getPosts);
 router.post('/deleteAccount', profileController.deleteAccount);
 router.post('/editPost', profileController.updatePosts);
 
+
+
+
 module.exports = router;

@@ -1,7 +1,6 @@
 import React from 'react';
 import ViewBlogEntries from "../components/ViewBlogEntries";
 import GlucoseLog from "../components/GlucoseLog"; 
-import Dashboard from "../components/Dashboard"; // Import the Dashboard component
 import styles from '../styles/Homepage.module.css';
 
 const Homepage = () => {

@@ -18,6 +18,7 @@ import AdminCreateUser from './pages/AdminCreateUser';
 import AdminEditUser from './pages/AdminEditUser';
 import Footer from './components/Footer';
 import AdminEditPost from './pages/AdminEditPost';
+import UserProfile from './components/UserProfile.jsx'; // Import the new component
 
 function App() {
     return (
@@ -38,6 +39,7 @@ function App() {
                         <Route path="/create/post" element={<CreatePost />} />
                         <Route path="/myBlogs" element={<MyBlogs />} />
                         <Route path="/viewPost/:id" element={<ViewPost />} />
+                        <Route path="/profile/:username" element={<UserProfile />} /> {/* Add this route */}
                         <Route path="/forgotPassword" element={<ForgotPassword />} />
                         <Route path="/resetPassword/:token" element={<ResetPassword />} />
                         <Route path="/admin" element={<AdminDashboard />} />
@@ -53,3 +55,4 @@ function App() {
 }
 
 export default App;
+

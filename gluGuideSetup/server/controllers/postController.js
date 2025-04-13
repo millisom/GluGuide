@@ -47,6 +47,24 @@ const postController = {
   })
 },
 
+async getAuthorProfile(req, res) {
+  const { username } = req.params; // Extract the username from the URL
+
+  try {
+    const data = await Post.getAuthorProfileByUsername(username);
+
+    if (!data) {
+      return res.status(404).json({ error: 'Author not found' });
+    }
+
+    res.json(data); // Respond with the author's profile and posts
+  } catch (error) {
+    console.error('Error fetching author profile:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+},
+
+
   async getAllPosts(req, res){
     try {
       // Fetch all posts and sort by creation date in descending order

@@ -21,4 +21,8 @@ router.post('/toggleLike/:id', postController.toggleLike);
 // Route for Admin to edit specific post
 router.get('/getPost/:id', postController.getPostById);
 
+//Router for author profile
+router.get('/profile/:username', postController.getAuthorProfile);
+
+
 module.exports = router;

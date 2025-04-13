@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import parse from 'html-react-parser'; // Import the parser
 import styles from '../styles/UserProfile.module.css';
 
 const UserProfile = () => {
@@ -33,27 +34,32 @@ const UserProfile = () => {
     navigate(`/blogs/view/${postId}`); // Redirect to the single blog view
   };
 
-  if (loading) return <p className={styles.loading}>Loading profile...</p>;
-  if (error) return <p className={styles.error}>{error}</p>;
+  if (loading) return <p className={styles.loadingMessage}>Loading profile...</p>;
+  if (error) return <p className={styles.errorMessage}>{error}</p>;
 
   return (
     <div className={styles.profileContainer}>
-      <div className={styles.profileHeader}>
-        {/* Updated image handling logic */}
-        {authorData.user.profile_picture ? (
-          <img
-            src={authorData.user.profile_picture} // Directly use the backend URL for the image
-            alt={`${authorData.user.username}'s profile`}
-            className={styles.profilePicture}
-          />
-        ) : (
-          <div className={styles.profilePicturePlaceholder}>No Image</div>
-        )}
-        <h1 className={styles.username}>{authorData.user.username}</h1>
-        <p className={styles.bio}>{authorData.user.profile_bio || 'No bio available'}</p>
+      <div className={styles.contentRectangle}>
+        <div className={styles.profileHeader}>
+          {authorData.user.profile_picture ? (
+            <img
+              src={authorData.user.profile_picture} // Use backend URL for the image
+              alt={`${authorData.user.username}'s profile`}
+              className={styles.profilePicture}
+            />
+          ) : (
+            <div className={styles.profilePicturePlaceholder}>No Image</div>
+          )}
+          <h2 className={styles.profileUsername}>{authorData.user.username}</h2>
+        </div>
+        <div className={styles.profileBio}>
+          {authorData.user.profile_bio
+            ? parse(authorData.user.profile_bio)
+            : 'No bio available'}
+        </div>
       </div>
       <div className={styles.postsSection}>
-        <h2>Posts by {authorData.user.username}</h2>
+        <h3>Posts by {authorData.user.username}</h3>
         {authorData.posts.length > 0 ? (
           <ul className={styles.postsList}>
             {authorData.posts.map((post) => (
@@ -61,9 +67,8 @@ const UserProfile = () => {
                 key={post.id}
                 className={styles.postItem}
                 onClick={() => handlePostClick(post.id)} // Make each post clickable
-                style={{ cursor: 'pointer' }} // Add visual feedback for clickable items
               >
-                <h3 className={styles.postTitle}>{post.title}</h3>
+                <h4 className={styles.postTitle}>{post.title}</h4>
                 <p className={styles.postDate}>
                   Created on {new Date(post.created_at).toLocaleDateString()}
                 </p>
@@ -79,4 +84,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-

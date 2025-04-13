@@ -69,13 +69,12 @@ const ViewPost = () => {
     <div className={styles.viewPostContainer}>
       <div className={styles.contentRectangle}>
         <h2 className={styles.postTitle}>{post.title}</h2>
-        <p
-          className={styles.authorInfo}
+        <button
           onClick={() => handleAuthorClick(post.username)}
-          style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+          className={styles.authorButton} // Styling similar to likeButton
         >
           Author: {post.username}
-        </p>
+        </button>
         <p className={styles.postDate}>
           Created on: {new Date(post.created_at).toLocaleDateString()}
         </p>

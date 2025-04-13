@@ -1,38 +1,129 @@
 .glucoseLogContainer {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    font: var(--sds-typography-body-font-weight-regular)
+        var(--sds-typography-body-size-medium)
+        var(--sds-typography-body-font-family);
+    max-width: 800px; /* Allows for wider layout */
+    margin: 0 auto;
+    gap: 20px; /* Creates space between components */
 }
 
-.formContainer {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    padding: 15px;
+.loggingFormContainer {
+    background-color: var(--color-text-white);
+    border: 8px solid var(--color-primary);
     border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensures elements are centered within the form */
+    margin-bottom: 20px;
+    margin-top: 20px; /* Adds space from top content */
+}
+
+.inputField {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Increase gap between label and input */
+    margin-bottom: 16px; /* Add spacing below each input field */
+}
+
+.label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--sds-color-text-default-default);
+}
+
+.input {
+    border-radius: 8px;
+    padding: 12px;
+    border: 2px solid var(--color-primary);
+    background-color: var(--color-text-white);
+    font-size: 1rem;
+}
+
+.submitButton {
+    margin-top: 20px; /* Add more space above the button */
+    border-radius: 8px;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 1rem;
+    padding: 12px 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+    background-color: var(--color-secondary);
+}
+
+
+.tableAndGraphBox {
+    display: flex; /* Places table and graph side-by-side */
+    justify-content: space-between; /* Ensures even spacing */
+    align-items: flex-start; /* Aligns items to the top */
+    gap: 20px; /* Adds space between table and graph */
+    margin-top: 20px;
+}
+
+.tableBox {
+    flex: 1; /* Table occupies equal space */
+    background-color: var(--color-text-white);
+    border: 7px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.graphBox {
+    flex: 1; /* Graph occupies equal space */
+    background-color: var(--color-text-white);
+    border: 7px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.graphContainer {
+    display: flex;
+    justify-content: center; /* Centers graph horizontally */
+    align-items: center;
+    width: 100%;
 }
 
 .logsTable {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
-.logsTable th, .logsTable td {
+.logsTable th,
+.logsTable td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
 }
 
 .logsTable th {
-    background-color: #f2f2f2;
+    background-color: var(--color-background);
+    font-weight: bold;
 }
 
-.successMessage {
-    color: green;
+.toggleButton {
     margin-top: 10px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
 }
 
-.errorMessage {
-    color: red;
-    margin-top: 10px;
+.toggleButton:hover {
+    background-color: #0056b3;
 }

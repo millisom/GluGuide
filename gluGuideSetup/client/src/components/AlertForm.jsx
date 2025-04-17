@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from '../styles/AlertForm.module.css';
 
-const AlertForm = ({ fetchAlerts }) => { // Accept fetchAlerts as a prop
+const AlertForm = ({ fetchAlerts }) => {
     const [reminderFrequency, setReminderFrequency] = useState('daily');
     const [reminderTime, setReminderTime] = useState('');
     const [message, setMessage] = useState('');
@@ -15,16 +15,16 @@ const AlertForm = ({ fetchAlerts }) => { // Accept fetchAlerts as a prop
                 reminderFrequency,
                 reminderTime,
             }, {
-                withCredentials: true, // Ensure cookies are sent with the request
+                withCredentials: true,
             });
 
             setMessage(response.data.message || 'Alert preferences saved!');
-            setReminderFrequency('daily'); // Reset frequency to default
-            setReminderTime(''); // Clear time input
+            setReminderFrequency('daily'); // Reset frequency
+            setReminderTime(''); // Clear input
 
-            // Trigger refresh for alerts table
+            // Call fetchAlerts to refresh the table
             if (fetchAlerts) {
-                await fetchAlerts(); // Refresh alerts dynamically
+                fetchAlerts();
             }
         } catch (error) {
             console.error('Error setting alert preferences:', error);
@@ -69,3 +69,4 @@ const AlertForm = ({ fetchAlerts }) => { // Accept fetchAlerts as a prop
 };
 
 export default AlertForm;
+

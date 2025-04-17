@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import GlucoseLog from "../components/GlucoseLog"; 
 import AlertForm from "../components/AlertForm"; 
+import AlertsTable from "../components/AlertsTable"; 
 import styles from '../styles/Homepage.module.css';
-import AlertsTable from '../components/AlertsTable';
 
 const Homepage = () => {
+    const [fetchAlerts, setFetchAlerts] = useState(null);
+
+    const registerFetchAlerts = (fetchFunction) => {
+        setFetchAlerts(() => fetchFunction); // Set fetchAlerts dynamically
+    };
+
     return (
         <div className={styles.homepageContainer}>
             <div className={styles.heroSection}>
@@ -18,20 +24,19 @@ const Homepage = () => {
             
             <div className={styles.glucoseLogSection}>
                 <h2 className={styles.sectionTitle}>Track Your Glucose</h2>
-                <GlucoseLog /> 
+                <GlucoseLog />
             </div>
 
             <div className={styles.alertFormSection}>
-                <AlertForm /> 
+                <AlertForm fetchAlerts={fetchAlerts} />
             </div>
 
             <div className={styles.alertFormSection}>
-                <AlertsTable /> 
+                <AlertsTable registerFetchAlerts={registerFetchAlerts} />
             </div>
-
-
         </div>
     );
 };
 
 export default Homepage;
+

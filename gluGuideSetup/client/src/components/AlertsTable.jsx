@@ -2,26 +2,33 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from '../styles/AlertsTable.module.css';
 
-const AlertsTable = () => {
+const AlertsTable = ({ registerFetchAlerts }) => {
     const [alerts, setAlerts] = useState([]);
     const [error, setError] = useState('');
     const [userId, setUserId] = useState(null);
 
-    
+    const fetchAlerts = async () => {
+        if (!userId) return; // Wait until userId is available
+        try {
+            const response = await axios.get(`http://localhost:8080/alerts/${userId}`, {
+                withCredentials: true,
+            });
+            console.log('Fetched Alerts:', response.data); // Debug log
+            setAlerts(response.data);
+        } catch (err) {
+            console.error('Error fetching alerts:', err);
+            setError('Failed to fetch alerts. Please try again.');
+        }
+    };
+
     useEffect(() => {
         const fetchUserAndAlerts = async () => {
             try {
-                // Step 1: Fetch userId
                 const userResponse = await axios.get('http://localhost:8080/currentUser', { withCredentials: true });
                 const userId = userResponse.data.userId;
                 setUserId(userId);
 
-                // Step 2: Fetch alerts using the fetched userId
-                const alertsResponse = await axios.get(`http://localhost:8080/alerts/${userId}`, {
-                    withCredentials: true,
-                });
-                console.log('Fetched Alerts:', alertsResponse.data); // Debug log
-                setAlerts(alertsResponse.data);
+                await fetchAlerts(); // Fetch alerts after userId is set
             } catch (err) {
                 console.error('Error fetching user or alerts:', err);
                 setError('Failed to fetch alerts. Please try again.');
@@ -29,6 +36,10 @@ const AlertsTable = () => {
         };
 
         fetchUserAndAlerts();
+
+        if (registerFetchAlerts) {
+            registerFetchAlerts(fetchAlerts); // Register fetchAlerts
+        }
     }, []); // Runs only once on component mount
 
     return (
@@ -48,10 +59,10 @@ const AlertsTable = () => {
                     <tbody>
                         {alerts.length > 0 ? (
                             alerts.map((alert) => (
-                                <tr key={alert.alert_id}> {/* Use correct field */}
-                                    <td>{alert.reminder_frequency}</td> {/* Use correct field */}
-                                    <td>{alert.reminder_time}</td> {/* Use correct field */}
-                                    <td>{new Date(alert.created_at).toLocaleString()}</td> {/* Use correct field */}
+                                <tr key={alert.alert_id}>
+                                    <td>{alert.reminder_frequency}</td>
+                                    <td>{alert.reminder_time}</td>
+                                    <td>{new Date(alert.created_at).toLocaleString()}</td>
                                 </tr>
                             ))
                         ) : (
@@ -67,6 +78,4 @@ const AlertsTable = () => {
 };
 
 export default AlertsTable;
-
-
 

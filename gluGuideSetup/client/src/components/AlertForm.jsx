@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from '../styles/AlertForm.module.css'; 
+import styles from '../styles/AlertForm.module.css';
 
-const AlertForm = () => {
+const AlertForm = ({ fetchAlerts }) => { // Accept fetchAlerts as a prop
     const [reminderFrequency, setReminderFrequency] = useState('daily');
     const [reminderTime, setReminderTime] = useState('');
     const [message, setMessage] = useState('');
@@ -19,6 +19,13 @@ const AlertForm = () => {
             });
 
             setMessage(response.data.message || 'Alert preferences saved!');
+            setReminderFrequency('daily'); // Reset frequency to default
+            setReminderTime(''); // Clear time input
+
+            // Trigger refresh for alerts table
+            if (fetchAlerts) {
+                await fetchAlerts(); // Refresh alerts dynamically
+            }
         } catch (error) {
             console.error('Error setting alert preferences:', error);
             setMessage('Failed to save alert preferences. Please try again.');
@@ -26,10 +33,10 @@ const AlertForm = () => {
     };
 
     return (
-        <div className={styles.alertFormContainer}> {/* Reference imported styles */}
+        <div className={styles.alertFormContainer}>
             <h2 className={styles.alertFormTitle}>Set Reminder Alerts</h2>
             <form onSubmit={handleSubmit}>
-                <div className={styles.alertFormField}> {/* Scoped CSS module class */}
+                <div className={styles.alertFormField}>
                     <label htmlFor="reminderFrequency" className={styles.alertFormLabel}>Reminder Frequency:</label>
                     <select
                         id="reminderFrequency"
@@ -42,7 +49,7 @@ const AlertForm = () => {
                     </select>
                 </div>
 
-                <div className={styles.alertFormField}> {/* Scoped CSS module class */}
+                <div className={styles.alertFormField}>
                     <label htmlFor="reminderTime" className={styles.alertFormLabel}>Reminder Time:</label>
                     <input
                         type="time"
@@ -50,6 +57,7 @@ const AlertForm = () => {
                         value={reminderTime}
                         onChange={(e) => setReminderTime(e.target.value)}
                         className={styles.alertFormInput}
+                        required
                     />
                 </div>
 
@@ -61,4 +69,3 @@ const AlertForm = () => {
 };
 
 export default AlertForm;
-

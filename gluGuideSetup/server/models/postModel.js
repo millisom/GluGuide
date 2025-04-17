@@ -1,4 +1,4 @@
-const pool = require('../config/db'); // Import the PostgreSQL connection pool
+const pool = require('../config/db');
 
 const Post = {
   // Method to create a new post

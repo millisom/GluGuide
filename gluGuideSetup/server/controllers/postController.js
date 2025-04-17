@@ -1,5 +1,5 @@
 const Post = require('../models/postModel');
-const upload = require('../config/multerConfig');  // Import multer middleware
+const upload = require('../config/multerConfig'); 
 const path = require('path');
 const Profile = require('../models/profileModel');
 const fs = require('fs');

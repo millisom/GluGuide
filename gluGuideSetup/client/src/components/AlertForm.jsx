@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../styles/AlertForm.module.css';
+import styles from '../styles/AlertForm.module.css'; 
 
 const AlertForm = () => {
-    const [email, setEmail] = useState('');
     const [reminderFrequency, setReminderFrequency] = useState('daily');
     const [reminderTime, setReminderTime] = useState('');
     const [message, setMessage] = useState('');
@@ -13,13 +12,11 @@ const AlertForm = () => {
 
         try {
             const response = await axios.post('http://localhost:8080/alerts', {
-                email,
                 reminderFrequency,
                 reminderTime,
             }, {
-                withCredentials: true, // Allows cookies to be sent with the request
+                withCredentials: true, // Ensure cookies are sent with the request
             });
-            
 
             setMessage(response.data.message || 'Alert preferences saved!');
         } catch (error) {
@@ -29,43 +26,34 @@ const AlertForm = () => {
     };
 
     return (
-        <div className="alert-form">
-            <h2>Set Reminder Alerts</h2>
+        <div className={styles.alertFormContainer}> {/* Reference imported styles */}
+            <h2 className={styles.alertFormTitle}>Set Reminder Alerts</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="reminderFrequency">Reminder Frequency:</label>
+                <div className={styles.alertFormField}> {/* Scoped CSS module class */}
+                    <label htmlFor="reminderFrequency" className={styles.alertFormLabel}>Reminder Frequency:</label>
                     <select
                         id="reminderFrequency"
                         value={reminderFrequency}
                         onChange={(e) => setReminderFrequency(e.target.value)}
+                        className={styles.alertFormSelect}
                     >
                         <option value="daily">Daily</option>
                         <option value="weekly">Weekly</option>
                     </select>
                 </div>
 
-                <div>
-                    <label htmlFor="reminderTime">Reminder Time:</label>
+                <div className={styles.alertFormField}> {/* Scoped CSS module class */}
+                    <label htmlFor="reminderTime" className={styles.alertFormLabel}>Reminder Time:</label>
                     <input
                         type="time"
                         id="reminderTime"
                         value={reminderTime}
                         onChange={(e) => setReminderTime(e.target.value)}
+                        className={styles.alertFormInput}
                     />
                 </div>
 
-                <button type="submit">Save Preferences</button>
+                <button type="submit" className={styles.alertFormButton}>Save Preferences</button>
             </form>
             {message && <p>{message}</p>}
         </div>
@@ -73,3 +61,4 @@ const AlertForm = () => {
 };
 
 export default AlertForm;
+

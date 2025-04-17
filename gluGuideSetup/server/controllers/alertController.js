@@ -3,30 +3,30 @@ const nodemailer = require('nodemailer');
 
 
 const alertController = {
-    // Create a new alert
-    async createAlert(req, res) {
-        const { email, reminderFrequency, reminderTime } = req.body;
-        const username = req.session?.username; // Get username from session
+  // Create a new alert
+  async createAlert(req, res) {
+      const { reminderFrequency, reminderTime } = req.body;
+      const username = req.session?.username; // Get username from session
 
-        if (!username) {
-            return res.status(401).json({ success: false, message: 'Unauthorized: No username found in session' });
-        }
+      if (!username) {
+          return res.status(401).json({ success: false, message: 'Unauthorized: No username found in session' });
+      }
 
-        try {
-            // Get userId from username via the model
-            const userId = await Alert.getUserIdByUsername(username);
-            if (!userId) {
-                return res.status(404).json({ success: false, message: 'User not found' });
-            }
+      try {
+          // Get userId from username via the model
+          const userId = await Alert.getUserIdByUsername(username);
+          if (!userId) {
+              return res.status(404).json({ success: false, message: 'User not found' });
+          }
 
-            // Create the alert using userId
-            const alert = await Alert.createAlert(userId, email, reminderFrequency, reminderTime);
-            res.status(201).json({ success: true, message: 'Alert preferences saved!', alert });
-        } catch (error) {
-            console.error('Error creating alert:', error.message);
-            res.status(500).json({ success: false, message: 'Failed to save alert preferences' });
-        }
-    },
+          // Create the alert using userId
+          const alert = await Alert.createAlert(userId, reminderFrequency, reminderTime);
+          res.status(201).json({ success: true, message: 'Alert preferences saved!', alert });
+      } catch (error) {
+          console.error('Error creating alert:', error.message);
+          res.status(500).json({ success: false, message: 'Failed to save alert preferences' });
+      }
+  },
 
     // Get all alerts for a specific user
     async getAlertsByUserId(req, res) {
@@ -40,6 +40,29 @@ const alertController = {
             res.status(500).json({ success: false, message: 'Failed to fetch alerts' });
         }
     },
+    async getAlertsForCurrentUser(req, res) {
+      const username = req.session?.username; // Retrieve username from session
+  
+      if (!username) {
+          return res.status(401).json({ success: false, message: 'Unauthorized: No username found in session' });
+      }
+  
+      try {
+          // Fetch the user ID
+          const userId = await Alert.getUserIdByUsername(username);
+          if (!userId) {
+              return res.status(404).json({ success: false, message: 'User not found' });
+          }
+  
+          // Fetch alerts by user ID
+          const alerts = await Alert.getAlertsByUserId(userId);
+          res.status(200).json(alerts);
+      } catch (error) {
+          console.error('Error fetching alerts for user:', error.message);
+          res.status(500).json({ success: false, message: 'Failed to fetch alerts' });
+      }
+  },
+  
 
     // Update an alert
     async updateAlert(req, res) {

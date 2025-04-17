@@ -7,5 +7,7 @@ router.get('/alerts/:userId', alertController.getAlertsByUserId);
 router.put('/alerts/:id', alertController.updateAlert);
 router.delete('/alerts/:id', alertController.deleteAlert);
 router.get('/alerts/due', alertController.sendReminderEmails);
+router.get('/alerts/me', alertController.getAlertsForCurrentUser);
+
 
 module.exports = router;

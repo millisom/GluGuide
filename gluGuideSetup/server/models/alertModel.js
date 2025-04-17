@@ -2,16 +2,28 @@ const pool = require('../config/db');
 
 const Alert = {
     // Method to create a new alert
-    async createAlert(userId, email, reminderFrequency, reminderTime) {
-        const query = `
-            INSERT INTO alerts (user_id, email, reminder_frequency, reminder_time, created_at)
-            VALUES ($1, $2, $3, $4, NOW())
-            RETURNING *
-        `;
-        const values = [userId, email, reminderFrequency, reminderTime];
+    async createAlert(userId, reminderFrequency, reminderTime) {
         try {
-            const result = await pool.query(query, values);
-            return result.rows[0]; // Return newly created alert
+            // Step 1: Get email based on userId
+            const emailQuery = 'SELECT email FROM users WHERE id = $1';
+            const emailResult = await pool.query(emailQuery, [userId]);
+
+            if (emailResult.rows.length === 0) {
+                throw new Error('User not found');
+            }
+
+            const email = emailResult.rows[0].email;
+
+            // Step 2: Insert the alert into the database
+            const alertQuery = `
+                INSERT INTO alerts (user_id, reminder_frequency, reminder_time, created_at)
+                VALUES ($1, $2, $3, NOW())
+                RETURNING *
+            `;
+            const alertValues = [userId, reminderFrequency, reminderTime];
+            const alertResult = await pool.query(alertQuery, alertValues);
+
+            return { ...alertResult.rows[0], email }; // Include email in the response
         } catch (error) {
             throw new Error('Error creating alert: ' + error.message);
         }

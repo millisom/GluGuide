@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BlogCard from '../components/BlogCard';
 import styles from './pages.module.css';
 import axios from 'axios';

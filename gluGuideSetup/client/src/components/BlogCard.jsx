@@ -4,6 +4,7 @@ import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faHeart } from '@fortawesome/free-solid-svg-icons';
 import axios from '../../api/axiosConfig';
+import PropTypes from 'prop-types';
 
 const BlogCard = ({ blog }) => {
     const navigate = useNavigate();
@@ -38,10 +39,26 @@ const BlogCard = ({ blog }) => {
                         ? parse(`${blog.content.slice(0, 150)}...`)
                         : parse(blog.content)}
                 </div>
+                {blog.tags && blog.tags.length > 0 && (
+                    <div className={styles.tagsContainer}>
+                        {blog.tags.map((tag, index) => (
+                            <button 
+                                key={index} 
+                                className={styles.tagItem} 
+                                onClick={(e) => { 
+                                    e.stopPropagation();
+                                    navigate(`/blogs?tag=${encodeURIComponent(tag)}`);
+                                }}
+                            >
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+                )}
                 <div className={styles.cardFooter}>
                     <p className={styles.postLikes}>
                         <FontAwesomeIcon icon={faHeart} className={styles.heart} />{" "}
-                        {blog.likes ? blog.likes.length : 0} Likes
+                        {blog.likes_count ? blog.likes_count : (blog.likes ? blog.likes.length : 0)} Likes
                     </p>
                     <div className={styles.iconContainer}>
                         <button
@@ -63,6 +80,17 @@ const BlogCard = ({ blog }) => {
             </div>
         </div>
     );
+};
+
+BlogCard.propTypes = {
+    blog: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
+        likes: PropTypes.array,
+        likes_count: PropTypes.number,
+        tags: PropTypes.arrayOf(PropTypes.string),
+    }).isRequired,
 };
 
 export default BlogCard;

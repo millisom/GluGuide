@@ -12,27 +12,33 @@ const EditPost = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [tagsInput, setTagsInput] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
-const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
     const fetchPost = async () => {
+      setIsLoading(true);
+      setError('');
       try {
-        const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
+        const response = await axios.get(`http://localhost:8080/getPost/${id}`, {
           withCredentials: true,
         });
         setTitle(response.data.title);
         setContent(response.data.content);
+        setTagsInput(Array.isArray(response.data.tags) ? response.data.tags.join(', ') : '');
         setImageUrl(
           response.data.post_picture
             ? `http://localhost:8080/uploads/${response.data.post_picture}`
             : ""
         );
       } catch (error) {
-        setError('Failed to load post');
+        setError('Failed to load post data. Please try again.');
         console.error('Error loading post:', error.response ? error.response.data : error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchPost();
@@ -40,16 +46,18 @@ const [imageUrl, setImageUrl] = useState('');
 
   const handleSave = async () => {
     setIsLoading(true);
+    setError('');
     try {
+      const payload = { title, content, tags: tagsInput };
       await axios.put(
         `http://localhost:8080/updatePost/${id}`,
-        { title, content },
+        payload,
         { withCredentials: true }
       );
-      navigate(`/viewPost/${id}`); // Redirect back to the view page after saving
+      navigate(`/viewPost/${id}`);
     } catch (error) {
-      setError('Failed to save changes');
-      console.error('Error saving post:', error);
+      setError('Failed to save changes. Please check your input.');
+      console.error('Error saving post:', error.response ? error.response.data : error.message);
     } finally {
       setIsLoading(false);
     }
@@ -91,99 +99,109 @@ const [imageUrl, setImageUrl] = useState('');
     <div className={styles.editPostContainer}>
       <h2 className={styles.title}>Edit Your Post</h2>
       {error && <p className={styles.errorMessage}>{error}</p>}
+      {isLoading && <p>Loading post data...</p>}
 
-      <div className={styles.form}>
-        {/* Post Title */}
-        <label className={styles.label}>Post Title:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Post title"
-          className={styles.input}
-        />
+      {!isLoading && (
+        <div className={styles.form}>
+          {/* Post Title */}
+          <label className={styles.label}>Post Title:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Post title"
+            className={styles.input}
+          />
   
-        {/* Post Content */}
-
-        <label className={styles.label}>Content:</label>
-        <ReactQuill
-          value={content}
-          onChange={setContent}
-          className={styles.quillEditor}
-        />
+          {/* Post Content */}
+          <label className={styles.label}>Content:</label>
+          <ReactQuill
+            value={content}
+            onChange={setContent}
+            className={styles.quillEditor}
+          />
   
-        {/* Image Upload Section */}
-
-        <label className={styles.label}>Current Post Image:</label>
-        {imageUrl ? (
-          <>
-            <div className={styles.imagePreview}>
-              <img
-                src={imageUrl}
-                alt="Post Preview"
-                className={styles.previewImage}
-              />
-            </div>
-            <div className={styles.inputField}>
+          {/* Tags Input */}
+          <label className={styles.label}>Tags (comma-separated):</label>
+          <input
+            type="text"
+            value={tagsInput}
+            onChange={(e) => setTagsInput(e.target.value)}
+            placeholder="e.g., health, diet, tips"
+            className={styles.input}
+          />
+  
+          {/* Image Upload Section */}
+          <label className={styles.label}>Current Post Image:</label>
+          {imageUrl ? (
+            <>
+              <div className={styles.imagePreview}>
+                <img
+                  src={imageUrl}
+                  alt="Post Preview"
+                  className={styles.previewImage}
+                />
+              </div>
+              <div className={styles.inputField}>
+                <button
+                  type="button"
+                  className={styles.deleteButton}
+                  onClick={handleDeleteImage}
+                >
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className={styles.iconSpacing}
+                  />
+                  Remove Image
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p>There is no current image set.</p>
               <button
                 type="button"
                 className={styles.deleteButton}
                 onClick={handleDeleteImage}
+                disabled
               >
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  className={styles.iconSpacing}
-                />
+                <FontAwesomeIcon icon={faTrash} className={styles.iconSpacing} />
                 Remove Image
               </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <p>There is no current image set.</p>
-            <button
-              type="button"
-              className={styles.deleteButton}
-              onClick={handleDeleteImage}
-              disabled
-            >
-              <FontAwesomeIcon icon={faTrash} className={styles.iconSpacing} />
-              Remove Image
-            </button>
-          </>
-        )}
+            </>
+          )}
 
-        <label className={styles.label}>Upload New Image:</label>
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-          className={styles.fileInput}
-        />
-        <small>First choose a new image, then click "Upload Image"!</small>
-        <button onClick={handleUploadImage} className={styles.uploadButton}>
-          Upload Image
-        </button>
+          <label className={styles.label}>Upload New Image:</label>
+          <input
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+            className={styles.fileInput}
+          />
+          <small>First choose a new image, then click "Upload Image"!</small>
+          <button onClick={handleUploadImage} className={styles.uploadButton}>
+            Upload Image
+          </button>
   
-        {/* Action Buttons */}
-
-        <div className={styles.buttonGroup}>
-          <button
-            onClick={handleSave}
-            disabled={isLoading}
-            className={styles.saveButton}
-          >
-            <FontAwesomeIcon icon={faSave} className={styles.iconSpacing} />
-            {isLoading ? "Saving..." : "Save"}
-          </button>
-          <button
-            onClick={() => navigate(`/viewPost/${id}`)}
-            className={styles.cancelButton}
-          >
-            <FontAwesomeIcon icon={faXmark} className={styles.iconSpacing} />
-            Cancel
-          </button>
+          {/* Action Buttons */}
+          <div className={styles.buttonGroup}>
+            <button
+              onClick={handleSave}
+              disabled={isLoading}
+              className={styles.saveButton}
+            >
+              <FontAwesomeIcon icon={faSave} className={styles.iconSpacing} />
+              {isLoading ? "Saving..." : "Save"}
+            </button>
+            <button
+              onClick={() => navigate(`/viewPost/${id}`)}
+              className={styles.cancelButton}
+            >
+              <FontAwesomeIcon icon={faXmark} className={styles.iconSpacing} />
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

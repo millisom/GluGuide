@@ -19,7 +19,6 @@ const postController = {
       }
 
 
-    // Extract title, content, and tags from the request body
     const { title, content, tags } = req.body; 
     const username = req.session?.username; // getting username from cookie
   
@@ -32,30 +31,27 @@ const postController = {
     // Ensure tags is an array, even if not provided or invalid
     let tagsArray = [];
     if (tags && typeof tags === 'string') {
-      // If tags are provided as a comma-separated string, split them
+      // split tags by comma
       tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
     } else if (Array.isArray(tags)) {
-      // If tags are provided as an array, filter out empty strings
+      //filter out empty strings
       tagsArray = tags.filter(tag => typeof tag === 'string' && tag.trim()).map(tag => tag.trim());
     }
 
     try {
       // Log to debug issues
       console.log('Request body:', req.body);
-      console.log('Parsed Tags:', tagsArray); // Log the processed tags
+      console.log('Parsed Tags:', tagsArray);
       console.log('Uploaded file:', req.file);
 
       if (!title) {
         return res.status(400).json({ success: false, message: 'Title is required.' });
       }
       const userId = await Post.getUserIdByUsername(username);
-      // Pass the processed tagsArray to the model function
       const newPost = await Post.createPost(userId, title, content, postPicture, tagsArray); 
   
-      // Fetch the newly created post with tags included for the response
       const postWithDetails = await Post.getPostById(newPost.id);
       return res.status(200).json({ success: true, post: postWithDetails });
-
     } catch (error) {
       console.error('Error creating post:', error.message, error.stack);
       res.status(500).json({ success: false, message: 'Failed to create post.' });
@@ -134,15 +130,12 @@ async getAuthorProfile(req, res) {
     }
 
     try {
-      // The model function now returns the post with tags included
       const post = await Post.getPostById(id);
 
       if (!post) {
           return res.status(404).json({ message: 'Post not found' }); // If no post found
       }
 
-      // The post object from the model already includes the tags array
-      // No need for extra formatting here, unless desired
       res.status(200).json(post); // Return the post data (including tags)
     } catch (error) {
       console.error('Error fetching post:', error); // Log error
@@ -174,13 +167,10 @@ async updatePost(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  // Ensure tags is an array, even if not provided or invalid
   let tagsArray = [];
   if (tags && typeof tags === 'string') {
-    // If tags are provided as a comma-separated string, split them
     tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
   } else if (Array.isArray(tags)) {
-    // If tags are provided as an array, filter out empty strings
     tagsArray = tags.filter(tag => typeof tag === 'string' && tag.trim()).map(tag => tag.trim());
   }
 
@@ -188,24 +178,21 @@ async updatePost(req, res) {
       // Retrieve the user ID based on the username
       const userResult = await Profile.getUserByName(username);
       if (!userResult || userResult.length === 0) {
-          // This check might be redundant if session guarantees user exists, but good practice
           return res.status(404).json({ error: 'User not found' });
       }
 
       const userId = userResult[0].id;
 
-      // Call the model method to update the post, now including tags
+      // Call the model method to update the post and tags
       const updatedPost = await Post.updatePost(id, userId, title, content, tagsArray);
 
       if (!updatedPost) {
-          // Model returns null if post not found or user not authorized
           return res.status(404).json({ error: "Post not found or not authorized to update" });
       }
 
       return res.status(200).json({ message: "Post updated successfully", post: updatedPost });
   } catch (error) {
       console.error('Error updating post:', error);
-      // Use the specific error message from the model if available
       const message = error.message || "Internal Server Error";
       return res.status(500).json({ error: message });
   }
@@ -390,7 +377,7 @@ async deletePostImage(req, res) {
     }
   },
 
-  // New function to get all tags
+  // function to get all tags
   async getAllTags(req, res) {
     try {
       const tags = await Post.getAllTags();

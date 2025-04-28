@@ -206,8 +206,11 @@ The following UML diagram shows the structure after refactoring with the Strateg
 ![Strategy Pattern - Forgot Password](./Assets/strategyForgotPassword.png)
 
 - `NotificationContext` uses a `NotificationStrategy` to send a notification.
-- `EmailNotificationStrategy` is a concrete strategy implementation.
-- In future, new strategies (e.g., `SMSNotificationStrategy`, `PushNotificationStrategy`) can easily be added without modifying the controller.
+- `EmailNotificationStrategy` is a concrete strategy implementation for email.
+- `SMSNotificationStrategy` is already prepared as a future extension to support SMS notifications.
+- `TokenHelper` is responsible for generating password reset tokens and expiry timestamps.
+- `MessageHelper` is responsible for dynamically creating the password reset email message.
+- With this structure, the controller (`AuthController`) delegates all responsibilities cleanly, making the system easier to extend, maintain, and scale without modifying the controller logic itself.
 
 ---
 

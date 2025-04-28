@@ -13,12 +13,14 @@
 - [Logical View](#5-logical-view)
     - [Overview](#51-overview)
     - [Architecturally Significant Design Packages](#52-architecturally-significant-design-packages)
+    - [Refactoring with Design Patterns](#53-refactoring-with-design-patterns)
 - [Process View](#6-process-view)
 - [Deployment View](#7-deployment-view)
 - [Implementation View](#8-implementation-view)
 - [Data View](#9-data-view)
 - [Size and Performance](#10-size-and-performance)
 - [Quality](#11-quality)
+
 
 ## 1. Introduction
 
@@ -145,6 +147,80 @@ This is the class diagram for the feature Profile
 - Vite (Deployment performance)
 
 These can be considered architectually significant.
+
+---
+
+### 5.3 Refactoring with Design Patterns
+
+In addition to the MVC structure, we have refactored parts of our backend using the **Strategy Pattern**.
+
+Specifically, in the `forgotPasswordRequest` feature inside `authController.js`, we introduced a **Strategy Pattern** for handling notifications (sending password reset emails).  
+This refactor separates the notification logic from the controller logic and makes it easier to later extend notification channels (for example: Email, SMS, Push Notifications) without modifying the controller.
+
+---
+
+#### 5.3.1 Refactoring Summary
+
+| **Before** | **After (Strategy Pattern)** |
+|------------|-------------------------------|
+| Notification (Email sending) was handled directly inside the controller | Notification logic is separated into a Strategy class |
+| Hard to extend to other notification methods | Easily extendable (add new strategies like SMS, Push) |
+| Tight coupling between controller and specific email implementation | Loose coupling through dynamic strategies |
+
+---
+
+#### 5.3.2 Implementation Details
+
+- Created an abstract `NotificationStrategy` class/interface.
+- Created `EmailNotificationStrategy` as a concrete implementation.
+- Created a `NotificationContext` class to dynamically choose and use a notification strategy.
+- The controller now delegates the notification responsibility to the context.
+
+**Classes created:**
+- `NotificationStrategy.js`
+- `EmailNotificationStrategy.js`
+- `NotificationContext.js`
+
+**Affected Controller:**
+- `authController.js` ➔ `forgotPasswordRequest(req, res)`
+
+---
+
+#### 5.3.3 Diagrams: Before and After Refactoring
+
+##### Before Refactoring (Direct Dependency)
+
+The following UML diagram shows the structure before applying the Strategy Pattern:
+
+![Forgot Password - Without Strategy](../GluGuide/Assets/forgotPasswordWithoutStrategy.png)
+
+- The controller (`AuthController`) was directly responsible for sending the email using Nodemailer.
+- No separation of concerns.
+
+---
+
+##### After Refactoring (With Strategy Pattern)
+
+The following UML diagram shows the structure after refactoring with the Strategy Pattern:
+
+![Strategy Pattern - Forgot Password](../GluGuide/Assets/strategyForgotPassword.png)
+
+- `NotificationContext` uses a `NotificationStrategy` to send a notification.
+- `EmailNotificationStrategy` is a concrete strategy implementation.
+- In future, new strategies (e.g., `SMSNotificationStrategy`, `PushNotificationStrategy`) can easily be added without modifying the controller.
+
+---
+
+#### 5.3.4 Advantages of the Refactoring
+
+- **Open/Closed Principle**: The code is now open for extension but closed for modification.
+- **Better Separation of Concerns**: The controller only handles request/response, not notification details.
+- **Easier Maintenance**: Changes to notification methods do not affect the controller.
+- **Extensibility**: Adding new notification types (SMS, Push) is simple and clean.
+
+---
+
+
 
 
 ## 6. Process View

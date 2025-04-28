@@ -31,6 +31,12 @@ app.use(session({
   },
 }));
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to the gluGuide API!');
+  });
+  
+
 // Middleware usage
 app.use(setUserIdInSession);
 app.use(express.json());

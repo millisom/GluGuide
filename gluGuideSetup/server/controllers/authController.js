@@ -4,6 +4,8 @@ const crypto = require('crypto');
 const argon2 = require('argon2');
 const nodemailer = require('nodemailer');
 const pool = require('../config/db');
+const NotificationContext = require('../strategies/NotificationContext');
+const EmailNotificationStrategy = require('../strategies/EmailNotificationStrategy');
 
 const authController = {
   async signUp(req, res) {
@@ -98,31 +100,31 @@ const authController = {
       const expiry = new Date(Date.now() + 3600000);// 1 hour from now
       await User.passwordToken(token, expiry, email);
 
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.EMAIL,
-          pass: process.env.PASSWORD
-        }
-      });
       const frontendURL = 'http://localhost:5173';
       const resetLink = `${frontendURL}/resetPassword/${token}`;
-      
-      const mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
+
+      const notificationContext = new NotificationContext(new EmailNotificationStrategy());
+
+      const notificationData = {
         subject: 'Password Reset Request',
-        text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:\n\n
-        ${resetLink}\n\n
-        If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+        message: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+           Please click on the following link, or paste this into your browser to complete the process:\n\n
+           ${resetLink}\n\n
+           If you did not request this, please ignore this email and your password will remain unchanged.\n`,
       };
 
-      await transporter.sendMail(mailOptions);
-      res.status(200).json({ message: 'Password reset email sent' });
-
-    } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      try{
+        await notificationContext.send(email, notificationData);
+        res.status(200).json({ message: 'Password reset email sent'});
+      }
+      catch(error){
+        console.error('Notification sending failed:', error);
+        res.status(500).json({error: 'Failed to send notification'});
+      }
+    }
+    catch (error){
+      console.error('Error in forgot password request:', error);
+      res.status(500).json({error: 'Internal Server Error'});
     }
   },
 

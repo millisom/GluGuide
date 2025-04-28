@@ -192,7 +192,7 @@ This refactor separates the notification logic from the controller logic and mak
 
 The following UML diagram shows the structure before applying the Strategy Pattern:
 
-![Forgot Password - Without Strategy](../GluGuide/Assets/forgotPasswordWithoutStrategy.png)
+![Forgot Password - Without Strategy](./Assets/forgotPasswordWithoutStrategy.png)
 
 - The controller (`AuthController`) was directly responsible for sending the email using Nodemailer.
 - No separation of concerns.
@@ -203,7 +203,7 @@ The following UML diagram shows the structure before applying the Strategy Patte
 
 The following UML diagram shows the structure after refactoring with the Strategy Pattern:
 
-![Strategy Pattern - Forgot Password](../GluGuide/Assets/strategyForgotPassword.png)
+![Strategy Pattern - Forgot Password](./Assets/strategyForgotPassword.png)
 
 - `NotificationContext` uses a `NotificationStrategy` to send a notification.
 - `EmailNotificationStrategy` is a concrete strategy implementation.

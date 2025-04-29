@@ -71,7 +71,7 @@ const ViewPost = () => {
         <h2 className={styles.postTitle}>{post.title}</h2>
         <button
           onClick={() => handleAuthorClick(post.username)}
-          className={styles.authorButton} // Styling similar to likeButton
+          className={styles.authorButton} 
         >
           Author: {post.username}
         </button>

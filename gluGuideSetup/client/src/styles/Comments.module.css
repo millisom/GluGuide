@@ -193,3 +193,31 @@
   font-size: 0.75rem;
   color: #666;
 }
+
+.clickableAuthor {
+  cursor: pointer;
+  color: #007bff; /* or any color you prefer */
+}
+
+.clickableAuthor:hover {
+  text-decoration: underline;
+}
+
+.authorButton {
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px; /* Adjusted for size relative to comment text */
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authorButton:hover {
+  background-color: var(--color-secondary);
+}

@@ -19,7 +19,7 @@ const postController = {
       }
 
 
-    const { title, content } = req.body; // Extract title and content from the request body
+    const { title, content, tags } = req.body; 
     const username = req.session?.username; // getting username from cookie
   
     if (!username) {
@@ -28,18 +28,30 @@ const postController = {
   
     const postPicture = req.file ? req.file.filename : null;
   
+    // Ensure tags is an array, even if not provided or invalid
+    let tagsArray = [];
+    if (tags && typeof tags === 'string') {
+      // split tags by comma
+      tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+    } else if (Array.isArray(tags)) {
+      //filter out empty strings
+      tagsArray = tags.filter(tag => typeof tag === 'string' && tag.trim()).map(tag => tag.trim());
+    }
+
     try {
       // Log to debug issues
       console.log('Request body:', req.body);
+      console.log('Parsed Tags:', tagsArray);
       console.log('Uploaded file:', req.file);
 
       if (!title) {
         return res.status(400).json({ success: false, message: 'Title is required.' });
       }
       const userId = await Post.getUserIdByUsername(username);
-      const newPost = await Post.createPost(userId, title, content, postPicture);
+      const newPost = await Post.createPost(userId, title, content, postPicture, tagsArray); 
   
-      return res.status(200).json({ success: true, post: newPost });
+      const postWithDetails = await Post.getPostById(newPost.id);
+      return res.status(200).json({ success: true, post: postWithDetails });
     } catch (error) {
       console.error('Error creating post:', error.message, error.stack);
       res.status(500).json({ success: false, message: 'Failed to create post.' });
@@ -118,25 +130,13 @@ async getAuthorProfile(req, res) {
     }
 
     try {
-      const post = await Post.getPostById(id); // Call the model method to get the post
+      const post = await Post.getPostById(id);
 
       if (!post) {
           return res.status(404).json({ message: 'Post not found' }); // If no post found
       }
 
-      // Format the post data for response
-      const formattedPost = {
-        id: post.id,                // Include id
-        title: post.title,
-        content: post.content,
-        created_at: post.created_at,
-        updated_at: post.updated_at || null,
-        post_picture: post.post_picture,
-        username: post.username,
-        likes: post.likes || [],     // Include likes
-      };      
-
-      res.status(200).json(formattedPost); // Return formatted post data
+      res.status(200).json(post); // Return the post data (including tags)
     } catch (error) {
       console.error('Error fetching post:', error); // Log error
       res.status(500).json({ message: 'Server error while fetching post' }); // Return server error
@@ -159,11 +159,19 @@ async getAuthorProfile(req, res) {
 
 async updatePost(req, res) {
   const { id } = req.params;  // The post ID from the URL params
-  const { title, content } = req.body;  // The title and content from the request body
+  // Extract title, content, and tags from the request body
+  const { title, content, tags } = req.body;
   const username = req.session?.username; // The username from the session
 
   if (!username) {
       return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  let tagsArray = [];
+  if (tags && typeof tags === 'string') {
+    tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+  } else if (Array.isArray(tags)) {
+    tagsArray = tags.filter(tag => typeof tag === 'string' && tag.trim()).map(tag => tag.trim());
   }
 
   try {
@@ -173,19 +181,20 @@ async updatePost(req, res) {
           return res.status(404).json({ error: 'User not found' });
       }
 
-      const userId = userResult[0].id;  // Assuming the user ID is in the first row
+      const userId = userResult[0].id;
 
-      // Call the model method to update the post with the userId and postId
-      const updatedPost = await Post.updatePost(id, userId, title, content);
+      // Call the model method to update the post and tags
+      const updatedPost = await Post.updatePost(id, userId, title, content, tagsArray);
 
       if (!updatedPost) {
-          return res.status(404).json({ error: "Post not found" });
+          return res.status(404).json({ error: "Post not found or not authorized to update" });
       }
 
       return res.status(200).json({ message: "Post updated successfully", post: updatedPost });
   } catch (error) {
       console.error('Error updating post:', error);
-      return res.status(500).json({ error: "Internal Server Error" });
+      const message = error.message || "Internal Server Error";
+      return res.status(500).json({ error: message });
   }
 },
 
@@ -366,7 +375,18 @@ async deletePostImage(req, res) {
       console.error('Error toggling like:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  }  
+  },
+
+  // function to get all tags
+  async getAllTags(req, res) {
+    try {
+      const tags = await Post.getAllTags();
+      res.status(200).json(tags);
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+      res.status(500).json({ message: 'Server error while fetching tags' });
+    }
+  }
 };
 
 module.exports = {

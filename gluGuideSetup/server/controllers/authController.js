@@ -1,9 +1,11 @@
 /// Implement logic for user sign-up in controllers/authController.js.
 const User = require('../models/authModel');
-const crypto = require('crypto');
 const argon2 = require('argon2');
-const nodemailer = require('nodemailer');
 const pool = require('../config/db');
+const NotificationContext = require('../strategies/NotificationContext');
+const EmailNotificationStrategy = require('../strategies/EmailNotificationStrategy');
+const { generateResetToken } = require('../helpers/tokenHelper');
+const { createPasswordResetMessage } = require('../helpers/messageHelper');
 
 const authController = {
   async signUp(req, res) {
@@ -88,41 +90,28 @@ const authController = {
   async forgotPasswordRequest(req, res) {
     try {
       const { email } = req.body;
-
+  
       const user = await User.forgotPassword(email);
       if (user.rows.length === 0) {
         return res.status(404).json({ message: "User does not exist" });
       }
-
-      const token = crypto.randomBytes(20).toString('hex');
-      const expiry = new Date(Date.now() + 3600000);// 1 hour from now
+  
+      const { token, expiry } = generateResetToken();
       await User.passwordToken(token, expiry, email);
-
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.EMAIL,
-          pass: process.env.PASSWORD
-        }
-      });
+  
       const frontendURL = 'http://localhost:5173';
       const resetLink = `${frontendURL}/resetPassword/${token}`;
-      
-      const mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
-        subject: 'Password Reset Request',
-        text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:\n\n
-        ${resetLink}\n\n
-        If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-      };
-
-      await transporter.sendMail(mailOptions);
+  
+      const notificationContext = new NotificationContext(new EmailNotificationStrategy());
+      const notificationData = createPasswordResetMessage(resetLink);
+  
+      await notificationContext.send(email, notificationData);
+  
       res.status(200).json({ message: 'Password reset email sent' });
-
+      
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error('Error in forgot password request:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   },
 

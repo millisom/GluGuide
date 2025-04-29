@@ -1,15 +1,59 @@
 const pool = require('../config/db');
 
+// function to find or create tags
+async function findOrCreateTags(tagNames, dbClient) {
+  const tagIds = [];
+  for (const name of tagNames) {
+    let tagResult = await dbClient.query('SELECT id FROM tags WHERE name = $1', [name]);
+    let tagId;
+    if (tagResult.rows.length > 0) {
+      tagId = tagResult.rows[0].id;
+    } else {
+      tagResult = await dbClient.query('INSERT INTO tags (name) VALUES ($1) RETURNING id', [name]);
+      tagId = tagResult.rows[0].id;
+    }
+    tagIds.push(tagId);
+  }
+  return tagIds;
+}
+
+// function to link tags to a post
+async function linkTagsToPost(postId, tagIds, dbClient) {
+  if (tagIds.length === 0) return;
+  const values = tagIds.map((tagId, index) => `($1, $${index + 2})`).join(',');
+  const query = `INSERT INTO post_tags (post_id, tag_id) VALUES ${values}`;
+  await dbClient.query(query, [postId, ...tagIds]);
+}
+
 const Post = {
-  // Method to create a new post
-  async createPost(userId, title, content, postPicture) {
-    const query = 'INSERT INTO posts (user_id, title, content, created_at, post_picture) VALUES ($1, $2, $3, NOW(), $4) RETURNING *';
-    const values = [userId, title, content, postPicture]; // Use user_id in the query
+  // Method to create a new post with tags
+  // tags are empty bydefault
+  async createPost(userId, title, content, postPicture, tags = []) {
+    const client = await pool.connect();
     try {
-      const result = await pool.query(query, values);
-      return result.rows[0]; // Return the newly created post
+      await client.query('BEGIN');
+
+      const postQuery = 'INSERT INTO posts (user_id, title, content, created_at, post_picture) VALUES ($1, $2, $3, NOW(), $4) RETURNING *';
+      const postValues = [userId, title, content, postPicture];
+      const postResult = await client.query(postQuery, postValues);
+      const newPost = postResult.rows[0];
+
+      const tagIds = await findOrCreateTags(tags, client);
+
+      if (tagIds.length > 0) {
+        await linkTagsToPost(newPost.id, tagIds, client);
+      }
+
+      await client.query('COMMIT');
+      const createdPostWithTags = await this.getPostById(newPost.id);
+      return createdPostWithTags; // Return the newly created post with tags
+
     } catch (error) {
-      throw new Error('Error creating post: ' + error.message);
+      await client.query('ROLLBACK');
+      console.error('Error creating post with tags:', error);
+      throw new Error('Failed to create post in database.');
+    } finally {
+      client.release();
     }
   },
 
@@ -32,78 +76,116 @@ const Post = {
 
   async getAllPostsOrderedByTime() {
     const query = `
-      SELECT 
-        posts.*, 
-        users.username, 
-        array_length(posts.likes, 1) AS likes_count
-      FROM 
-        posts
-      JOIN 
-        users ON posts.user_id = users.id
-      ORDER BY 
-        posts.created_at DESC
+      SELECT
+        p.*,
+        u.username,
+        COALESCE(array_length(p.likes, 1), 0) AS likes_count,
+        COALESCE(array_agg(t.name) FILTER (WHERE t.name IS NOT NULL), '{}') AS tags
+      FROM
+        posts p
+      JOIN
+        users u ON p.user_id = u.id
+      LEFT JOIN
+        post_tags pt ON p.id = pt.post_id
+      LEFT JOIN
+        tags t ON pt.tag_id = t.id
+      GROUP BY
+        p.id, u.username -- Group by post ID and user username
+      ORDER BY
+        p.created_at DESC
     `;
     try {
       const result = await pool.query(query);
-      return result.rows; // Return all posts ordered by creation date, newest first
+      return result.rows;
     } catch (error) {
+      console.error("Error fetching posts with tags:", error);
       throw new Error('Error fetching posts: ' + error.message);
     }
   },
 
-  // Method to get all posts for a specific user
+  // Method to get all posts for a specific user with tags
   async getPosts(userId) {
     const query = `
-        SELECT 
-            posts.*, 
-            array_length(posts.likes, 1) AS likes_count  -- Count of likes
-        FROM 
-            posts 
-        WHERE 
-            user_id = $1
+      SELECT 
+        p.*, 
+        COALESCE(array_length(p.likes, 1), 0) AS likes_count, -- Count of likes
+        COALESCE(array_agg(t.name) FILTER (WHERE t.name IS NOT NULL), '{}') AS tags -- Aggregate tags
+      FROM 
+        posts p
+      LEFT JOIN -- Use LEFT JOIN in case a post has no tags
+        post_tags pt ON p.id = pt.post_id
+      LEFT JOIN 
+        tags t ON pt.tag_id = t.id
+      WHERE 
+        p.user_id = $1
+      GROUP BY
+        p.id -- Group by post ID to aggregate tags correctly
+      ORDER BY
+        p.created_at DESC -- Keep ordering
     `;
     const values = [userId];
     try {
         const result = await pool.query(query, values);
-        console.log('Posts:', result.rows);
+        console.log('Posts for user:', result.rows);
         return result.rows;
     } catch (error) {
         throw new Error('Error fetching posts for user: ' + error.message);
     }
   },
 
-  async updatePostForUser(userId, title, content) {
-    const values = [title, content, userId];
-    const query = 'UPDATE posts SET title = $1, content = $2 WHERE user_id = $3';
+  async updatePost(postId, userId, title, content, tags = []) {
+    const client = await pool.connect();
     try {
-      const result = await pool.query(query, values);
-      return result.rowCount;
+      await client.query('BEGIN');
+
+      const updatePostQuery = 'UPDATE posts SET title = $1, content = $2, updated_at = NOW() WHERE id = $3 AND user_id = $4 RETURNING id';
+      const updateResult = await client.query(updatePostQuery, [title, content, postId, userId]);
+
+      if (updateResult.rowCount === 0) {
+        await client.query('ROLLBACK');
+        return null;
+      }
+
+      await client.query('DELETE FROM post_tags WHERE post_id = $1', [postId]);
+
+      const tagIds = await findOrCreateTags(tags, client);
+
+      if (tagIds.length > 0) {
+        await linkTagsToPost(postId, tagIds, client);
+      }
+
+      await client.query('COMMIT');
+
+      const updatedPostWithTags = await this.getPostById(postId);
+      return updatedPostWithTags;
+
     } catch (error) {
-      throw new Error('Error updating post for user: ' + error.message);
+      await client.query('ROLLBACK');
+      throw new Error('Failed to update post in database.');
+    } finally {
+      client.release();
     }
   },
 
-  async updatePost(postId, userId, title, content) {
-    const query = 'UPDATE posts SET title = $1, content = $2 WHERE id = $3 AND user_id = $4 RETURNING *';
-    const values = [title, content, postId, userId]; // Correct order of parameters
-
-    try {
-        const result = await pool.query(query, values);
-        if (result.rowCount === 0) {
-            return null; // No post was updated
-        }
-        return result.rows[0]; // Return the updated post
-    } catch (error) {
-        throw new Error('Error updating post: ' + error.message);
-    }
-},
-
   async getPostById(postId) {
     const query = `
-      SELECT posts.*, users.username 
-      FROM posts 
-      JOIN users ON posts.user_id = users.id
-      WHERE posts.id = $1
+      SELECT
+          p.*,
+          u.username,
+          COALESCE(array_length(p.likes, 1), 0) AS likes_count,
+          COALESCE(array_agg(t.name) FILTER (WHERE t.name IS NOT NULL), '{}') AS tags
+      FROM
+          posts p
+      JOIN
+          users u ON p.user_id = u.id
+      LEFT JOIN
+          post_tags pt ON p.id = pt.post_id
+      LEFT JOIN
+          tags t ON pt.tag_id = t.id
+      WHERE
+          p.id = $1
+      GROUP BY
+          p.id, u.username -- Group by post ID and user username
     `;
     const values = [postId];
 
@@ -112,7 +194,7 @@ const Post = {
       if (result.rows.length === 0) {
         return null; // No post found
       }
-      return result.rows[0]; // Return the found post
+      return result.rows[0]; // Return the found post with tags
     } catch (error) {
       throw new Error('Error fetching post: ' + error.message);
     }
@@ -222,9 +304,20 @@ const Post = {
     } catch (error) {
       throw new Error('Error fetching author profile: ' + error.message);
     }
+  },
+
+  // Method to get all unique tag names
+  async getAllTags() {
+    const query = 'SELECT name FROM tags ORDER BY name ASC';
+    try {
+      const result = await pool.query(query);
+      return result.rows.map(row => row.name);
+    } catch (error) {
+      console.error("Error fetching all tags:", error);
+      throw new Error('Error fetching tags: ' + error.message);
+    }
   }
   
- 
 };
 
 module.exports = Post;

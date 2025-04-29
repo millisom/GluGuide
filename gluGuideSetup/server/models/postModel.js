@@ -1,4 +1,4 @@
-const pool = require('../config/db'); // Import the PostgreSQL connection pool
+const pool = require('../config/db');
 
 // function to find or create tags
 async function findOrCreateTags(tagNames, dbClient) {

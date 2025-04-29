@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import styles from '../styles/Comments.module.css';
 
 const CreateComment = ({ postId, onCommentCreated }) => {
@@ -10,16 +12,22 @@ const CreateComment = ({ postId, onCommentCreated }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Strip HTML tags to check for meaningful text
+    const plainText = content.replace(/<[^>]+>/g, '').trim();
+    if (!plainText) {
+      setError("Comment cannot be empty");
+      return;
+    }
+
     try {
       await axios.post(
         "http://localhost:8080/comments",
         { post_id: postId, content },
         { withCredentials: true }
       );
-
       setContent("");
       setSuccessMessage("Comment added successfully!");
-
+      setError(""); // Clear any previous error
       onCommentCreated();
     } catch (error) {
       console.error("Error creating comment:", error);
@@ -31,20 +39,17 @@ const CreateComment = ({ postId, onCommentCreated }) => {
     <div className={styles.addCommentContainer}>
       <h3 className={styles.title}>Add a Comment</h3>
       <form onSubmit={handleSubmit} className={styles.addCommentForm}>
-        <textarea
+        <ReactQuill
           value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-          placeholder="Write your comment here..."
+          onChange={setContent}
+          theme="snow"
           className={styles.commentTextarea}
         />
         <button type="submit" className={styles.submitButton}>
           Submit
         </button>
         {error && <p className={styles.error}>{error}</p>}
-        {successMessage && (
-          <p className={styles.successMessage}>{successMessage}</p>
-        )}
+        {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
       </form>
     </div>
   );

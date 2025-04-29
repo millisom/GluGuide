@@ -273,3 +273,9 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.ql-editor {
+  background-color: white;
+  color: #333;
+  min-height: 120px;
+}

@@ -1,0 +1,46 @@
+.alertsTableContainer {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 20px;
+    text-align: center;
+}
+
+.tableHeader {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: var(--sds-color-text-default-default);
+}
+
+.alertsTable {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alertsTable th,
+.alertsTable td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.alertsTable th {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: bold;
+}
+
+.alertsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.alertsTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 1rem;
+    margin-top: 20px;
+}

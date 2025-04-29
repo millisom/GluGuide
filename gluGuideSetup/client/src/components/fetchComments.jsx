@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ReactQuill from 'react-quill'; // only if needed in edit mode
+import 'react-quill/dist/quill.snow.css';
+import parse from 'html-react-parser';
 import styles from '../styles/Comments.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
@@ -101,9 +104,10 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
 
             {editingCommentId === comment.id ? (
               <div className={styles.editContainer}>
-                <textarea
+                <ReactQuill
                   value={newContent}
-                  onChange={(e) => setNewContent(e.target.value)}
+                  onChange={setNewContent}
+                  theme="snow"
                   className={styles.editInput}
                 />
                 <div className={styles.editButtonGroup}>
@@ -122,7 +126,8 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
                 </div>
               </div>
             ) : (
-              <p className={styles.commentContent}>{comment.content}</p>
+              // Use html-react-parser to render the stored Quill HTML
+              <div className={styles.commentContent}>{parse(comment.content)}</div>
             )}
 
             <p className={styles.commentDate}>

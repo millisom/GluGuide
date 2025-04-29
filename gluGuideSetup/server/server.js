@@ -58,6 +58,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const glucoseRoutes = require('./routes/glucoseRoutes');
 const foodItemRoutes = require('./routes/foodItemRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
+const mealRoutes = require('./routes/mealRoutes');
 
 // Use routes
 app.use('/', authRoutes);
@@ -69,6 +70,7 @@ app.use('/', adminRoutes);
 app.use('/glucose', glucoseRoutes);
 app.use('/', foodItemRoutes);
 app.use('/', recipeRoutes);
+app.use('/', mealRoutes);
 
 
 // Error handling middleware

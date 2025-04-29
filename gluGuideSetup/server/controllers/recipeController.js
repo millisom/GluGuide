@@ -1,9 +1,8 @@
 const Recipe = require('../models/recipeModel');
+const calculateTotalNutrition = require('../helpers/nutritionHelper');
 
-// Controller for recipes
 const recipeController = {
   
-  // GET all recipes
   async getAllRecipes(req, res, next) {
     try {
       const recipes = await Recipe.getAllRecipes();
@@ -13,7 +12,6 @@ const recipeController = {
     }
   },
 
-  // GET a recipe by ID
   async getRecipeById(req, res, next) {
     try {
       const id = parseInt(req.params.id);
@@ -29,7 +27,6 @@ const recipeController = {
     }
   },
 
-  // GET a recipe by name (optional, depends if you need it)
   async getRecipeByName(req, res, next) {
     try {
       const { name } = req.query;
@@ -49,32 +46,35 @@ const recipeController = {
       next(error);
     }
   },
-
-  // POST create a new recipe
+ 
   async createRecipe(req, res, next) {
     try {
       const { user_id, name, ingredients, instructions } = req.body;
-      const created_at = new Date(); // Current time
+      const created_at = new Date();
 
       if (!user_id || !name || !ingredients || !instructions) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
 
-      const newRecipe = await Recipe.addRecipe(user_id, name, ingredients, instructions, created_at);
+      const totalNutrition = await calculateTotalNutrition(ingredients);
+      const newRecipe = await Recipe.createRecipe(user_id, name, ingredients, instructions, created_at, totalNutrition);
+
       res.status(201).json(newRecipe);
     } catch (error) {
+      if (error.message.includes('Food item')) {
+        return res.status(404).json({ message: error.message });
+      }
       next(error);
     }
   },
-
-  // PUT update existing recipe
   async updateRecipe(req, res, next) {
     try {
       const id = parseInt(req.params.id);
       const { name, ingredients, instructions } = req.body;
       const updated_at = new Date();
 
-      const updatedRecipe = await Recipe.updateRecipe(id, name, ingredients, instructions, updated_at);
+      const totalNutrition = await calculateTotalNutrition(ingredients);
+      const updatedRecipe = await Recipe.updateRecipe(id, name, ingredients, instructions, updated_at, totalNutrition);
 
       if (!updatedRecipe) {
         return res.status(404).json({ message: 'Recipe not found' });
@@ -82,48 +82,88 @@ const recipeController = {
 
       res.status(200).json(updatedRecipe);
     } catch (error) {
+      if (error.message.includes('Food item')) {
+        return res.status(404).json({ message: error.message });
+      }
       next(error);
     }
   },
-
-  // DELETE a recipe
   async deleteRecipe(req, res, next) {
     try {
-        const id = parseInt(req.params.id);
-        const user_id = req.body.user_id;
+      const id = parseInt(req.params.id);
+      const deletedRecipe = await Recipe.deleteRecipe(id);
 
-        if (!user_id) {
-            return res.status(400).json({ message: 'user_id is required to delete recipe.' });
-        }
+      if (!deletedRecipe) {
+        return res.status(404).json({ message: 'Recipe not found' });
+      }
 
-        const deletedRecipe = await Recipe.deleteRecipe(id, user_id);
-
-        if (!deletedRecipe) {
-            return res.status(404).json({ message: 'Recipe not found' });
-        }
-
-        res.status(200).json({ message: 'Recipe deleted successfully', recipe: deletedRecipe });
-
+      res.status(200).json({ message: 'Recipe deleted successfully' });
     } catch (error) {
-        next(error);
+      next(error);
     }
-},
-
+  },
+  
   async logRecipe(req, res, next) {
     try {
       const { recipe_id, user_id, action } = req.body;
-      const timestamp = new Date(); // Current time
+      const timestamp = new Date();
 
       if (!recipe_id || !user_id || !action) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
 
-      const loggedRecipe = await Recipe.logRecipe(recipe_id, user_id, action, timestamp);
+      const ingredients = await Recipe.getRecipeIngredients(recipe_id);
+      if (!ingredients || ingredients.length === 0) {
+        return res.status(404).json({ message: 'Recipe ingredients not found' });
+      }
+
+      const totalNutrition = await calculateTotalNutrition(ingredients);
+
+      const loggedRecipe = await Recipe.logRecipe(user_id, recipe_id, action, timestamp, totalNutrition);
+      if (!loggedRecipe) {
+        return res.status(500).json({ message: 'Failed to log recipe' });
+      }
+
       res.status(201).json(loggedRecipe);
     } catch (error) {
       next(error);
     }
+  },
+
+  async getRecipeLogs(req, res, next) {
+    try {
+      const user_id = parseInt(req.params.user_id);
+  
+      if (!user_id) {
+        return res.status(400).json({ message: 'User ID is required in URL' });
+      }
+  
+      const logs = await Recipe.getRecipeLogs(user_id);
+      res.status(200).json(logs);
+    } catch (error) {
+      next(error);
+    }
+  },  
+
+  async deleteRecipeLog(req, res, next) {
+    try {
+      const id = parseInt(req.params.id);
+  
+      if (!id) {
+        return res.status(400).json({ message: 'Log ID is required in URL' });
+      }
+  
+      const deletedLog = await Recipe.deleteRecipeLog(id);
+      if (!deletedLog) {
+        return res.status(404).json({ message: 'Log not found' });
+      }
+  
+      res.status(200).json({ message: 'Log deleted successfully', deletedLog });
+    } catch (error) {
+      next(error);
+    }
   }
+  
 
 };
 

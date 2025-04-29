@@ -10,6 +10,9 @@ router.get('/recipes/search/name', recipeController.getRecipeByName);    // GET 
 router.post('/recipes', validateRecipe, recipeController.createRecipe); // POST create recipe
 router.put('/recipes/:id', validateRecipe, recipeController.updateRecipe); // PUT update recipe
 router.delete('/recipes/:id', recipeController.deleteRecipe);       // DELETE recipe
-router.post('/recipes/log', recipeController.logRecipe);            // POST log recipe action
+router.post('/recipes/log', recipeController.logRecipe);            // POST log recipe
+router.get('/recipes/logs/:user_id', recipeController.getRecipeLogs); // GET recipe logs by user ID
+router.delete('/logs/:id', recipeController.deleteRecipeLog); // DELETE recipe log by ID
+
 
 module.exports = router;

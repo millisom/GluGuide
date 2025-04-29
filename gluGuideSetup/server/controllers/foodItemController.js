@@ -1,4 +1,5 @@
-const FoodItem = require('../models/foodItemModel'); // Import the FoodItem model
+const FoodItem = require('../models/foodItemModel');
+const calculateSingleFoodItemNutrition = require('../helpers/singleFoodItemNutritionHelper');
 
 // Controller for food items
 const foodItemController = {
@@ -52,13 +53,12 @@ const foodItemController = {
         return res.status(400).json({ message: 'Missing required fields' });
       }
 
-      const newFoodItem = await FoodItem.logFoodItem(name, calories, carbs, proteins, fats);
+      const newFoodItem = await FoodItem.createFoodItem(name, calories, carbs, proteins, fats);
       res.status(201).json(newFoodItem);
     } catch (error) {
       next(error);
     }
   },
-
   // PUT update food item
   async updateFoodItem(req, res, next) {
     try {
@@ -95,24 +95,39 @@ const foodItemController = {
 
     // GET food item by name and log it
     async searchAndLogFoodItem(req, res, next) {
-        try {
-            const name = req.params.name;
-            const user_id = req.user.id; // Assuming you have user ID from authentication middleware
-            const quantity = req.body.quantity || 1; // Default to 1 if not provided
-            const date = new Date(); // Current time
-    
-            const foodItem = await FoodItem.getFoodItemByName(name);
-    
-            if (!foodItem) {
-            return res.status(404).json({ message: 'Food item not found' });
-            }
-    
-            const loggedFoodItem = await FoodItem.logFoodItem(user_id, foodItem.food_id, quantity, date);
-            res.status(200).json(loggedFoodItem);
-        } catch (error) {
-            next(error);
+      try {
+        const name = req.params.name;
+        const user_id = req.user.id; // Assuming user ID is available in req.user
+        if (!user_id) {
+          return res.status(401).json({ message: 'Unauthorized' });
         }
+        const quantityInGrams = req.body.quantityInGrams || 100;
+        const date = new Date();
+  
+        const foodItem = await FoodItem.getFoodItemByName(name);
+        if (!foodItem) {
+          return res.status(404).json({ message: 'Food item not found' });
         }
+  
+        const nutrition = calculateSingleFoodItemNutrition(foodItem, quantityInGrams);
+  
+        const loggedFoodItem = await FoodItem.logFoodItem(
+          user_id,
+          foodItem.food_id,
+          quantityInGrams,
+          date,
+          nutrition.totalCalories,
+          nutrition.totalProteins,
+          nutrition.totalFats,
+          nutrition.totalCarbs
+        );
+  
+        res.status(200).json(loggedFoodItem);
+      } catch (error) {
+        next(error);
+      }
+    }
+  
 };
 
 module.exports = foodItemController;

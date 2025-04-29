@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import styles from '../styles/Admin.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -174,14 +176,15 @@ const AdminEditUser = () => {
           </label>
         </div>
 
-        {/* Bio text area */}
+        {/* Bio with React Quill */}
         <div className={styles.inputField}>
           <label className={styles.label}>Bio</label>
-          <textarea
-            className={styles.input}
-            rows='4'
+          <ReactQuill
             value={user.profile_bio}
-            onChange={(e) => setUser({ ...user, profile_bio: e.target.value })}
+            onChange={(value) => setUser({ ...user, profile_bio: value })}
+            theme="snow"
+            // Adjust className and styling as needed:
+            className={styles.input}
           />
         </div>
 
@@ -200,7 +203,6 @@ const AdminEditUser = () => {
         {/* Avatar display */}
         <div className={styles.inputField}>
           <label className={styles.label}>Avatar</label>
-
           {avatarUrl ? (
             <div className={styles.avatarPreview}>
               <img
@@ -212,7 +214,6 @@ const AdminEditUser = () => {
           ) : (
             <p>No avatar set.</p>
           )}
-
           <button
             type='button'
             className={styles.deleteButton}

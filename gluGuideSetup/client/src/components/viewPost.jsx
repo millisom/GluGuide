@@ -83,6 +83,24 @@ const ViewPost = () => {
             Last Edited: {new Date(post.updated_at).toLocaleString()}
           </p>
         )}
+        
+        {post.tags && post.tags.length > 0 && (
+            <div className={styles.tagsContainer}> 
+                {post.tags.map((tag, index) => (
+                    <button 
+                        key={index} 
+                        className={styles.tagItem} 
+                        onClick={(e) => { 
+                            e.stopPropagation();
+                            navigate(`/blogs?tag=${encodeURIComponent(tag)}`);
+                        }}
+                    >
+                        {tag}
+                    </button>
+                ))}
+            </div>
+        )}
+
         <div className={styles.postContainerBody}>
           {post.post_picture && (
             <img

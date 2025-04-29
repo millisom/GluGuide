@@ -82,21 +82,21 @@
 }
 
 .likeButton {
-  background-color: #1cc198;
+  background-color: #ffa0be;
   color: var(--color-text-white);
 }
 
 .likeButton:hover {
-  background-color: #169d7b;
+  background-color: #f988ab;
 }
 
 .dislikeButton {
-  background-color: #ffd177;
+  background-color: #ffb099;
   color: #333;
 }
 
 .dislikeButton:hover {
-  background-color: #e0b96c;
+  background-color: #ffa488;
 }
 
 .deleteButton {

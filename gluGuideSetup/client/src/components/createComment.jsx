@@ -12,6 +12,13 @@ const CreateComment = ({ postId, onCommentCreated }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Strip HTML tags to check for meaningful text
+    const plainText = content.replace(/<[^>]+>/g, '').trim();
+    if (!plainText) {
+      setError("Comment cannot be empty");
+      return;
+    }
+
     try {
       await axios.post(
         "http://localhost:8080/comments",
@@ -20,6 +27,7 @@ const CreateComment = ({ postId, onCommentCreated }) => {
       );
       setContent("");
       setSuccessMessage("Comment added successfully!");
+      setError(""); // Clear any previous error
       onCommentCreated();
     } catch (error) {
       console.error("Error creating comment:", error);
@@ -41,9 +49,7 @@ const CreateComment = ({ postId, onCommentCreated }) => {
           Submit
         </button>
         {error && <p className={styles.error}>{error}</p>}
-        {successMessage && (
-          <p className={styles.successMessage}>{successMessage}</p>
-        )}
+        {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
       </form>
     </div>
   );

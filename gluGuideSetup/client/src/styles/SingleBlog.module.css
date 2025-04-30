@@ -98,3 +98,25 @@
 .heart {
   color: #e68484;
 }
+
+.tagsContainer {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tagItem {
+    background-color: #9d9bcf;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.tagItem:hover {
+    background-color: var(--color-secondary);
+}

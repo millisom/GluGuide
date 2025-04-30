@@ -2,6 +2,7 @@ const argon2 = require('argon2'); // for password hashing
 const pool = require('../config/db');
 const fs = require("fs");
 const path = require("path");
+const Post = require('../models/postModel');
 
 const adminController = {
 
@@ -253,35 +254,39 @@ const adminController = {
 
     // Edit a post by id
     editPost: async (req, res) => {
-        const postId = req.params.id;
-        const { title, content } = req.body;
+        const { id } = req.params;
+        // Extract title, content, and tags from the request body
+        const { title, content, tags } = req.body;
+
+        let tagsArray = [];
+        if (tags && typeof tags === 'string') {
+            tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+        } else if (Array.isArray(tags)) {
+            tagsArray = tags.filter(tag => typeof tag === 'string' && tag.trim()).map(tag => tag.trim());
+        }
+
+        // Basic validation
+        if (!title || !content) {
+            return res.status(400).json({ message: "Title and content are required." });
+        }
 
         try {
-            // Check if post exists
-            const existingPost = await pool.query(
-                "SELECT * FROM posts WHERE id = $1",
-                [postId]
-            );
+            const postToUpdate = await Post.getPostById(id);
+            if (!postToUpdate) {
+                return res.status(404).json({ message: "Post not found." });
+            }
+            const userId = postToUpdate.user_id; // Get the original author's ID
 
-            if (existingPost.rows.length === 0) {
-                return res.status(404).json({ error: "Post not found." });
+            const updatedPost = await Post.updatePost(id, userId, title, content, tagsArray);
+
+            if (!updatedPost) {
+                return res.status(404).json({ message: "Post not found or update failed during transaction." });
             }
 
-            // Update the post details
-            const updatedPost = await pool.query(
-                `UPDATE posts SET
-              title = COALESCE($1, title),
-              content = COALESCE($2, content),
-              updated_at = NOW()
-             WHERE id = $3
-             RETURNING id, title, content, updated_at`,
-                [title, content, postId]
-            );
-
-            res.status(200).json(updatedPost.rows[0]);
-        } catch (err) {
-            console.error("Error editing post:", err);
-            res.status(500).json({ error: "Server error editing post." });
+            return res.status(200).json({ message: "Post updated successfully by admin", post: updatedPost });
+        } catch (error) {
+            console.error('Admin failed to update post:', error);
+            return res.status(500).json({ message: error.message || "Internal server error" });
         }
     },
 

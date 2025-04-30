@@ -1,21 +1,25 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ReactQuill from 'react-quill'; // only if needed in edit mode
+import 'react-quill/dist/quill.snow.css';
+import parse from 'html-react-parser';
 import styles from '../styles/Comments.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
-const CommentsList = ({
-  comments,
-  currentUserId,
-  isAdmin,
-  refreshComments,
-}) => {
+const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => {
+  const navigate = useNavigate();
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [newContent, setNewContent] = useState("");
 
+  const handleAuthorClick = (username) => {
+    navigate(`/profile/${username}`);
+  };
+
   const handleLike = async (commentId) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:8080/comments/${commentId}/like`,
         {},
         { withCredentials: true }
@@ -28,7 +32,7 @@ const CommentsList = ({
 
   const handleDislike = async (commentId) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:8080/comments/${commentId}/dislike`,
         {},
         { withCredentials: true }
@@ -85,19 +89,25 @@ const CommentsList = ({
   return (
     <div className={styles.commentsContainer}>
       <h3 className={styles.title}>Comments ({comments.length})</h3>
-
       <div className={styles.commentsList}>
         {comments.map((comment) => (
           <div key={comment.id} className={styles.commentCard}>
             <p className={styles.commentAuthor}>
-              <strong>{comment.username}</strong> said:
+              <button 
+                className={styles.authorButton}
+                onClick={() => handleAuthorClick(comment.username)}
+              >
+                {comment.username}
+              </button>{" "}
+              said:
             </p>
 
             {editingCommentId === comment.id ? (
               <div className={styles.editContainer}>
-                <textarea
+                <ReactQuill
                   value={newContent}
-                  onChange={(e) => setNewContent(e.target.value)}
+                  onChange={setNewContent}
+                  theme="snow"
                   className={styles.editInput}
                 />
                 <div className={styles.editButtonGroup}>
@@ -116,17 +126,16 @@ const CommentsList = ({
                 </div>
               </div>
             ) : (
-              <p className={styles.commentContent}>{comment.content}</p>
+              // Use html-react-parser to render the stored Quill HTML
+              <div className={styles.commentContent}>{parse(comment.content)}</div>
             )}
 
             <p className={styles.commentDate}>
               Commented at: {new Date(comment.created_at).toLocaleString()}
-              {new Date(comment.created_at).getTime() !==
-                new Date(comment.updated_at).getTime() && (
+              {new Date(comment.created_at).getTime() !== new Date(comment.updated_at).getTime() && (
                 <>
                   {" "}
-                  | Last updated at:{" "}
-                  {new Date(comment.updated_at).toLocaleString()}
+                  | Last updated at: {new Date(comment.updated_at).toLocaleString()}
                 </>
               )}
             </p>
@@ -137,18 +146,15 @@ const CommentsList = ({
                   onClick={() => handleLike(comment.id)}
                   className={styles.likeButton}
                 >
-                  <FontAwesomeIcon icon={faThumbsUp} className={styles.heart} />{" "}
-                  Like ({comment.likes})
+                  <FontAwesomeIcon icon={faThumbsUp} className={styles.heart} /> Like (
+                  {comment.likes})
                 </button>
                 <button
                   onClick={() => handleDislike(comment.id)}
                   className={styles.dislikeButton}
                 >
-                  <FontAwesomeIcon
-                    icon={faThumbsDown}
-                    className={styles.heart}
-                  />{" "}
-                  Dislike ({comment.dislikes})
+                  <FontAwesomeIcon icon={faThumbsDown} className={styles.heart} /> Dislike (
+                  {comment.dislikes})
                 </button>
                 {(currentUserId === comment.author_id || isAdmin) && (
                   <>
@@ -167,9 +173,7 @@ const CommentsList = ({
                   </>
                 )}
               </div>
-              <small className={styles.commentId}>
-                Comment ID: (#{comment.id})
-              </small>
+              <small className={styles.commentId}>Comment ID: (#{comment.id})</small>
             </div>
           </div>
         ))}

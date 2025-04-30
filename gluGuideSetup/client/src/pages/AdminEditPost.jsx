@@ -13,37 +13,50 @@ const AdminEditPost = () => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [tagsInput, setTagsInput] = useState('');
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
+    setIsLoading(true);
+    setError('');
     axios
       .get(`http://localhost:8080/getPost/${id}`, { withCredentials: true })
       .then((res) => {
         setTitle(res.data.title);
         setContent(res.data.content);
+        setTagsInput(Array.isArray(res.data.tags) ? res.data.tags.join(', ') : '');
         setImageUrl(
           res.data.post_picture
             ? `http://localhost:8080/uploads/${res.data.post_picture}`
             : ""
         );
       })
-      .catch(() => setError("Failed to load post."));
+      .catch((err) => {
+        console.error("Error loading post:", err.response ? err.response.data : err.message);
+        setError("Failed to load post.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [id]);
 
   const handleSave = async () => {
     setIsLoading(true);
+    setError('');
     try {
+      const payload = { title, content, tags: tagsInput };
       await axios.put(
         `http://localhost:8080/admin/posts/${id}`,
-        { title, content },
+        payload,
         { withCredentials: true }
       );
       navigate(`/blogs/view/${id}`);
     } catch (err) {
-      setError("Failed to save post.");
+      console.error("Error saving post:", err.response ? err.response.data : err.message);
+      setError("Failed to save post. Check console for details.");
     } finally {
       setIsLoading(false);
     }
@@ -87,96 +100,109 @@ const AdminEditPost = () => {
     <div className={styles.editPostContainer}>
       <h2 className={styles.title}>Edit Post "{title}" (as Admin)</h2>
       {error && <p className={styles.errorMessage}>{error}</p>}
+      {isLoading && <p>Loading post data...</p>}
 
-      <div className={styles.form}>
-        {/* Post Title */}
-        <label className={styles.label}>Post Title:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={styles.input}
-        />
+      {!isLoading && (
+        <div className={styles.form}>
+          {/* Post Title */}
+          <label className={styles.label}>Post Title:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className={styles.input}
+          />
 
-        {/* Post Content */}
-        <label className={styles.label}>Content:</label>
-        <ReactQuill
-          value={content}
-          onChange={setContent}
-          className={styles.quillEditor}
-        />
+          {/* Post Content */}
+          <label className={styles.label}>Content:</label>
+          <ReactQuill
+            value={content}
+            onChange={setContent}
+            className={styles.quillEditor}
+          />
 
-        {/* Current Post Image */}
-        <label className={styles.label}>Current Post Image:</label>
-        {imageUrl ? (
-          <>
-            <div className={styles.imagePreview}>
-              <img
-                src={imageUrl}
-                alt="Post Preview"
-                className={styles.previewImage}
-              />
-            </div>
-            <div className={styles.inputField}>
+          {/* Tags Input */}
+          <label className={styles.label}>Tags (comma-separated):</label>
+          <input
+            type="text"
+            value={tagsInput}
+            onChange={(e) => setTagsInput(e.target.value)}
+            placeholder="e.g., health, diet, tips"
+            className={styles.input}
+          />
+
+          {/* Current Post Image */}
+          <label className={styles.label}>Current Post Image:</label>
+          {imageUrl ? (
+            <>
+              <div className={styles.imagePreview}>
+                <img
+                  src={imageUrl}
+                  alt="Post Preview"
+                  className={styles.previewImage}
+                />
+              </div>
+              <div className={styles.inputField}>
+                <button
+                  type="button"
+                  className={styles.deleteButton}
+                  onClick={handleDeleteImage}
+                >
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className={styles.iconSpacing}
+                  />
+                  Remove Image
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p>There is no current image set.</p>
               <button
                 type="button"
                 className={styles.deleteButton}
                 onClick={handleDeleteImage}
+                disabled
               >
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  className={styles.iconSpacing}
-                />
+                <FontAwesomeIcon icon={faTrash} className={styles.iconSpacing} />
                 Remove Image
               </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <p>There is no current image set.</p>
+            </>
+          )}
+
+          <label className={styles.label}>Upload New Image:</label>
+          <input
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+            className={styles.fileInput}
+          />
+          <small>First choose a new image, then click "Upload Image"!</small>
+          <button onClick={handleUploadImage} className={styles.uploadButton}>
+            Upload Image
+          </button>
+          {/* Action Buttons */}
+          <div className={styles.buttonGroup}>
             <button
               type="button"
-              className={styles.deleteButton}
-              onClick={handleDeleteImage}
-              disabled
+              onClick={handleSave}
+              disabled={isLoading}
+              className={styles.saveButton}
             >
-              <FontAwesomeIcon icon={faTrash} className={styles.iconSpacing} />
-              Remove Image
+              <FontAwesomeIcon icon={faSave} className={styles.iconSpacing} />
+              {isLoading ? "Saving..." : "Save"}
             </button>
-          </>
-        )}
-
-        <label className={styles.label}>Upload New Image:</label>
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-          className={styles.fileInput}
-        />
-        <small>First choose a new image, then click "Upload Image"!</small>
-        <button onClick={handleUploadImage} className={styles.uploadButton}>
-          Upload Image
-        </button>
-        {/* Action Buttons */}
-        <div className={styles.buttonGroup}>
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={isLoading}
-            className={styles.saveButton}
-          >
-            <FontAwesomeIcon icon={faSave} className={styles.iconSpacing} />
-            {isLoading ? "Saving..." : "Save"}
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate(`/blogs/view/${id}`)}
-            className={styles.cancelButton}
-          >
-            <FontAwesomeIcon icon={faXmark} className={styles.iconSpacing} />
-            Cancel
-          </button>
+            <button
+              type="button"
+              onClick={() => navigate(`/blogs/view/${id}`)}
+              className={styles.cancelButton}
+            >
+              <FontAwesomeIcon icon={faXmark} className={styles.iconSpacing} />
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

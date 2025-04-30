@@ -1,6 +1,13 @@
 const pool = require('../config/db');
 const calculateTotalNutrition = require('../helpers/nutritionHelper');
 
+
+async function getFoodNameById(food_id) {
+  const query = 'SELECT name FROM foods WHERE food_id = $1';
+  const result = await pool.query(query, [food_id]);
+  return result.rows[0]?.name || null;
+}
+
 const Recipe = {
     async getAllRecipes() {
         const query = 'SELECT * FROM recipes';
@@ -13,16 +20,36 @@ const Recipe = {
         }
     },
 
+
     async getRecipeById(id) {
-        const query = 'SELECT * FROM recipes WHERE id = $1';
-        const values = [id];
-    
-        try {
-            const result = await pool.query(query, values);
-            return result.rows[0];
-        } catch (error) {
-            throw error;
+      const query = 'SELECT * FROM recipes WHERE id = $1';
+      const values = [id];
+  
+      try {
+        const result = await pool.query(query, values);
+        if (result.rows.length === 0) return null;
+  
+        const recipe = result.rows[0];
+  
+        // ✅ Enrich each ingredient with food_name
+        if (Array.isArray(recipe.ingredients)) {
+          const enrichedIngredients = await Promise.all(
+            recipe.ingredients.map(async (ingredient) => {
+              const food_name = await getFoodNameById(ingredient.food_id);
+              return {
+                ...ingredient,
+                food_name
+              };
+            })
+          );
+  
+          recipe.ingredients = enrichedIngredients;
         }
+  
+        return recipe;
+      } catch (error) {
+        throw error;
+      }
     },
     async getRecipeByName(name) {
         const query = 'SELECT * FROM recipes WHERE name = $1';

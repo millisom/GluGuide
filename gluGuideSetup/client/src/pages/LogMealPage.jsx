@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FoodItemInput from '../components/FoodItemInput';
 import RecipeSelector from '../components/RecipeSelector';
 import MealPreview from '../components/MealPreview';
-import { createMeal } from '../api/mealApi';
+import { createMeal, recalculateMealNutrition } from '../api/mealApi';
 import styles from '../styles/LogMealPage.module.css';
 
 const LogMealPage = () => {
@@ -24,19 +24,21 @@ const LogMealPage = () => {
     if (!mealType) return setStatus('Please select a meal type');
   
     try {
-        const payload = {
-            meal_type: mealType,
-            meal_time: new Date().toISOString(),
-            notes,
-            foodItems,
-            recipe_id: selectedRecipe?.id || null
-          };
-          
+      const payload = {
+        meal_type: mealType,
+        meal_time: new Date().toISOString(),
+        notes,
+        foodItems,
+        recipe_id: selectedRecipe?.id || null,
+      };
   
       console.log('Sending to backend:', payload);
+      const meal = await createMeal(payload);
   
-      await createMeal(payload);
-      setStatus('Meal saved!');
+      // Recalculate total macros
+      await recalculateMealNutrition(meal.meal_id); // assuming backend returns meal_id
+  
+      setStatus('Meal saved and macros calculated!');
       setMealType('');
       setNotes('');
       setFoodItems([]);
@@ -46,6 +48,7 @@ const LogMealPage = () => {
       setStatus('Error saving meal');
     }
   };
+  
   
 
   return (
@@ -72,7 +75,8 @@ const LogMealPage = () => {
 
       <RecipeSelector onSelect={setSelectedRecipe} />
       <FoodItemInput onAdd={addFoodItem} />
-      <MealPreview items={foodItems} onRemove={removeFoodItem} />
+      <MealPreview items={foodItems}
+      selectedRecipe={selectedRecipe} onRemove={removeFoodItem} />
 
       <button onClick={handleSubmit} className={styles.submitButton}>
         Save Meal

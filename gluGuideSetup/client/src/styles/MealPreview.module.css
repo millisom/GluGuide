@@ -43,4 +43,28 @@
   .removeBtn:hover {
     background-color: var(--color-secondary);
   }
+  .recipeInfo {
+    margin-top: 1rem;
+    border-top: 2px solid var(--color-primary);
+    padding-top: 1rem;
+    text-align: center;
+  }
+  
+  .recipeName {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+  
+  .recipeIngredients {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+  
+  .recipeIngredients li {
+    font-size: 14px;
+    color: var(--color-text);
+  }
+  
   

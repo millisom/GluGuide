@@ -75,8 +75,17 @@ const LogMealPage = () => {
 
       <RecipeSelector onSelect={setSelectedRecipe} />
       <FoodItemInput onAdd={addFoodItem} />
-      <MealPreview items={foodItems}
-      selectedRecipe={selectedRecipe} onRemove={removeFoodItem} />
+
+    {(foodItems.length > 0 || selectedRecipe) && (
+    <MealPreview
+        items={foodItems}
+        selectedRecipe={selectedRecipe}
+        onRemove={removeFoodItem}
+        onEdit={(index) => {/* edit food item */}}
+        onEditRecipe={(index) => {/* edit recipe ingredient */}}
+        onRemoveRecipe={() => setSelectedRecipe(null)}
+    />
+    )}
 
       <button onClick={handleSubmit} className={styles.submitButton}>
         Save Meal

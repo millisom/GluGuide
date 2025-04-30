@@ -35,7 +35,15 @@ const FoodItemInput = ({ onAdd }) => {
       {error && <p className={styles.error}>{error}</p>}
       <div className={styles.foodGrid}>
         {results.map((food) => (
-          <FoodItem key={food.food_id} food={food} onAdd={onAdd} />
+          <FoodItem
+          key={food.food_id}
+          food={food}
+          onAdd={(item) => {
+            onAdd(item);          // add the item to the meal
+            setResults([]);       // clear the result
+            setQuery('');         // optionally reset the search input
+          }}
+        />
         ))}
       </div>
     </div>

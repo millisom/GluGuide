@@ -8,7 +8,6 @@ const createAlertReminderMessage = () => ({
 });
 
 const alertController = {
-    // Create a new alert
     async createAlert(req, res) {
       const { reminderFrequency, reminderTime } = req.body;
       const username = req.session?.username;
@@ -93,15 +92,10 @@ const alertController = {
 
   async updateAlert(req, res) {
     const { id: alertId } = req.params;
-    const { email, reminderFrequency, reminderTime } = req.body;
-
+    const { reminderFrequency, reminderTime } = req.body;
+  
     try {
-      const updatedAlert = await Alert.updateAlert(
-        alertId,
-        email,
-        reminderFrequency,
-        reminderTime
-      );
+      const updatedAlert = await Alert.updateAlert(alertId, reminderFrequency, reminderTime);
       if (!updatedAlert) {
         return res.status(404).json({
           success: false,
@@ -120,7 +114,8 @@ const alertController = {
         message: 'Failed to update alert',
       });
     }
-  },
+  }
+  ,
 
 
   async deleteAlert(req, res) {

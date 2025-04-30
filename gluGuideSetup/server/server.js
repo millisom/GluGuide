@@ -69,6 +69,10 @@ app.use('/', postRoutes);
 app.use('/', commentRoutes);
 app.use('/', adminRoutes);
 app.use('/glucose', glucoseRoutes);
+app.use('/food', foodItemRoutes);
+app.use('/recipes', recipeRoutes);
+app.use('/meal', mealRoutes);
+app.use('/', alertRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

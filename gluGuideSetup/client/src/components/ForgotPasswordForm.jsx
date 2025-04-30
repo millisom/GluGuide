@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../../api/axiosConfig';
+import axios from '../api/axiosConfig';
 import styles from '../styles/LoginForm.module.css';
 
 const ForgotPasswordForm = () => {

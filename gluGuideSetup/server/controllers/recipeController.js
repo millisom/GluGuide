@@ -49,7 +49,8 @@ const recipeController = {
  
   async createRecipe(req, res, next) {
     try {
-      const { user_id, name, ingredients, instructions } = req.body;
+      const { name, ingredients, instructions } = req.body;
+      const user_id = req.session.userId;
       const created_at = new Date();
 
       if (!user_id || !name || !ingredients || !instructions) {
@@ -105,7 +106,8 @@ const recipeController = {
   
   async logRecipe(req, res, next) {
     try {
-      const { recipe_id, user_id, action } = req.body;
+      const { recipe_id, action } = req.body;
+      const user_id = req.session.userId;
       const timestamp = new Date();
 
       if (!recipe_id || !user_id || !action) {
@@ -132,7 +134,7 @@ const recipeController = {
 
   async getRecipeLogs(req, res, next) {
     try {
-      const user_id = parseInt(req.params.user_id);
+      const user_id = req.session.userId;
   
       if (!user_id) {
         return res.status(400).json({ message: 'User ID is required in URL' });

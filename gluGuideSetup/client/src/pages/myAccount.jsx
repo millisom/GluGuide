@@ -1,6 +1,8 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import ProfileCard from '../components/ProfileCard';
+import FoodItem from '../components/FoodItem';
 import styles from '../styles/MyAccount.module.css';
-import FoodItem from '../components/loggingFoodItem';
 
 const MyAccount = () => {
     return (
@@ -8,7 +10,11 @@ const MyAccount = () => {
             <div className={styles.profileCardContainer}>
                 <ProfileCard />
             </div>
-            <FoodItem/>
+
+            <Link to="/logMeal" className={styles.logMealButton}>
+                <button>Log a New Meal</button>
+            </Link>
+
         </div>
     );
 };

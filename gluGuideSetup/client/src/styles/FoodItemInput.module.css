@@ -1,0 +1,52 @@
+.container {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-background);
+    border: 5px solid var(--color-primary);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .searchSection {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  
+  .searchInput {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--color-primary);
+    border-radius: 6px;
+    color: var(--color-primary);
+    background-color: var(--color-background);
+  }
+  
+  .searchButton {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .searchButton:hover {
+    background-color: var(--color-secondary);
+  }
+  
+  .foodGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+  
+  .error {
+    color: red;
+    font-weight: 500;
+  }
+  

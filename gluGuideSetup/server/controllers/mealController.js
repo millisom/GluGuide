@@ -3,11 +3,13 @@ const Meal = require('../models/mealModel');
 const mealController = {
   async createMeal(req, res, next) {
     try {
-      const { user_id, meal_type, meal_time, notes } = req.body;
+      const { meal_type, meal_time, notes } = req.body;
+      const user_id = req.session.userId;
 
       if (!user_id || !meal_type) {
         return res.status(400).json({ message: 'user_id and meal_type are required' });
       }
+
 
       const meal = await Meal.createMeal(user_id, meal_type, meal_time, notes);
       res.status(201).json(meal);
@@ -33,7 +35,7 @@ const mealController = {
 
   async getMealsByUser(req, res, next) {
     try {
-      const { user_id } = req.body;
+      const user_id = req.session.userId;
       if (!user_id) {
         return res.status(400).json({ message: 'user_id is required in body' });
       }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getFoodItemByName } from '../api/foodItemApi';
 import FoodItem from './FoodItem';
 import styles from '../styles/FoodItemInput.module.css';
@@ -6,18 +6,44 @@ import styles from '../styles/FoodItemInput.module.css';
 const FoodItemInput = ({ onAdd }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [skipSuggestions, setSkipSuggestions] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSearch = async () => {
-    if (!query) return;
-    try {
-      const food = await getFoodItemByName(query);
-      setResults([food]);
-      console.log('Food item fetched:', food);
-    } catch (err) {
-      console.error(err);
-      setError('Failed to fetch food item');
-    }
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (skipSuggestions || query.length < 2) {
+        setSuggestions([]);
+        return;
+      }
+      
+
+      try {
+        const response = await getFoodItemByName(query.toLowerCase());
+        const foodArray = Array.isArray(response) ? response : [response];
+
+        const sortedSuggestions = foodArray.sort((a, b) => {
+          const aStartsWithQuery = a.name.toLowerCase().startsWith(query.toLowerCase());
+          const bStartsWithQuery = b.name.toLowerCase().startsWith(query.toLowerCase());
+          return (aStartsWithQuery === bStartsWithQuery) ? 0 : aStartsWithQuery ? -1 : 1;
+        });
+
+        setSuggestions(sortedSuggestions);
+      } catch (err) {
+        console.error('Failed to fetch suggestions:', err.response ? err.response.data : err.message);
+        setError('Failed to fetch suggestions');
+      }
+    };
+
+    const debounceTimeout = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(debounceTimeout);
+  }, [query]);
+
+  const handleSuggestionClick = (food) => {
+    setSkipSuggestions(true);
+    setQuery(food.name);
+    setSuggestions([]);
+    setResults([food]);
   };
 
   return (
@@ -27,23 +53,40 @@ const FoodItemInput = ({ onAdd }) => {
           type="text"
           placeholder="Search food item..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setSkipSuggestions(false);
+            setQuery(e.target.value);
+            if (e.target.value.length === 0) {
+              setResults([]);
+            }
+          }}          
           className={styles.searchInput}
         />
-        <button onClick={handleSearch} className={styles.searchButton}>Search</button>
+        {suggestions.length > 0 && (
+          <ul className={styles.suggestions}>
+            {suggestions.map((food, index) => (
+              <li
+                key={food.food_id || `${food.name}-${index}`}
+                onClick={() => handleSuggestionClick(food)}
+              >
+                {food.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       {error && <p className={styles.error}>{error}</p>}
       <div className={styles.foodGrid}>
-        {results.map((food) => (
+        {results.map((food, index) => (
           <FoodItem
-          key={food.food_id}
-          food={food}
-          onAdd={(item) => {
-            onAdd(item);          // add the item to the meal
-            setResults([]);       // clear the result
-            setQuery('');         // optionally reset the search input
-          }}
-        />
+            key={food.food_id || `${food.name}-${index}`}
+            food={food}
+            onAdd={(item) => {
+              onAdd(item);
+              setResults([]);
+              setQuery('');
+            }}
+          />
         ))}
       </div>
     </div>

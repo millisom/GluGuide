@@ -6,8 +6,8 @@ const FoodItem = {
   },
 
   async getFoodItemByName(name) {
-    const query = 'SELECT * FROM foods WHERE name = $1';
-    return queryDB(query, [name], true);
+    const query = 'SELECT * FROM foods WHERE name ILIKE $1';
+    return queryDB(query, [`%${name}%`]);
   },
 
   async getFoodItemById(id) {

@@ -52,12 +52,12 @@ const Recipe = {
       }
     },
     async getRecipeByName(name) {
-        const query = 'SELECT * FROM recipes WHERE name = $1';
-        const values = [name];
+        const query = 'SELECT * FROM recipes WHERE name ILIKE $1';
+        const values = [`%${name}%`];
     
         try {
             const result = await pool.query(query, values);
-            return result.rows[0];
+            return result.rows;
         } catch (error) {
             throw error;
         }

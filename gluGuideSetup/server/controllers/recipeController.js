@@ -29,23 +29,23 @@ const recipeController = {
 
   async getRecipeByName(req, res, next) {
     try {
-      const { name } = req.query;
-
+      const name = req.query.name?.toLowerCase();
+  
       if (!name) {
         return res.status(400).json({ message: 'Recipe name is required' });
       }
-
-      const recipe = await Recipe.getRecipeByName(name);
-
-      if (!recipe) {
-        return res.status(404).json({ message: 'Recipe not found' });
+  
+      const recipes = await Recipe.getRecipeByName(name); // can return multiple
+  
+      if (!recipes || recipes.length === 0) {
+        return res.status(404).json({ message: 'No recipes found' });
       }
-
-      res.status(200).json(recipe);
+  
+      res.status(200).json(recipes);
     } catch (error) {
       next(error);
     }
-  },
+  },  
  
   async createRecipe(req, res, next) {
     try {

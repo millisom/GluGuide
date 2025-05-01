@@ -27,7 +27,7 @@ const foodItemController = {
 
   async getFoodItemByName(req, res, next) {
     try {
-      const name = req.params.name;
+      const name = req.params.name.toLowerCase();
       const foodItem = await FoodItem.getFoodItemByName(name);
       if (!foodItem) {
         return res.status(404).json({ message: 'Food item not found' });

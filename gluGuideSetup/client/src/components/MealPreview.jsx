@@ -16,8 +16,7 @@ const MealPreview = ({ items, selectedRecipe, onRemove, onEdit, onRemoveRecipe, 
                 {item.name} – {item.quantity_in_grams || 100}g
               </div>
               <div className={styles.actionButtons}>
-                <button className={styles.editBtn} onClick={() => onEdit(index)}>Edit</button>
-                <button className={styles.removeBtn} onClick={() => onRemove(index)}>Remove</button>
+                <button className={styles.removeBtn} onClick={() => onRemove(index)}>x</button>
               </div>
             </li>
           ))}
@@ -28,8 +27,7 @@ const MealPreview = ({ items, selectedRecipe, onRemove, onEdit, onRemoveRecipe, 
                 {selectedRecipe.name} (Recipe)
               </div>
               <div className={styles.actionButtons}>
-                <button className={styles.editBtn} onClick={onEditRecipe}>Edit</button>
-                <button className={styles.removeBtn} onClick={onRemoveRecipe}>Remove</button>
+                <button className={styles.removeBtn} onClick={onRemoveRecipe}>x</button>
               </div>
             </li>
           )}

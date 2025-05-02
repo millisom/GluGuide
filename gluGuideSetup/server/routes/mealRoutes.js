@@ -14,4 +14,7 @@ router.post('/getAllMealsFor/user', mealController.getMealsByUser);
 // Recalculate and update nutrition totals
 router.put('/:id/recalculate', mealController.updateMealNutrition);
 
+// Delete a meal
+router.delete('/deleteMeal/:id', mealController.deleteMeal);
+
 module.exports = router;

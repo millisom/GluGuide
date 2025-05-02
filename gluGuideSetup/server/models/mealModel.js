@@ -89,7 +89,13 @@ const Meal = {
       VALUES ($1, $2, $3)`;
     const values = [meal_id, food_id, quantity_in_grams];
     await pool.query(query, values);
-  }
+  },
+
+  // delete meal by id
+  async deleteMeal(meal_id) {
+    const query = 'DELETE FROM meals WHERE meal_id = $1';
+    await pool.query(query, [meal_id]);
+  },
 };
 
 module.exports = Meal;

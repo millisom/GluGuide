@@ -1,12 +1,11 @@
 import React from "react";
-import RecipeCard from "../components/RecipeCard";
-import styles from "../styles/LoginForm.module.css";
 import RecipesCards from "../components/RecipesCards";
+import styles from './pages.module.css';
+
 
 const SummaryPage = () => {
   return (
-    <div className={styles.loginContainer}>
-        <RecipeCard />
+    <div className={styles.myAccount1}>
         <RecipesCards />
     </div>
   );

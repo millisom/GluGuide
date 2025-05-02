@@ -10,18 +10,6 @@ const MyAccount = () => {
                 <ProfileCard />
             </div>
 
-            <Link to="/logMeal" className={styles.logMealButton}>
-                <button>Log a New Meal</button>
-            </Link>
-
-            <Link to="/CreateRecipe" className={styles.logMealButton}>
-                <button>Create Recipe</button>
-            </Link>
-
-            <Link to="/Recipes" className={styles.logMealButton}>
-                <button>Recipes</button>
-            </Link>
-
         </div>
         
     );

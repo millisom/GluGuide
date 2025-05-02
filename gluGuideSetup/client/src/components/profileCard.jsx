@@ -249,6 +249,38 @@ const ProfileCard = () => {
               Delete Account
             </button>
           </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/logMeal')}
+            >
+              Log a New Meal
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/CreateRecipe')}
+            >
+              Create Recipe
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/Recipes')}
+            >
+              Recipes
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/mealsOverview')}
+            >
+              Meals Overview
+            </button>
+          </div>
         </div>
       </section>
     </div>

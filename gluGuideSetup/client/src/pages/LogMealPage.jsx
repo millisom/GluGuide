@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FoodItemInput from '../components/FoodItemInput';
 import RecipeSelector from '../components/RecipeSelector';
 import MealPreview from '../components/MealPreview';
@@ -11,6 +12,7 @@ const LogMealPage = () => {
   const [foodItems, setFoodItems] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [status, setStatus] = useState('');
+  const navigate = useNavigate(); // 🔁 import navigation
 
   const addFoodItem = (item) => {
     setFoodItems((prev) => [...prev, item]);
@@ -22,7 +24,7 @@ const LogMealPage = () => {
 
   const handleSubmit = async () => {
     if (!mealType) return setStatus('Please select a meal type');
-  
+
     try {
       const payload = {
         meal_type: mealType,
@@ -31,25 +33,23 @@ const LogMealPage = () => {
         foodItems,
         recipe_id: selectedRecipe?.id || null,
       };
-  
-      console.log('Sending to backend:', payload);
+
       const meal = await createMeal(payload);
-  
-      // Recalculate total macros
-      await recalculateMealNutrition(meal.meal_id); // assuming backend returns meal_id
-  
+
+      await recalculateMealNutrition(meal.meal_id); // Recalculate macros
+
       setStatus('Meal saved and macros calculated!');
       setMealType('');
       setNotes('');
       setFoodItems([]);
       setSelectedRecipe(null);
+
+      navigate(`/meals/${meal.meal_id}`); // 👈 Redirect to MealCard
     } catch (err) {
       console.error('Save error:', err.response?.data || err.message);
       setStatus('Error saving meal');
     }
   };
-  
-  
 
   return (
     <div className={styles.container}>
@@ -76,16 +76,16 @@ const LogMealPage = () => {
       <RecipeSelector onSelect={setSelectedRecipe} />
       <FoodItemInput onAdd={addFoodItem} />
 
-    {(foodItems.length > 0 || selectedRecipe) && (
-    <MealPreview
-        items={foodItems}
-        selectedRecipe={selectedRecipe}
-        onRemove={removeFoodItem}
-        onEdit={(index) => {/* edit food item */}}
-        onEditRecipe={(index) => {/* edit recipe ingredient */}}
-        onRemoveRecipe={() => setSelectedRecipe(null)}
-    />
-    )}
+      {(foodItems.length > 0 || selectedRecipe) && (
+        <MealPreview
+          items={foodItems}
+          selectedRecipe={selectedRecipe}
+          onRemove={removeFoodItem}
+          onEdit={() => {}}
+          onEditRecipe={() => {}}
+          onRemoveRecipe={() => setSelectedRecipe(null)}
+        />
+      )}
 
       <button onClick={handleSubmit} className={styles.submitButton}>
         Save Meal

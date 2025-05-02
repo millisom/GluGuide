@@ -85,7 +85,18 @@ const mealController = {
     } catch (error) {
       next(error);
     }
-  }
+  },
+
+  // delete meal by id
+  async deleteMeal(req, res, next) {
+    try {
+      const meal_id = parseInt(req.params.id);
+      await Meal.deleteMeal(meal_id);
+      res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = mealController;

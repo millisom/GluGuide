@@ -17,11 +17,16 @@ export const getMealById = async (id) => {
 };
 
 export const getAllMealsForUser = async (user_id) => {
-  const response = await axios.post(`${API_URL}/getAllMealsFor/user`, { user_id }, axiosConfig);
+  const response = await axios.post(`${API_URL}/getAllMealsFor/user`, {}, axiosConfig);
   return response.data;
 };
 
 export const recalculateMealNutrition = async (id) => {
   const response = await axios.put(`${API_URL}/${id}/recalculate`, null, axiosConfig);
+  return response.data;
+};
+
+export const deleteMeal = async (id) => {
+  const response = await axios.delete(`${API_URL}/deleteMeal/${id}`, axiosConfig);
   return response.data;
 };

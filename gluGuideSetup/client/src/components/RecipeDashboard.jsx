@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SearchFoodItem from './SearchFoodItem';
 import IngredientList from './IngedientsList';
 import RecipeInstructionsInput from './RecipeInstructionsInput';
 import { createRecipe } from '../api/recipeApi';
 import styles from '../styles/LogMealPage.module.css';
 
-
 const RecipeDashboard = () => {
   const [recipeName, setRecipeName] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
   const [status, setStatus] = useState('');
+  const navigate = useNavigate();
 
   const addIngredient = (item) => {
     setIngredients((prev) => [...prev, item]);
@@ -31,19 +32,22 @@ const RecipeDashboard = () => {
 
     try {
       const payload = {
-        user_id: 1, 
+        user_id: 1, // Ideally, fetch this from session or context
         name: recipeName,
         ingredients,
         instructions,
       };
 
-      console.log('Creating recipe:', payload);
-      await createRecipe(payload);
+      const newRecipe = await createRecipe(payload);
 
       setStatus('Recipe created successfully!');
       setRecipeName('');
       setIngredients([]);
       setInstructions([]);
+
+      if (newRecipe?.id) {
+        navigate(`/recipes/${newRecipe.id}`);
+      }
     } catch (err) {
       console.error('Save error:', err.response?.data || err.message);
       setStatus('Failed to create recipe');

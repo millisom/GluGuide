@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getRecipeById, deleteRecipe } from '../api/recipeApi';
-import styles from '../styles/LogMealPage.module.css';
+import styles from '../styles/RecipeCard.module.css';
 
 const RecipeCard = ({ recipeId }) => {
   const [recipe, setRecipe] = useState(null);
@@ -40,41 +40,44 @@ const RecipeCard = ({ recipeId }) => {
     return <p className={styles.status}>{status}</p>;
   }
 
-  if (!recipe) {
-    return;
-  }
+  if (!recipe) return null;
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{recipe.name}</h2>
 
-      <section className={styles.section}>
-        <h3 className={styles.title}>Ingredients</h3>
-        <ul>
+      <div className={styles.box}>
+        <h3 className={styles.boxTitle}>Ingredients</h3>
+        <ul className={styles.list}>
           {recipe.ingredients.map((ingredient, i) => (
-            <li key={i}>
-              {ingredient.name || `Food ID ${ingredient.food_id}`} – {ingredient.quantity_in_grams}g
+            <li key={i} className={styles.listItem}>
+              <span className={styles.foodName}>{ingredient.name || `Food ID ${ingredient.food_id}`}</span>
+              <span className={styles.foodQuantity}> – {ingredient.quantity_in_grams}g</span>
             </li>
           ))}
         </ul>
-      </section>
+      </div>
 
-      <section className={styles.section}>
-        <h3 className={styles.title}>Instructions</h3>
-        <ol>
+      <div className={styles.box}>
+        <h3 className={styles.boxTitle}>Instructions</h3>
+        <ol className={styles.orderedList}>
           {recipe.instructions.map((step, i) => (
-            <li key={i}>{step}</li>
+            <li key={i} className={styles.listItem}>
+              {step}
+            </li>
           ))}
         </ol>
-      </section>
+      </div>
 
-      <section className={styles.section}>
-        <h3 className={styles.title}>Nutritional Info</h3>
-        <p><strong>Calories:</strong> {recipe.total_calories} kcal</p>
-        <p><strong>Proteins:</strong> {recipe.total_proteins} g</p>
-        <p><strong>Fats:</strong> {recipe.total_fats} g</p>
-        <p><strong>Carbs:</strong> {recipe.total_carbs} g</p>
-      </section>
+      <div className={styles.box}>
+        <h3 className={styles.boxTitle}>Nutritional Info</h3>
+        <div className={styles.nutritionGrid}>
+          <p><strong>Calories:</strong> {recipe.total_calories} kcal</p>
+          <p><strong>Proteins:</strong> {recipe.total_proteins} g</p>
+          <p><strong>Fats:</strong> {recipe.total_fats} g</p>
+          <p><strong>Carbs:</strong> {recipe.total_carbs} g</p>
+        </div>
+      </div>
 
       <button onClick={handleDelete} className={styles.submitButton}>
         Delete Recipe

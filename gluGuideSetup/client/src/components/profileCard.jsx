@@ -3,7 +3,7 @@ import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../api/axiosConfig';
+import axios from '../api/axiosConfig';
 import styles from '../styles/ProfileCard.module.css';
 import ReactQuill from 'react-quill';
 
@@ -247,6 +247,38 @@ const ProfileCard = () => {
               onClick={handleDeleteAccount}
             >
               Delete Account
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/logMeal')}
+            >
+              Log a New Meal
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/CreateRecipe')}
+            >
+              Create Recipe
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/Recipes')}
+            >
+              Recipes
+            </button>
+          </div>
+          <div className={styles.buttonGroup}>
+            <button
+              className={styles.squareButton}
+              onClick={() => navigate('/mealsOverview')}
+            >
+              Meals Overview
             </button>
           </div>
         </div>

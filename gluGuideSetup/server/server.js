@@ -56,6 +56,9 @@ const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const glucoseRoutes = require('./routes/glucoseRoutes');
+const foodItemRoutes = require('./routes/foodItemRoutes');
+const recipeRoutes = require('./routes/recipeRoutes');
+const mealRoutes = require('./routes/mealRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 
 // Use routes
@@ -66,10 +69,10 @@ app.use('/', postRoutes);
 app.use('/', commentRoutes);
 app.use('/', adminRoutes);
 app.use('/glucose', glucoseRoutes);
-app.use('/', alertRoutes); 
-
-//Load Cron Jobs for email reminders
-require('./cron/sendReminders');
+app.use('/food', foodItemRoutes);
+app.use('/recipes', setUserIdInSession, recipeRoutes);
+app.use('/meal', mealRoutes);
+app.use('/', alertRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

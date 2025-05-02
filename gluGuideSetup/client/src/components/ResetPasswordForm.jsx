@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from '../../api/axiosConfig';
+import axios from '../api/axiosConfig';
 import styles from '../styles/LoginForm.module.css';
 
 

@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 import AdminEditPost from './pages/AdminEditPost';
 import UserProfile from './components/UserProfile.jsx'; // Import the new component
 import LogMealPage from './pages/LogMealPage.jsx';
+import CreateRecipePage from './pages/CreateRecipePage.jsx';
 
 function App() {
     return (
@@ -48,6 +49,7 @@ function App() {
                         <Route path="/admin/editUser/:id" element={<AdminEditUser />} />
                         <Route path="/admin/editPost/:id" element={<AdminEditPost />} />
                         <Route path="/logMeal" element={<LogMealPage />} />
+                        <Route path="/createRecipe" element={<CreateRecipePage />} />
                     </Routes>
                 </main>
                 <Footer />

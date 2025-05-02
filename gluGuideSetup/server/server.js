@@ -70,7 +70,7 @@ app.use('/', commentRoutes);
 app.use('/', adminRoutes);
 app.use('/glucose', glucoseRoutes);
 app.use('/food', foodItemRoutes);
-app.use('/recipes', recipeRoutes);
+app.use('/recipes', setUserIdInSession, recipeRoutes);
 app.use('/meal', mealRoutes);
 app.use('/', alertRoutes);
 

@@ -6,9 +6,9 @@ import RecipeItem from './RecipeItem';
 const RecipeSelector = ({ onSelect }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [results, setResults] = useState([]);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [skipSuggestions, setSkipSuggestions] = useState(false);
-    const [error, setError] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -34,6 +34,7 @@ const RecipeSelector = ({ onSelect }) => {
         setSuggestions(sorted);
       } catch (err) {
         console.error('Failed to load recipe suggestions', err);
+        setError('Could not load suggestions');
       }
     };
 
@@ -47,11 +48,17 @@ const RecipeSelector = ({ onSelect }) => {
     setSuggestions([]);
     try {
       const fullRecipe = await getRecipeById(recipe.id);
-      setResults([fullRecipe]);
+      setSelectedRecipe(fullRecipe);
     } catch (err) {
       console.error('Failed to load recipe details', err);
-      setResults([]);
+      setSelectedRecipe(null);
     }
+  };
+
+  const handleAdd = (recipe) => {
+    onSelect(recipe);
+    setSelectedRecipe(null);
+    setQuery('');
   };
 
   return (
@@ -65,38 +72,38 @@ const RecipeSelector = ({ onSelect }) => {
             setSkipSuggestions(false);
             setQuery(e.target.value);
             if (e.target.value.length === 0) {
-              setResults([]);
+              setSelectedRecipe(null);
+              setSuggestions([]);
             }
           }}
           className={styles.searchInput}
         />
-      {suggestions.length > 0 && (
-        <ul className={styles.suggestions}>
-          {suggestions.map((recipe, index) => (
-            <li
-              key={recipe.id || `${recipe.name}-${index}`}
-              onClick={() => handleSelect(recipe)}
-            >
-              {recipe.name}
-            </li>
-          ))}
-        </ul>
-      )}
+        {suggestions.length > 0 && (
+          <ul className={styles.suggestions}>
+            {suggestions.map((recipe, index) => (
+              <li
+                key={recipe.id || `${recipe.name}-${index}`}
+                onClick={() => handleSelect(recipe)}
+              >
+                {recipe.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
+
       {error && <p className={styles.error}>{error}</p>}
-      <div className={styles.foodGrid}>
-        {results.map((recipe, index) => (
-          <RecipeItem
-            key={recipe.id || `${recipe.name}-${index}`}
-            recipe={recipe}
-            onAdd={(item) => {
-              onSelect(item);
-              setResults([]);
-              setQuery('');
-            }}
-          />
-        ))}
-      </div>
+
+      {selectedRecipe && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <RecipeItem
+              recipe={selectedRecipe}
+              onAdd={handleAdd}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

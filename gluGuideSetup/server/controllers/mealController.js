@@ -2,7 +2,6 @@ const Meal = require('../models/mealModel');
 const Recipe = require('../models/recipeModel');
 
 const mealController = {
-  // ✅ Create meal with optional recipe and food snapshot
   async createMeal(req, res, next) {
     try {
       const { meal_type, meal_time, notes, foodItems = [], recipe_id = null } = req.body;
@@ -14,8 +13,6 @@ const mealController = {
 
       let combinedItems = [...foodItems];
       let recipeSnapshot = null;
-
-      // ✅ If recipe is selected, fetch and merge its ingredients
       if (recipe_id) {
         const recipe = await Recipe.getRecipeById(recipe_id);
         if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
@@ -26,8 +23,6 @@ const mealController = {
           combinedItems = [...combinedItems, ...recipe.ingredients];
         }
       }
-
-      // ✅ Create the meal with JSONB snapshots
       const meal = await Meal.createMeal(
         user_id,
         meal_type,
@@ -38,12 +33,10 @@ const mealController = {
         recipeSnapshot
       );
 
-      // ✅ Link each food item in the `meal_food_items` table
       for (const item of combinedItems) {
         await Meal.addFoodToMeal(meal.meal_id, item.food_id, item.quantity_in_grams || 100);
       }
 
-      // ✅ Calculate and store total nutrition
       const updatedMeal = await Meal.updateMealNutrition(meal.meal_id);
 
       res.status(201).json(updatedMeal);
@@ -52,7 +45,7 @@ const mealController = {
     }
   },
 
-  // ✅ Get meal by ID including its food items
+
   async getMealById(req, res, next) {
     try {
       const meal_id = parseInt(req.params.id);

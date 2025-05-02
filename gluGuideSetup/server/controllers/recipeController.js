@@ -46,20 +46,31 @@ const recipeController = {
       next(error);
     }
   },  
- 
   async createRecipe(req, res, next) {
     try {
-      const { name, ingredients, instructions } = req.body;
       const user_id = req.session.userId;
+      const { name, ingredients = [], instructions = [] } = req.body;
       const created_at = new Date();
-
-      if (!user_id || !name || !ingredients || !instructions) {
-        return res.status(400).json({ message: 'Missing required fields' });
+  
+      if (!user_id || !name || !Array.isArray(ingredients) || !Array.isArray(instructions)) {
+        return res.status(400).json({
+          message: 'user_id, name, ingredients, and instructions are required'
+        });
       }
-
+  
+      // Optional: Add more granular checks like ingredients.length > 0, etc.
+  
       const totalNutrition = await calculateTotalNutrition(ingredients);
-      const newRecipe = await Recipe.createRecipe(user_id, name, ingredients, instructions, created_at, totalNutrition);
-
+  
+      const newRecipe = await Recipe.createRecipe(
+        user_id,
+        name,
+        ingredients,
+        instructions,
+        created_at,
+        totalNutrition
+      );
+  
       res.status(201).json(newRecipe);
     } catch (error) {
       if (error.message.includes('Food item')) {
@@ -68,6 +79,7 @@ const recipeController = {
       next(error);
     }
   },
+
   async updateRecipe(req, res, next) {
     try {
       const id = parseInt(req.params.id);

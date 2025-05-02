@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:8080/recipes';
 const axiosConfig = {
   withCredentials: true,
 };
-
 export const getAllRecipes = async () => {
   const response = await axios.get(`${API_URL}/recipes`, axiosConfig);
   return response.data;

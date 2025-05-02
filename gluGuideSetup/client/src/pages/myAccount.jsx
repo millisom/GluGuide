@@ -18,6 +18,10 @@ const MyAccount = () => {
                 <button>Create Recipe</button>
             </Link>
 
+            <Link to="/Recipes" className={styles.logMealButton}>
+                <button>Recipes</button>
+            </Link>
+
         </div>
         
     );

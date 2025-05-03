@@ -3,44 +3,100 @@
     max-width: 600px;
     padding: 20px;
     text-align: center;
-}
-
-.tableHeader {
+  }
+  
+  .tableHeader {
     font-size: 1.5rem;
     margin-bottom: 20px;
     font-weight: bold;
     color: var(--sds-color-text-default-default);
-}
-
-.alertsTable {
+  }
+  
+  .alertsTable {
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.alertsTable th,
-.alertsTable td {
+  }
+  
+  .alertsTable th,
+  .alertsTable td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
-}
-
-.alertsTable th {
+  }
+  
+  .alertsTable th {
     background-color: var(--color-primary);
     color: white;
     font-weight: bold;
-}
-
-.alertsTable tr:nth-child(even) {
+  }
+  
+  .alertsTable tr:nth-child(even) {
     background-color: #f9f9f9;
-}
-
-.alertsTable tr:hover {
+  }
+  
+  .alertsTable tr:hover {
     background-color: #f1f1f1;
-}
-
-.errorMessage {
+  }
+  
+  .errorMessage {
     color: red;
     font-size: 1rem;
     margin-top: 20px;
-}
+  }
+  
+  /* Button styles similar to your other buttons */
+  
+  .editButton,
+  .saveButton,
+  .cancelButton,
+  .deleteButton {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 2px;
+  }
+  
+  /* Edit button */
+  .editButton {
+    background-color: var(--color-primary);
+    color: white;
+  }
+  
+  .editButton:hover {
+    background-color: var(--color-secondary);
+  }
+  
+  /* Save button (reusing primary if desired) */
+  .saveButton {
+    background-color: var(--color-primary);
+    color: white;
+  }
+  
+  .saveButton:hover {
+    background-color: var(--color-secondary);
+  }
+  
+  /* Cancel button */
+  .cancelButton {
+    background-color: #888888;
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #666666;
+  }
+  
+  /* Delete button */
+  .deleteButton {
+    background-color: #d9534f;  /* Bootstrap red-ish for example */
+    color: white;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c9302c;
+  }
+  

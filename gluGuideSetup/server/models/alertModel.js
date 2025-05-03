@@ -58,14 +58,14 @@ const Alert = {
   },
 
 
-  async updateAlert(alertId, email, reminderFrequency, reminderTime) {
+  async updateAlert(alertId, reminderFrequency, reminderTime) {
     const query = `
       UPDATE alerts
-      SET email = $1, reminder_frequency = $2, reminder_time = $3, updated_at = NOW()
-      WHERE id = $4
+      SET reminder_frequency = $1, reminder_time = $2, updated_at = NOW()
+      WHERE alert_id = $3
       RETURNING *
     `;
-    const values = [email, reminderFrequency, reminderTime, alertId];
+    const values = [reminderFrequency, reminderTime, alertId];
     try {
       const result = await pool.query(query, values);
       if (result.rowCount === 0) {
@@ -75,11 +75,12 @@ const Alert = {
     } catch (error) {
       throw new Error('Error updating alert: ' + error.message);
     }
+
   },
 
 
   async deleteAlert(alertId) {
-    const query = 'DELETE FROM alerts WHERE id = $1 RETURNING *';
+    const query = 'DELETE FROM alerts WHERE alert_id = $1 RETURNING *';
     const values = [alertId];
     try {
       const result = await pool.query(query, values);

@@ -7,42 +7,64 @@ const createAlertReminderMessage = () => ({
   message: 'Hi! Just a friendly reminder to log your sugar levels today.',
 });
 
+// Internal helper to send reminder emails without response dependency
+async function sendReminderEmailsInternal() {
+  try {
+    const alerts = await Alert.getAlertsDueForSending();
+    if (!alerts || alerts.length === 0) {
+      console.log('No reminders are due at this time.');
+      return;
+    }
+
+    const notificationContext = new NotificationContext(new EmailNotificationStrategy());
+
+    for (const alert of alerts) {
+      const notificationData = createAlertReminderMessage();
+      await notificationContext.send(alert.email, notificationData);
+      console.log(`Reminder email sent to ${alert.email}`);
+    }
+    console.log('Reminder emails sent successfully');
+  } catch (error) {
+    console.error('Error sending reminder emails:', error.message);
+    throw error; // Rethrow so caller can handle it if needed.
+  }
+}
+
 const alertController = {
-    // Create a new alert
-    async createAlert(req, res) {
-      const { reminderFrequency, reminderTime } = req.body;
-      const username = req.session?.username;
-  
-      if (!username) {
-        return res.status(401).json({
+  async createAlert(req, res) {
+    const { reminderFrequency, reminderTime } = req.body;
+    const username = req.session?.username;
+
+    if (!username) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized: No username found in session',
+      });
+    }
+
+    try {
+      const userId = await Alert.getUserIdByUsername(username);
+      if (!userId) {
+        return res.status(404).json({
           success: false,
-          message: 'Unauthorized: No username found in session',
+          message: 'User not found',
         });
       }
-  
-      try {
-        const userId = await Alert.getUserIdByUsername(username);
-        if (!userId) {
-          return res.status(404).json({
-            success: false,
-            message: 'User not found',
-          });
-        }
-        
-        const alert = await Alert.createAlert(userId, reminderFrequency, reminderTime);
-        res.status(201).json({
-          success: true,
-          message: 'Alert preferences saved!',
-          alert,
-        });
-      } catch (error) {
-        console.error('Error creating alert:', error.message);
-        res.status(500).json({
-          success: false,
-          message: 'Failed to save alert preferences',
-        });
-      }
-    },
+
+      const alert = await Alert.createAlert(userId, reminderFrequency, reminderTime);
+      res.status(201).json({
+        success: true,
+        message: 'Alert preferences saved!',
+        alert,
+      });
+    } catch (error) {
+      console.error('Error creating alert:', error.message);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to save alert preferences',
+      });
+    }
+  },
 
   async getAlertsByUserId(req, res) {
     const { userId } = req.params;
@@ -60,7 +82,7 @@ const alertController = {
   },
 
   async getAlertsForCurrentUser(req, res) {
-    const username = req.session?.username; 
+    const username = req.session?.username;
 
     if (!username) {
       return res.status(401).json({
@@ -70,7 +92,6 @@ const alertController = {
     }
 
     try {
-
       const userId = await Alert.getUserIdByUsername(username);
       if (!userId) {
         return res.status(404).json({
@@ -78,7 +99,6 @@ const alertController = {
           message: 'User not found',
         });
       }
-
 
       const alerts = await Alert.getAlertsByUserId(userId);
       res.status(200).json(alerts);
@@ -93,15 +113,10 @@ const alertController = {
 
   async updateAlert(req, res) {
     const { id: alertId } = req.params;
-    const { email, reminderFrequency, reminderTime } = req.body;
+    const { reminderFrequency, reminderTime } = req.body;
 
     try {
-      const updatedAlert = await Alert.updateAlert(
-        alertId,
-        email,
-        reminderFrequency,
-        reminderTime
-      );
+      const updatedAlert = await Alert.updateAlert(alertId, reminderFrequency, reminderTime);
       if (!updatedAlert) {
         return res.status(404).json({
           success: false,
@@ -121,7 +136,6 @@ const alertController = {
       });
     }
   },
-
 
   async deleteAlert(req, res) {
     const { id: alertId } = req.params;
@@ -149,33 +163,25 @@ const alertController = {
 
 
   async sendReminderEmails(req, res) {
-    try {
-      const alerts = await Alert.getAlertsDueForSending();
-      if (!alerts || alerts.length === 0) {
-        return res.status(200).json({
+    if (res) {
+      try {
+        await sendReminderEmailsInternal();
+        res.status(200).json({
           success: true,
-          message: 'No reminders are due at this time.',
+          message: 'Reminder emails sent successfully',
+        });
+      } catch (error) {
+        console.error('Error sending reminder emails:', error.message);
+        res.status(500).json({
+          success: false,
+          message: 'Failed to send reminder emails',
         });
       }
-
-      const notificationContext = new NotificationContext(new EmailNotificationStrategy());
-
-      for (const alert of alerts) {
-        const notificationData = createAlertReminderMessage();
-        await notificationContext.send(alert.email, notificationData);
-        console.log(`Reminder email sent to ${alert.email}`);
+    } else {
+      try {
+        await sendReminderEmailsInternal();
+      } catch (error) {
       }
-
-      res.status(200).json({
-        success: true,
-        message: 'Reminder emails sent successfully',
-      });
-    } catch (error) {
-      console.error('Error sending reminder emails:', error.message);
-      res.status(500).json({
-        success: false,
-        message: 'Failed to send reminder emails',
-      });
     }
   },
 };

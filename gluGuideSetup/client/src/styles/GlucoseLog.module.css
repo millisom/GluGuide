@@ -1,11 +1,12 @@
+/* ====================== Logging Form & General Layout ====================== */
 .glucoseLogContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 24px;
     font: var(--sds-typography-body-font-weight-regular)
-        var(--sds-typography-body-size-medium)
-        var(--sds-typography-body-font-family);
+          var(--sds-typography-body-size-medium)
+          var(--sds-typography-body-font-family);
     max-width: 800px; /* Allows for wider layout */
     margin: 0 auto;
     gap: 20px; /* Creates space between components */
@@ -21,8 +22,8 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Ensures elements are centered within the form */
+    margin-top: 20px;
     margin-bottom: 20px;
-    margin-top: 20px; /* Adds space from top content */
 }
 
 .inputField {
@@ -62,23 +63,13 @@
     background-color: var(--color-secondary);
 }
 
-
+/* (If you still use .tableAndGraphBox for layout) */
 .tableAndGraphBox {
     display: flex; 
     justify-content: space-between; 
     align-items: flex-start; 
     gap: 20px; 
     margin-top: 20px;
-}
-
-.tableBox {
-    flex: 1; 
-    background-color: var(--color-text-white);
-    border: 7px solid var(--color-primary);
-    max-width: 400px;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .graphBox {
@@ -98,34 +89,122 @@
     width: 100%;
 }
 
-.logsTable {
-    width: 100%;
-    border-collapse: collapse;
-}
+/* ====================== Updated Table Styling (Same as Alerts Table) ====================== */
 
-.logsTable th,
-.logsTable td {
-    border: 1px solid #ddd;
-    padding: 8px;
+/* This container is used for the table styling only and replaces the old .tableBox */
+.glucoseLogsContainer {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 20px;
     text-align: center;
 }
 
-.logsTable th {
-    background-color: var(--color-background);
+/* Table header styling */
+.tableHeader {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: var(--sds-color-text-default-default);
+}
+
+/* Table styling (identical to alerts table) */
+.glucoseLogsTable {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.glucoseLogsTable th,
+.glucoseLogsTable td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.glucoseLogsTable th {
+    background-color: var(--color-primary);
+    color: white;
     font-weight: bold;
 }
 
+.glucoseLogsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.glucoseLogsTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Error message styling */
+.errorMessage {
+    color: red;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+/* ====================== Button Styles (Same as Alerts Table Buttons) ====================== */
+.editButton,
+.saveButton,
+.cancelButton,
+.deleteButton {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 2px;
+}
+
+.editButton {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.editButton:hover {
+    background-color: var(--color-secondary);
+}
+
+.saveButton {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.saveButton:hover {
+    background-color: var(--color-secondary);
+}
+
+.cancelButton {
+    background-color: #888888;
+    color: white;
+}
+
+.cancelButton:hover {
+    background-color: #666666;
+}
+
+.deleteButton {
+    background-color: #d9534f;
+    color: white;
+}
+
+.deleteButton:hover {
+    background-color: #c9302c;
+}
+
+/* Toggle button styling exactly as desired */
 .toggleButton {
     margin-top: 10px;
     padding: 12px 24px;
     border: none;
     border-radius: 8px;
-    background-color: #007bff;
+    background-color: var(--color-primary);
     color: white;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .toggleButton:hover {
-    background-color: #0056b3;
+    background-color: var(--color-secondary);
 }

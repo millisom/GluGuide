@@ -1,8 +1,7 @@
-const Log = require('../models/glucoseModel'); // Import your log model
+const Log = require('../models/glucoseModel'); 
 
 const logController = {
 
-    // Log a new glucose entry
     async logGlucose(req, res) {
         console.log('Received request at POST /glucose/log');
         console.log('Request body:', req.body);
@@ -10,7 +9,6 @@ const logController = {
         const userId = req.session?.userId;
         const { date, time, glucoseLevel } = req.body;
     
-        // Validate input fields
         if (!userId || !date || !time || !glucoseLevel) {
             console.error('Validation error: Missing fields in request body');
             return res.status(400).json({ error: 'All fields are required: userId, date, time, glucoseLevel' });
@@ -20,11 +18,10 @@ const logController = {
             return res.status(400).json({ error: 'Glucose level must be a positive number.' });
         }
     
-        // Combine date and time into a single Date object
         const submittedTimestamp = new Date(`${date}T${time}`);
         const currentTimestamp = new Date();
     
-        // Validate that the date/time is not in the future
+  
         if (submittedTimestamp > currentTimestamp) {
             console.error('Validation error: Date and time are in the future');
             return res.status(400).json({ error: 'You cannot log glucose levels for a future date or time.' });
@@ -45,7 +42,7 @@ const logController = {
     
     ,
 
-    // Get all logs for a specific user
+
     async getUserGlucoseLogs(req, res) {
         const { userId } = req.params;
 
@@ -124,7 +121,7 @@ const logController = {
     },
 
 
-    // Get a specific log by ID
+
     async getGlucoseLogById(req, res) {
         const { id } = req.params;
 
@@ -142,7 +139,7 @@ const logController = {
         }
     },
 
-    // Update a specific log
+
     async updateGlucoseLog(req, res) {
         const { id } = req.params;
         const { date, time, glucoseLevel } = req.body;
@@ -161,7 +158,7 @@ const logController = {
         }
     },
 
-    // Delete a specific log
+
     async deleteGlucoseLog(req, res) {
         const { id } = req.params;
 

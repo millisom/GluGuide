@@ -1,7 +1,6 @@
-const db = require('../config/db'); // Import the database connection
+const db = require('../config/db'); 
 
 const LogModel = {
-    // Function to log a new glucose entry
     createLog: async (userId, date, time, glucoseLevel) => {
         const query = `INSERT INTO glucose_logs (user_id, date, time, glucose_level) VALUES ($1, $2, $3, $4) RETURNING *`;
         const values = [userId, date, time, glucoseLevel];
@@ -20,9 +19,8 @@ const LogModel = {
         }
     
         let query;
-        let values = [userId]; // User ID as the first parameter
+        let values = [userId];
     
-        // Filter logic based on specified filter criteria
         switch (filter) {
             case '3months':
                 query = `
@@ -49,7 +47,6 @@ const LogModel = {
                 break;
     
             default:
-                // Default to returning all logs if no valid filter is provided
                 query = `
                     SELECT * FROM glucose_logs 
                     WHERE user_id = $1 
@@ -57,12 +54,11 @@ const LogModel = {
         }
     
         try {
-            // Log query execution for debugging
             console.log(`Executing query for filter: ${filter}`);
             console.log(`Query being executed: ${query}`);
     
             const result = await db.query(query, values);
-            console.log('Query result:', result.rows); // Log the result set
+            console.log('Query result:', result.rows);
     
             return result.rows;
         } catch (err) {
@@ -72,8 +68,6 @@ const LogModel = {
     },
     
 
-
-    // Function to fetch all logs for a specific user
     getLogsByUser: async (userId) => {
         const query = `SELECT * FROM glucose_logs WHERE user_id = $1 ORDER BY date, time`;
         try {
@@ -97,11 +91,11 @@ const LogModel = {
               AND TO_TIMESTAMP(CONCAT(date, ' ', time), 'YYYY-MM-DD HH24:MI:SS') >= NOW() - $2::INTERVAL
             ORDER BY date, time
         `;
-        const values = [userId, timePeriod]; // Ensure the parameters are defined and valid
+        const values = [userId, timePeriod];
     
         try {
-            console.log('Executing query:', query); // Log the query for debugging
-            console.log('With values:', values); // Log the parameter values
+            console.log('Executing query:', query); 
+            console.log('With values:', values); 
             const result = await db.query(query, values);
             return result.rows;
         } catch (err) {
@@ -111,7 +105,6 @@ const LogModel = {
     },
     
 
-    // Function to fetch a specific log by its ID
     getLogById: async (id) => {
         const query = `SELECT * FROM glucose_logs WHERE id = $1`;
         try {
@@ -123,7 +116,6 @@ const LogModel = {
         }
     },
 
-    // Function to update a specific log
     updateLog: async (id, date, time, glucoseLevel) => {
         const query = `UPDATE glucose_logs SET date = $1, time = $2, glucose_level = $3 WHERE id = $4 RETURNING *`;
         const values = [date, time, glucoseLevel, id];
@@ -136,7 +128,6 @@ const LogModel = {
         }
     },
 
-    // Function to delete a specific log
     deleteLog: async (id) => {
         const query = `DELETE FROM glucose_logs WHERE id = $1`;
         try {

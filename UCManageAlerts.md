@@ -88,6 +88,8 @@ Feature: List Alerts
 
 ###  2.4 Delete
 
+The User can delete an alert. 
+
 ![Delete Alert Diagram](docs/UseCaseManageAlerts/UCDeleteAlert.drawio.png)
 
 ```gherkin

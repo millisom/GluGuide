@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faHeart } from '@fortawesome/free-solid-svg-icons';
-import axios from '../../api/axiosConfig';
+import axios from '../api/axiosConfig';
 import PropTypes from 'prop-types';
 
 const BlogCard = ({ blog }) => {

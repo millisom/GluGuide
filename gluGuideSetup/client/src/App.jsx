@@ -19,6 +19,12 @@ import AdminEditUser from './pages/AdminEditUser';
 import Footer from './components/Footer';
 import AdminEditPost from './pages/AdminEditPost';
 import UserProfile from './components/UserProfile.jsx'; // Import the new component
+import LogMealPage from './pages/LogMealPage.jsx';
+import CreateRecipePage from './pages/CreateRecipePage.jsx';
+import SummaryPage from './pages/RecipeSummaryPage.jsx';
+import RecipeCardRoute from './components/RecipeCardRoute.jsx';
+import MealsOverviewPage from './pages/MealsOverviewPage.jsx'; // Import the new component
+import MealCardRoute from './components/MealCardRoute.jsx';
 
 function App() {
     return (
@@ -46,6 +52,12 @@ function App() {
                         <Route path="/admin/createUser" element={<AdminCreateUser />} />
                         <Route path="/admin/editUser/:id" element={<AdminEditUser />} />
                         <Route path="/admin/editPost/:id" element={<AdminEditPost />} />
+                        <Route path="/logMeal" element={<LogMealPage />} />
+                        <Route path="/createRecipe" element={<CreateRecipePage />} />
+                        <Route path="/Recipes" element={<SummaryPage />} />
+                        <Route path="/recipes/:id" element={<RecipeCardRoute />} />
+                        <Route path="/mealsOverview" element={<MealsOverviewPage />} /> {/* Add this route */}
+                        <Route path="/meals/:mealId" element={<MealCardRoute />} /> {/* Add this route */}
                     </Routes>
                 </main>
                 <Footer />

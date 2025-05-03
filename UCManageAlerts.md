@@ -7,6 +7,7 @@ This use case describes the creation, listing, updating, and deleting of alerts 
 ---
 
 ## 2. Flow of Events  
+![Alert Management CRUD Diagram](docs/UseCaseManageAlerts/UCManageAlerts.drawio.png)
 
 ### 2.1 Basic Flow  
 In general, a user will open their dashboard, view all alerts, create a new alert, edit or delete an existing alert.

@@ -8,7 +8,7 @@ This use case describes the creation, reading, updating, and deleting of comment
 
 ## 2. Flow of Events  
 
-![Post Management CRUD Diagram](docs/UseCaseManageComments/UCManageCommentsCRUD.drawio.png)
+![Comment Management CRUD Diagram](docs/UseCaseManageComments/UCManageCommentsCRUD.drawio.png)
 
 ### 2.1 Basic Flow  
 In general, a user will open a post, view all comments, write a comment, edit or delete a self written comment.

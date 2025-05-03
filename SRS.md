@@ -114,11 +114,12 @@ By November, we plan to implement:
 
 By June, we plan to implement:
 
-- 3.1.9 Track sugar
+- 3.1.9 Track glucose levels
 - 3.2.0 Track macros
 - 3.2.1 Track meals
 - 3.2.2 Generate graph
 - 3.2.3 Generate alert
+- 3.2.4 Manage Admin Accounts
 
 
 
@@ -168,8 +169,12 @@ For more details, refer to the [Manage Comment Use Case](UCLikeDislikeComment.md
 ### 3.1.9 Reset Password
 The user is able to reset their password.
 
-### 3.2.0 Track sugar
-The user is able to manually track their sugar.
+For more details, refer to the [Reset Password Use Case](UCResetPassword.md).
+
+### 3.2.0 Track glucose level
+The user is able to manually track their sugar level.
+
+For more details, refer to the [Manage Glucose Logs Use Case](UCManageGlucoseLogs.md).
 
 ### 3.2.1 Track macros
 The user is able to manually track their macros.
@@ -178,10 +183,19 @@ The user is able to manually track their macros.
 The user is able to manually track their meals.
 
 ### 3.2.3 Generate graph
-The application can generate graphs from the collected data. 
+The application can generate graphs from the collected data.
+
+For more details, refer to the [Generate Graph Use Case](UCGenerateGraph.md)
 
 ### 3.2.4 Alerts
-The user can set alerts to remind them to track their data.
+The user can set alerts to remind them to track their glucose levels.
+
+For more details, refer to the [Manage Alerts Use Case](UCManageAlerts.md).
+
+### 3.2.4 Manage Admin Accounts
+In our Application, we have Admins to assits users, enforce policies and manage user data.
+
+For more details, refer to the [Manage Admins Use Case](UCManageAdmins.md).
 
 
 

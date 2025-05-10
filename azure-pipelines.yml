@@ -59,7 +59,7 @@ stages:
           - task: AzureRmWebAppDeployment@5
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: 'Azure for Students(3726fb87-ee7b-42c4-a39c-d437513f686c)'
+              azureSubscription: 'f13c32b7-2f91-4e2e-944d-7d527e927c30'
               appType: 'webAppLinux'
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/app.zip'

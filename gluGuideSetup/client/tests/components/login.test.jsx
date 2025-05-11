@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import axios from '../api/axiosConfig';
+import axios from '../../src/api/axiosConfig';
 import Login from '../../src/components/LoginForm';
 import { useNavigate } from 'react-router-dom';
 
 // Mock axios
-jest.mock('../api/axiosConfig');
+jest.mock('../../src/api/axiosConfig');
 
 // Mock useNavigate
 jest.mock('react-router-dom', () => {

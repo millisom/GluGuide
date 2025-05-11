@@ -39,10 +39,9 @@ jobs:
         working-directory: gluGuideSetup/client
 
       - name: Analyze with SonarCloud
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
-          organization: gluguide
-          projectKey: millisom_GluGuide
-          token: ${{ secrets.SONAR_TOKEN }}
+          args: >
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,12 @@
+import React from 'react';
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
+
+// Setup global React for tests
+window.React = React;
+
+// Jest compatibility for tests that use jest directly
+window.jest = vi;
 
 // Mock CSS imports
 vi.mock('*.css', () => ({}));

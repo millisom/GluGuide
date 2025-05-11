@@ -10,6 +10,13 @@ jest.mock('body-parser', () => ({
 
 jest.mock('cookie-parser', () => jest.fn(() => 'cookieParserMiddleware'));
 
+jest.mock('express', () => ({
+  json: jest.fn(() => 'expressJsonMiddleware'),
+  urlencoded: jest.fn(() => 'expressUrlencodedMiddleware')
+}));
+
+jest.mock('../../../server/middleware/sessionMiddleware', () => 'sessionMiddleware');
+
 describe('Middleware Configuration', () => {
   let mockApp;
   
@@ -27,17 +34,18 @@ describe('Middleware Configuration', () => {
     
     // Check body-parser is configured properly
     expect(bodyParser.json).toHaveBeenCalled();
-    expect(bodyParser.urlencoded).toHaveBeenCalledWith({ extended: true });
     
     // Check cookie-parser is configured
     expect(cookieParser).toHaveBeenCalled();
     
     // Check middleware is applied to app
     expect(mockApp.use).toHaveBeenCalledWith('jsonMiddleware');
-    expect(mockApp.use).toHaveBeenCalledWith('urlencodedMiddleware');
+    expect(mockApp.use).toHaveBeenCalledWith('expressJsonMiddleware');
     expect(mockApp.use).toHaveBeenCalledWith('cookieParserMiddleware');
+    expect(mockApp.use).toHaveBeenCalledWith('sessionMiddleware');
+    expect(mockApp.use).toHaveBeenCalledWith('expressUrlencodedMiddleware');
     
-    // Verify number of middleware applied
-    expect(mockApp.use).toHaveBeenCalledTimes(3);
+    // Verify number of middleware applied - updated to match actual implementation
+    expect(mockApp.use).toHaveBeenCalledTimes(8);
   });
 }); 

@@ -72,6 +72,20 @@ jest.mock('../../config/multerConfig', () => ({
   })
 }));
 
+let originalConsoleError;
+
+beforeAll(() => {
+  // Store the original console.error
+  originalConsoleError = console.error;
+  // Replace console.error with a mock during tests
+  console.error = jest.fn();
+});
+
+afterAll(() => {
+  // Restore the original console.error after tests
+  console.error = originalConsoleError;
+});
+
 describe('Post Controller', () => {
   let mockReq;
   let mockRes;
@@ -113,12 +127,14 @@ describe('Post Controller', () => {
     });
     
     it('should handle errors', async () => {
-      Post.getAllPostsOrderedByTime.mockRejectedValue(new Error('Database error'));
+      const error = new Error('Database error');
+      Post.getAllPostsOrderedByTime.mockRejectedValue(error);
       
       await getAllPosts(mockReq, mockRes);
       
+      expect(console.error).toHaveBeenCalled();
       expect(mockRes.status).toHaveBeenCalledWith(500);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({ error: expect.any(String) }));
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Failed to fetch posts' });
     });
     
     it('should return 404 if no posts found', async () => {
@@ -192,10 +208,12 @@ describe('Post Controller', () => {
     });
     
     it('should handle errors', async () => {
-      Post.getPostById.mockRejectedValue(new Error('Database error'));
+      const error = new Error('Database error');
+      Post.getPostById.mockRejectedValue(error);
       
       await getPost(mockReq, mockRes);
       
+      expect(console.error).toHaveBeenCalled();
       expect(mockRes.status).toHaveBeenCalledWith(500);
       expect(mockRes.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });
     });
@@ -361,14 +379,21 @@ describe('Post Controller', () => {
   });
   
   describe('uploadPostImage', () => {
-    it('should upload an image successfully', async () => {
-      const mockPost = { id: 1, post_picture: 'old-image.jpg' };
+    it('should upload an image for a post', async () => {
+      const mockPost = { id: '1', post_picture: 'old-image.jpg' };
       Post.getPostById.mockResolvedValue(mockPost);
-      Post.setPostImage.mockResolvedValue(1); // Rows updated
+      Post.setPostImage.mockResolvedValue(1); // Return 1 for successful update
       
-      await uploadPostImage(mockReq, mockRes);
+      // Directly execute middleware function then the controller
+      const middleware = require('../../config/multerConfig').single('postImage');
       
-      expect(postHelpers.getImagePath).toHaveBeenCalled();
+      await new Promise(resolve => {
+        middleware(mockReq, mockRes, async () => {
+          await uploadPostImage(mockReq, mockRes);
+          resolve();
+        });
+      });
+      
       expect(postHelpers.deleteImageFile).toHaveBeenCalled();
       expect(Post.setPostImage).toHaveBeenCalledWith('1', 'test-image.jpg');
       expect(mockRes.status).toHaveBeenCalledWith(200);
@@ -377,29 +402,55 @@ describe('Post Controller', () => {
       });
     });
     
-    it('should handle missing file', async () => {
-      mockReq.simulateFileUpload = false;
-      
-      await uploadPostImage(mockReq, mockRes);
-      
-      expect(mockRes.status).toHaveBeenCalledWith(400);
-      expect(mockRes.json).toHaveBeenCalledWith({ error: 'No file uploaded' });
-    });
-    
     it('should handle post not found', async () => {
-      Post.setPostImage.mockResolvedValue(0); // No rows updated
+      Post.getPostById.mockResolvedValue({ id: '1', post_picture: 'old-image.jpg' });
+      Post.setPostImage.mockResolvedValue(0); // Return 0 for no rows updated
       
-      await uploadPostImage(mockReq, mockRes);
+      // Directly execute middleware function then the controller
+      const middleware = require('../../config/multerConfig').single('postImage');
+      
+      await new Promise(resolve => {
+        middleware(mockReq, mockRes, async () => {
+          await uploadPostImage(mockReq, mockRes);
+          resolve();
+        });
+      });
       
       expect(mockRes.status).toHaveBeenCalledWith(404);
       expect(mockRes.json).toHaveBeenCalledWith({ error: 'Post not found' });
     });
     
+    it('should handle missing file', async () => {
+      mockReq.simulateFileUpload = false;
+      
+      // Directly execute middleware function then the controller
+      const middleware = require('../../config/multerConfig').single('postImage');
+      
+      await new Promise(resolve => {
+        middleware(mockReq, mockRes, async () => {
+          await uploadPostImage(mockReq, mockRes);
+          resolve();
+        });
+      });
+      
+      expect(mockRes.status).toHaveBeenCalledWith(400);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'No file uploaded' });
+    });
+    
     it('should handle errors during upload', async () => {
       Post.getPostById.mockRejectedValue(new Error('Database error'));
       
-      await uploadPostImage(mockReq, mockRes);
+      // Directly execute middleware function then the controller
+      const middleware = require('../../config/multerConfig').single('postImage');
       
+      await new Promise(resolve => {
+        middleware(mockReq, mockRes, async () => {
+          await uploadPostImage(mockReq, mockRes);
+          resolve();
+        });
+      });
+      
+      expect(console.error).toHaveBeenCalled();
       expect(mockRes.status).toHaveBeenCalledWith(500);
       expect(mockRes.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });
     });

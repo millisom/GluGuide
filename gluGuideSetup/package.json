@@ -1,0 +1,17 @@
+{
+  "name": "gluguide",
+  "version": "1.0.0",
+  "description": "A health tracking application for diabetes management",
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "server": "cd server && npm run start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install": "npm run install-client && npm run install-server",
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 

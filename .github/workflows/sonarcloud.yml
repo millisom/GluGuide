@@ -43,6 +43,10 @@ jobs:
         run: npm install
         working-directory: gluGuideSetup/client
 
+      - name: Install Vitest Coverage Dependencies
+        run: npm install -D @vitest/coverage-v8
+        working-directory: gluGuideSetup/client
+
       - name: Run Client Tests with Coverage
         run: npx vitest run --coverage
         working-directory: gluGuideSetup/client

@@ -40,7 +40,7 @@ jobs:
         working-directory: gluGuideSetup/server
 
       - name: Install Server Testing Dependencies
-        run: npm install -D argon2 express-session connect-pg-simple jest-lcov-reporter
+        run: npm install -D argon2 express-session connect-pg-simple
         working-directory: gluGuideSetup/server
 
       - name: Run Server Tests with Coverage

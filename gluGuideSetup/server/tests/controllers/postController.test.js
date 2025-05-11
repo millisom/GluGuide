@@ -79,11 +79,15 @@ beforeAll(() => {
   originalConsoleError = console.error;
   // Replace console.error with a mock during tests
   console.error = jest.fn();
+  // Mock console.log to keep test output clean
+  console.log = jest.fn();
 });
 
 afterAll(() => {
   // Restore the original console.error after tests
   console.error = originalConsoleError;
+  // Restore console.log
+  console.log = console.log;
 });
 
 describe('Post Controller', () => {
@@ -229,7 +233,15 @@ describe('Post Controller', () => {
       Post.createPost.mockResolvedValue(createdPost);
       Post.getPostById.mockResolvedValue(postWithDetails);
       
-      await createPost(mockReq, mockRes);
+      // Directly execute middleware function then the controller
+      const middleware = require('../../config/multerConfig').single('post_picture');
+      
+      await new Promise(resolve => {
+        middleware(mockReq, mockRes, async () => {
+          await createPost(mockReq, mockRes);
+          resolve();
+        });
+      });
       
       expect(Post.getUserIdByUsername).toHaveBeenCalledWith('testuser');
       expect(Post.createPost).toHaveBeenCalledWith(
@@ -239,7 +251,7 @@ describe('Post Controller', () => {
         'test-image.jpg', 
         ['test', 'mock']
       );
-      expect(Post.getPostById).toHaveBeenCalledWith(1);
+      expect(Post.getPostById).toHaveBeenCalledWith(createdPost.id);
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(mockRes.json).toHaveBeenCalledWith({
         success: true,
@@ -250,7 +262,15 @@ describe('Post Controller', () => {
     it('should handle unauthorized users', async () => {
       mockReq.session.username = null;
       
-      await createPost(mockReq, mockRes);
+      // Directly execute middleware function then the controller
+      const middleware = require('../../config/multerConfig').single('post_picture');
+      
+      await new Promise(resolve => {
+        middleware(mockReq, mockRes, async () => {
+          await createPost(mockReq, mockRes);
+          resolve();
+        });
+      });
       
       expect(mockRes.status).toHaveBeenCalledWith(401);
       expect(mockRes.send).toHaveBeenCalledWith('Unauthorized');
@@ -258,8 +278,17 @@ describe('Post Controller', () => {
     
     it('should handle missing title', async () => {
       mockReq.body.title = '';
+      mockReq.session.username = 'testuser';
       
-      await createPost(mockReq, mockRes);
+      // Directly execute middleware function then the controller
+      const middleware = require('../../config/multerConfig').single('post_picture');
+      
+      await new Promise(resolve => {
+        middleware(mockReq, mockRes, async () => {
+          await createPost(mockReq, mockRes);
+          resolve();
+        });
+      });
       
       expect(mockRes.status).toHaveBeenCalledWith(400);
       expect(mockRes.json).toHaveBeenCalledWith({

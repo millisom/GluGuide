@@ -25,11 +25,16 @@ vi.mock('react-router-dom', () => {
 
 // Mock child components
 vi.mock('../../src/components/TagFilter', () => ({
-  default: ({ selectedTags, clearAllTags, handleTagMultiSelectChange, handleTagRemove }) => (
+  default: ({ selectedTags, clearAllTags, handleTagMultiSelectChange, handleTagRemove, tagOptions }) => (
     <div data-testid="tag-filter">
       {selectedTags.map(tag => (
         <span key={tag} data-testid={`tag-${tag}`}>{tag}</span>
       ))}
+      <div data-testid="tag-options">
+        {(tagOptions || []).map(option => (
+          <span key={option.value} data-testid={`option-${option.value}`}>{option.label}</span>
+        ))}
+      </div>
       <button data-testid="clear-tags" onClick={clearAllTags}>Clear Tags</button>
       <button data-testid="remove-tag" onClick={() => handleTagRemove(selectedTags[0])}>Remove Tag</button>
       <button data-testid="select-tag" onClick={() => handleTagMultiSelectChange([{ value: 'css', label: 'css' }])}>Select Tag</button>

@@ -37,7 +37,7 @@ const ViewBlogEntries = () => {
         const response = await axios.get('http://localhost:8080/getAllPosts', {
           withCredentials: true,
         });
-        
+
         // Sort posts by creation time, most recent first
         const sortedPosts = response.data?.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -79,30 +79,30 @@ const ViewBlogEntries = () => {
       setSelectedTags([tagFromUrl]); 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]);
+  }, [location.search]); 
 
   // Handle filtering posts
   useEffect(() => {
     const filterPosts = () => {
-      let postsToFilter = [...allPosts];
+    let postsToFilter = [...allPosts];
 
       // Filter by search (title or username)
-      if (searchTerm) {
-        const lowerSearchTerm = searchTerm.toLowerCase();
-        postsToFilter = postsToFilter.filter(post => 
-          post.title.toLowerCase().includes(lowerSearchTerm) ||
-          post.username.toLowerCase().includes(lowerSearchTerm)
-        );
-      }
+    if (searchTerm) {
+      const lowerSearchTerm = searchTerm.toLowerCase();
+      postsToFilter = postsToFilter.filter(post => 
+        post.title.toLowerCase().includes(lowerSearchTerm) ||
+        post.username.toLowerCase().includes(lowerSearchTerm)
+      );
+    }
 
       // Filter by selected tags
-      if (selectedTags.length > 0) {
-        postsToFilter = postsToFilter.filter(post => 
-          selectedTags.every(filterTag => post.tags && post.tags.includes(filterTag))
-        );
-      }
+    if (selectedTags.length > 0) {
+      postsToFilter = postsToFilter.filter(post => 
+        selectedTags.every(filterTag => post.tags && post.tags.includes(filterTag))
+      );
+    }
 
-      setFilteredPosts(postsToFilter);
+    setFilteredPosts(postsToFilter);
     };
 
     filterPosts();
@@ -144,7 +144,7 @@ const ViewBlogEntries = () => {
   };
 
   // Prepare tag options for react-select
-  const tagOptions = availableTags.map(tag => ({ value: tag, label: tag }));
+  const tagOptions = (availableTags || []).map(tag => ({ value: tag, label: tag }));
   const selectedTagValues = selectedTags.map(tag => ({ value: tag, label: tag }));
 
   // Memoize posts to prevent unnecessary re-renders
@@ -174,7 +174,7 @@ const ViewBlogEntries = () => {
         />
       </div>
 
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>} 
 
       {memoizedPosts.length === 0 && !error ? (
         <p className={styles.noPostsFound}>No posts match your search or filters.</p>

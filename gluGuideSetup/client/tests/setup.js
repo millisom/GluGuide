@@ -2,51 +2,88 @@ import { vi } from 'vitest';
 
 // Mock react-select
 vi.mock('react-select', () => ({
-  default: ({ options, onChange, placeholder }) => (
-    <div data-testid="select-mock">
-      <input 
-        type="text" 
-        data-testid="select-input" 
-        placeholder={placeholder} 
-        onChange={(e) => onChange([{ value: e.target.value, label: e.target.value }])}
-      />
-      <div data-testid="select-options">
-        {options?.map((option) => (
-          <div key={option.value} data-testid={`option-${option.value}`}>
-            {option.label}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+  default: function MockSelect(props) {
+    return {
+      type: 'div',
+      props: {
+        'data-testid': 'select-mock',
+        children: [
+          {
+            type: 'input',
+            props: {
+              'data-testid': 'select-input',
+              placeholder: props.placeholder,
+              onChange: (e) => props.onChange([{ value: e.target.value, label: e.target.value }])
+            }
+          },
+          {
+            type: 'div',
+            props: {
+              'data-testid': 'select-options',
+              children: props.options ? props.options.map((option) => ({
+                type: 'div',
+                key: option.value,
+                props: {
+                  'data-testid': `option-${option.value}`,
+                  children: option.label
+                }
+              })) : []
+            }
+          }
+        ]
+      }
+    };
+  }
 }));
 
 // Mock the ViewBlogEntries component that's causing errors
 vi.mock('../../src/components/ViewBlogEntries', () => ({
-  default: () => <div data-testid="mock-view-blog-entries">Mock ViewBlogEntries</div>
+  default: function MockViewBlogEntries() {
+    return {
+      type: 'div',
+      props: {
+        'data-testid': 'mock-view-blog-entries',
+        children: 'Mock ViewBlogEntries'
+      }
+    };
+  }
 }));
 
 // Mock all problematic components
 vi.mock('../../src/components/BlogCard', () => ({
-  default: ({ blog }) => (
-    <div data-testid={`blog-card-${blog?.id || 'unknown'}`}>
-      <h3>{blog?.title || 'Untitled'}</h3>
-      <div>{blog?.content || 'No content'}</div>
-    </div>
-  )
+  default: function MockBlogCard(props) {
+    return {
+      type: 'div',
+      props: {
+        'data-testid': `blog-card-${props.blog?.id || 'unknown'}`,
+        children: [
+          {
+            type: 'h3',
+            props: {
+              children: props.blog?.title || 'Untitled'
+            }
+          },
+          {
+            type: 'div',
+            props: {
+              children: props.blog?.content || 'No content'
+            }
+          }
+        ]
+      }
+    };
+  }
 }));
 
 // Make sure these components handle undefined availableTags
-vi.mock('../src/components/ViewBlogEntries', () => {
-  const originalModule = vi.importActual('../src/components/ViewBlogEntries');
-  
-  // Override any methods that need special handling
-  const SafeViewBlogEntries = (props) => {
-    const Component = originalModule.default;
-    return <Component {...props} />;
-  };
-  
-  return {
-    default: SafeViewBlogEntries
-  };
-}); 
+vi.mock('../src/components/ViewBlogEntries', () => ({
+  default: function SafeViewBlogEntries() {
+    return {
+      type: 'div',
+      props: {
+        'data-testid': 'mock-view-blog-entries',
+        children: 'Safe Mock ViewBlogEntries'
+      }
+    };
+  }
+})); 

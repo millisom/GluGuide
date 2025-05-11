@@ -58,7 +58,12 @@ const BlogCard = ({ blog }) => {
                 <div className={styles.cardFooter}>
                     <p className={styles.postLikes}>
                         <FontAwesomeIcon icon={faHeart} className={styles.heart} />{" "}
-                        {blog.likes_count ? blog.likes_count : (blog.likes ? blog.likes.length : 0)} Likes
+                        {(() => {
+                            const likesCount = blog.likes_count ? blog.likes_count : (blog.likes ? blog.likes.length : 0);
+                            return (
+                                <>{likesCount} {likesCount === 1 ? 'Like' : 'Likes'}</>
+                            );
+                        })()}
                     </p>
                     <div className={styles.iconContainer}>
                         <button

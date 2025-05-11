@@ -19,6 +19,17 @@ Make sure you have the following installed:
 
 ### Setting up dependencies
 
+You can install all dependencies from the root directory (`/gluGuideSetup`):
+
+```bash
+# From the /gluGuideSetup folder
+npm install
+```
+
+This will install the concurrently package for running both `client` and `server`, and then install dependencies for both the client and server.
+
+Alternatively, you can install dependencies separately:
+
 #### 1. Install required plugins for the frontend client
 
 Navigate to the `/client` folder and run the following command:
@@ -56,16 +67,44 @@ SESSION_SECRET=your_session_secret
 
 ### Starting the application
 
-If you just want to use the App, simply navigate to the `/client` folder, then start it using:
+The application can be started in two ways:
+
+#### Option 1: Start both client and server with a single command (recommended)
+
+From the root `/gluGuideSetup` folder, run:
 
 ```bash
 npm start
 ```
 
-If you wish to also work on the server, navigate to the `/server` folder and use the same command.
+This will start both the server and client concurrently.
+
+#### Option 2: Start client and server separately
+
+If you prefer to start each part individually:
+
+**For the client only:**
+```bash
+# From the /gluGuideSetup folder
+npm run client
+```
+Or navigate to the `/client` folder and run:
+```bash
+npm run dev
+```
+
+**For the server only:**
+```bash
+# From the /gluGuideSetup folder
+npm run server
+```
+Or navigate to the `/server` folder and run:
+```bash
+npm start
+```
 
 The server will be running on http://localhost:8080 by default.
-And the client will be running on http://localhost:5173 by default.
+The client will be running on http://localhost:5173 by default.
 
 ## Testing
 To check why is the particular test stack chosen, please refer to the [TestingDoc.md](../TestingDoc.md) file.
@@ -192,7 +231,7 @@ If you run into any issues while running or developing the project, try the foll
 
 #### Environment Variables Not Loaded:
 
-Make sure you’ve created the `.env` file in the `/server` directory with all the required variables. If the application can’t connect to the database or is missing configurations, check that your environment is properly loading the `.env` file.
+Make sure you've created the `.env` file in the `/server` directory with all the required variables. If the application can't connect to the database or is missing configurations, check that your environment is properly loading the `.env` file.
 
 #### Database Connection Problems:
 
@@ -204,10 +243,10 @@ Errors related to missing modules or packages can often be resolved by reinstall
 
 #### Application Startup Errors:
 
-If the app crashes or fails to start, review the error messages in your terminal or log files. These messages usually provide hints about what’s wrong. Sometimes, simply restarting the development server or clearing the cache can help. Should there be any errors related to functionality, please contact us so we can have a look at it and deploy a bug fix.
+If the app crashes or fails to start, review the error messages in your terminal or log files. These messages usually provide hints about what's wrong. Sometimes, simply restarting the development server or clearing the cache can help. Should there be any errors related to functionality, please contact us so we can have a look at it and deploy a bug fix.
 
 #### Frontend Build or Rendering Issues:
 
-Should you encounter issues with the frontend (such as missing assets or rendering problems), confirm that the build process completed successfully and check your browser’s console for error messages that might indicate what went wrong.
+Should you encounter issues with the frontend (such as missing assets or rendering problems), confirm that the build process completed successfully and check your browser's console for error messages that might indicate what went wrong.
 
-If these steps don’t resolve the issue, try to isolate the problem by checking recent changes in the code, and consider reaching out to use for more assistance.
+If these steps don't resolve the issue, try to isolate the problem by checking recent changes in the code, and consider reaching out to use for more assistance.

@@ -1,24 +1,25 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import axios from '../api/axiosConfig';
+import axios from '../../src/api/axiosConfig';
 import Login from '../../src/components/LoginForm';
 import { useNavigate } from 'react-router-dom';
+import { describe, it, expect, vi, beforeAll, afterAll, beforeEach } from 'vitest';
 
 // Mock axios
-jest.mock('../api/axiosConfig');
+vi.mock('../../src/api/axiosConfig');
 
-// Mock useNavigate
-jest.mock('react-router-dom', () => {
-  const originalModule = jest.requireActual('react-router-dom');
+// Mock react-router-dom properly with importActual
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
   return {
-    ...originalModule,
-    useNavigate: jest.fn(),
+    ...actual,
+    useNavigate: vi.fn(),
   };
 });
 
 describe('Login Component', () => {
-  const mockNavigate = jest.fn();
+  const mockNavigate = vi.fn();
 
   // Silence console.warn for React Router warning
   const originalWarn = console.warn;
@@ -37,12 +38,11 @@ describe('Login Component', () => {
   });
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     useNavigate.mockReturnValue(mockNavigate);
 
     // Mock window.location.reload to prevent jsdom crash
-    delete window.location;
-    window.location = { reload: jest.fn() };
+    vi.stubGlobal('location', { reload: vi.fn() });
   });
 
   it('renders the login form', () => {

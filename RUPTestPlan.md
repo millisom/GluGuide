@@ -2,69 +2,48 @@
 
 ## Table of contents
 
-- [1. Introduction](#1-introduction)
-  * [1.1 Purpose](#11-purpose)
-  * [1.2 Scope](#12-scope)
-  * [1.3 Intended Audience](#13-intended-audience)
-  * [1.4 Document Terminology and Acronyms](#14-document-terminology-and-acronyms)
-  * [1.5  References](#15--references)
-  * [1.6 Document Structure](#16-document-structure)
-- [2. Evaluation Mission and Test Motivation](#2-evaluation-mission-and-test-motivation)
-  * [2.1 Background](#21-background)
-  * [2.2 Evaluation Mission](#22-evaluation-mission)
-  * [2.3 Test Motivators](#23-test-motivators)
-- [3. Target Test Items](#3-target-test-items)
-- [4. Outline of Planned Tests](#4-outline-of-planned-tests)
-  * [4.1 Outline of Test Inclusions](#41-outline-of-test-inclusions)
-  * [4.2 Outline of Other Candidates for Potential Inclusion](#42-outline-of-other-candidates-for-potential-inclusion)
-  * [4.3 Outline of Test Exclusions](#43-outline-of-test-exclusions)
-- [5. Test Approach](#5-test-approach)
-  * [5.1 Initial Test-Idea Catalogs and Other Reference Sources](#51-initial-test-idea-catalogs-and-other-reference-sources)
-  * [5.2 Testing Techniques and Types](#52-testing-techniques-and-types)
-    + [5.2.1 Data and Database Integrity Testing](#521-data-and-database-integrity-testing)
-    + [5.2.2 Functional Testing](#522-functional-testing)
-    + [5.2.3 Business Cycle Testing](#523-business-cycle-testing)
-    + [5.2.4 User Interface Testing](#524-user-interface-testing)
-    + [5.2.5 Performance Profiling](#525-performance-profiling)
-    + [5.2.6 Load Testing](#526-load-testing)
-    + [5.2.7 Stress Testing](#527-stress-testing)
-    + [5.2.8 Volume Testing](#528-volume-testing)
-    + [5.2.9 Security and Access Control Testing](#529-security-and-access-control-testing)
-    + [5.2.10 Failover and Recovery Testing](#5210-failover-and-recovery-testing)
-    + [5.2.11 Configuration Testing](#5211-configuration-testing)
-    + [5.2.12 Installation Testing](#5212-installation-testing)
-- [6. Entry and Exit Criteria](#6-entry-and-exit-criteria)
-  * [6.1 Test Plan](#61-test-plan)
-    + [6.1.1 Test Plan Entry Criteria](#611-test-plan-entry-criteria)
-    + [6.1.2 Test Plan Exit Criteria](#612-test-plan-exit-criteria)
-    + [6.1.3 Suspension and Resumption Criteria](#613-suspension-and-resumption-criteria)
-  * [6.2 Test Cycles](#62-test-cycles)
-      - [6.2.1 Test Cycle Entry Criteria](#621-test-cycle-entry-criteria)
-      - [6.2.2 Test Cycle Exit Criteria](#622-test-cycle-exit-criteria)
-      - [6.2.3 Test Cycle Abnormal Termination](#623-test-cycle-abnormal-termination)
-- [7. Deliverables](#7-deliverables)
-- [7.1 Test Evaluation Summaries](#71-test-evaluation-summaries)
-- [7.2 Reporting on Test Coverage](#72-reporting-on-test-coverage)
-- [7.3 Perceived Quality Reports](#73-perceived-quality-reports)
-- [7.4 Incident Logs and Change Requests](#74-incident-logs-and-change-requests)
-- [7.5 Smoke Test Suite and Supporting Test Scripts](#75-smoke-test-suite-and-supporting-test-scripts)
-- [7.6      Additional Work Products](#76------additional-work-products)
-  * [7.6.1     Detailed Test Results](#761-----detailed-test-results)
-  * [7.6.2     Additional Automated Functional Test Scripts](#762-----additional-automated-functional-test-scripts)
-  * [7.6.3     Test Guidelines](#763-----test-guidelines)
-  * [7.6.4     Traceability Matrices](#764-----traceability-matrices)
-- [8. Testing Workflow](#8-testing-workflow)
-- [9. Environmental Needs](#9-environmental-needs)
-  * [9.1 Base System Hardware](#91-base-system-hardware)
-  * [9.2 Base Software Elements in the Test Environment](#92-base-software-elements-in-the-test-environment)
-  * [9.3 Productivity and Support Tools](#93-productivity-and-support-tools)
-  * [9.4 Test Environment Configurations](#94-test-environment-configurations)
-- [10. Responsibilities, Staffing, and Training Needs](#10-responsibilities--staffing--and-training-needs)
-  * [10.1 People and Roles](#101-people-and-roles)
-  * [10.2 Staffing and Training Needs](#102-staffing-and-training-needs)
-- [11. Iteration Milestones](#11-iteration-milestones)
-- [12. Risks, Dependencies, Assumptions, and Constraints](#12-risks--dependencies--assumptions--and-constraints)
-- [13. Management Process and Procedures](#13-management-process-and-procedures)
+- [GluGuide Test Plan](#gluguide-test-plan)
+  - [Table of contents](#table-of-contents)
+  - [1. Introduction](#1-introduction)
+    - [1.1 Purpose](#11-purpose)
+    - [1.2 Scope](#12-scope)
+    - [1.3 Intended Audience](#13-intended-audience)
+    - [1.4 Terminology and Acronyms](#14-terminology-and-acronyms)
+    - [1.5 References](#15-references)
+    - [1.6 Document Structure](#16-document-structure)
+  - [2. Evaluation Mission and Test Motivation](#2-evaluation-mission-and-test-motivation)
+    - [2.1 Background](#21-background)
+    - [2.2 Evaluation Mission](#22-evaluation-mission)
+    - [2.3 Test Motivators](#23-test-motivators)
+  - [3. Target Test Items](#3-target-test-items)
+  - [4. Outline of Planned Tests](#4-outline-of-planned-tests)
+    - [4.1 Outline of Test Inclusions](#41-outline-of-test-inclusions)
+    - [4.2 Outline of Candidates for Potential Inclusion](#42-outline-of-candidates-for-potential-inclusion)
+    - [4.3 Outline of Test Exclusions](#43-outline-of-test-exclusions)
+  - [5. Test Approach](#5-test-approach)
+    - [5.1 Initial Test-Idea Catalogs](#51-initial-test-idea-catalogs)
+    - [5.2 Testing Techniques and Types](#52-testing-techniques-and-types)
+  - [6. Entry and Exit Criteria](#6-entry-and-exit-criteria)
+    - [6.1 Test Plan](#61-test-plan)
+      - [Entry Criteria](#entry-criteria)
+      - [Exit Criteria](#exit-criteria)
+    - [6.2 Test Cycles](#62-test-cycles)
+  - [7. Deliverables](#7-deliverables)
+  - [8. Testing Workflow](#8-testing-workflow)
+  - [9. Environmental Needs](#9-environmental-needs)
+    - [9.1 Base System Hardware](#91-base-system-hardware)
+    - [9.2 Base Software Elements in the Test Environment](#92-base-software-elements-in-the-test-environment)
+    - [9.3 Productivity and Support Tools](#93-productivity-and-support-tools)
+    - [9.4 Test Environment Configurations](#94-test-environment-configurations)
+  - [10. Responsibilities, Staffing, and Training Needs](#10-responsibilities-staffing-and-training-needs)
+  - [11. Iteration Milestones](#11-iteration-milestones)
+  - [12. Risks, Dependencies, Assumptions, and Constraints](#12-risks-dependencies-assumptions-and-constraints)
+  - [13. Management Process](#13-management-process)
+  - [Appendix A: Code Quality Metrics](#appendix-a-code-quality-metrics)
+    - [A.1 Cyclomatic Complexity (CC)](#a1-cyclomatic-complexity-cc)
+    - [A.2 Efferent Couplings (Ce)](#a2-efferent-couplings-ce)
+  - [Appendix B: Metrics Report](#appendix-b-metrics-report)
+
 
 ## 1. Introduction
 
@@ -329,3 +308,61 @@ GluGuide aims to help users track and manage their glucose levels with insights 
 - Weekly test status reviews.
 - Pull request validation reports.
 - Centralized dashboard for test health and coverage.
+
+---
+
+## Appendix A: Code Quality Metrics
+
+This appendix defines the two code quality metrics selected for use in the GluGuide project. These metrics will guide refactoring efforts aimed at improving code maintainability and quality.  
+**Measurement Tool:** SonarCloud (full-repo analyses, historical dashboards)  
+**In-IDE Feedback:** SonarLint (real-time issue highlighting)
+
+### A.1 Cyclomatic Complexity (CC)
+
+- **Definition:**  
+  Cyclomatic Complexity measures the number of linearly independent execution paths through a source-code module (function/method). Each `if`, loop (`for`/`while`), `switch` case, `catch` block, or logical operator (`&&`/`||`) that introduces a new branch increases the complexity by one.
+
+- **Interpretation & Guidelines:**  
+  - **1–5 (Low):** Simple, easy to understand, test, and maintain.  
+  - **6–10 (Moderate):** Manageable, but with a few decision points.  
+  - **11–20 (High):** Likely difficult to understand/test; consider refactoring.  
+  - **>20 (Very High):** Strong candidate for immediate refactoring to simplify control flow.
+
+- **Goal & Threshold:**  
+  - **Flag:** Any function/method with CC > 10.  
+  - **Refactoring target:** Reduce CC by at least 30% in the selected modules.
+
+- **Measurement:**  
+  - Reported automatically by SonarCloud on each build.  
+  - Real-time warnings in Cursor/VS Code via SonarLint.  
+  - “Before” and “After” screenshots captured in Appendix B.
+
+---
+
+### A.2 Efferent Couplings (Ce)
+
+- **Definition:**  
+  Efferent Couplings count the number of *distinct* external modules (files/classes) that a given module depends on (e.g., via `import` or direct calls).
+
+- **Interpretation & Guidelines:**  
+  - **0–5 (Low):** Highly independent—easy to reuse and test.  
+  - **6–10 (Moderate):** Acceptable for orchestrating modules.  
+  - **>10 (High):** Too many dependencies—brittle to changes, hard to test in isolation.
+
+- **Goal & Threshold:**  
+  - **Flag:** Any module with Ce > 8.  
+  - **Refactoring target:** Reduce Ce by at least 25% through abstraction or responsibility reorganization.
+
+- **Measurement:**  
+  - Captured by SonarCloud on each analysis run.  
+  - SonarLint can highlight coupling hotspots as you code.  
+  - “Before” and “After” evidence stored in Appendix B.
+
+---
+
+## Appendix B: Metrics Report
+
+- **B.1 SonarCloud “Before” Analysis** (CC + Ce)  
+- **B.2 SonarCloud “After” Analysis** (CC + Ce)  
+
+TODO: Screenshots, dashboard links, and narrative commentary for each refactored module.

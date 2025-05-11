@@ -44,7 +44,13 @@ jobs:
         working-directory: gluGuideSetup/client
 
       - name: Install Vitest Coverage Dependencies
-        run: npm install -D @vitest/coverage-v8@2.1.9 --legacy-peer-deps
+        run: npm install -D @vitest/coverage-v8@2.1.9 jsdom@24.0.0 --legacy-peer-deps
+        working-directory: gluGuideSetup/client
+
+      - name: Create mock CSS files for testing
+        run: |
+          mkdir -p src/pages
+          touch src/pages/signup.css
         working-directory: gluGuideSetup/client
 
       - name: Run Client Tests with Coverage

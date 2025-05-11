@@ -25,27 +25,106 @@ vi.mock('react-router-dom', () => {
 
 // Mock child components
 vi.mock('../../src/components/TagFilter', () => ({
-  default: ({ selectedTags, clearAllTags, handleTagMultiSelectChange, handleTagRemove }) => (
-    <div data-testid="tag-filter">
-      {selectedTags.map(tag => (
-        <span key={tag} data-testid={`tag-${tag}`}>{tag}</span>
-      ))}
-      <button data-testid="clear-tags" onClick={clearAllTags}>Clear Tags</button>
-      <button data-testid="remove-tag" onClick={() => handleTagRemove(selectedTags[0])}>Remove Tag</button>
-      <button data-testid="select-tag" onClick={() => handleTagMultiSelectChange([{ value: 'css', label: 'css' }])}>Select Tag</button>
-    </div>
-  )
+  default: function MockTagFilter(props) {
+    const { selectedTags, clearAllTags, handleTagMultiSelectChange, handleTagRemove, tagOptions } = props;
+    return {
+      type: 'div',
+      props: {
+        'data-testid': 'tag-filter',
+        children: [
+          ...(selectedTags.map(tag => ({
+            type: 'span',
+            key: tag,
+            props: {
+              'data-testid': `tag-${tag}`,
+              children: tag
+            }
+          }))),
+          {
+            type: 'div',
+            props: {
+              'data-testid': 'tag-options',
+              children: (tagOptions || []).map(option => ({
+                type: 'span',
+                key: option.value,
+                props: {
+                  'data-testid': `option-${option.value}`,
+                  children: option.label
+                }
+              }))
+            }
+          },
+          {
+            type: 'button',
+            props: {
+              'data-testid': 'clear-tags',
+              onClick: clearAllTags,
+              children: 'Clear Tags'
+            }
+          },
+          {
+            type: 'button',
+            props: {
+              'data-testid': 'remove-tag',
+              onClick: () => handleTagRemove(selectedTags[0]),
+              children: 'Remove Tag'
+            }
+          },
+          {
+            type: 'button',
+            props: {
+              'data-testid': 'select-tag',
+              onClick: () => handleTagMultiSelectChange([{ value: 'css', label: 'css' }]),
+              children: 'Select Tag'
+            }
+          }
+        ]
+      }
+    };
+  }
 }));
 
 vi.mock('../../src/components/PostCard', () => ({
-  default: ({ post, handleViewClick, handleAdminDelete }) => (
-    <div data-testid={`post-${post.id}`} className="post-card">
-      <h3>{post.title}</h3>
-      <p>By: {post.username}</p>
-      <button data-testid={`view-${post.id}`} onClick={() => handleViewClick(post.id)}>View</button>
-      <button data-testid={`delete-${post.id}`} onClick={() => handleAdminDelete(post.id)}>Delete</button>
-    </div>
-  )
+  default: function MockPostCard(props) {
+    const { post, handleViewClick, handleAdminDelete } = props;
+    return {
+      type: 'div',
+      props: {
+        'data-testid': `post-${post.id}`,
+        className: 'post-card',
+        children: [
+          {
+            type: 'h3',
+            props: {
+              children: post.title
+            }
+          },
+          {
+            type: 'p',
+            props: {
+              children: `By: ${post.username}`
+            }
+          },
+          {
+            type: 'button',
+            props: {
+              'data-testid': `view-${post.id}`,
+              onClick: () => handleViewClick(post.id),
+              children: 'View'
+            }
+          },
+          {
+            type: 'button',
+            props: {
+              'data-testid': `delete-${post.id}`,
+              onClick: () => handleAdminDelete(post.id),
+              children: 'Delete'
+            }
+          }
+        ]
+      }
+    };
+  }
 }));
 
 // Mock CSS module

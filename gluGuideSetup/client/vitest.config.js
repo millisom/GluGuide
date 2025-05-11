@@ -19,7 +19,7 @@ export default defineConfig({
         include: ['**/*.test.js', '**/*.test.jsx'],
         exclude: ['node_modules'],
         globals: true,
-        setupFiles: ['./setupTests.js'],
+        setupFiles: ['./setupTests.js', './tests/setup.js'],
         css: {
             modules: {
                 classNameStrategy: 'non-scoped'

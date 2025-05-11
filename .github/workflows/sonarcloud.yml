@@ -44,7 +44,7 @@ jobs:
         working-directory: gluGuideSetup/client
 
       - name: Install Vitest Coverage Dependencies
-        run: npm install -D @vitest/coverage-v8
+        run: npm install -D @vitest/coverage-v8@2.1.9 --legacy-peer-deps
         working-directory: gluGuideSetup/client
 
       - name: Run Client Tests with Coverage

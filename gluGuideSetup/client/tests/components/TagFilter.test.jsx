@@ -1,25 +1,25 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import TagFilter from '../../src/components/TagFilter';
 
 // Mock the react-select component
 vi.mock('react-select', () => ({
-  default: ({ onChange, value, options, placeholder }) => (
-    <div data-testid="mock-select">
+  default: ({ onChange, value, options, placeholder, isMulti, classNamePrefix }) => (
+    <div data-testid="mock-select" className={classNamePrefix ? `${classNamePrefix}-container` : ''}>
       <div data-testid="current-value">
         {JSON.stringify(value)}
       </div>
       <input 
         data-testid="select-input" 
-        placeholder={placeholder} 
+        placeholder={placeholder}
+        aria-multiselectable={isMulti ? 'true' : 'false'}
         onChange={(e) => {
           // Find option that matches input value
           const selectedOption = options.find(
             opt => opt.label.toLowerCase().includes(e.target.value.toLowerCase())
           );
           if (selectedOption) {
-            onChange([selectedOption]);
+            onChange(isMulti ? [selectedOption] : selectedOption);
           }
         }} 
       />
@@ -28,7 +28,7 @@ vi.mock('react-select', () => ({
           <div 
             key={option.value} 
             data-testid={`option-${option.value}`}
-            onClick={() => onChange([option])}
+            onClick={() => onChange(isMulti ? [option] : option)}
           >
             {option.label}
           </div>
@@ -40,7 +40,16 @@ vi.mock('react-select', () => ({
 
 // Mock FontAwesomeIcon to avoid SVG rendering issues in tests
 vi.mock('@fortawesome/react-fontawesome', () => ({
-  FontAwesomeIcon: () => <span data-testid="mock-icon" />
+  // eslint-disable-next-line react/prop-types
+  FontAwesomeIcon: ({ icon, size }) => {
+    // eslint-disable-next-line react/prop-types
+    const mockIconName = typeof icon === 'object' && icon.iconName ? icon.iconName : 'unknown';
+    return <span data-testid={`mock-icon-${mockIconName}`} data-size={size} />;
+  }
+}));
+
+vi.mock('@fortawesome/free-solid-svg-icons', () => ({
+  faTimes: { iconName: 'times' }
 }));
 
 // Mock CSS module
@@ -89,6 +98,17 @@ describe('TagFilter Component', () => {
     // Check if current value is displayed correctly
     const currentValue = screen.getByTestId('current-value');
     expect(currentValue.textContent).toContain('react');
+    
+    // Check if the filter title is rendered
+    expect(screen.getByText('Filter by Tags:')).toBeInTheDocument();
+    
+    // Check if React Select is configured correctly
+    const selectInput = screen.getByTestId('select-input');
+    expect(selectInput).toHaveAttribute('placeholder', 'Select tags...');
+    expect(selectInput).toHaveAttribute('aria-multiselectable', 'true');
+    
+    // Check className prefix applied
+    expect(screen.getByTestId('mock-select')).toHaveClass('react-select-container');
   });
 
   it('calls clearAllTags when clear button is clicked', () => {
@@ -104,7 +124,7 @@ describe('TagFilter Component', () => {
     render(<TagFilter {...mockProps} />);
     
     // Find tag remove button (it contains the icon)
-    const removeButton = screen.getByTestId('mock-icon').closest('button');
+    const removeButton = screen.getByTestId('mock-icon-times').closest('button');
     fireEvent.click(removeButton);
     
     expect(mockProps.handleTagRemove).toHaveBeenCalledWith('react');
@@ -154,7 +174,7 @@ describe('TagFilter Component', () => {
     expect(screen.getByText('javascript')).toBeInTheDocument();
     
     // There should be two remove buttons
-    expect(screen.getAllByTestId('mock-icon').length).toBe(2);
+    expect(screen.getAllByTestId('mock-icon-times').length).toBe(2);
   });
   
   it('filters options when typing in the select input', () => {
@@ -170,5 +190,58 @@ describe('TagFilter Component', () => {
     expect(mockProps.handleTagMultiSelectChange).toHaveBeenCalledWith(
       [{ value: 'javascript', label: 'javascript' }]
     );
+  });
+  
+  it('handles click on each remove tag button independently', () => {
+    const multipleTagsProps = {
+      ...mockProps,
+      selectedTags: ['react', 'javascript', 'css'],
+      selectedTagValues: [
+        { value: 'react', label: 'react' },
+        { value: 'javascript', label: 'javascript' },
+        { value: 'css', label: 'css' }
+      ]
+    };
+    
+    render(<TagFilter {...multipleTagsProps} />);
+    
+    // Get all remove buttons
+    const removeButtons = screen.getAllByTestId('mock-icon-times');
+    
+    // Click on the second tag's remove button (javascript)
+    fireEvent.click(removeButtons[1].closest('button'));
+    expect(mockProps.handleTagRemove).toHaveBeenCalledWith('javascript');
+    
+    // Click on the third tag's remove button (css)
+    fireEvent.click(removeButtons[2].closest('button'));
+    expect(mockProps.handleTagRemove).toHaveBeenCalledWith('css');
+    
+    // Verify the correct number of calls
+    expect(mockProps.handleTagRemove).toHaveBeenCalledTimes(2);
+  });
+  
+  it('renders the FontAwesomeIcon with correct props', () => {
+    render(<TagFilter {...mockProps} />);
+    
+    const icon = screen.getByTestId('mock-icon-times');
+    expect(icon).toHaveAttribute('data-size', 'xs');
+  });
+  
+  it('renders without crashing when tagOptions is empty', () => {
+    const propsWithEmptyOptions = {
+      ...mockProps,
+      tagOptions: [],
+      selectedTags: [],
+      selectedTagValues: []
+    };
+    
+    render(<TagFilter {...propsWithEmptyOptions} />);
+    
+    // Component should render without errors
+    expect(screen.getByText('Filter by Tags:')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-select')).toBeInTheDocument();
+    
+    // No tags should be displayed
+    expect(screen.queryByText('Active Filters:')).not.toBeInTheDocument();
   });
 }); 

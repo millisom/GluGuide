@@ -7,16 +7,31 @@ const {
   toggleLike,
   getAllTags,
   getAuthorProfile,
-  getUserPost
+  getUserPost,
+  getPost,
+  uploadPostImage,
+  deletePostImage
 } = require('../../controllers/postController');
 const db = require('../../config/db');
 const postHelpers = require('../../helpers/postHelpers');
 const Profile = require('../../models/profileModel');
 const Post = require('../../models/postModel');
+const fs = require('fs');
+const path = require('path');
 
 // Mock dependencies
 jest.mock('../../config/db', () => ({
   query: jest.fn()
+}));
+
+jest.mock('fs', () => ({
+  unlink: jest.fn((path, callback) => callback(null)),
+  existsSync: jest.fn(() => true)
+}));
+
+jest.mock('path', () => ({
+  join: jest.fn((...args) => args.join('/')),
+  dirname: jest.fn(path => path.split('/').slice(0, -1).join('/'))
 }));
 
 jest.mock('../../models/postModel', () => ({
@@ -26,7 +41,11 @@ jest.mock('../../models/postModel', () => ({
   updateLikes: jest.fn(),
   getAllTags: jest.fn(),
   getAuthorProfileByUsername: jest.fn(),
-  getPosts: jest.fn()
+  getPosts: jest.fn(),
+  getUserIdByUsername: jest.fn(),
+  createPost: jest.fn(),
+  updatePost: jest.fn(),
+  setPostImage: jest.fn()
 }));
 
 jest.mock('../../models/profileModel', () => ({
@@ -38,13 +57,17 @@ jest.mock('../../helpers/postHelpers', () => ({
   validatePostData: jest.fn(() => ({ valid: true })),
   parseTagsFromRequest: jest.fn(tags => Array.isArray(tags) ? tags : []),
   deleteImageFile: jest.fn(),
-  getImagePath: jest.fn()
+  getImagePath: jest.fn((filename) => `/mock/path/${filename}`),
+  createImageUrl: jest.fn((filename) => `http://localhost:8080/uploads/${filename}`)
 }));
 
 // Mock multer
 jest.mock('../../config/multerConfig', () => ({
   single: jest.fn(() => (req, res, next) => {
-    req.file = { filename: 'test-image.jpg' };
+    // Simulate file upload
+    if (req.simulateFileUpload !== false) {
+      req.file = { filename: 'test-image.jpg' };
+    }
     next();
   })
 }));
@@ -64,7 +87,8 @@ describe('Post Controller', () => {
       session: {
         userId: 123,
         username: 'testuser'
-      }
+      },
+      simulateFileUpload: true
     };
     
     mockRes = {
@@ -147,6 +171,165 @@ describe('Post Controller', () => {
     });
   });
   
+  describe('getPost', () => {
+    it('should return a post successfully', async () => {
+      const mockPost = { id: 1, title: 'Post 1' };
+      Post.getPostById.mockResolvedValue(mockPost);
+      
+      await getPost(mockReq, mockRes);
+      
+      expect(Post.getPostById).toHaveBeenCalledWith('1');
+      expect(mockRes.json).toHaveBeenCalledWith(mockPost);
+    });
+    
+    it('should return 404 if post not found', async () => {
+      Post.getPostById.mockResolvedValue(null);
+      
+      await getPost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Post not found' });
+    });
+    
+    it('should handle errors', async () => {
+      Post.getPostById.mockRejectedValue(new Error('Database error'));
+      
+      await getPost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });
+    });
+  });
+  
+  describe('createPost', () => {
+    it('should create a post successfully with file upload', async () => {
+      const userId = 123;
+      const createdPost = { id: 1, title: 'Test Post' };
+      const postWithDetails = { ...createdPost, author: 'testuser' };
+      
+      Post.getUserIdByUsername.mockResolvedValue(userId);
+      Post.createPost.mockResolvedValue(createdPost);
+      Post.getPostById.mockResolvedValue(postWithDetails);
+      
+      await createPost(mockReq, mockRes);
+      
+      expect(Post.getUserIdByUsername).toHaveBeenCalledWith('testuser');
+      expect(Post.createPost).toHaveBeenCalledWith(
+        userId, 
+        'Test Post', 
+        'Test content', 
+        'test-image.jpg', 
+        ['test', 'mock']
+      );
+      expect(Post.getPostById).toHaveBeenCalledWith(1);
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        success: true,
+        post: postWithDetails
+      });
+    });
+    
+    it('should handle unauthorized users', async () => {
+      mockReq.session.username = null;
+      
+      await createPost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(401);
+      expect(mockRes.send).toHaveBeenCalledWith('Unauthorized');
+    });
+    
+    it('should handle missing title', async () => {
+      mockReq.body.title = '';
+      
+      await createPost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(400);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        success: false,
+        message: 'Title is required.'
+      });
+    });
+    
+    it('should handle file upload errors', async () => {
+      // Force multer to call the error callback
+      mockReq.simulateFileUpload = false;
+      mockReq.simulateMulterError = true;
+      
+      // Mock multer to simulate an error
+      require('../../config/multerConfig').single.mockImplementationOnce(() => (req, res, next) => {
+        if (req.simulateMulterError) {
+          next(new Error('File upload failed'));
+        } else {
+          next();
+        }
+      });
+      
+      await createPost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'File upload failed' });
+    });
+  });
+  
+  describe('updatePost', () => {
+    beforeEach(() => {
+      Profile.getUserByName.mockResolvedValue([{ id: 123 }]);
+      Post.updatePost.mockResolvedValue({ id: 1, title: 'Updated Post' });
+    });
+    
+    it('should update a post successfully', async () => {
+      await updatePost(mockReq, mockRes);
+      
+      expect(Profile.getUserByName).toHaveBeenCalledWith('testuser');
+      expect(Post.updatePost).toHaveBeenCalledWith(
+        '1', 123, 'Test Post', 'Test content', ['test', 'mock']
+      );
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        message: 'Post updated successfully',
+        post: { id: 1, title: 'Updated Post' }
+      });
+    });
+    
+    it('should handle unauthorized users', async () => {
+      mockReq.session.username = null;
+      
+      await updatePost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(401);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Unauthorized' });
+    });
+    
+    it('should handle user not found', async () => {
+      Profile.getUserByName.mockResolvedValue([]);
+      
+      await updatePost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'User not found' });
+    });
+    
+    it('should handle post not found or unauthorized to update', async () => {
+      Post.updatePost.mockResolvedValue(null);
+      
+      await updatePost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        error: 'Post not found or not authorized to update'
+      });
+    });
+    
+    it('should handle errors during update', async () => {
+      Post.updatePost.mockRejectedValue(new Error('Update failed'));
+      
+      await updatePost(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Update failed' });
+    });
+  });
+  
   describe('deletePost', () => {
     it('should delete a post successfully', async () => {
       Post.deletePostById.mockResolvedValue(true);
@@ -173,7 +356,109 @@ describe('Post Controller', () => {
       await deletePost(mockReq, mockRes);
       
       expect(mockRes.status).toHaveBeenCalledWith(500);
-      expect(mockRes.json).toHaveBeenCalledWith(expect.objectContaining({ error: 'Internal Server Error' }));
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });
+    });
+  });
+  
+  describe('uploadPostImage', () => {
+    it('should upload an image successfully', async () => {
+      const mockPost = { id: 1, post_picture: 'old-image.jpg' };
+      Post.getPostById.mockResolvedValue(mockPost);
+      Post.setPostImage.mockResolvedValue(1); // Rows updated
+      
+      await uploadPostImage(mockReq, mockRes);
+      
+      expect(postHelpers.getImagePath).toHaveBeenCalled();
+      expect(postHelpers.deleteImageFile).toHaveBeenCalled();
+      expect(Post.setPostImage).toHaveBeenCalledWith('1', 'test-image.jpg');
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        imageUrl: 'http://localhost:8080/uploads/test-image.jpg'
+      });
+    });
+    
+    it('should handle missing file', async () => {
+      mockReq.simulateFileUpload = false;
+      
+      await uploadPostImage(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(400);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'No file uploaded' });
+    });
+    
+    it('should handle post not found', async () => {
+      Post.setPostImage.mockResolvedValue(0); // No rows updated
+      
+      await uploadPostImage(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Post not found' });
+    });
+    
+    it('should handle errors during upload', async () => {
+      Post.getPostById.mockRejectedValue(new Error('Database error'));
+      
+      await uploadPostImage(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });
+    });
+  });
+  
+  describe('deletePostImage', () => {
+    it('should delete an image successfully', async () => {
+      const mockPost = { id: 1, post_picture: 'image.jpg' };
+      Post.getPostById.mockResolvedValue(mockPost);
+      Post.setPostImage.mockResolvedValue(1); // Rows updated
+      
+      await deletePostImage(mockReq, mockRes);
+      
+      expect(postHelpers.getImagePath).toHaveBeenCalledWith('image.jpg', expect.anything());
+      expect(postHelpers.deleteImageFile).toHaveBeenCalled();
+      expect(Post.setPostImage).toHaveBeenCalledWith('1', null);
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith({ message: 'Image deleted successfully' });
+    });
+    
+    it('should handle post or image not found', async () => {
+      // Case 1: Post not found
+      Post.getPostById.mockResolvedValue(null);
+      
+      await deletePostImage(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Image not found' });
+      
+      // Case 2: Post exists but has no image
+      jest.clearAllMocks();
+      mockRes.status.mockReturnThis(); // Reset the mock
+      
+      Post.getPostById.mockResolvedValue({ id: 1, post_picture: null });
+      
+      await deletePostImage(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Image not found' });
+    });
+    
+    it('should handle post not found during image deletion', async () => {
+      const mockPost = { id: 1, post_picture: 'image.jpg' };
+      Post.getPostById.mockResolvedValue(mockPost);
+      Post.setPostImage.mockResolvedValue(0); // No rows updated
+      
+      await deletePostImage(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Post not found' });
+    });
+    
+    it('should handle errors during image deletion', async () => {
+      Post.getPostById.mockRejectedValue(new Error('Database error'));
+      
+      await deletePostImage(mockReq, mockRes);
+      
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });
     });
   });
   
@@ -201,6 +486,18 @@ describe('Post Controller', () => {
       // Should remove the user's ID from likes
       expect(Post.updateLikes).toHaveBeenCalledWith('1', [456]);
       expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith({ success: true, likesCount: 1 });
+    });
+    
+    it('should handle undefined likes array', async () => {
+      const mockPost = { id: 1 }; // No likes array
+      Post.getPostById.mockResolvedValue(mockPost);
+      Post.updateLikes.mockResolvedValue(true);
+      
+      await toggleLike(mockReq, mockRes);
+      
+      // Should add the user's ID to a new likes array
+      expect(Post.updateLikes).toHaveBeenCalledWith('1', [123]);
       expect(mockRes.json).toHaveBeenCalledWith({ success: true, likesCount: 1 });
     });
     

@@ -1,11 +1,11 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import BlogCard from '../../src/components/BlogCard';
 import axios from '../../src/api/axiosConfig';
 
 // Mock dependencies
 vi.mock('../../src/api/axiosConfig');
+const mockNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate
 }));
@@ -13,9 +13,10 @@ vi.mock('html-react-parser', () => ({
   default: (content) => content,
 }));
 vi.mock('@fortawesome/react-fontawesome', () => ({
-  FontAwesomeIcon: ({ icon }) => {
-    // Use the iconName from the icon object
-    const iconName = icon.iconName || 'unknown';
+  // eslint-disable-next-line react/prop-types
+  FontAwesomeIcon: (props) => {
+    // eslint-disable-next-line react/prop-types
+    const iconName = props.icon?.iconName || 'unknown';
     return <span data-testid={`icon-${iconName}`}></span>;
   },
 }));
@@ -40,12 +41,10 @@ vi.mock('../../src/styles/Blogcard.module.css', () => ({
   }
 }), { virtual: true });
 
-// Declare mockNavigate outside to access it in tests
-const mockNavigate = vi.fn();
-// Mock window.confirm
+// Store original window methods
 const originalConfirm = window.confirm;
-// Mock window.location.reload
 const originalReload = window.location.reload;
+const originalAlert = window.alert;
 
 describe('BlogCard Component', () => {
   const mockBlog = {
@@ -63,17 +62,34 @@ describe('BlogCard Component', () => {
     likes_count: 1,
     tags: ['react'],
   };
+  
+  const mockBlogWithLikesArray = {
+    id: 3,
+    title: 'Blog with likes array',
+    content: 'Test content',
+    likes: [1, 2, 3],
+    tags: ['node'],
+  };
+  
+  const mockBlogWithoutTags = {
+    id: 4,
+    title: 'Blog without tags',
+    content: 'Test content',
+    likes_count: 0,
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
     window.confirm = vi.fn().mockReturnValue(true);
     window.location.reload = vi.fn();
+    window.alert = vi.fn();
     axios.delete.mockResolvedValue({ data: { message: 'Post deleted successfully' } });
   });
   
   afterEach(() => {
     window.confirm = originalConfirm;
     window.location.reload = originalReload;
+    window.alert = originalAlert;
   });
 
   it('renders blog information correctly', () => {
@@ -98,6 +114,22 @@ describe('BlogCard Component', () => {
     
     expect(screen.getByText(/^A+\.\.\.$/)).toBeInTheDocument();
     expect(screen.queryByText('long content that should be truncated')).not.toBeInTheDocument();
+  });
+  
+  it('renders blog with likes array instead of likes_count', () => {
+    render(<BlogCard blog={mockBlogWithLikesArray} />);
+    
+    expect(screen.getByText('3 Likes')).toBeInTheDocument();
+  });
+  
+  it('renders blog without tags', () => {
+    render(<BlogCard blog={mockBlogWithoutTags} />);
+    
+    expect(screen.getByText('Blog without tags')).toBeInTheDocument();
+    expect(screen.getByText('0 Likes')).toBeInTheDocument();
+    
+    // No tags section should be rendered
+    expect(screen.queryByTestId('tagsContainer')).not.toBeInTheDocument();
   });
   
   it('shows singular "Like" text when likes_count is 1', () => {
@@ -139,6 +171,7 @@ describe('BlogCard Component', () => {
     
     await waitFor(() => {
       expect(window.location.reload).toHaveBeenCalled();
+      expect(window.alert).toHaveBeenCalledWith('Post deleted successfully.');
     });
   });
   
@@ -164,9 +197,9 @@ describe('BlogCard Component', () => {
     
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalled();
+      expect(window.alert).toHaveBeenCalledWith('Failed to delete post.');
     });
     
-    expect(window.alert).toBeDefined();
     consoleSpy.mockRestore();
   });
   
@@ -177,5 +210,18 @@ describe('BlogCard Component', () => {
     fireEvent.click(tagButton);
     
     expect(mockNavigate).toHaveBeenCalledWith('/blogs?tag=react');
+  });
+  
+  it('stops event propagation when clicking a tag', () => {
+    render(<BlogCard blog={mockBlog} />);
+    
+    const mockStopPropagation = vi.fn();
+    const tagButton = screen.getByText('react');
+    
+    fireEvent.click(tagButton, {
+      stopPropagation: mockStopPropagation,
+    });
+    
+    expect(mockStopPropagation).toHaveBeenCalled();
   });
 }); 

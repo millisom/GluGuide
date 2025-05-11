@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import PostTags from '../../src/components/PostTags';
@@ -126,5 +125,67 @@ describe('PostTags Component', () => {
     expect(almostAllSelectedProps.setSelectedTags).toHaveBeenCalledWith(
       ['react', 'javascript', 'node']
     );
+  });
+  
+  it('correctly handles undefined tags array', () => {
+    const propsWithUndefinedTags = {
+      ...mockProps,
+      tags: undefined,
+      selectedTags: []
+    };
+    
+    const { container } = render(<PostTags {...propsWithUndefinedTags} />);
+    
+    // Should render the container but have no tag buttons
+    expect(container.querySelector('.tagsContainer')).toBeInTheDocument();
+    expect(container.querySelectorAll('button').length).toBe(0);
+  });
+  
+  it('correctly handles non-array tags input', () => {
+    // @ts-ignore Intentionally passing wrong type for testing
+    const propsWithInvalidTags = {
+      ...mockProps,
+      tags: 'not-an-array',
+      selectedTags: []
+    };
+    
+    const { container } = render(<PostTags {...propsWithInvalidTags} />);
+    
+    // Should render the container but have no tag buttons
+    expect(container.querySelector('.tagsContainer')).toBeInTheDocument();
+    expect(container.querySelectorAll('button').length).toBe(0);
+  });
+  
+  it('correctly handles undefined selectedTags array', () => {
+    const propsWithUndefinedSelected = {
+      ...mockProps,
+      selectedTags: undefined
+    };
+    
+    const { container } = render(<PostTags {...propsWithUndefinedSelected} />);
+    
+    // All tag buttons should render without the selected class
+    const tagButtons = container.querySelectorAll('button');
+    expect(tagButtons.length).toBe(3);
+    
+    Array.from(tagButtons).forEach(button => {
+      expect(button.className).not.toContain('selectedTagInCard');
+    });
+  });
+  
+  it('uses correct CSS classes from the module', () => {
+    const { container } = render(<PostTags {...mockProps} />);
+    
+    // Container should have the tagsContainer class
+    expect(container.firstChild).toHaveClass('tagsContainer');
+    
+    // Buttons should have the tagItem class
+    const buttons = container.querySelectorAll('button');
+    Array.from(buttons).forEach(button => {
+      expect(button).toHaveClass('tagItem');
+    });
+    
+    // Selected button should also have the selectedTagInCard class
+    expect(buttons[0]).toHaveClass('selectedTagInCard');
   });
 }); 

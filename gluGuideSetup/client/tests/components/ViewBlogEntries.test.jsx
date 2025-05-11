@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ViewBlogEntries from '../../src/components/ViewBlogEntries';
@@ -10,7 +9,7 @@ vi.mock('axios');
 // Mock react-router-dom
 vi.mock('react-router-dom', () => {
   // Track current location for testing
-  let currentLocation = { search: '', pathname: '/blogs' };
+  let currentLocation = { search: '?tag=react', pathname: '/blogs' };
   const mockNavigate = vi.fn((path) => {
     if (typeof path === 'string') {
       currentLocation.pathname = path.split('?')[0];
@@ -100,6 +99,9 @@ describe('ViewBlogEntries Component', () => {
     // Mock window confirm
     window.confirm = vi.fn().mockReturnValue(true);
     window.alert = vi.fn();
+    
+    // Clean up any lingering timers
+    vi.clearAllTimers();
   });
 
   it('renders blog entries after successful fetch', async () => {
@@ -115,6 +117,92 @@ describe('ViewBlogEntries Component', () => {
       expect(screen.getByText('First Post')).toBeInTheDocument();
       expect(screen.getByText('Second Post')).toBeInTheDocument();
     });
+  });
+  
+  it('initializes with tag from URL query parameter', async () => {
+    render(<ViewBlogEntries />);
+    
+    // Should initialize with 'react' tag from URL
+    await waitFor(() => {
+      expect(screen.getByTestId('tag-react')).toBeInTheDocument();
+    });
+  });
+  
+  it('handles non-admin user correctly', async () => {
+    // Mock non-admin user
+    axios.get.mockImplementation((url) => {
+      if (url.includes('/status')) {
+        return Promise.resolve({ data: { is_admin: false } });
+      }
+      if (url.includes('/getAllPosts')) {
+        return Promise.resolve({ data: mockPosts });
+      }
+      if (url.includes('/tags')) {
+        return Promise.resolve({ data: ['react', 'javascript', 'css', 'html'] });
+      }
+      return Promise.reject(new Error('Not found'));
+    });
+    
+    render(<ViewBlogEntries />);
+    
+    // Posts should still load for non-admin users
+    await waitFor(() => {
+      expect(screen.getByTestId('post-1')).toBeInTheDocument();
+      expect(screen.getByTestId('post-2')).toBeInTheDocument();
+    });
+  });
+  
+  it('handles error during admin status check', async () => {
+    // Mock error during admin check
+    axios.get.mockImplementation((url) => {
+      if (url.includes('/status')) {
+        return Promise.reject(new Error('Failed to check admin status'));
+      }
+      if (url.includes('/getAllPosts')) {
+        return Promise.resolve({ data: mockPosts });
+      }
+      if (url.includes('/tags')) {
+        return Promise.resolve({ data: ['react', 'javascript', 'css', 'html'] });
+      }
+      return Promise.reject(new Error('Not found'));
+    });
+    
+    render(<ViewBlogEntries />);
+    
+    // Posts should still load even if admin check fails
+    await waitFor(() => {
+      expect(screen.getByTestId('post-1')).toBeInTheDocument();
+      expect(screen.getByTestId('post-2')).toBeInTheDocument();
+    });
+  });
+  
+  it('handles error during tags fetch', async () => {
+    // Mock error during tags fetch
+    axios.get.mockImplementation((url) => {
+      if (url.includes('/status')) {
+        return Promise.resolve({ data: { is_admin: true } });
+      }
+      if (url.includes('/getAllPosts')) {
+        return Promise.resolve({ data: mockPosts });
+      }
+      if (url.includes('/tags')) {
+        return Promise.reject(new Error('Failed to fetch tags'));
+      }
+      return Promise.reject(new Error('Not found'));
+    });
+    
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
+    render(<ViewBlogEntries />);
+    
+    // Posts should still load even if tags fetch fails
+    await waitFor(() => {
+      expect(screen.getByTestId('post-1')).toBeInTheDocument();
+      expect(screen.getByTestId('post-2')).toBeInTheDocument();
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+    
+    consoleSpy.mockRestore();
   });
   
   it('handles filtering by search term', async () => {
@@ -145,6 +233,15 @@ describe('ViewBlogEntries Component', () => {
       expect(screen.queryByTestId('post-1')).not.toBeInTheDocument();
       expect(screen.getByTestId('post-2')).toBeInTheDocument();
     });
+    
+    // Search for a title
+    fireEvent.change(searchInput, { target: { value: 'First' } });
+    
+    // Should filter by title too
+    await waitFor(() => {
+      expect(screen.getByTestId('post-1')).toBeInTheDocument();
+      expect(screen.queryByTestId('post-2')).not.toBeInTheDocument();
+    });
   });
   
   it('handles tag filtering', async () => {
@@ -166,6 +263,24 @@ describe('ViewBlogEntries Component', () => {
     
     // Clear all tags
     fireEvent.click(screen.getByTestId('clear-tags'));
+    
+    // Should show all posts again
+    await waitFor(() => {
+      expect(screen.getByTestId('post-1')).toBeInTheDocument();
+      expect(screen.getByTestId('post-2')).toBeInTheDocument();
+    });
+    
+    // Test removing a specific tag
+    // First add a tag
+    fireEvent.click(screen.getByTestId('select-tag'));
+    
+    // Wait for filtering to happen
+    await waitFor(() => {
+      expect(screen.getByTestId('post-2')).toBeInTheDocument();
+    });
+    
+    // Now remove the tag
+    fireEvent.click(screen.getByTestId('remove-tag'));
     
     // Should show all posts again
     await waitFor(() => {
@@ -199,6 +314,53 @@ describe('ViewBlogEntries Component', () => {
       expect(screen.queryByTestId('post-1')).not.toBeInTheDocument();
       expect(screen.getByTestId('post-2')).toBeInTheDocument();
     });
+  });
+  
+  it('handles cancellation of post deletion', async () => {
+    window.confirm.mockReturnValueOnce(false);
+    axios.delete.mockResolvedValue({ data: { message: 'Post deleted successfully' } });
+    
+    render(<ViewBlogEntries />);
+    
+    // Wait for posts to load
+    await waitFor(() => {
+      expect(screen.getByTestId('post-1')).toBeInTheDocument();
+    });
+    
+    // Try to delete a post but cancel
+    fireEvent.click(screen.getByTestId('delete-1'));
+    
+    // Should have prompted for confirmation
+    expect(window.confirm).toHaveBeenCalled();
+    
+    // Should not make delete request
+    expect(axios.delete).not.toHaveBeenCalled();
+    
+    // Post should still be displayed
+    expect(screen.getByTestId('post-1')).toBeInTheDocument();
+  });
+  
+  it('handles error during post deletion', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    axios.delete.mockRejectedValueOnce(new Error('Failed to delete post'));
+    
+    render(<ViewBlogEntries />);
+    
+    // Wait for posts to load
+    await waitFor(() => {
+      expect(screen.getByTestId('post-1')).toBeInTheDocument();
+    });
+    
+    // Delete a post
+    fireEvent.click(screen.getByTestId('delete-1'));
+    
+    // Should log error and show error message
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalled();
+      expect(window.alert).toHaveBeenCalledWith('Failed to delete post.');
+    });
+    
+    consoleSpy.mockRestore();
   });
   
   it('handles error when fetching posts', async () => {

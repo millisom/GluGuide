@@ -1,6 +1,5 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import AppLayout from '../../../src/components/layout/AppLayout';
 
 // Mock the Navbar and Footer components
@@ -20,9 +19,32 @@ vi.mock('../../../src/components/layout/AppLayout.module.css', () => ({
   }
 }), { virtual: true });
 
+// Simple mock component to test Suspense behavior
+const createAsyncComponent = () => {
+  let resolve;
+  const promise = new Promise(r => { resolve = r; });
+  
+  const AsyncComponent = () => {
+    throw promise;
+  };
+  
+  return {
+    AsyncComponent,
+    resolve: () => {
+      resolve();
+      return promise;
+    }
+  };
+};
+
 describe('AppLayout Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, 'error').mockImplementation(() => { });
+  });
+  
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
   
   it('renders correctly with children', () => {
@@ -42,29 +64,21 @@ describe('AppLayout Component', () => {
   });
 
   it('renders loading component when Suspense is triggered', async () => {
-    // Create a component that will trigger Suspense
-    const LazyComponent = () => {
-      throw Promise.resolve(); // This will trigger Suspense
-      // eslint-disable-next-line no-unreachable
-      return null;
-    };
+    const { AsyncComponent, resolve } = createAsyncComponent();
     
-    // Suppress the React act warning that occurs with Suspense
-    const originalError = console.error;
-    console.error = vi.fn();
+    render(
+      <AppLayout>
+        <AsyncComponent />
+      </AppLayout>
+    );
     
-    try {
-      render(
-        <AppLayout>
-          <LazyComponent />
-        </AppLayout>
-      );
-      
-      // The loading spinner should be visible
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
-    } finally {
-      console.error = originalError;
-    }
+    // The loading spinner should be visible
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    
+    // Resolve the suspended component
+    await act(async () => {
+      await resolve();
+    });
   });
   
   it('renders correctly without children', () => {
@@ -81,10 +95,10 @@ describe('AppLayout Component', () => {
   });
   
   it('maintains proper structure with flex layout', () => {
-    const { container } = render(<AppLayout />);
+    render(<AppLayout />);
     
     // Get the outer div which should have display: flex
-    const outerDiv = container.firstChild;
+    const outerDiv = screen.getByRole('main').parentElement;
     expect(outerDiv).toHaveStyle('display: flex');
     expect(outerDiv).toHaveStyle('flex-direction: column');
     expect(outerDiv).toHaveStyle('min-height: 100vh');
@@ -119,7 +133,7 @@ describe('AppLayout Component', () => {
   });
   
   it('wraps children in Suspense for lazy loading', () => {
-    const { container } = render(
+    render(
       <AppLayout>
         <div>Test Content</div>
       </AppLayout>
@@ -132,5 +146,57 @@ describe('AppLayout Component', () => {
     expect(mainElement.children.length).toBe(1); // Suspense
     expect(mainElement.children[0].children.length).toBe(1); // div
     expect(mainElement.children[0].children[0].textContent).toBe('Test Content');
+  });
+  
+  it('handles multiple children correctly', () => {
+    render(
+      <AppLayout>
+        <div data-testid="child-1">Child 1</div>
+        <div data-testid="child-2">Child 2</div>
+        <div data-testid="child-3">Child 3</div>
+      </AppLayout>
+    );
+    
+    // All children should be rendered
+    expect(screen.getByTestId('child-1')).toBeInTheDocument();
+    expect(screen.getByTestId('child-2')).toBeInTheDocument();
+    expect(screen.getByTestId('child-3')).toBeInTheDocument();
+  });
+  
+  it('shows loading component only when children are suspended', () => {
+    const { AsyncComponent } = createAsyncComponent();
+    
+    render(
+      <AppLayout>
+        <div>Regular content</div>
+        <AsyncComponent />
+      </AppLayout>
+    );
+    
+    // Loading spinner should be visible while AsyncComponent is suspended
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    
+    // But regular children should not be visible yet
+    expect(screen.queryByText('Regular content')).not.toBeInTheDocument();
+  });
+  
+  it('handles nested Suspense correctly', async () => {
+    const { AsyncComponent, resolve } = createAsyncComponent();
+    
+    render(
+      <AppLayout>
+        <div>
+          <AsyncComponent />
+        </div>
+      </AppLayout>
+    );
+    
+    // Loading spinner should be visible
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    
+    // Resolve the suspended component
+    await act(async () => {
+      await resolve();
+    });
   });
 }); 

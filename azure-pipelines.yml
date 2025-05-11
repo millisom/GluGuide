@@ -31,11 +31,8 @@ stages:
         replaceExistingArchive: true
       displayName: 'Archive Backend Files'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Build.ArtifactStagingDirectory)/backend.zip'
-        artifactName: 'drop'
-      displayName: 'Publish Artifact'
+    - publish: '$(Build.ArtifactStagingDirectory)/backend.zip'
+      artifact: 'drop'
 
 - stage: Deploy
   displayName: 'Deploy Stage'

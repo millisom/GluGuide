@@ -40,11 +40,11 @@ jobs:
         working-directory: gluGuideSetup/server
 
       - name: Install Server Testing Dependencies
-        run: npm install -D argon2 express-session connect-pg-simple
+        run: npm install -D argon2 express-session connect-pg-simple jest-lcov-reporter
         working-directory: gluGuideSetup/server
 
-      - name: Run Server Tests
-        run: npx jest --passWithNoTests
+      - name: Run Server Tests with Coverage
+        run: npx jest --passWithNoTests --coverage
         working-directory: gluGuideSetup/server
 
       - name: Install Client Dependencies
@@ -59,13 +59,13 @@ jobs:
         run: |
           mkdir -p src/pages
           touch src/pages/signup.css
-        working-directory: gluGuideSetup/client        
+        working-directory: gluGuideSetup/client
         
       - name: Run Client Tests with Coverage
-        run: npx vitest run --coverage --mode=production --testNamePattern="PostCard Component|AppLayout Component|Login Component|admin|auth|basic"
+        run: npx vitest run --coverage --mode=production --testNamePattern="App Component|PostCard Component|AppLayout Component|Login Component|ViewBlogEntries Component|BlogCard Component|Content Routes Module|Health Routes Module|AppRoutes Component|admin|auth|basic"
         working-directory: gluGuideSetup/client
 
-      - name: Analyze with SonarCloudz
+      - name: Analyze with SonarCloud
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
           args: >

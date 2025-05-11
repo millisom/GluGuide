@@ -1,8 +1,3 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 # Node.js CI/CD Pipeline for Azure Deployment
 
 trigger:
@@ -23,22 +18,24 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
+        cd server
         npm install
-        npm run build
-      displayName: 'Install Dependencies & Build'
+      displayName: 'Install Dependencies'
 
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
         replaceExistingArchive: true
-      displayName: 'Archive Build Files'
+      displayName: 'Archive Backend Files'
 
-    - publish: '$(Build.ArtifactStagingDirectory)/app.zip'
-      artifact: 'drop'
-      displayName: 'Publish Build Artifacts'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/backend.zip'
+        artifactName: 'drop'
+      displayName: 'Publish Artifact'
 
 - stage: Deploy
   displayName: 'Deploy Stage'
@@ -62,6 +59,6 @@ stages:
               azureSubscription: '0201cf69-880f-4eac-b07e-f1867d792a18'
               appType: 'webAppLinux'
               WebAppName: 'GluGuideBackend'
-              packageForLinux: '$(Pipeline.Workspace)/drop/app.zip'
+              packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
               DeploymentTypeLinux: 'zipDeploy'
               StartupCommand: 'cd server && npm start'

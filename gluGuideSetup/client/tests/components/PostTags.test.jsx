@@ -1,7 +1,16 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import PostTags from '../../src/components/PostTags';
+
+// Mock CSS module
+vi.mock('../../src/styles/ViewBlogEntries.module.css', () => ({
+  default: {
+    tagsContainer: 'tagsContainer',
+    tagItem: 'tagItem',
+    selectedTagInCard: 'selectedTagInCard'
+  }
+}), { virtual: true });
 
 describe('PostTags Component', () => {
   const mockProps = {
@@ -9,6 +18,10 @@ describe('PostTags Component', () => {
     selectedTags: ['react'],
     setSelectedTags: vi.fn()
   };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('renders all tags properly', () => {
     render(<PostTags {...mockProps} />);
@@ -50,5 +63,68 @@ describe('PostTags Component', () => {
     });
     
     expect(mockStopPropagation).toHaveBeenCalled();
+  });
+  
+  it('applies selected class to tags that are in the selectedTags array', () => {
+    const { container } = render(<PostTags {...mockProps} />);
+    
+    // Find all tag buttons
+    const tagButtons = container.querySelectorAll('button');
+    
+    // First tag should have the selected class
+    expect(tagButtons[0].className).toContain('selectedTagInCard');
+    
+    // Other tags should not have the selected class
+    expect(tagButtons[1].className).not.toContain('selectedTagInCard');
+    expect(tagButtons[2].className).not.toContain('selectedTagInCard');
+  });
+  
+  it('handles empty tags array', () => {
+    const emptyProps = {
+      ...mockProps,
+      tags: []
+    };
+    
+    const { container } = render(<PostTags {...emptyProps} />);
+    
+    // Should render the container but have no tag buttons
+    expect(container.querySelector('.tagsContainer')).toBeInTheDocument();
+    expect(container.querySelectorAll('button').length).toBe(0);
+  });
+  
+  it('handles multiple selected tags', () => {
+    const multipleSelectedProps = {
+      ...mockProps,
+      selectedTags: ['react', 'javascript']
+    };
+    
+    const { container } = render(<PostTags {...multipleSelectedProps} />);
+    
+    // Find all tag buttons
+    const tagButtons = container.querySelectorAll('button');
+    
+    // First two tags should have the selected class
+    expect(tagButtons[0].className).toContain('selectedTagInCard');
+    expect(tagButtons[1].className).toContain('selectedTagInCard');
+    
+    // Third tag should not have the selected class
+    expect(tagButtons[2].className).not.toContain('selectedTagInCard');
+  });
+  
+  it('handles clicking on the last unselected tag', () => {
+    const almostAllSelectedProps = {
+      ...mockProps,
+      selectedTags: ['react', 'javascript']
+    };
+    
+    render(<PostTags {...almostAllSelectedProps} />);
+    
+    // Click on the last unselected tag
+    fireEvent.click(screen.getByText('node'));
+    
+    // Should add the tag to the selected tags
+    expect(almostAllSelectedProps.setSelectedTags).toHaveBeenCalledWith(
+      ['react', 'javascript', 'node']
+    );
   });
 }); 

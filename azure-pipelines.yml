@@ -58,4 +58,4 @@ stages:
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
               DeploymentTypeLinux: 'zipDeploy'
-              StartupCommand: 'cd gluGuideSetup/server && npm start & cd ../client && npm start'
+              StartupCommand: 'cd gluGuideSetup/server && npm start'

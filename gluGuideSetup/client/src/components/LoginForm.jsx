@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api/axiosConfig';
 import styles from '../styles/LoginForm.module.css';
-import '../pages/signup.css';
+import '../styles/signUp.module.css';
 
 const LoginForm = () => {
   const navigate = useNavigate();

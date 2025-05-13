@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # adjust to match your Node version
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
@@ -39,8 +39,8 @@ jobs:
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           app_location: "./gluGuideSetup/client"
           output_location: "dist"
 

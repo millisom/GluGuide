@@ -1,4 +1,4 @@
-import styles from '../styles/Blogcard.module.css';
+import styles from '../styles/BlogCard.module.css';
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

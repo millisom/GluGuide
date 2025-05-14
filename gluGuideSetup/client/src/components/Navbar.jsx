@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/NavBar.module.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
@@ -9,12 +11,17 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch session status to determine if the user is logged in
         const fetchSessionStatus = async () => {
-            const response = await fetch('http://localhost:8080/status', { credentials: 'include' });
-            const data = await response.json();
-            setIsLoggedIn(data.valid);
-            setIsAdmin(data.is_admin);
+            try {
+                const response = await fetch(`${API_BASE_URL}/status`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                setIsLoggedIn(data.valid);
+                setIsAdmin(data.is_admin);
+            } catch (err) {
+                console.error("Error fetching session status:", err);
+            }
         };
 
         fetchSessionStatus();
@@ -22,10 +29,12 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await fetch('http://localhost:8080/logout', { credentials: 'include' });
-            setIsLoggedIn(false); // Update login state
+            await fetch(`${API_BASE_URL}/logout`, {
+                credentials: 'include'
+            });
+            setIsLoggedIn(false);
             alert('You have been logged out successfully.');
-            navigate('/'); // Redirect to homepage
+            navigate('/');
         } catch (error) {
             console.error('Error during logout:', error);
             alert('Failed to log out. Please try again.');
@@ -39,9 +48,7 @@ const Navbar = () => {
                 <Link to="/">Home</Link>
                 {isLoggedIn ? (
                     <>
-                        {isAdmin && (
-                            <Link to="/admin">Admin Dashboard</Link>
-                        )}
+                        {isAdmin && <Link to="/admin">Admin Dashboard</Link>}
                         <Link to="/account">My Account</Link>
                         <Link to="/myBlogs">My Blogs</Link>
                         <Link className={styles.navLink} onClick={handleLogout}>Logout</Link>

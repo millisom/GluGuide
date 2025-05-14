@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from '../api/axiosConfig';
+import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/LoginForm.module.css';
 
 
@@ -23,7 +23,7 @@ const ResetPasswordForm = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post('http://localhost:8080/resetPassword', {
+      const response = await axiosInstance.post('/resetPassword', {
         token,
         newPassword,
       });

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import ReactQuill from 'react-quill'; // only if needed in edit mode
+import axiosInstance from '../api/axiosConfig';
+import ReactQuill from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css';
 import parse from 'html-react-parser';
 import styles from '../styles/Comments.module.css';
@@ -19,8 +19,8 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
 
   const handleLike = async (commentId) => {
     try {
-      await axios.post(
-        `http://localhost:8080/comments/${commentId}/like`,
+      await axiosInstance.post(
+        `/comments/${commentId}/like`,
         {},
         { withCredentials: true }
       );
@@ -32,8 +32,8 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
 
   const handleDislike = async (commentId) => {
     try {
-      await axios.post(
-        `http://localhost:8080/comments/${commentId}/dislike`,
+      await axiosInstance.post(
+        `/comments/${commentId}/dislike`,
         {},
         { withCredentials: true }
       );
@@ -45,12 +45,12 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
 
   const handleDelete = async (commentId) => {
     const url = isAdmin
-      ? `http://localhost:8080/admin/comments/${commentId}`
-      : `http://localhost:8080/comments/${commentId}`;
+      ? `/admin/comments/${commentId}`
+      : `/comments/${commentId}`;
 
     if (window.confirm("Are you sure you want to delete this comment?")) {
       try {
-        await axios.delete(url, { withCredentials: true });
+        await axiosInstance.delete(url, { withCredentials: true });
         refreshComments();
       } catch (error) {
         console.error("Error deleting comment:", error);
@@ -60,11 +60,11 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
 
   const handleEdit = async (commentId) => {
     const url = isAdmin
-      ? `http://localhost:8080/admin/comments/${commentId}`
-      : `http://localhost:8080/comments/${commentId}`;
+      ? `/admin/comments/${commentId}`
+      : `/comments/${commentId}`;
 
     try {
-      await axios.put(url, { content: newContent }, { withCredentials: true });
+      await axiosInstance.put(url, { content: newContent }, { withCredentials: true });
       setEditingCommentId(null);
       setNewContent("");
       refreshComments();

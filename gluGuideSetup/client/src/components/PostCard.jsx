@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import PostTags from './PostTags';
 import styles from '../styles/ViewBlogEntries.module.css';
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 
 const PostCard = ({ 
   post, 
@@ -20,12 +22,13 @@ const PostCard = ({
         {post.post_picture && (
           <div className={styles.postImage}>
             <img
-              src={`http://localhost:8080/uploads/${post.post_picture}`}
+              src={`${API_BASE_URL}/uploads/${post.post_picture}`}
               alt={post.title}
               loading='lazy'
             />
           </div>
         )}
+
         <h4 className={styles.postTitle}>{post.title}</h4>
         <div className={styles.postDetails}>
           <p className={styles.postInfo}>Author: {post.username}</p>

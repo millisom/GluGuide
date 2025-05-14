@@ -1,4 +1,6 @@
 const pool = require('../config/db');
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8080';
+
 
 // function to find or create tags
 async function findOrCreateTags(tagNames, dbClient) {
@@ -293,7 +295,7 @@ const Post = {
       // Transform profile_picture into a public URL if it exists
       if (user.profile_picture) {
         const filename = user.profile_picture.split('\\').pop(); // Extract the filename from the local path
-        user.profile_picture = `http://localhost:8080/uploads/${filename}`; // Create the public URL
+        user.profile_picture = `${BASE_URL}/uploads/${filename}`;// Create the public URL
       }
   
       // Fetch posts created by the user

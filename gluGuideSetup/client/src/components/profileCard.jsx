@@ -3,7 +3,7 @@ import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import axios from '../api/axiosConfig';
+import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/ProfileCard.module.css';
 import ReactQuill from 'react-quill';
 
@@ -21,7 +21,7 @@ const ProfileCard = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/status');
+        const res = await axiosInstance.get('/status');
         if (res.data.valid) {
           setUser(res.data.username);
         } else {
@@ -37,7 +37,7 @@ const ProfileCard = () => {
 
     const fetchBio = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/bio');
+        const res = await axiosInstance.get('/bio');
         setBio(res.data.profile_bio);
       } catch (err) {
         console.error('Error fetching bio:', err);
@@ -47,7 +47,7 @@ const ProfileCard = () => {
 
     const fetchDp = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/dp');
+        const res = await axiosInstance.get('/dp');
         setDpUrl(res.data.url || 'https://via.placeholder.com/150');
       } catch (err) {
         if (err.response && err.response.status === 404) {
@@ -66,7 +66,7 @@ const ProfileCard = () => {
 
   const handleSaveBio = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/setBio', { profile_bio: bio });
+      const response = await axiosInstance.post('/setBio', { profile_bio: bio });
 
       if (response.status === 200) {
         setIsEditingBio(false);
@@ -91,7 +91,7 @@ const ProfileCard = () => {
     formData.append('dp', selectedDpFile);
 
     try {
-      const response = await axios.post('http://localhost:8080/setDp', formData, {
+      const response = await axiosInstance.post('/setDp', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -111,7 +111,7 @@ const ProfileCard = () => {
 
   const handleDeleteDp = async () => {
     try {
-      const response = await axios.delete('http://localhost:8080/deleteDp');
+      const response = await axiosInstance.delete('/deleteDp');
       if (response.status === 200) {
         setDpUrl('');
       } else {
@@ -128,7 +128,7 @@ const ProfileCard = () => {
     const confirmDelete = prompt('Are you sure you want to delete your account?');
     if (!confirmDelete) return;
     try {
-      const response = await axios.post('http://localhost:8080/deleteAccount', { confirmDelete });
+      const response = await axiosInstance.post('/deleteAccount', { confirmDelete });
 
       if (response.status === 200) {
         alert('Account deleted successfully.');

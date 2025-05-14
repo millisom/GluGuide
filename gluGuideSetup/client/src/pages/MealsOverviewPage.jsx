@@ -1,6 +1,6 @@
 import React from 'react';
 import MealsCards from '../components/MealsCards'; // adjust path if needed
-import styles from './pages.module.css';
+import styles from '../styles/pages.module.css';
 
 const MealsOverviewPage = () => {
   return (

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import ReactQuill from 'react-quill'; // Import Quill
 import 'react-quill/dist/quill.snow.css'; // Import Quill's CSS
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ const CreatePost = () => {
     setSuccessMessage('');
 
     try {
-      const response = await axios.post('http://localhost:8080/createPost', formData, {
+      const response = await axiosInstance.post('/createPost', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

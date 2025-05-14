@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import parse from 'html-react-parser';
 import CommentsSection from './CommentsSection';
 import styles from '../styles/SingleBlog.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const ViewPost = () => {
   const { id } = useParams(); // Extract post ID from the URL
@@ -18,7 +20,7 @@ const ViewPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
+        const response = await axiosInstance.get(`/getUserPost/${id}`, {
           withCredentials: true,
         });
         setPost(response.data || {});
@@ -37,8 +39,8 @@ const ViewPost = () => {
 
   const handleLike = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/toggleLike/${id}`,
+      const response = await axiosInstance.post(
+        `/toggleLike/${id}`,
         {},
         { withCredentials: true }
       );
@@ -101,18 +103,18 @@ const ViewPost = () => {
             </div>
         )}
 
-        <div className={styles.postContainerBody}>
-          {post.post_picture && (
-            <img
-              src={`http://localhost:8080/uploads/${post.post_picture}`}
-              alt="Blog post"
-              className={styles.image}
-            />
-          )}
-          <div className={styles.postContainerContentBox}>
-            {parse(post.content)}
-          </div>
+      <div className={styles.postContainerBody}>
+        {post.post_picture && (
+          <img
+            src={`${API_BASE_URL}/uploads/${post.post_picture}`}
+            alt="Blog post"
+            className={styles.image}
+          />
+        )}
+        <div className={styles.postContainerContentBox}>
+          {parse(post.content)}
         </div>
+      </div>
         <button onClick={handleLike} className={styles.likeButton}>
           <FontAwesomeIcon icon={faHeart} className={styles.heart} />{' '}
           {post.likes ? post.likes.length : 0} Like

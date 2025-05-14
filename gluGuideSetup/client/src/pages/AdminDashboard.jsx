@@ -10,6 +10,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/Admin.module.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const fetchUsers = () => {
-    fetch('http://localhost:8080/admin/users', { credentials: 'include' })
+    fetch(`${API_BASE_URL}/admin/users`, { credentials: 'include' })
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch users');
         return res.json();
@@ -39,7 +41,7 @@ const AdminDashboard = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      fetch(`http://localhost:8080/admin/user/${id}`, {
+      fetch(`${API_BASE_URL}/admin/user/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       })

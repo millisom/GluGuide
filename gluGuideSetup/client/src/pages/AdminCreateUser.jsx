@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/Admin.module.css';
 
 const AdminCreateUser = () => {
@@ -22,8 +22,8 @@ const AdminCreateUser = () => {
     }
 
     try {
-      const res = await axios.post(
-        'http://localhost:8080/admin/createUser',
+      const res = await axiosInstance.post(
+        '/createUser',
         { username, email, password, termsAccepted, is_admin: isAdmin },
         { withCredentials: true }
       );

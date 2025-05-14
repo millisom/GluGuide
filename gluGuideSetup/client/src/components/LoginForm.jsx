@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from '../api/axiosConfig';
+import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/LoginForm.module.css';
 import '../styles/signUp.module.css';
 
@@ -23,7 +23,7 @@ const LoginForm = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:8080/login', values);
+      const response = await axiosInstance.post('/login', values);
       if (response.data.Login) {
         navigate('/account');
         window.location.reload();

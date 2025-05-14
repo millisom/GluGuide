@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import { useNavigate, useLocation } from 'react-router-dom';
 import TagFilter from './TagFilter';
 import PostCard from './PostCard';
@@ -21,7 +21,7 @@ const ViewBlogEntries = () => {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/status', { withCredentials: true });
+        const res = await axiosInstance.get('/status', { withCredentials: true });
         setIsAdmin(res.data.is_admin);
       } catch (error) {
         setIsAdmin(false);
@@ -34,7 +34,7 @@ const ViewBlogEntries = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/getAllPosts', {
+        const response = await axiosInstance.get('/getAllPosts', {
           withCredentials: true,
         });
 
@@ -60,7 +60,7 @@ const ViewBlogEntries = () => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/tags', {
+        const response = await axiosInstance.get('/tags', {
           withCredentials: true,
         });
         setAvailableTags(response.data || []);
@@ -112,7 +112,7 @@ const ViewBlogEntries = () => {
   const handleAdminDelete = async (postId) => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        await axios.delete(`http://localhost:8080/admin/posts/${postId}`, {
+        await axiosInstance.delete(`/admin/posts/${postId}`, {
           withCredentials: true,
         });
         alert('Post deleted successfully!');

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import styles from '../styles/GlucoseLog.module.css';
 
@@ -20,7 +20,7 @@ const GlucoseLog = () => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/currentUser', { withCredentials: true });
+        const response = await axiosInstance.get('/currentUser', { withCredentials: true });
         setUserId(response.data.userId);
       } catch (error) {
         setError('Failed to retrieve user information. Please log in.');
@@ -33,7 +33,7 @@ const GlucoseLog = () => {
     const fetchLogs = async () => {
       if (!userId) return;
       try {
-        const response = await axios.get(`http://localhost:8080/glucose/${userId}`, {
+        const response = await axiosInstance.get(`/glucose/${userId}`, {
           params: { filter },
           withCredentials: true,
         });
@@ -55,13 +55,13 @@ const GlucoseLog = () => {
     event.preventDefault();
     try {
       const data = { date, time, glucoseLevel, userId };
-      await axios.post('http://localhost:8080/glucose/log', data, { withCredentials: true });
+      await axiosInstance.post('/glucose/log', data, { withCredentials: true });
       setDate('');
       setTime('');
       setGlucoseLevel('');
       setSuccessMessage('Glucose log added successfully!');
       setError('');
-      const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { params: { filter }, withCredentials: true });
+      const response = await axiosInstance.get(`/glucose/${userId}`, { params: { filter }, withCredentials: true });
       setLogs(response.data);
     } catch (error) {
       setError('Failed to add glucose log. Please try again.');
@@ -81,7 +81,7 @@ const GlucoseLog = () => {
 
   const handleSaveEdit = async (log) => {
     try {
-      await axios.put(`http://localhost:8080/glucose/log/${log.id}`, {
+      await axiosInstance.put(`/glucose/log/${log.id}`, {
         date: log.date,
         time: log.time,
         glucoseLevel: editedGlucoseLevel,
@@ -90,7 +90,7 @@ const GlucoseLog = () => {
       setEditedGlucoseLevel('');
       setSuccessMessage('Glucose log updated successfully!');
       setError('');
-      const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { params: { filter }, withCredentials: true });
+      const response = await axiosInstance.get(`/glucose/${userId}`, { params: { filter }, withCredentials: true });
       setLogs(response.data);
     } catch (error) {
       setError('Failed to update glucose log. Please try again.');
@@ -101,10 +101,10 @@ const GlucoseLog = () => {
   const handleDeleteLog = async (logId) => {
     if (!window.confirm('Are you sure you want to delete this glucose log?')) return;
     try {
-      await axios.delete(`http://localhost:8080/glucose/log/${logId}`, { withCredentials: true });
+      await axiosInstance.delete(`/glucose/log/${logId}`, { withCredentials: true });
       setSuccessMessage('Glucose log deleted successfully!');
       setError('');
-      const response = await axios.get(`http://localhost:8080/glucose/${userId}`, { params: { filter }, withCredentials: true });
+      const response = await axiosInstance.get(`/glucose/${userId}`, { params: { filter }, withCredentials: true });
       setLogs(response.data);
     } catch (error) {
       setError('Failed to delete glucose log. Please try again.');

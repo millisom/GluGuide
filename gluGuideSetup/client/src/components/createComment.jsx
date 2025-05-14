@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styles from '../styles/Comments.module.css';
@@ -12,7 +12,7 @@ const CreateComment = ({ postId, onCommentCreated }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Strip HTML tags to check for meaningful text
+
     const plainText = content.replace(/<[^>]+>/g, '').trim();
     if (!plainText) {
       setError("Comment cannot be empty");
@@ -20,8 +20,8 @@ const CreateComment = ({ postId, onCommentCreated }) => {
     }
 
     try {
-      await axios.post(
-        "http://localhost:8080/comments",
+      await axiosInstance.post(
+        "/comments",
         { post_id: postId, content },
         { withCredentials: true }
       );

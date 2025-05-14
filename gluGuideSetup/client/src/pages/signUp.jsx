@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from '../api/axiosConfig';
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/signUp.module.css';
 
@@ -26,7 +26,7 @@ function SignUp() {
         }
 
         try {
-            await axios.post("http://localhost:8080/signUp", {
+            await axiosInstance.post("/signUp", {
                 username,
                 email,
                 password,

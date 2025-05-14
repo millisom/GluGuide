@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from '../api/axiosConfig';
 import CreateComment from "./createComment";
 import CommentsList from "./fetchComments";
 
@@ -10,16 +10,16 @@ const CommentsSection = ({ postId }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/status", { withCredentials: true })
+    axiosInstance
+      .get("/status", { withCredentials: true })
       .then((res) => setIsAdmin(res.data.is_admin))
       .catch(() => setIsAdmin(false));
   }, []);
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/comments/${postId}`,
+      const response = await axiosInstance.get(
+        `/comments/${postId}`,
         {
           withCredentials: true,
         }

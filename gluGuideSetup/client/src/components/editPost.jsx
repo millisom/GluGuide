@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styles from '../styles/EditPost.module.css';
@@ -23,7 +23,7 @@ const EditPost = () => {
       setIsLoading(true);
       setError('');
       try {
-        const response = await axios.get(`http://localhost:8080/getPost/${id}`, {
+        const response = await axiosInstance.get(`/getPost/${id}`, {
           withCredentials: true,
         });
         setTitle(response.data.title);
@@ -31,7 +31,7 @@ const EditPost = () => {
         setTagsInput(Array.isArray(response.data.tags) ? response.data.tags.join(', ') : '');
         setImageUrl(
           response.data.post_picture
-            ? `http://localhost:8080/uploads/${response.data.post_picture}`
+            ? `/uploads/${response.data.post_picture}`
             : ""
         );
       } catch (error) {
@@ -49,8 +49,8 @@ const EditPost = () => {
     setError('');
     try {
       const payload = { title, content, tags: tagsInput };
-      await axios.put(
-        `http://localhost:8080/updatePost/${id}`,
+      await axiosInstance.put(
+        `/updatePost/${id}`,
         payload,
         { withCredentials: true }
       );
@@ -73,7 +73,7 @@ const EditPost = () => {
     formData.append('postImage', image);
   
     try {
-      const response = await axios.post(`http://localhost:8080/uploadPostImage/${id}`, formData, {
+      const response = await axiosInstance.post(`/uploadPostImage/${id}`, formData, {
         withCredentials: true,
       });
       setImageUrl(response.data.imageUrl);
@@ -85,7 +85,7 @@ const EditPost = () => {
 
   const handleDeleteImage = async () => {
     try {
-      await axios.delete(`http://localhost:8080/deletePostImage/${id}`, {
+      await axiosInstance.delete(`/deletePostImage/${id}`, {
         withCredentials: true,
       });
       setImageUrl('');

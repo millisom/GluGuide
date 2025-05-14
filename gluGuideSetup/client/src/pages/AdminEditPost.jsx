@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from '../api/axiosConfig';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import styles from "../styles/EditPost.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faXmark, faSave } from "@fortawesome/free-solid-svg-icons";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 
 const AdminEditPost = () => {
   const { id } = useParams();
@@ -22,15 +25,15 @@ const AdminEditPost = () => {
   useEffect(() => {
     setIsLoading(true);
     setError('');
-    axios
-      .get(`http://localhost:8080/getPost/${id}`, { withCredentials: true })
+    axiosInstance
+      .get(`/getPost/${id}`, { withCredentials: true })
       .then((res) => {
         setTitle(res.data.title);
         setContent(res.data.content);
         setTagsInput(Array.isArray(res.data.tags) ? res.data.tags.join(', ') : '');
         setImageUrl(
           res.data.post_picture
-            ? `http://localhost:8080/uploads/${res.data.post_picture}`
+            ? `${API_BASE_URL}/uploads/${res.data.post_picture}`
             : ""
         );
       })
@@ -48,8 +51,8 @@ const AdminEditPost = () => {
     setError('');
     try {
       const payload = { title, content, tags: tagsInput };
-      await axios.put(
-        `http://localhost:8080/admin/posts/${id}`,
+      await axiosInstance.put(
+        `/admin/posts/${id}`,
         payload,
         { withCredentials: true }
       );
@@ -72,8 +75,8 @@ const AdminEditPost = () => {
     formData.append("postImage", image);
 
     try {
-      const response = await axios.post(
-        `http://localhost:8080/uploadPostImage/${id}`,
+      const response = await axiosInstance.post(
+        `/uploadPostImage/${id}`,
         formData,
         { withCredentials: true }
       );
@@ -86,7 +89,7 @@ const AdminEditPost = () => {
 
   const handleDeleteImage = async () => {
     try {
-      await axios.delete(`http://localhost:8080/deletePostImage/${id}`, {
+      await axiosInstance.delete(`/deletePostImage/${id}`, {
         withCredentials: true,
       });
       setImageUrl("");

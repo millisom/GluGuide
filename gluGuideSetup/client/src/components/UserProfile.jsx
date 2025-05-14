@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import parse from 'html-react-parser'; // Import the parser
 import styles from '../styles/UserProfile.module.css';
 
@@ -14,7 +14,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/profile/${username}`);
+        const response = await axiosInstance.get(`/profile/${username}`);
         setAuthorData(response.data);
         setLoading(false);
       } catch (error) {

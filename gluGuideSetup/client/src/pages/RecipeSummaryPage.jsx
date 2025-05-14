@@ -1,6 +1,6 @@
 import React from "react";
 import RecipesCards from "../components/RecipesCards";
-import styles from './pages.module.css';
+import styles from '../styles/pages.module.css';
 
 
 const SummaryPage = () => {

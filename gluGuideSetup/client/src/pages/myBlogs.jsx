@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import BlogCard from '../components/BlogCard';
-import styles from './pages.module.css';
-import axios from 'axios';
+import styles from '../styles/pages.module.css';
+import axiosInstance from '../api/axiosConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const MyBlogs = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/getUserPost', {
+                const response = await axiosInstance.get('/getUserPost', {
                     withCredentials: true,
                 });
                 setBlogs(response.data);

@@ -4,7 +4,10 @@ import AppRoutes from './routes';
 
 function App() {
 
-  console.log("Backend URL:", import.meta.env.VITE_API_URL);
+  if (import.meta.env.DEV) {
+    console.log("Backend URL:", import.meta.env.VITE_API_URL);
+  }
+  
   return (
     <Router>
       <AppLayout>

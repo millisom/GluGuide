@@ -12,6 +12,9 @@ const setupRoutes = require('./config/routesConfig');
 // Load environment variables
 dotenv.config();
 
+console.log("CORS allowed origins:", corsOptions.origin);
+
+
 // Setup CORS
 app.use(cors(corsOptions));
 

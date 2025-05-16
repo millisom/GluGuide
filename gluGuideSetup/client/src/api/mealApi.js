@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/meal';
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const axiosConfig = {
   withCredentials: true, // 🔐 important for session cookies

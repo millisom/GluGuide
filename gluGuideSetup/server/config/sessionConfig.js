@@ -1,15 +1,20 @@
 const session = require('express-session');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const sessionConfig = (app) => {
   app.use(session({
-    secret: process.env.SESSION_SECRET,
+    name: 'gluguide.sid', // Optional, but helps identify the session
+    secret: process.env.SESSION_SECRET || 'default_secret',
     saveUninitialized: false,
     resave: false,
     cookie: {
-      maxAge: 1000 * 60 * 60,
-      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60, // 1 hour
+      secure: isProduction,  // ✅ HTTPS only in production
+      sameSite: isProduction ? 'none' : 'lax', // ✅ allow cross-site cookies in prod
     },
   }));
 };
 
-module.exports = sessionConfig; 
+module.exports = sessionConfig;

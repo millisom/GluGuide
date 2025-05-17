@@ -3,7 +3,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
 
-app.set('trust proxy', 1);
 
 // Configuration imports
 const corsOptions = require('./config/corsConfig');

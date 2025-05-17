@@ -40,14 +40,17 @@ const authController = {
 
           req.session.username = user.username;
           req.session.userId = user.id;
-
+          
           req.session.save(err => {
             if (err) {
               console.error('Session save error:', err);
               return res.status(500).json({ Message: 'Failed to save session' });
             }
+          
+            console.log("Session saved:", req.session); // ✅ For debugging
             return res.status(200).json({ Login: true });
           });
+          
 
         } else {
           console.log("Password verification failed");

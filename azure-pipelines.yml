@@ -1,7 +1,7 @@
 # Node.js CI/CD Pipeline for Azure Deployment
 
 trigger:
-- main
+- deployment
 
 stages:
 - stage: Build

@@ -23,7 +23,9 @@ const LoginForm = () => {
     setError('');
 
     try {
-      const response = await axiosInstance.post('/login', values);
+      const response = await axiosInstance.post('/login', values, {
+        withCredentials: true,
+      });
       if (response.data.Login) {
         navigate('/account');
         window.location.reload();

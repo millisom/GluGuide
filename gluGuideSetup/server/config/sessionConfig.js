@@ -3,6 +3,7 @@ const session = require('express-session');
 const isProduction = process.env.NODE_ENV === 'production';
 
 const sessionConfig = (app) => {
+  
   if (isProduction) {
     app.set('trust proxy', 1); // Only set this *inside* the function
   }

@@ -22,6 +22,17 @@ stages:
         npm install
       displayName: 'Install Dependencies'
 
+    - script: |
+        cd gluGuideSetup/server
+        npm run test
+      displayName: 'Run Backend Tests'
+
+    - script: |
+        npm install -g newman
+        newman run gluGuideSetup/tests/GluGuide_collection.json
+      displayName: 'Run API Tests with Newman'
+
+
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)'

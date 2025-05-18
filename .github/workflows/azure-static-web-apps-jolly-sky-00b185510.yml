@@ -26,9 +26,31 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+
+      - name: Install frontend dependencies
         run: npm install
         working-directory: ./gluGuideSetup/client
+
+      - name: Run frontend tests
+        run: CI=true npm run test
+        working-directory: ./gluGuideSetup/client
+
+
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: ./gluGuideSetup/server
+
+      - name: Run backend tests
+        run: CI=true npm run test
+        working-directory: ./gluGuideSetup/server
+
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run API tests
+        run: newman run ./gluGuideSetup/tests/GluGuide_collection.json
+
 
       - name: Build the app
         working-directory: ./gluGuideSetup/client

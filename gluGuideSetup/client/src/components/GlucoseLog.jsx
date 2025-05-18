@@ -21,6 +21,7 @@ const GlucoseLog = () => {
     const fetchUserId = async () => {
       try {
         const response = await axiosInstance.get('/currentUser', { withCredentials: true });
+        console.log("✅ userId from /currentUser:", response.data.userId); // <-- Add this
         setUserId(response.data.userId);
       } catch (error) {
         setError('Failed to retrieve user information. Please log in.');
@@ -28,10 +29,17 @@ const GlucoseLog = () => {
     };
     fetchUserId();
   }, []);
+  
 
   useEffect(() => {
     const fetchLogs = async () => {
       if (!userId) return;
+
+      console.log("📡 Fetching glucose logs with:", {
+        userId,
+        filter,
+      });
+
       try {
         const response = await axiosInstance.get(`/glucose/${userId}`, {
           params: { filter },

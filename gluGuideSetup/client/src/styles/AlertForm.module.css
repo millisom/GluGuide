@@ -8,7 +8,7 @@
   background-color: var(--color-text-white);
   border: 8px solid var(--color-primary);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--color-shadow-card-hover);
 }
 
 .alertFormField {
@@ -22,7 +22,7 @@
 .alertFormLabel {
   font-weight: bold;
   font-size: 1rem;
-  color: var(--sds-color-text-default-default);
+  color: var(--color-text-dark);
 }
 
 .alertFormInput {
@@ -47,7 +47,7 @@
   margin-top: 20px;
   border-radius: 8px;
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-text-white);
   font-size: 1rem;
   padding: 12px 24px;
   font-weight: bold;
@@ -57,4 +57,11 @@
 
 .alertFormButton:hover {
   background-color: var(--color-secondary);
+}
+
+.successMessage {
+  color: var(--color-confirm);
+  font-weight: bold;
+  text-align: center;
+  margin-top: 16px;
 }

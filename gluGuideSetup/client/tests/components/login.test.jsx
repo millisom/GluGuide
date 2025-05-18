@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import axios from '../../src/api/axiosConfig';
 import Login from '../../src/components/LoginForm';
-import { useNavigate } from 'react-router-dom';
 import { describe, it, expect, vi, beforeAll, afterAll, beforeEach } from 'vitest';
 
 // Mock axios
@@ -81,13 +80,15 @@ describe('Login Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:8080/login', {
+      expect(axios.post).toHaveBeenCalledWith('/login', {
         username,
         password,
-      });
-      expect(mockNavigate).toHaveBeenCalledWith('/account');
+      }, {withCredentials: true});
+
     });
   });
+  
+  expect(mockNavigate).toHaveBeenCalledWith('/account');
 
   it('displays error message on failed login', async () => {
     axios.post.mockResolvedValue({

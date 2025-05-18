@@ -10,8 +10,11 @@ vi.mock('../../src/components/PostTags', () => ({
 
 // Mock FontAwesomeIcon
 vi.mock('@fortawesome/react-fontawesome', () => ({
-  FontAwesomeIcon: ({ icon }) => <span data-testid={`icon-${icon.iconName}`}></span>
+  FontAwesomeIcon: ({ icon }) => (
+    <span data-testid={`icon-${icon?.iconName || 'unknown'}`}></span>
+  ),
 }));
+
 
 describe('PostCard Component', () => {
   const mockPost = {

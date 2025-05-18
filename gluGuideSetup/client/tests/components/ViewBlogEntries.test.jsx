@@ -7,123 +7,48 @@ import axios from 'axios';
 vi.mock('axios');
 
 // Mock react-router-dom
+const mockNavigate = vi.fn();
 vi.mock('react-router-dom', () => {
-  // Track current location for testing
-  let currentLocation = { search: '?tag=react', pathname: '/blogs' };
-  const mockNavigate = vi.fn((path) => {
-    if (typeof path === 'string') {
-      currentLocation.pathname = path.split('?')[0];
-      currentLocation.search = path.includes('?') ? path.split('?')[1] : '';
-    }
-  });
-  
+  const currentLocation = { search: '?tag=react', pathname: '/blogs' };
   return {
     useNavigate: () => mockNavigate,
     useLocation: () => currentLocation
   };
 });
 
-// Mock child components
+// Mock child components with JSX
 vi.mock('../../src/components/TagFilter', () => ({
   default: function MockTagFilter(props) {
     const { selectedTags, clearAllTags, handleTagMultiSelectChange, handleTagRemove, tagOptions } = props;
-    return {
-      type: 'div',
-      props: {
-        'data-testid': 'tag-filter',
-        children: [
-          ...(selectedTags.map(tag => ({
-            type: 'span',
-            key: tag,
-            props: {
-              'data-testid': `tag-${tag}`,
-              children: tag
-            }
-          }))),
-          {
-            type: 'div',
-            props: {
-              'data-testid': 'tag-options',
-              children: (tagOptions || []).map(option => ({
-                type: 'span',
-                key: option.value,
-                props: {
-                  'data-testid': `option-${option.value}`,
-                  children: option.label
-                }
-              }))
-            }
-          },
-          {
-            type: 'button',
-            props: {
-              'data-testid': 'clear-tags',
-              onClick: clearAllTags,
-              children: 'Clear Tags'
-            }
-          },
-          {
-            type: 'button',
-            props: {
-              'data-testid': 'remove-tag',
-              onClick: () => handleTagRemove(selectedTags[0]),
-              children: 'Remove Tag'
-            }
-          },
-          {
-            type: 'button',
-            props: {
-              'data-testid': 'select-tag',
-              onClick: () => handleTagMultiSelectChange([{ value: 'css', label: 'css' }]),
-              children: 'Select Tag'
-            }
-          }
-        ]
-      }
-    };
+    return (
+      <div data-testid="tag-filter">
+        {selectedTags.map(tag => (
+          <span key={tag} data-testid={`tag-${tag}`}>{tag}</span>
+        ))}
+        <div data-testid="tag-options">
+          {(tagOptions || []).map(option => (
+            <span key={option.value} data-testid={`option-${option.value}`}>{option.label}</span>
+          ))}
+        </div>
+        <button data-testid="clear-tags" onClick={clearAllTags}>Clear Tags</button>
+        <button data-testid="remove-tag" onClick={() => handleTagRemove(selectedTags[0])}>Remove Tag</button>
+        <button data-testid="select-tag" onClick={() => handleTagMultiSelectChange([{ value: 'css', label: 'css' }])}>Select Tag</button>
+      </div>
+    );
   }
 }));
 
 vi.mock('../../src/components/PostCard', () => ({
   default: function MockPostCard(props) {
     const { post, handleViewClick, handleAdminDelete } = props;
-    return {
-      type: 'div',
-      props: {
-        'data-testid': `post-${post.id}`,
-        className: 'post-card',
-        children: [
-          {
-            type: 'h3',
-            props: {
-              children: post.title
-            }
-          },
-          {
-            type: 'p',
-            props: {
-              children: `By: ${post.username}`
-            }
-          },
-          {
-            type: 'button',
-            props: {
-              'data-testid': `view-${post.id}`,
-              onClick: () => handleViewClick(post.id),
-              children: 'View'
-            }
-          },
-          {
-            type: 'button',
-            props: {
-              'data-testid': `delete-${post.id}`,
-              onClick: () => handleAdminDelete(post.id),
-              children: 'Delete'
-            }
-          }
-        ]
-      }
-    };
+    return (
+      <div data-testid={`post-${post.id}`} className="post-card">
+        <h3>{post.title}</h3>
+        <p>By: {post.username}</p>
+        <button data-testid={`view-${post.id}`} onClick={() => handleViewClick(post.id)}>View</button>
+        <button data-testid={`delete-${post.id}`} onClick={() => handleAdminDelete(post.id)}>Delete</button>
+      </div>
+    );
   }
 }));
 

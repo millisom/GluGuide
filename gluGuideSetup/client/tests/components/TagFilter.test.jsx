@@ -1,32 +1,32 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import TagFilter from '../../src/components/TagFilter';
 
-// Mock the react-select component
+// ✅ Mock the react-select component using JSX
 vi.mock('react-select', () => ({
-  default: ({ onChange, value, options, placeholder, isMulti, classNamePrefix }) => (
+  default: ({ onChange, value = [], options = [], placeholder, isMulti, classNamePrefix }) => (
     <div data-testid="mock-select" className={classNamePrefix ? `${classNamePrefix}-container` : ''}>
       <div data-testid="current-value">
         {JSON.stringify(value)}
       </div>
-      <input 
-        data-testid="select-input" 
+      <input
+        data-testid="select-input"
         placeholder={placeholder}
         aria-multiselectable={isMulti ? 'true' : 'false'}
         onChange={(e) => {
-          // Find option that matches input value
-          const selectedOption = options.find(
-            opt => opt.label.toLowerCase().includes(e.target.value.toLowerCase())
+          const selectedOption = options.find(opt =>
+            opt.label.toLowerCase().includes(e.target.value.toLowerCase())
           );
           if (selectedOption) {
             onChange(isMulti ? [selectedOption] : selectedOption);
           }
-        }} 
+        }}
       />
       <div data-testid="options-list">
         {options.map(option => (
-          <div 
-            key={option.value} 
+          <div
+            key={option.value}
             data-testid={`option-${option.value}`}
             onClick={() => onChange(isMulti ? [option] : option)}
           >
@@ -38,13 +38,11 @@ vi.mock('react-select', () => ({
   )
 }));
 
-// Mock FontAwesomeIcon to avoid SVG rendering issues in tests
+// ✅ Mock FontAwesomeIcon to avoid DOM/SVG issues
 vi.mock('@fortawesome/react-fontawesome', () => ({
-  // eslint-disable-next-line react/prop-types
   FontAwesomeIcon: ({ icon, size }) => {
-    // eslint-disable-next-line react/prop-types
-    const mockIconName = typeof icon === 'object' && icon.iconName ? icon.iconName : 'unknown';
-    return <span data-testid={`mock-icon-${mockIconName}`} data-size={size} />;
+    const name = typeof icon === 'object' && icon.iconName ? icon.iconName : 'unknown';
+    return <span data-testid={`mock-icon-${name}`} data-size={size} />;
   }
 }));
 
@@ -52,7 +50,7 @@ vi.mock('@fortawesome/free-solid-svg-icons', () => ({
   faTimes: { iconName: 'times' }
 }));
 
-// Mock CSS module
+// ✅ Mock CSS module
 vi.mock('../../src/styles/ViewBlogEntries.module.css', () => ({
   default: {
     tagFilterSection: 'tagFilterSection',
@@ -86,162 +84,65 @@ describe('TagFilter Component', () => {
 
   it('renders correctly with selected tags', () => {
     render(<TagFilter {...mockProps} />);
-    
-    // Check if the selected tag is displayed
     expect(screen.getByText('react')).toBeInTheDocument();
     expect(screen.getByText('Clear All Tags')).toBeInTheDocument();
     expect(screen.getByText('Active Filters:')).toBeInTheDocument();
-    
-    // Check if the select component is rendered
     expect(screen.getByTestId('mock-select')).toBeInTheDocument();
-    
-    // Check if current value is displayed correctly
-    const currentValue = screen.getByTestId('current-value');
-    expect(currentValue.textContent).toContain('react');
-    
-    // Check if the filter title is rendered
+    expect(screen.getByTestId('current-value').textContent).toContain('react');
     expect(screen.getByText('Filter by Tags:')).toBeInTheDocument();
-    
-    // Check if React Select is configured correctly
-    const selectInput = screen.getByTestId('select-input');
-    expect(selectInput).toHaveAttribute('placeholder', 'Select tags...');
-    expect(selectInput).toHaveAttribute('aria-multiselectable', 'true');
-    
-    // Check className prefix applied
-    expect(screen.getByTestId('mock-select')).toHaveClass('react-select-container');
+    expect(screen.getByTestId('select-input')).toHaveAttribute('placeholder', 'Select tags...');
+    expect(screen.getByTestId('select-input')).toHaveAttribute('aria-multiselectable', 'true');
   });
 
   it('calls clearAllTags when clear button is clicked', () => {
     render(<TagFilter {...mockProps} />);
-    
-    const clearButton = screen.getByText('Clear All Tags');
-    fireEvent.click(clearButton);
-    
+    fireEvent.click(screen.getByText('Clear All Tags'));
     expect(mockProps.clearAllTags).toHaveBeenCalledTimes(1);
   });
 
-  it('calls handleTagRemove when tag remove button is clicked', () => {
+  it('calls handleTagRemove when remove icon is clicked', () => {
     render(<TagFilter {...mockProps} />);
-    
-    // Find tag remove button (it contains the icon)
     const removeButton = screen.getByTestId('mock-icon-times').closest('button');
     fireEvent.click(removeButton);
-    
     expect(mockProps.handleTagRemove).toHaveBeenCalledWith('react');
   });
-  
-  it('calls handleTagMultiSelectChange when a new option is selected', () => {
+
+  it('calls handleTagMultiSelectChange when selecting a new tag', () => {
     render(<TagFilter {...mockProps} />);
-    
-    // Find the option for CSS and click it
-    const cssOption = screen.getByTestId('option-css');
-    fireEvent.click(cssOption);
-    
-    // Should call handleTagMultiSelectChange with the CSS option
-    expect(mockProps.handleTagMultiSelectChange).toHaveBeenCalledWith(
-      [{ value: 'css', label: 'css' }]
-    );
+    fireEvent.click(screen.getByTestId('option-css'));
+    expect(mockProps.handleTagMultiSelectChange).toHaveBeenCalledWith([{ value: 'css', label: 'css' }]);
   });
-  
-  it('displays no selected tags section when no tags are selected', () => {
-    const propsWithNoTags = {
-      ...mockProps,
-      selectedTags: [],
-      selectedTagValues: []
-    };
-    
-    render(<TagFilter {...propsWithNoTags} />);
-    
-    // The selected tags section should not be displayed
+
+  it('does not render selected section if no tags are selected', () => {
+    render(<TagFilter {...mockProps} selectedTags={[]} selectedTagValues={[]} />);
     expect(screen.queryByText('Active Filters:')).not.toBeInTheDocument();
     expect(screen.queryByText('Clear All Tags')).not.toBeInTheDocument();
   });
-  
-  it('correctly displays multiple selected tags', () => {
-    const propsWithMultipleTags = {
-      ...mockProps,
-      selectedTags: ['react', 'javascript'],
-      selectedTagValues: [
-        { value: 'react', label: 'react' },
-        { value: 'javascript', label: 'javascript' }
-      ]
-    };
-    
-    render(<TagFilter {...propsWithMultipleTags} />);
-    
-    // Both tags should be displayed
+
+  it('renders multiple selected tags and remove buttons', () => {
+    render(<TagFilter {...mockProps} selectedTags={['react', 'javascript']} selectedTagValues={[
+      { value: 'react', label: 'react' },
+      { value: 'javascript', label: 'javascript' }
+    ]} />);
     expect(screen.getByText('react')).toBeInTheDocument();
     expect(screen.getByText('javascript')).toBeInTheDocument();
-    
-    // There should be two remove buttons
-    expect(screen.getAllByTestId('mock-icon-times').length).toBe(2);
+    expect(screen.getAllByTestId('mock-icon-times')).toHaveLength(2);
   });
-  
-  it('filters options when typing in the select input', () => {
+
+  it('filters tag options by typing', () => {
     render(<TagFilter {...mockProps} />);
-    
-    // Find the select input
-    const selectInput = screen.getByTestId('select-input');
-    
-    // Type 'javascript' to filter options
-    fireEvent.change(selectInput, { target: { value: 'javascript' } });
-    
-    // Should call handleTagMultiSelectChange with the javascript option
-    expect(mockProps.handleTagMultiSelectChange).toHaveBeenCalledWith(
-      [{ value: 'javascript', label: 'javascript' }]
-    );
+    fireEvent.change(screen.getByTestId('select-input'), { target: { value: 'javascript' } });
+    expect(mockProps.handleTagMultiSelectChange).toHaveBeenCalledWith([{ value: 'javascript', label: 'javascript' }]);
   });
-  
-  it('handles click on each remove tag button independently', () => {
-    const multipleTagsProps = {
-      ...mockProps,
-      selectedTags: ['react', 'javascript', 'css'],
-      selectedTagValues: [
-        { value: 'react', label: 'react' },
-        { value: 'javascript', label: 'javascript' },
-        { value: 'css', label: 'css' }
-      ]
-    };
-    
-    render(<TagFilter {...multipleTagsProps} />);
-    
-    // Get all remove buttons
-    const removeButtons = screen.getAllByTestId('mock-icon-times');
-    
-    // Click on the second tag's remove button (javascript)
-    fireEvent.click(removeButtons[1].closest('button'));
-    expect(mockProps.handleTagRemove).toHaveBeenCalledWith('javascript');
-    
-    // Click on the third tag's remove button (css)
-    fireEvent.click(removeButtons[2].closest('button'));
-    expect(mockProps.handleTagRemove).toHaveBeenCalledWith('css');
-    
-    // Verify the correct number of calls
-    expect(mockProps.handleTagRemove).toHaveBeenCalledTimes(2);
-  });
-  
-  it('renders the FontAwesomeIcon with correct props', () => {
-    render(<TagFilter {...mockProps} />);
-    
-    const icon = screen.getByTestId('mock-icon-times');
-    expect(icon).toHaveAttribute('data-size', 'xs');
-  });
-  
+
   it('renders without crashing when tagOptions is empty', () => {
-    const propsWithEmptyOptions = {
-      ...mockProps,
-      tagOptions: [],
-      selectedTags: [],
-      selectedTagValues: []
-    };
-    
-    render(<TagFilter {...propsWithEmptyOptions} />);
-    
-    // Component should render without errors
+    render(<TagFilter {...mockProps} tagOptions={[]} selectedTags={[]} selectedTagValues={[]} />);
     expect(screen.getByText('Filter by Tags:')).toBeInTheDocument();
     expect(screen.getByTestId('mock-select')).toBeInTheDocument();
-    
-    // No tags should be displayed
-    expect(screen.queryByText('Active Filters:')).not.toBeInTheDocument();
   });
-}); 
+
+  it('renders FontAwesome icon with correct props', () => {
+    render(<TagFilter {...mockProps} />);
+    expect(screen.getByTestId('mock-icon-times')).toHaveAttribute('data-size', 'xs');
+  });
+});

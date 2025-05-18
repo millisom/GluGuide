@@ -19,7 +19,8 @@ The creation of a new alert requires the user to specify parameters such as time
 
 This was our Vision:
 
-![Create Alert Mockup](docs/UseCaseManageAlerts/Generate_Alert_Create_Mockup.png)
+<img src="docs/UseCaseManageAlerts/Generate_Alert_Create_Mockup.png" alt="Create Alert Mockup" width="400">
+
 
 ```gherkin
 Feature: Create Alert
@@ -49,7 +50,7 @@ During editing, the user can modify the content of the alert.
 
 And this was our Vision:
 
-![Edit Alert Mockup](docs/UseCaseManageAlerts/Generate_Alert_Edit_Mockup.png)
+<img src="docs/UseCaseManageAlerts/Generate_Alert_Edit_Mockup.png" alt="Edit Alert Mockup" width="400">
 
 ```gherkin
 Feature: Edit Alert
@@ -80,8 +81,7 @@ Feature: Edit Alert
 
 We want to implement a table below the alert mask that displays all alerts of the logged-in user. There is no user interaction required to view them. That means there is no need for a "List Alert Diagram" here.
 
-Mockup:
-![List Alert Mockup](docs/UseCaseManageAlerts/Generate_Alert_List_Mockup.png)
+<img src="docs/UseCaseManageAlerts/Generate_Alert_List_Mockup.png" alt="List Alert Mockup" width="400">
 
 
 ```gherkin
@@ -107,7 +107,8 @@ The User can delete an alert.
 
 And the Mockup:
 
-![Delete Alert Mockup](docs/UseCaseManageAlerts/Generate_Alert_Delete_Mockup.png)
+<img src="docs/UseCaseManageAlerts/Generate_Alert_Delete_Mockup.png" alt="Delete Alert Mockup" width="400">
+
 
 
 ```gherkin

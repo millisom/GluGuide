@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axiosInstance from '../api/axiosConfig';
 import { Link, useNavigate } from "react-router-dom";
 import styles from '../styles/signUp.module.css';
@@ -14,7 +14,7 @@ function SignUp() {
 
     async function register(e) {
         e.preventDefault();
-
+        
         if (password !== confirmPassword) {
             alert("Passwords do not match");
             return;
@@ -33,6 +33,7 @@ function SignUp() {
                 termsAccepted
             })
             .then(res => {
+
                 if (res.data === "exists") {
                     alert("There is already a user account with this email");
                     setMessage("User already exists");
@@ -97,7 +98,7 @@ function SignUp() {
                 <label className={styles.label}>
                     <input
                         type="checkbox"
-                        name="termsAccepted"
+                        name="termsAccepted"  
                         onChange={(e) => setTermsAccepted(e.target.checked)}
                         style={{ marginRight: '8px' }}
                     />
@@ -106,14 +107,10 @@ function SignUp() {
                 <div className={styles.buttonGroup}>
                     <button type="submit" className={styles.button}>Sign Up</button>
                 </div>
-                <p>
-                    <Link to="/login" className={styles.forgotPassword}>
-                        Already have an Account? Login here
-                    </Link>
-                </p>
+                <p><Link to="/login" className={styles.forgotPassword}>Already have an Account? Login here</Link></p>
             </form>
-
-            {message && (
+            
+             {message && (
                 <div
                     data-testid={message === "Account created successfully" ? "success-message" : "error-message"}
                     style={{ color: message === "Account created successfully" ? "green" : "red" }}

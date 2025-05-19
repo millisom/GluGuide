@@ -1,4 +1,4 @@
-.recipeDetailContainer {
+.mealDetailContainer {
   background-color: var(--color-text-white);
   border-radius: 16px;
   padding: 24px 32px;
@@ -11,25 +11,33 @@
   gap: 24px;
 }
 
-.recipeHeader {
+.mealHeader {
   padding-bottom: 20px;
   border-bottom: 1px solid var(--color-border-highlight);
   margin-bottom: 10px;
-  text-align: center;
 }
 
-.recipeNameTitle {
-  font-size: 2.4rem;
+.mealTypeTitle {
+  font-size: 2.2rem;
   font-weight: 700;
   color: var(--color-primary);
-  margin: 0;
+  margin: 0 0 8px 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 12px;
 }
 
-.recipeSection {
+.mealTimeInfo {
+  font-size: 1rem;
+  color: var(--color-text-grey);
+  line-height: 1.6;
+}
+
+.mealTimeInfo strong {
+  color: var(--color-text-dark);
+}
+
+.mealSection {
   background-color: var(--color-background-table-row-odd);
   padding: 16px 20px;
   border-radius: 8px;
@@ -37,55 +45,20 @@
 }
 
 .sectionTitle {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: var(--color-primary);
   margin-top: 0;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--color-border-highlight);
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
-.ingredientList,
-.instructionList {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-.ingredientList li,
-.instructionList li {
-  font-size: 1rem;
+.notesText {
+  font-size: 0.95rem;
   color: var(--color-text-medium-dark);
-  padding: 10px 0;
-  border-bottom: 1px solid var(--color-background-table-row-hover);
+  white-space: pre-wrap;
   line-height: 1.6;
-}
-
-.ingredientList li:last-child,
-.instructionList li:last-child {
-  border-bottom: none;
-}
-
-.ingredientName {
-  font-weight: 500;
-}
-
-.ingredientQuantity {
-  color: var(--color-text-grey);
-  font-size: 0.9rem;
-}
-
-.instructionList {
-  list-style-type: decimal;
-  padding-left: 20px;
-}
-
-.instructionList li {
-  padding: 10px 0 10px 5px;
 }
 
 .nutritionGrid {
@@ -103,6 +76,31 @@
 .nutritionGrid p strong {
   color: var(--color-text-dark);
   margin-right: 5px;
+}
+
+.itemList {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.itemList li {
+  font-size: 0.95rem;
+  color: var(--color-text-medium-dark);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-background-table-row-hover);
+  line-height: 1.5;
+}
+
+.itemList li:last-child {
+  border-bottom: none;
+}
+
+.recipeName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: 10px;
 }
 
 .deleteButtonContainer {
@@ -130,7 +128,7 @@
 
 .deleteButton:hover {
   background-color: var(--color-error-dark);
-  box-shadow: var(--color-shadow-card-hover);
+  box-shadow: 0 2px 5px var(--color-shadow-card-hover);
 }
 
 .statusMessage {
@@ -160,5 +158,4 @@
   color: var(--color-error-dark);
   background-color: var(--color-error-background-light);
   border: 1px solid var(--color-error);
-}
-  
+} 

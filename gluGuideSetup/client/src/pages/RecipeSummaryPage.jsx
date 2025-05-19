@@ -1,14 +1,21 @@
-import React from "react";
 import RecipesCards from "../components/RecipesCards";
 import styles from '../styles/pages.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMortarPestle } from '@fortawesome/free-solid-svg-icons';
 
 
-const SummaryPage = () => {
+const RecipeSummaryPage = () => {
   return (
-    <div className={styles.myAccount1}>
-        <RecipesCards />
+    <div className={styles.recipesSummaryPageContainer}>
+      <div className={styles.recipesPageHeader}>
+        <h1 className={styles.recipesPageTitle}>
+          <FontAwesomeIcon icon={faMortarPestle} style={{ marginRight: '15px' }} />
+          My Recipe Collection
+        </h1>
+      </div>
+      <RecipesCards />
     </div>
   );
 };
 
-export default SummaryPage;
+export default RecipeSummaryPage;

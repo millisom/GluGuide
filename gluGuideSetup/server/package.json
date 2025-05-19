@@ -5,7 +5,9 @@
   "scripts": {
     "test": "jest",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "db:setup-local": "echo 'Make sure your local PostgreSQL server is running. Then, from the 'server' directory, connect to psql (e.g., psql -U postgres) and run: CREATE DATABASE gluguide_local_dev; Then, exit psql and run: psql -U postgres -d gluguide_local_dev -f db_scripts/initial_data.sql. Adjust username if needed.'",
+    "db:dump-for-sharing": "echo 'Ensure your .env file is configured for the Aiven DB. Then run: pg_dump -U YOUR_AIVEN_USER -h YOUR_AIVEN_HOST -p YOUR_AIVEN_PORT -d YOUR_AIVEN_DB --no-owner --no-privileges --format=p --file=db_scripts/initial_data.sql. Replace placeholders.'"
   },
   "keywords": [],
   "author": "",

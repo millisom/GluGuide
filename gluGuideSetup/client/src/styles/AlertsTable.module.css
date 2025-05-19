@@ -1,6 +1,5 @@
 .alertsTableContainer {
     margin: 0 auto;
-    max-width: 600px;
     padding: 20px;
     text-align: center;
   }
@@ -9,38 +8,38 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
     font-weight: bold;
-    color: var(--sds-color-text-default-default);
+    color: var(--color-primary);
   }
   
   .alertsTable {
     width: 100%;
     border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--color-shadow-card-hover);
   }
   
   .alertsTable th,
   .alertsTable td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-border-light);
     padding: 12px;
     text-align: center;
   }
   
   .alertsTable th {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
     font-weight: bold;
   }
   
   .alertsTable tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: var(--color-background-table-row-odd);
   }
   
   .alertsTable tr:hover {
-    background-color: #f1f1f1;
+    background-color: var(--color-background-table-row-hover);
   }
   
   .errorMessage {
-    color: red;
+    color: var(--color-error);
     font-size: 1rem;
     margin-top: 20px;
   }
@@ -63,7 +62,7 @@
   /* Edit button */
   .editButton {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
   }
   
   .editButton:hover {
@@ -73,7 +72,7 @@
   /* Save button (reusing primary if desired) */
   .saveButton {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
   }
   
   .saveButton:hover {
@@ -82,21 +81,21 @@
   
   /* Cancel button */
   .cancelButton {
-    background-color: #888888;
-    color: white;
+    background-color: var(--color-button-secondary-background-hover);
+    color: var(--color-text-white);
   }
   
   .cancelButton:hover {
-    background-color: #666666;
+    background-color: var(--color-text-grey);
   }
   
   /* Delete button */
   .deleteButton {
-    background-color: #d9534f;  /* Bootstrap red-ish for example */
-    color: white;
+    background-color: var(--color-error);
+    color: var(--color-text-white);
   }
   
   .deleteButton:hover {
-    background-color: #c9302c;
+    background-color: var(--color-error-dark);
   }
   

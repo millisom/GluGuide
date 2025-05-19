@@ -1,179 +1,386 @@
-.bioContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-width: 500px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  flex-wrap: nowrap;
-
+.profileCardContainer {
+    background-color: var(--color-text-white);
+    border-radius: 12px;
+    box-shadow: var(--color-shadow-card);
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.username {
-  font-size: 40px;
-  font-weight: 700;
-  color: var(--color-primary);
-  margin: 0;
-  padding: 0;
-
-
+.profileHeaderBanner {
+    background-color: var(--color-primary);
+    height: 70px;
+    width: 100%;
 }
 
-.cardBio {
-  background-color: var(--color-primary);
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-  border: 1px solid var(--color-primary);
-  border-radius: 8px;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 10px;
+.profileGrid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    width: 100%;
 }
 
-.cardBodyBio {
-  background-color: var(--color-background);
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  flex-basis: 0;
-  width: 100%;
-  align-items: center;
-  padding: 16px;
-  gap: 16px;
+.profileSidebar {
+    padding: 32px 24px;
+    background-color: var(--color-background-table-row-odd);
+    border-right: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
-.bio {
-  background-color: var(--color-text-white);
-  border-radius: 8px;
-  border: 2px solid var(--color-primary);
-  margin: 2px;
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex: 0 1 auto;
-  min-width: 100px;
-  box-sizing: border-box;
+.dpWrapper {
+    position: relative;
+    margin-top: -50px;
 }
 
-.icon {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  transition: background-color 0.3s ease;
+.profileDp {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--color-text-white);
+    box-shadow: var(--color-shadow-card-hover);
+    background-color: var(--color-background-disabled);
 }
 
-.dpContainer {
-  position: relative;
-  display: inline-block;
-  width: auto;
-  height: auto;
-  overflow: visible; /* Ensure no size restriction */
-  margin: 0;
-  padding: 0;
-  align-items: center;
-  display: flex;
+.dpEditButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: var(--color-primary);
+    color: var(--color-text-white);
+    border: 2px solid var(--color-text-white);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: var(--color-shadow-card-hover);
+}
+
+.dpEditButton:hover {
+    background-color: var(--color-secondary);
+    transform: scale(1.1);
+}
+
+.dpEditControls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background-color: var(--color-background-table-row-hover);
+    border-radius: 8px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.dpFileInput {
+    font-size: 0.9rem;
+    padding: 8px;
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    width: 100%;
+}
+
+.dpEditActions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.actionButtonSmall {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.saveButtonSmall {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+}
+.saveButtonSmall:hover {
+    background-color: var(--color-secondary);
+    box-shadow: var(--color-shadow-card-hover);
+}
+
+.cancelButtonSmall {
+    background-color: var(--color-background-table-row-hover);
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border-light);
+}
+.cancelButtonSmall:hover {
+    background-color: var(--color-background-disabled);
+}
+
+.deleteButtonSmall {
+    background-color: var(--color-error-background-light);
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+}
+.deleteButtonSmall:hover {
+    background-color: var(--color-error-background-light);
 }
 
 
-.bioImg {
-  height: 20rem; /* Define size */
-  width: 20rem;
-  border-radius: 50%; /* Make it round */
-  object-fit: cover; /* Ensure it covers the space */
-  border: 2px solid var(--color-primary); /* Optional for a styled border */
-  margin: 0;
+.profileUsername {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
-
-@media (max-width: 800px) {
-  .bioImg {
-    height: 50px;
-    width: 50px;
-  }
+.profileActions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-@media (min-width: 801px) {
-  .bioImg {
-    height: 100px;
-    width: 100px;
-  }
+.actionButton {
+    background-color: var(--color-text-white);
+    border: 1px solid var(--color-border-light);
+    color: var(--color-text-dark);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
-.icon:hover {
-  background-color: var(--color-secondary);
+.actionButton:hover {
+    background-color: var(--color-secondary-light);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: var(--color-shadow-light);
 }
 
-.icon2 {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 1.3rem;
-  height: 1.3rem;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.icon2:hover {
-  background-color: var(--color-secondary);
+.buttonIcon {
+    font-size: 1.1em;
+    width: 20px;
+    text-align: center;
 }
 
-.squareButton {
-  border-radius: 8px;
-  background-color: var(--color-primary);
+.dangerZone {
+    margin-top: auto;
+    padding-top: 20px;
+    width: 100%;
+    border-top: 1px solid var(--color-border-highlight);
+}
+
+.deleteAccountButton {
+    composes: actionButtonSmall;
+    color: var(--color-text-white);
+    background-color: var(--color-error);
+}
+
+.deleteAccountButton:hover {
+    background-color: var(--color-error-dark);
+    color: var(--color-text-white);
+}
+
+.profileContent {
+    padding: 32px;
+    background-color: var(--color-text-white);
+}
+
+.bioSectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-border-highlight);
+    padding-bottom: 10px;
+}
+
+.bioTitle {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.bioEditIcon {
+    background: transparent;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.bioEditIcon:hover {
+    background-color: var(--color-secondary-light);
+}
+
+.bioDisplay {
+    color: var(--color-text-grey);
+    line-height: 1.7;
+    font-size: 1rem;
+    min-height: 150px;
+}
+
+.bioDisplay p {
+    margin-bottom: 1em;
+}
+.bioDisplay p:last-child {
+    margin-bottom: 0;
+}
+
+.bioEditSection {
+    margin-top: 10px;
+}
+
+.quillEditor .ql-toolbar.ql-snow {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-color: var(--color-border-light);
+}
+
+.quillEditor .ql-container.ql-snow {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-color: var(--color-border-light);
+    min-height: 200px;
+    font-size: 1rem;
+}
+
+.quillEditor .ql-editor {
+    padding: 12px;
+}
+
+.bioEditActions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.saveButton {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+}
+.saveButton:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-text-white);
+}
+
+.cancelButton {
+  background-color: var(--color-error);
   color: var(--color-text-white);
-  font-weight: bold;
-  padding: 12px 16px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+}
+.cancelButton:hover {
+  background-color: var(--color-error-dark);
+  color: var(--color-text-white);
 }
 
-.squareButton:hover {
-  background-color: var(--color-secondary);
+.loadingState {
+    font-size: 1.2rem;
+    color: var(--color-text-grey);
+    text-align: center;
+    padding: 50px;
 }
 
-.buttonGroup {
-  display: flex;
-  justify-content: center; /* Centers the buttons horizontally */
-  gap: 10px; /* Adds space between the buttons */
-  margin-top: 10px; /* Adds some spacing above the button group */
+.errorMessage {
+    background-color: var(--color-error-background-light);
+    color: var(--color-error);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--color-error);
+    margin: 0 32px 20px 32px;
+    text-align: center;
 }
 
-.bioContainer2 {
-  position: relative;
-  display: inline-block;
-  overflow: visible;
-  min-width: 300px;
-  padding: 10px 0;
+
+@media (max-width: 992px) {
+    .profileGrid {
+        grid-template-columns: 1fr;
+    }
+    .profileSidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--color-border-light);
+        padding: 24px;
+    }
+    .dpWrapper {
+        margin-top: -40px;
+    }
+    .profileDp {
+        width: 150px;
+        height: 150px;
+    }
+    .profileUsername {
+        font-size: 1.8rem;
+    }
+    .dangerZone {
+        margin-top: 20px;
+    }
+    .profileContent {
+        padding: 24px;
+    }
+    .errorMessage {
+        margin: 20px;
+    }
 }
 
-.section {
-  margin-top: 10px;
-}
-
-.iconSpacing {
-  margin-right: 8px;
+@media (max-width: 600px) {
+    .profileHeaderBanner {
+        height: 50px;
+    }
+    .dpWrapper {
+        margin-top: -30px;
+    }
+    .profileDp {
+        width: 120px;
+        height: 120px;
+        border-width: 3px;
+    }
+    .dpEditButton {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+    .profileUsername {
+        font-size: 1.6rem;
+    }
+    .profileSidebar,
+    .profileContent {
+        padding: 20px;
+    }
+    .actionButton {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+    }
+    .bioTitle {
+        font-size: 1.5rem;
+    }
+     .dpEditControls {
+        padding: 10px;
+    }
+    .errorMessage {
+        margin: 15px;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
 }

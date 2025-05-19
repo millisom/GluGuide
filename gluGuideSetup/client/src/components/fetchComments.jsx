@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../api/axiosConfig';
 import ReactQuill from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css';
@@ -8,10 +9,36 @@ import styles from '../styles/Comments.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => {
   const navigate = useNavigate();
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [newContent, setNewContent] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSessionStatus = async () => {
+      setAuthLoading(true);
+      try {
+        const response = await fetch(`${API_BASE_URL}/status`, { credentials: 'include' });
+        if (response.ok) {
+            const data = await response.json();
+            setIsLoggedIn(data.valid);
+        } else {
+            console.error("Auth status check failed with status:", response.status);
+            setIsLoggedIn(false);
+        }
+      } catch (err) {
+        console.error("Error fetching session status:", err);
+        setIsLoggedIn(false);
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+    fetchSessionStatus();
+  }, []);
 
   const handleAuthorClick = (username) => {
     navigate(`/profile/${username}`);
@@ -78,12 +105,19 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
     setNewContent(currentContent);
   };
 
+  if (authLoading) {
+    return <p className={styles.loadingMessage}>Loading comments...</p>;
+  }
+
   if (!comments || comments.length === 0) {
-    return (
-      <p className={styles.noComments}>
-        No comments yet. Be the first to comment!
-      </p>
-    );
+    if (isLoggedIn) {
+        return (
+          <p className={styles.noComments}>
+            No comments yet. Be the first to comment!
+          </p>
+        );
+    }
+    return null;
   }
 
   return (
@@ -109,6 +143,15 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
                   onChange={setNewContent}
                   theme="snow"
                   className={styles.editInput}
+                  modules={{
+                    toolbar: [
+                        [{ 'header': [1, 2, false] }],
+                        ['bold', 'italic', 'underline','strike', 'blockquote'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        ['link'],
+                        ['clean']
+                    ]
+                  }}
                 />
                 <div className={styles.editButtonGroup}>
                   <button
@@ -126,8 +169,7 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
                 </div>
               </div>
             ) : (
-              // Use html-react-parser to render the stored Quill HTML
-              <div className={styles.commentContent}>{parse(comment.content)}</div>
+              <div className={styles.commentContent}>{comment.content && parse(comment.content)}</div>
             )}
 
             <p className={styles.commentDate}>
@@ -142,20 +184,26 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
 
             <div className={styles.commentFooter}>
               <div className={styles.buttonGroup}>
-                <button
-                  onClick={() => handleLike(comment.id)}
-                  className={styles.likeButton}
-                >
-                  <FontAwesomeIcon icon={faThumbsUp} className={styles.heart} /> Like (
-                  {comment.likes})
-                </button>
-                <button
-                  onClick={() => handleDislike(comment.id)}
-                  className={styles.dislikeButton}
-                >
-                  <FontAwesomeIcon icon={faThumbsDown} className={styles.heart} /> Dislike (
-                  {comment.dislikes})
-                </button>
+                {isLoggedIn ? (
+                  <>
+                    <button
+                      onClick={() => handleLike(comment.id)}
+                      className={styles.likeButton}
+                    >
+                      <FontAwesomeIcon icon={faThumbsUp} /> Like ({comment.likes})
+                    </button>
+                    <button
+                      onClick={() => handleDislike(comment.id)}
+                      className={styles.dislikeButton}
+                    >
+                      <FontAwesomeIcon icon={faThumbsDown} /> Dislike ({comment.dislikes})
+                    </button>
+                  </>
+                ) : (
+                  <p className={styles.authActionPrompt}>
+                    <Link to="/login" className={styles.authLink}>Login</Link> or <Link to="/signUp" className={styles.authLink}>Sign Up</Link> to rate.
+                  </p>
+                )}
                 {(currentUserId === comment.author_id || isAdmin) && (
                   <>
                     <button
@@ -180,6 +228,27 @@ const CommentsList = ({ comments, currentUserId, isAdmin, refreshComments }) => 
       </div>
     </div>
   );
+};
+
+CommentsList.propTypes = {
+  comments: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.any.isRequired,
+    username: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    created_at: PropTypes.string.isRequired,
+    updated_at: PropTypes.string.isRequired,
+    likes: PropTypes.number,
+    dislikes: PropTypes.number,
+    author_id: PropTypes.any.isRequired,
+  })).isRequired,
+  currentUserId: PropTypes.any,
+  isAdmin: PropTypes.bool,
+  refreshComments: PropTypes.func.isRequired,
+};
+
+CommentsList.defaultProps = {
+  currentUserId: null,
+  isAdmin: false,
 };
 
 export default CommentsList;

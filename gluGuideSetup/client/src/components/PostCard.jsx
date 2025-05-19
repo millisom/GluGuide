@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import PostTags from './PostTags';
@@ -79,6 +80,30 @@ const PostCard = ({
       )}
     </div>
   );
+};
+
+PostCard.propTypes = {
+  post: PropTypes.shape({
+    id: PropTypes.any.isRequired,
+    post_picture: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    created_at: PropTypes.string.isRequired,
+    likes_count: PropTypes.number,
+    likes: PropTypes.array,
+    tags: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  isAdmin: PropTypes.bool,
+  handleViewClick: PropTypes.func.isRequired,
+  handleAdminDelete: PropTypes.func,
+  selectedTags: PropTypes.arrayOf(PropTypes.string),
+  setSelectedTags: PropTypes.func.isRequired,
+};
+
+PostCard.defaultProps = {
+  isAdmin: false,
+  handleAdminDelete: () => {},
+  selectedTags: [],
 };
 
 export default PostCard; 

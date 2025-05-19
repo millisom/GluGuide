@@ -15,7 +15,6 @@ vi.mock('@fortawesome/react-fontawesome', () => ({
   ),
 }));
 
-
 describe('PostCard Component', () => {
   const mockPost = {
     id: 123,
@@ -70,4 +69,4 @@ describe('PostCard Component', () => {
     
     expect(mockProps.handleAdminDelete).toHaveBeenCalledWith(123);
   });
-}); 
+});

@@ -8,18 +8,19 @@ import { describe, it, expect, vi, beforeAll, afterAll, beforeEach } from 'vites
 // Mock axios
 vi.mock('../../src/api/axiosConfig');
 
+// Spy for useNavigate
+const mockNavigate = vi.fn();
+
 // Mock react-router-dom properly with importActual
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
   return {
     ...actual,
-    useNavigate: vi.fn(),
+    useNavigate: () => mockNavigate,
   };
 });
 
 describe('Login Component', () => {
-  const mockNavigate = vi.fn();
-
   // Silence console.warn for React Router warning
   const originalWarn = console.warn;
   beforeAll(() => {
@@ -38,9 +39,7 @@ describe('Login Component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    useNavigate.mockReturnValue(mockNavigate);
-
-    // Mock window.location.reload to prevent jsdom crash
+    mockNavigate.mockClear();
     vi.stubGlobal('location', { reload: vi.fn() });
   });
 
@@ -80,15 +79,17 @@ describe('Login Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('/login', {
-        username,
-        password,
-      }, {withCredentials: true});
+      expect(axios.post).toHaveBeenCalledWith(
+        '/login',
+        { username, password },
+        { withCredentials: true }
+      );
+    });
 
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith('/account');
     });
   });
-  
-  expect(mockNavigate).toHaveBeenCalledWith('/account');
 
   it('displays error message on failed login', async () => {
     axios.post.mockResolvedValue({

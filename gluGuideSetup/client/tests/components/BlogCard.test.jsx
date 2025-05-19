@@ -40,7 +40,7 @@ vi.mock('@fortawesome/free-solid-svg-icons', () => ({
   faHeart: { iconName: 'heart' }
 }));
 
-// Mock CSS modules
+// Mock CSS Modules
 vi.mock('../../src/styles/Blogcard.module.css', () => ({
   default: {
     card: 'card',
@@ -116,7 +116,7 @@ describe('BlogCard Component', () => {
   it('renders blog with long content and truncates', () => {
     render(<BlogCard blog={mockLongBlog} />);
     expect(screen.getByText('Long Blog')).toBeInTheDocument();
-    expect(screen.getByText(/Likes/i)).toBeInTheDocument();
+    expect(screen.getByText('1 Like')).toBeInTheDocument();
   });
 
   it('renders blog using likes array instead of likes_count', () => {
@@ -149,13 +149,12 @@ describe('BlogCard Component', () => {
   });
 
   it('deletes post after confirm', async () => {
-    const axios = axiosConfig;
     render(<BlogCard blog={mockBlog} />);
     const deleteBtn = screen.getByTestId('icon-trash').closest('button');
     fireEvent.click(deleteBtn);
 
     expect(window.confirm).toHaveBeenCalled();
-    expect(axios.delete).toHaveBeenCalledWith(`/admin/posts/${mockBlog.id}`, { withCredentials: true });
+    expect(axiosConfig.delete).toHaveBeenCalledWith(`/admin/posts/${mockBlog.id}`, { withCredentials: true });
 
     await waitFor(() => {
       expect(window.alert).toHaveBeenCalledWith('Post deleted successfully.');

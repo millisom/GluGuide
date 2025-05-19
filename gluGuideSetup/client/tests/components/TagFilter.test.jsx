@@ -3,13 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import TagFilter from '../../src/components/TagFilter';
 
-// ✅ Mock the react-select component using JSX
+// ✅ Mock react-select
 vi.mock('react-select', () => ({
   default: ({ onChange, value = [], options = [], placeholder, isMulti, classNamePrefix }) => (
     <div data-testid="mock-select" className={classNamePrefix ? `${classNamePrefix}-container` : ''}>
-      <div data-testid="current-value">
-        {JSON.stringify(value)}
-      </div>
+      <div data-testid="current-value">{JSON.stringify(value)}</div>
       <input
         data-testid="select-input"
         placeholder={placeholder}
@@ -38,7 +36,7 @@ vi.mock('react-select', () => ({
   )
 }));
 
-// ✅ Mock FontAwesomeIcon to avoid DOM/SVG issues
+// ✅ Mock FontAwesomeIcon
 vi.mock('@fortawesome/react-fontawesome', () => ({
   FontAwesomeIcon: ({ icon, size }) => {
     const name = typeof icon === 'object' && icon.iconName ? icon.iconName : 'unknown';
@@ -84,12 +82,12 @@ describe('TagFilter Component', () => {
 
   it('renders correctly with selected tags', () => {
     render(<TagFilter {...mockProps} />);
+    expect(screen.getByText('Filter by Tags:')).toBeInTheDocument();
     expect(screen.getByText('react')).toBeInTheDocument();
     expect(screen.getByText('Clear All Tags')).toBeInTheDocument();
     expect(screen.getByText('Active Filters:')).toBeInTheDocument();
     expect(screen.getByTestId('mock-select')).toBeInTheDocument();
     expect(screen.getByTestId('current-value').textContent).toContain('react');
-    expect(screen.getByText('Filter by Tags:')).toBeInTheDocument();
     expect(screen.getByTestId('select-input')).toHaveAttribute('placeholder', 'Select tags...');
     expect(screen.getByTestId('select-input')).toHaveAttribute('aria-multiselectable', 'true');
   });
@@ -120,10 +118,14 @@ describe('TagFilter Component', () => {
   });
 
   it('renders multiple selected tags and remove buttons', () => {
-    render(<TagFilter {...mockProps} selectedTags={['react', 'javascript']} selectedTagValues={[
-      { value: 'react', label: 'react' },
-      { value: 'javascript', label: 'javascript' }
-    ]} />);
+    render(<TagFilter
+      {...mockProps}
+      selectedTags={['react', 'javascript']}
+      selectedTagValues={[
+        { value: 'react', label: 'react' },
+        { value: 'javascript', label: 'javascript' }
+      ]}
+    />);
     expect(screen.getByText('react')).toBeInTheDocument();
     expect(screen.getByText('javascript')).toBeInTheDocument();
     expect(screen.getAllByTestId('mock-icon-times')).toHaveLength(2);

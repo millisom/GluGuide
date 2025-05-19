@@ -45,7 +45,7 @@ describe('PostTags Component', () => {
   it('stops event propagation when clicking a tag', () => {
     render(<PostTags {...baseProps} />);
     const tag = screen.getByText('javascript');
-    const mockEvent = { stopPropagation: vi.fn() };
+    const mockEvent = { stopPropagation: vi.fn(), target: { innerText: 'javascript' } };
     fireEvent.click(tag, mockEvent);
     expect(mockEvent.stopPropagation).toHaveBeenCalled();
   });

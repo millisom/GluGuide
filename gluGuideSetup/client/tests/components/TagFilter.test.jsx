@@ -83,7 +83,7 @@ describe('TagFilter Component', () => {
   it('renders correctly with selected tags', () => {
     render(<TagFilter {...mockProps} />);
     expect(screen.getByText('Filter by Tags:')).toBeInTheDocument();
-    expect(screen.getByText('react')).toBeInTheDocument();
+    expect(screen.getAllByText('react').length).toBeGreaterThan(0);
     expect(screen.getByText('Clear All Tags')).toBeInTheDocument();
     expect(screen.getByText('Active Filters:')).toBeInTheDocument();
     expect(screen.getByTestId('mock-select')).toBeInTheDocument();
@@ -126,8 +126,8 @@ describe('TagFilter Component', () => {
         { value: 'javascript', label: 'javascript' }
       ]}
     />);
-    expect(screen.getByText('react')).toBeInTheDocument();
-    expect(screen.getByText('javascript')).toBeInTheDocument();
+    expect(screen.getAllByText('react').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('javascript').length).toBeGreaterThan(0);
     expect(screen.getAllByTestId('mock-icon-times')).toHaveLength(2);
   });
 

@@ -6,6 +6,14 @@ import axios from 'axios';
 // Mock axios
 vi.mock('axios');
 
+// ✅ Fix for invalid React object error
+vi.mock('@fortawesome/react-fontawesome', () => ({
+  FontAwesomeIcon: ({ icon }) => {
+    const iconName = icon?.iconName || 'unknown';
+    return <span data-testid={`icon-${iconName}`} />;
+  }
+}));
+
 // Mock react-router-dom
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', () => {

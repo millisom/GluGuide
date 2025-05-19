@@ -21,16 +21,11 @@ vi.mock('html-react-parser', () => ({
   default: (content) => content || '',
 }));
 
-// Mock FontAwesome
+// ✅ Fixed FontAwesome mock — return valid JSX
 vi.mock('@fortawesome/react-fontawesome', () => ({
-  FontAwesomeIcon: function MockFontAwesomeIcon({ icon }) {
+  FontAwesomeIcon: ({ icon }) => {
     const iconName = icon?.iconName || 'unknown';
-    return {
-      type: 'span',
-      props: {
-        'data-testid': `icon-${iconName}`
-      }
-    };
+    return <span data-testid={`icon-${iconName}`} />;
   }
 }));
 

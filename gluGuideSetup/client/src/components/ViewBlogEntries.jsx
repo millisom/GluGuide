@@ -196,7 +196,7 @@ const ViewBlogEntries = () => {
               handleViewClick={handleViewClick}
               handleAdminDelete={handleAdminDelete}
               selectedTags={selectedTags}
-              setSelectedTags={handleTagSelectOnCard}
+              setSelectedTags={setSelectedTags}
             />
           ))}
         </div>

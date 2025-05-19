@@ -172,7 +172,8 @@ This use case is linked to the relevant section of the [Software Requirements Sp
 
 ### 9.1 Create and Read Operation
 
-This use case falls under **CREATE** and **READ** operations in CRUD.
+This use case falls under **CREATE** , **READ** and **DELETE** operations in CRUD.
 
 * Create: When a new meal is logged.
 * Read: When meals are displayed in overview or detailed views.
+* Delete: When meals are displayed in the meal summary page the user can delete the meal by clicking the "Delete Meal" button

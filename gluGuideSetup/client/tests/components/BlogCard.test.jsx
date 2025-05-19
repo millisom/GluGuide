@@ -149,7 +149,7 @@ describe('BlogCard Component', () => {
     fireEvent.click(deleteBtn);
 
     expect(window.confirm).toHaveBeenCalled();
-    expect(axiosConfig.delete).toHaveBeenCalledWith(`/admin/posts/${mockBlog.id}`, { withCredentials: true });
+    expect(axiosConfig.delete).toHaveBeenCalledWith(`/deletePost/${mockBlog.id}`, { withCredentials: true });
 
     await waitFor(() => {
       expect(window.alert).toHaveBeenCalledWith('Post deleted successfully.');

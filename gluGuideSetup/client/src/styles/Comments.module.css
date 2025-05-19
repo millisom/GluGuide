@@ -1,10 +1,10 @@
 .commentsContainer {
-  background-color: #faf7f0;
+  background-color: var(--color-background);
   border: 2px solid var(--color-primary);
   border-radius: 10px;
   padding: 20px;
   margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--color-shadow-card-hover);
 }
 
 .title {
@@ -28,7 +28,7 @@
 }
 
 .noComments {
-  color: #666;
+  color: var(--color-text-grey);
   font-style: italic;
   text-align: center;
   margin-top: 1rem;
@@ -40,7 +40,7 @@
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--color-shadow-card-hover);
   transition: transform 0.3s ease;
 }
 
@@ -55,12 +55,12 @@
 }
 
 .commentContent {
-  color: var(--sds-color-text-default-primary, #333);
+  color: var(--color-text-dark);
   margin-bottom: 8px;
 }
 
 .commentDate {
-  color: #777;
+  color: var(--color-text-grey);
   font-size: 0.85rem;
 }
 
@@ -82,30 +82,30 @@
 }
 
 .likeButton {
-  background-color: #ffa0be;
+  background-color: var(--color-accent-pink);
   color: var(--color-text-white);
 }
 
 .likeButton:hover {
-  background-color: #f988ab;
+  background-color: var(--color-accent-pink-dark);
 }
 
 .dislikeButton {
-  background-color: #ffb099;
-  color: #333;
+  background-color: var(--color-warning);
+  color: var(--color-text-dark);
 }
 
 .dislikeButton:hover {
-  background-color: #ffa488;
+  background-color: var(--color-warning-dark);
 }
 
 .deleteButton {
-  background-color: #e68484;
+  background-color: var(--color-error);
   color: var(--color-text-white);
 }
 
 .deleteButton:hover {
-  background-color: #c56f6f;
+  background-color: var(--color-error-dark);
 }
 
 .editButton {
@@ -114,25 +114,25 @@
 }
 
 .editButton:hover {
-  background-color: #8a89b9;
+  background-color: var(--color-secondary);
 }
 
 .saveButton {
-  background-color: #1cc198;
+  background-color: var(--color-confirm);
   color: var(--color-text-white);
 }
 
 .saveButton:hover {
-  background-color: #169d7b;
+  background-color: var(--color-confirm-dark);
 }
 
 .cancelButton {
-  background-color: #ccc;
-  color: #333;
+  background-color: var(--color-background-disabled);
+  color: var(--color-text-dark);
 }
 
 .cancelButton:hover {
-  background-color: #a8a8a8;
+  background-color: var(--color-button-secondary-background);
 }
 
 .editContainer {
@@ -145,6 +145,7 @@
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 8px;
+  box-sizing: border-box;
 }
 
 .addCommentContainer {
@@ -163,7 +164,8 @@
   border: 1px solid var(--color-primary);
   resize: none;
   font-size: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--color-shadow-card-hover);
+  background-color: var(--color-text-white);
 }
 
 .submitButton {
@@ -191,12 +193,13 @@
 
 .commentId {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--color-text-grey);
 }
 
 .clickableAuthor {
   cursor: pointer;
-  color: #007bff; /* or any color you prefer */
+  color: var(--color-primary);
+  text-decoration: none;
 }
 
 .clickableAuthor:hover {
@@ -204,26 +207,53 @@
 }
 
 .authorButton {
-  background-color: var(--color-primary);
-  color: var(--color-text-white);
+  background: none;
   border: none;
-  border-radius: 8px;
-  padding: 5px 10px; /* Adjusted for size relative to comment text */
-  font-size: 0.9rem;
-  font-weight: bold;
+  color: var(--color-primary);
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  text-decoration: underline;
+  padding: 0;
+  font-size: inherit;
+  font-weight: bold;
 }
 
 .authorButton:hover {
-  background-color: var(--color-secondary);
+  color: var(--color-secondary);
 }
 
-.editInput {
-  margin-bottom: 10px;
-  border: 1px solid var(--color-primary);
-  border-radius: 5px;
+.loggedOutCommentPrompt {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--color-background-table-row-odd);
+  border: 1px solid var(--color-border-highlight);
+  border-radius: 8px;
+  margin: 20px 0;
+  font-size: 1rem;
+  color: var(--color-text-dark);
+}
+
+.authLink {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 2px;
+}
+
+.authLink:hover {
+  color: var(--color-secondary);
+}
+
+.loadingMessage {
+  text-align: center;
+  padding: 20px;
+  font-size: 1rem;
+  color: var(--color-text-lightGrey);
+}
+
+.authActionPrompt {
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+  margin-right: 10px;
+  display: inline-block;
 }

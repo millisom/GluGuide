@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import searchStyles from '../styles/SearchFoodItem.module.css';
 import styles from '../styles/LogMealPage.module.css';
 

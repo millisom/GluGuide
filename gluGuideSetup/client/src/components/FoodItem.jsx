@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import styles from '../styles/FoodItem.module.css';
 
 const FoodItem = ({ food, onAdd }) => {
@@ -44,6 +45,18 @@ const FoodItem = ({ food, onAdd }) => {
       </div>
     </div>
   );
+};
+
+FoodItem.propTypes = {
+  food: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    calories: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    carbs: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    proteins: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    fats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    // Add other expected properties of food if any
+  }).isRequired,
+  onAdd: PropTypes.func.isRequired
 };
 
 export default FoodItem;

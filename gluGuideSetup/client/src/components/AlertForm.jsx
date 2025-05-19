@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/AlertForm.module.css';
 
@@ -69,7 +69,7 @@ const AlertForm = ({ fetchAlerts }) => {
           Save Preferences
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={styles.successMessage}>{message}</p>}
     </div>
   );
 };

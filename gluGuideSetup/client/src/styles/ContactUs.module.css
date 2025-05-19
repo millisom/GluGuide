@@ -4,7 +4,8 @@
     padding: 20px;
     background-color: var(--color-background);
     border: 8px solid var(--color-primary);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: var(--color-shadow-card-hover);
     font-family: 'DM Sans', sans-serif;
 }
 

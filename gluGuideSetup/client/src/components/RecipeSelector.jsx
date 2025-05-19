@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { getRecipeById, getRecipeByName } from '../api/recipeApi';
 import styles from '../styles/RecipeSelector.module.css';
 import RecipeItem from './RecipeItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const RecipeSelector = ({ onSelect }) => {
   const [query, setQuery] = useState('');
@@ -71,6 +74,7 @@ const RecipeSelector = ({ onSelect }) => {
           onChange={(e) => {
             setSkipSuggestions(false);
             setQuery(e.target.value);
+            setError('');
             if (e.target.value.length === 0) {
               setSelectedRecipe(null);
               setSuggestions([]);
@@ -97,6 +101,13 @@ const RecipeSelector = ({ onSelect }) => {
       {selectedRecipe && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
+            <button 
+              className={styles.closeButton} 
+              onClick={() => setSelectedRecipe(null)}
+              aria-label="Close recipe details"
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
             <RecipeItem
               recipe={selectedRecipe}
               onAdd={handleAdd}
@@ -106,6 +117,10 @@ const RecipeSelector = ({ onSelect }) => {
       )}
     </div>
   );
+};
+
+RecipeSelector.propTypes = {
+  onSelect: PropTypes.func.isRequired
 };
 
 export default RecipeSelector;

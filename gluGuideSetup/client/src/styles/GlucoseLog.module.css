@@ -1,29 +1,45 @@
 /* ====================== Logging Form & General Layout ====================== */
 .glucoseLogContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 24px;
     font: var(--sds-typography-body-font-weight-regular)
           var(--sds-typography-body-size-medium)
           var(--sds-typography-body-font-family);
-    max-width: 800px; /* Allows for wider layout */
-    margin: 0 auto;
-    gap: 20px; /* Creates space between components */
+    width: 100%;
+    margin: 0;
 }
 
-.loggingFormContainer {
+/* Styles for the columns */
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: space-between;
+}
+
+.rightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: space-between;
+}
+
+/* Reusable Card Style */
+.card {
     background-color: var(--color-text-white);
     border: 8px solid var(--color-primary);
     border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    padding: 24px;
+    box-shadow: var(--color-shadow-card);
+    width: 100%;
+}
+
+.loggingFormContainer {
+    composes: card;
     display: flex;
     flex-direction: column;
     align-items: center; /* Ensures elements are centered within the form */
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 .inputField {
@@ -36,7 +52,7 @@
 .label {
     font-weight: bold;
     font-size: 1rem;
-    color: var(--sds-color-text-default-default);
+    color: var(--color-text-dark);
 }
 
 .input {
@@ -51,7 +67,7 @@
     margin-top: 20px; /* Add more space above the button */
     border-radius: 8px;
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
     font-size: 1rem;
     padding: 12px 24px;
     font-weight: bold;
@@ -61,6 +77,31 @@
 
 .submitButton:hover {
     background-color: var(--color-secondary);
+}
+
+/* New Filter Box Styling */
+.filterBox {
+    composes: card;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.filterBox h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--color-text-dark);
+}
+
+.filterSelect {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 2px solid var(--color-primary);
+    background-color: var(--color-text-white);
+    font-size: 1rem;
+    min-width: 200px;
 }
 
 /* (If you still use .tableAndGraphBox for layout) */
@@ -73,13 +114,16 @@
 }
 
 .graphBox {
-    flex: 1; 
-    background-color: var(--color-text-white);
-    border: 7px solid var(--color-primary);
-    max-width: 800px;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    composes: card;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.graphBox h3 {
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
 .graphContainer {
@@ -89,14 +133,13 @@
     width: 100%;
 }
 
-/* ====================== Updated Table Styling (Same as Alerts Table) ====================== */
-
 /* This container is used for the table styling only and replaces the old .tableBox */
-.glucoseLogsContainer {
-    margin: 0 auto;
-    max-width: 600px;
-    padding: 20px;
+.glucoseLogsListContainer {
+    composes: card;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Table header styling */
@@ -104,40 +147,40 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
     font-weight: bold;
-    color: var(--sds-color-text-default-default);
+    color: var(--color-text-dark);
 }
 
 /* Table styling (identical to alerts table) */
 .glucoseLogsTable {
     width: 100%;
     border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--color-shadow-card-hover);
 }
 
 .glucoseLogsTable th,
 .glucoseLogsTable td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-border-light);
     padding: 12px;
     text-align: center;
 }
 
 .glucoseLogsTable th {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
     font-weight: bold;
 }
 
 .glucoseLogsTable tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: var(--color-background-table-row-odd);
 }
 
 .glucoseLogsTable tr:hover {
-    background-color: #f1f1f1;
+    background-color: var(--color-background-table-row-hover);
 }
 
 /* Error message styling */
 .errorMessage {
-    color: red;
+    color: var(--color-error);
     font-size: 1rem;
     margin-top: 20px;
 }
@@ -158,7 +201,7 @@
 
 .editButton {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
 }
 
 .editButton:hover {
@@ -167,7 +210,7 @@
 
 .saveButton {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
 }
 
 .saveButton:hover {
@@ -175,21 +218,21 @@
 }
 
 .cancelButton {
-    background-color: #888888;
-    color: white;
+    background-color: var(--color-button-secondary-background-hover);
+    color: var(--color-text-white);
 }
 
 .cancelButton:hover {
-    background-color: #666666;
+    background-color: var(--color-text-grey);
 }
 
 .deleteButton {
-    background-color: #d9534f;
-    color: white;
+    background-color: var(--color-error);
+    color: var(--color-text-white);
 }
 
 .deleteButton:hover {
-    background-color: #c9302c;
+    background-color: var(--color-error-dark);
 }
 
 /* Toggle button styling exactly as desired */
@@ -199,7 +242,7 @@
     border: none;
     border-radius: 8px;
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-text-white);
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -207,4 +250,69 @@
 
 .toggleButton:hover {
     background-color: var(--color-secondary);
+}
+
+.pb1 {
+    padding-bottom: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .glucoseLogContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .graphContainer {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .graphContainer > div {
+        min-width: 500px;
+    }
+
+    .glucoseLogsTable {
+        font-size: 0.9rem;
+    }
+
+    .glucoseLogsTable th,
+    .glucoseLogsTable td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .loggingFormContainer,
+    .filterBox,
+    .graphBox,
+    .glucoseLogsListContainer {
+        padding: 16px;
+    }
+
+    .input,
+    .filterSelect {
+        font-size: 0.9rem;
+    }
+
+    .submitButton,
+    .toggleButton {
+        font-size: 0.9rem;
+        padding: 10px 18px;
+    }
+}
+
+/* Success message styling */
+.successMessage {
+    color: var(--color-confirm);
+    font-weight: bold;
+    text-align: center;
+    margin-top: 16px;
+}
+  
+/* Error message styling */
+.errorMessage {
+    color: var(--color-error);
+    font-weight: bold;
+    text-align: center;
+    margin-top: 16px;
 }

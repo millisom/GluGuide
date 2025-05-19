@@ -174,6 +174,8 @@ The user is able to manually track their sugar level.
 For more details, refer to the [Manage Glucose Logs Use Case](UCManageGlucoseLogs.md).	
 
 ### 3.2.0 Log macros
+The user is able to manually track their macros. The user can select a meal type, add notes, and add food items as well as recipes. The user can also see a preview of the meal before saving it. The user can also delete meals.
+For more details, refer to the [Log Macros Use Case](UCLogMacros.md).
 
 
 ### 3.2.1 Log Meals
@@ -183,6 +185,8 @@ For more details, refer to the [Log Meal Use Case](UCLogMeal.md).
 
 ### 3.2.2 Create Recipe
 The user is able to manually track their meals.
+The user can select a recipe name, add notes, and add food items. The user can also see a preview of the recipe before saving it. The user can also delete recipes.
+For more details, refer to the [Create Recipe Use Case](UCCreateRecipe.md).
 
 ### 3.2.3 Generate graph
 The application can generate graphs from the collected data.

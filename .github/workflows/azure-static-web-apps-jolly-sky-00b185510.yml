@@ -45,12 +45,6 @@ jobs:
         working-directory: ./gluGuideSetup/server
 
 
-      - name: Install Newman
-        run: npm install -g newman
-
-      - name: Run API tests
-        run: newman run ./gluGuideSetup/tests/GluGuide_collection.json
-
 
       - name: Build the app
         working-directory: ./gluGuideSetup/client

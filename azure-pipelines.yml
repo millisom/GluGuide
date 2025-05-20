@@ -29,8 +29,8 @@ stages:
 
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/gluGuideSetup/server'
-        includeRootFolder: false
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/gluGuideSetup'
+        includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
         replaceExistingArchive: true
@@ -98,7 +98,7 @@ stages:
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
               DeploymentTypeLinux: 'zipDeploy'
-              StartupCommand: 'npm start'
+              StartupCommand: 'cd gluGuideSetup/server && npm start'
               enableCustomDeployment: true
               deploymentMethod: 'runFromPackage'
             displayName: 'Deploy to App Service'

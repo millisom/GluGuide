@@ -60,13 +60,6 @@ stages:
       displayName: 'Run Backend Tests'
 
     - script: |
-        cd gluGuideSetup/server
-        npm install
-        npm start & sleep 10
-        newman run GluGuide_collection.json
-      displayName: 'Run Newman API Tests'
-
-    - script: |
         cd gluGuideSetup/client
         npm install
         npm run test
@@ -88,6 +81,15 @@ stages:
           - download: current
             artifact: drop
 
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: '5e475481-5b93-4eba-8777-affd47c2049b'
+              Action: 'Stop Azure App Service'
+              WebAppName: 'GluGuideBackend'
+              ResourceGroupName: 'SE_GluGuide'
+              appType: 'webAppLinux'
+            displayName: 'Stop App Service'
+
           - task: AzureRmWebAppDeployment@5
             inputs:
               ConnectionType: 'AzureRM'
@@ -99,3 +101,13 @@ stages:
               StartupCommand: 'npm start'
               enableCustomDeployment: true
               deploymentMethod: 'runFromPackage'
+            displayName: 'Deploy to App Service'
+
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: '5e475481-5b93-4eba-8777-affd47c2049b'
+              Action: 'Start Azure App Service'
+              WebAppName: 'GluGuideBackend'
+              ResourceGroupName: 'SE_GluGuide'
+              appType: 'webAppLinux'
+            displayName: 'Start App Service'

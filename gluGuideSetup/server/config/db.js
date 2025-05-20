@@ -1,13 +1,20 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+// Determine SSL configuration based on environment
+const isLocalConnection = process.env.PGHOST === 'localhost' || process.env.PGHOST === '127.0.0.1';
+
+const sslConfig = isLocalConnection ? 
+  undefined :
+  { rejectUnauthorized: false };
+
 const pool = new Pool({
     user: process.env.PGUSER,
     host: process.env.PGHOST,
     database: process.env.PGDATABASE,
     password: process.env.PGPASSWORD,
     port: process.env.PGPORT,
-    ssl: { rejectUnauthorized: false }
+    ssl: sslConfig
 });
 
 module.exports = pool;

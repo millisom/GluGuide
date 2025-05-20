@@ -94,7 +94,7 @@ The web application GluGuide is a platform designed to assist users with gestati
 
 The following picture shows the overall use case diagram of our software.
 
-![UCD](docs/UCD2.drawio.svg) <br>
+![UCD](docs/UCD3.drawio.svg) <br>
 
 # 3. Specific Requirements
 

@@ -97,3 +97,5 @@ stages:
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
               DeploymentTypeLinux: 'zipDeploy'
               StartupCommand: 'npm start'
+              enableCustomDeployment: true
+              deploymentMethod: 'runFromPackage'

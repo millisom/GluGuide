@@ -313,8 +313,7 @@ GluGuide aims to help users track and manage their glucose levels with insights 
 ## Appendix A: Code Quality Metrics
 
 This appendix defines the two code quality metrics selected for use in the GluGuide project. These metrics will guide refactoring efforts aimed at improving code maintainability and quality.  
-**Measurement Tool:** SonarCloud (full-repo analyses, historical dashboards)  
-**In-IDE Feedback:** SonarLint (real-time issue highlighting)
+**Measurement Tool:** **SonarCloud** for **CC** (full-repo analyses, historical dashboards) and **Madge** for **Ce**
 
 ### A.1 Cyclomatic Complexity (CC)
 
@@ -328,13 +327,12 @@ This appendix defines the two code quality metrics selected for use in the GluGu
   - **>20 (Very High):** Strong candidate for immediate refactoring to simplify control flow.
 
 - **Goal & Threshold:**  
-  - **Flag:** Any function/method with CC > 10.  
-  - **Refactoring target:** Reduce CC by at least 30% in the selected modules.
+  - **Flag:** Functions/methods with the highest CC value.  
+  - **Refactoring target:** Reduce CC of 2 chosen files (one frontend, one backend) by at least 30% in the selected modules.
 
 - **Measurement:**  
-  - Reported automatically by SonarCloud on each build.  
-  - Real-time warnings in Cursor/VS Code via SonarLint.  
-  - “Before” and “After” screenshots captured in Appendix B.
+  - Reported automatically by SonarCloud through **sonarcloud.io**.
+  - “Before” and “After” screenshot captured in Appendix B.
 
 ---
 
@@ -349,17 +347,45 @@ This appendix defines the two code quality metrics selected for use in the GluGu
   - **>10 (High):** Too many dependencies—brittle to changes, hard to test in isolation.
 
 - **Goal & Threshold:**  
-  - **Flag:** Any module with Ce > 8.  
-  - **Refactoring target:** Reduce Ce by at least 25% through abstraction or responsibility reorganization.
+  - **Flag:** Module with the highest Ce value.  
+  - **Refactoring target:** Reduce Ce of two chosen modules (one frontend, one backend) by at least 25% through abstraction or responsibility reorganization.
 
 - **Measurement:**  
-  - Captured by SonarCloud on each analysis run.  
-  - SonarLint can highlight coupling hotspots as you code.  
+  - Captured by Madge after running the following terminal commands:
+    - `npx madge --summary gluGuideSetup/server`
+    - `npx madge --summary gluGuideSetup/client/src`  
   - “Before” and “After” evidence stored in Appendix B.
 
 ---
 
 ## Appendix B: Metrics Report
 
-- **B.1 SonarCloud “Before” Analysis** (CC + Ce)  
-- **B.2 SonarCloud “After” Analysis** (CC + Ce)  
+- **B.1 Madge “Before” Analysis** (Ce)
+  
+  **Ce for server.js (17)**
+
+  ![Ce before for the server.js](/Assets/BeforeServer.png)
+
+  **Ce for App.jsx (26)**
+
+  ![Ce before for the App.jsx](/Assets/BeforeApp.png)
+
+- **B.2 Madge “After” Analysis** (Ce)
+  
+  **Ce for server.js (4)**
+
+  ![Ce after for the server.js](/Assets/AfterServer.png)
+
+  **Ce for App.jsx (2)**
+
+  ![Ce after for the App.jsx](/Assets/AfterApp.png)
+
+- **B.3 SonarCloud “Before and After” Analysis** (CC)
+
+  **CC for postController.js went from 76 to 46**
+
+  **CC for ViewBlogEntries.jsx went from 61 to 1**
+
+  That gave us reduction of 90 which you can see below.
+
+  ![Ce after for the App.jsx](/Assets/SonarCC.png)

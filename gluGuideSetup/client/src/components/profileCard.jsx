@@ -1,288 +1,276 @@
 import { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faSave, faTimes, faSignOutAlt, faBlog, faUtensils, faBookOpen, faPlusCircle, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import axios from '../api/axiosConfig';
+import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/ProfileCard.module.css';
 import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const ProfileCard = () => {
   const [user, setUser] = useState(null);
   const [bio, setBio] = useState('');
+  const [currentBio, setCurrentBio] = useState('');
   const [dpUrl, setDpUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [isEditingDp, setIsEditingDp] = useState(false);
   const [selectedDpFile, setSelectedDpFile] = useState(null);
+  const [previewDp, setPreviewDp] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserData = async () => {
+      setLoading(true);
       try {
-        const res = await axios.get('http://localhost:8080/status');
-        if (res.data.valid) {
-          setUser(res.data.username);
+        const [statusRes, bioRes, dpRes] = await Promise.all([
+          axiosInstance.get('/status'),
+          axiosInstance.get('/bio'),
+          axiosInstance.get('/dp').catch(err => {
+            if (err.response && err.response.status === 404) {
+              return { data: { url: '' } };
+            }
+            throw err;
+          })
+        ]);
+
+        if (statusRes.data.valid) {
+          setUser(statusRes.data.username);
         } else {
           navigate('/login');
+          return;
         }
+
+        setBio(bioRes.data.profile_bio || '');
+        setCurrentBio(bioRes.data.profile_bio || '');
+        setDpUrl(dpRes.data.url || '');
+
       } catch (err) {
-        console.error('Error fetching user:', err);
-        setError('Failed to fetch user data.');
+        console.error('Error fetching profile data:', err);
+        setError('Failed to fetch profile data. Please try refreshing.');
+        setUser('User');
+        setBio('Could not load bio.');
+        setCurrentBio('Could not load bio.');
+        setDpUrl('');
       } finally {
         setLoading(false);
       }
     };
-
-    const fetchBio = async () => {
-      try {
-        const res = await axios.get('http://localhost:8080/bio');
-        setBio(res.data.profile_bio);
-      } catch (err) {
-        console.error('Error fetching bio:', err);
-        setError('Failed to fetch bio.');
-      }
-    };
-
-    const fetchDp = async () => {
-      try {
-        const res = await axios.get('http://localhost:8080/dp');
-        setDpUrl(res.data.url || 'https://via.placeholder.com/150');
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          setDpUrl('https://via.placeholder.com/150');
-        } else {
-          console.error('Error fetching dp:', err);
-          setError('Failed to fetch dp.');
-        }
-      }
-    };
-
-    fetchBio();
-    fetchDp();
-    fetchUser();
+    fetchUserData();
   }, [navigate]);
+
+  const handleBioEditToggle = () => {
+    setCurrentBio(bio);
+    setIsEditingBio(!isEditingBio);
+  };
 
   const handleSaveBio = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/setBio', { profile_bio: bio });
-
+      const response = await axiosInstance.post('/setBio', { profile_bio: currentBio });
       if (response.status === 200) {
+        setBio(currentBio);
         setIsEditingBio(false);
+        setError(null);
       } else {
-        console.error('Failed to update bio:', response.data.error);
-        setError('Failed to update bio.');
+        setError('Failed to update bio. Server returned an error.');
       }
     } catch (error) {
       console.error('Error updating bio:', error);
-      setError('Failed to update bio.');
+      setError(`Failed to update bio: ${error.response?.data?.error || error.message}`);
     }
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedDpFile(file);
+      setPreviewDp(URL.createObjectURL(file));
+    }
+  };
 
   const handleSaveDp = async () => {
     if (!selectedDpFile) {
       alert("Please select a file before saving.");
       return;
     }
-
     const formData = new FormData();
     formData.append('dp', selectedDpFile);
-
     try {
-      const response = await axios.post('http://localhost:8080/setDp', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      const response = await axiosInstance.post('/setDp', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
-
-      setDpUrl(response.data.url);
+      setDpUrl(response.data.url + `?t=${new Date().getTime()}`);
       setIsEditingDp(false);
+      setSelectedDpFile(null);
+      setPreviewDp(null);
+      setError(null);
     } catch (error) {
       console.error('Error updating DP:', error);
-      setError('Failed to update DP.');
+      setError(`Failed to update display picture: ${error.response?.data?.error || error.message}`);
     }
   };
 
-  const handleFileChange = (event) => {
-    setSelectedDpFile(event.target.files[0]);
+  const handleCancelDpEdit = () => {
+    setIsEditingDp(false);
+    setSelectedDpFile(null);
+    setPreviewDp(null);
   };
 
   const handleDeleteDp = async () => {
+    if (!window.confirm('Are you sure you want to delete your display picture?')) return;
     try {
-      const response = await axios.delete('http://localhost:8080/deleteDp');
+      const response = await axiosInstance.delete('/deleteDp');
       if (response.status === 200) {
         setDpUrl('');
+        setSelectedDpFile(null);
+        setPreviewDp(null);
+        setIsEditingDp(false);
+        setError(null);
       } else {
-        console.error('Failed to delete DP:', response.data.error);
-        setError('Failed to delete DP.');
+        setError('Failed to delete display picture. Server returned an error.');
       }
     } catch (error) {
       console.error('Error deleting DP:', error);
-      setError('Error deleting DP.');
+      setError(`Error deleting display picture: ${error.response?.data?.error || error.message}`);
     }
   };
 
   const handleDeleteAccount = async () => {
-    const confirmDelete = prompt('Are you sure you want to delete your account?');
-    if (!confirmDelete) return;
+    const confirmText = "DELETE";
+    const confirmation = prompt(`To confirm account deletion, please type "${confirmText}" in the box below. This action is irreversible.`);
+    if (confirmation !== confirmText) {
+        alert("Account deletion cancelled or confirmation text did not match.");
+        return;
+    }
     try {
-      const response = await axios.post('http://localhost:8080/deleteAccount', { confirmDelete });
-
+      const response = await axiosInstance.post('/deleteAccount', { confirmDelete: user });
       if (response.status === 200) {
         alert('Account deleted successfully.');
         navigate('/login');
       } else {
-        console.error('Failed to delete account:', response.data.error);
-        setError('Failed to delete account.');
+        setError('Failed to delete account. Server returned an error.');
       }
     } catch (error) {
       console.error('Error deleting account:', error);
-      setError('Error deleting account.');
+      setError(`Error deleting account: ${error.response?.data?.error || error.message}`);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  const quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      ['link'],
+      ['clean']
+    ],
+  };
+
+  if (loading) return <div className={styles.loadingState}>Loading profile...</div>;
+  
 
   return (
-    <div>
-      <section className={styles.cardBio}>
-        <div className={styles.cardBodyBio}>
-          <div>
-            {isEditingDp ? (
-              <>
-                <input type='file' onChange={handleFileChange} />
-                <button className={styles.squareButton} onClick={handleSaveDp}>
-                  Save
-                </button>
-                <button
-                  className={styles.squareButton}
-                  onClick={() => setIsEditingDp(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className={styles.squareButton}
-                  onClick={handleDeleteDp}
-                >
-                  Delete
-                </button>
-              </>
-            ) : (
-              <>
-                <div className={styles.bioContainer}>
-                  <div className={styles.dpContainer}>
-                    <img
-                      className={styles.bioImg}
-                      src={dpUrl || ''}
-                      alt='User Profile Picture'
-                    />
-                    <button
-                      className={styles.icon2}
-                      onClick={() => setIsEditingDp(true)}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                  </div>
-                  <p className={styles.username}>{user}</p>
-                </div>
-              </>
+    <div className={styles.profileCardContainer}>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <div className={styles.profileHeaderBanner}></div>
+      <div className={styles.profileGrid}>
+        <aside className={styles.profileSidebar}>
+          <div className={styles.dpWrapper}>
+            <img
+              className={styles.profileDp}
+              src={previewDp || dpUrl || 'https://via.placeholder.com/180'}
+              alt={`${user || 'User'}'s profile`}
+            />
+            {!isEditingDp && (
+              <button className={styles.dpEditButton} onClick={() => setIsEditingDp(true)} aria-label="Edit display picture">
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
             )}
           </div>
-          <div className={styles.bioContainer2}>
-            <div className={styles.bio}>
-              {isEditingBio ? (
-                <>
-                  <ReactQuill
-                    theme='snow'
-                    value={bio}
-                    onChange={(value) => setBio(value)}
-                  />
-                  <button
-                    className={styles.squareButton}
-                    onClick={handleSaveBio}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className={styles.squareButton}
-                    onClick={() => setIsEditingBio(false)}
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div>{parse(bio)}</div>{' '}
-                  {/* Correct usage to render HTML content */}
-                  <button
-                    className={styles.icon}
-                    onClick={() => setIsEditingBio(true)}
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                </>
+
+          {isEditingDp && (
+            <div className={styles.dpEditControls}>
+              <input type='file' onChange={handleFileChange} accept="image/*" className={styles.dpFileInput} />
+              <div className={styles.dpEditActions}>
+                <button onClick={handleSaveDp} className={`${styles.actionButtonSmall} ${styles.saveButtonSmall}`} disabled={!selectedDpFile}>
+                  <FontAwesomeIcon icon={faSave} /> Save
+                </button>
+                <button onClick={handleCancelDpEdit} className={`${styles.actionButtonSmall} ${styles.cancelButtonSmall}`}>
+                  <FontAwesomeIcon icon={faTimes} /> Cancel
+                </button>
+              </div>
+              {dpUrl && (
+                <button onClick={handleDeleteDp} className={`${styles.actionButtonSmall} ${styles.deleteButtonSmall}`}>
+                  <FontAwesomeIcon icon={faTrashAlt} /> Remove Current
+                </button>
               )}
             </div>
-            <button
-              className={styles.icon}
-              onClick={() => setIsEditingBio(true)}
-            >
-              <FontAwesomeIcon icon={faEdit} />
+          )}
+
+          <h1 className={styles.profileUsername}>{user || 'Username'}</h1>
+          
+          <nav className={styles.profileActions}>
+            <button className={styles.actionButton} onClick={() => navigate('/myBlogs')}>
+              <FontAwesomeIcon icon={faBlog} className={styles.buttonIcon} /> My Blogs
+            </button>
+            <button className={styles.actionButton} onClick={() => navigate('/logMeal')}>
+              <FontAwesomeIcon icon={faPlusCircle} className={styles.buttonIcon} /> Log New Meal
+            </button>
+            <button className={styles.actionButton} onClick={() => navigate('/mealsOverview')}>
+              <FontAwesomeIcon icon={faFileAlt} className={styles.buttonIcon} /> Meals Overview
+            </button>
+            <button className={styles.actionButton} onClick={() => navigate('/CreateRecipe')}>
+              <FontAwesomeIcon icon={faUtensils} className={styles.buttonIcon} /> Create Recipe
+            </button>
+            <button className={styles.actionButton} onClick={() => navigate('/Recipes')}>
+              <FontAwesomeIcon icon={faBookOpen} className={styles.buttonIcon} /> View Recipes
+            </button>
+          </nav>
+
+          <div className={styles.dangerZone}>
+            <button className={styles.deleteAccountButton} onClick={handleDeleteAccount}>
+              <FontAwesomeIcon icon={faSignOutAlt} className={styles.buttonIcon} /> Delete Account
             </button>
           </div>
-          <div className={styles.buttonGroup}>
-            <button
-              className={styles.squareButton}
-              onClick={() => navigate('/myBlogs')}
-            >
-              My Blogs
-            </button>
+        </aside>
+
+        <main className={styles.profileContent}>
+          <div className={styles.bioSectionHeader}>
+            <h2 className={styles.bioTitle}>About Me</h2>
+            {!isEditingBio && (
+              <button className={styles.bioEditIcon} onClick={handleBioEditToggle} aria-label="Edit bio">
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
+            )}
           </div>
-          <div className={styles.buttonGroup}>
-            <button
-              className={styles.squareButton}
-              onClick={handleDeleteAccount}
-            >
-              Delete Account
-            </button>
-          </div>
-          <div className={styles.buttonGroup}>
-            <button
-              className={styles.squareButton}
-              onClick={() => navigate('/logMeal')}
-            >
-              Log a New Meal
-            </button>
-          </div>
-          <div className={styles.buttonGroup}>
-            <button
-              className={styles.squareButton}
-              onClick={() => navigate('/CreateRecipe')}
-            >
-              Create Recipe
-            </button>
-          </div>
-          <div className={styles.buttonGroup}>
-            <button
-              className={styles.squareButton}
-              onClick={() => navigate('/Recipes')}
-            >
-              Recipes
-            </button>
-          </div>
-          <div className={styles.buttonGroup}>
-            <button
-              className={styles.squareButton}
-              onClick={() => navigate('/mealsOverview')}
-            >
-              Meals Overview
-            </button>
-          </div>
-        </div>
-      </section>
+
+          {isEditingBio ? (
+            <div className={styles.bioEditSection}>
+              <ReactQuill
+                theme='snow'
+                value={currentBio}
+                onChange={setCurrentBio}
+                modules={quillModules}
+                className={styles.quillEditor}
+              />
+              <div className={styles.bioEditActions}>
+                <button onClick={handleSaveBio} className={`${styles.actionButton} ${styles.saveButton}`}>
+                  <FontAwesomeIcon icon={faSave} /> Save Bio
+                </button>
+                <button onClick={handleBioEditToggle} className={`${styles.actionButton} ${styles.cancelButton}`}>
+                  <FontAwesomeIcon icon={faTimes} /> Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.bioDisplay}>
+              {bio ? parse(bio) : <p>No bio set yet. Click the edit icon to add one!</p>}
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 };

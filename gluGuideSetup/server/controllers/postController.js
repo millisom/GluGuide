@@ -2,6 +2,8 @@ const Post = require('../models/postModel');
 const upload = require('../config/multerConfig'); 
 const path = require('path');
 const Profile = require('../models/profileModel');
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8080';
+
 const {
   parseTagsFromRequest,
   deleteImageFile,
@@ -218,8 +220,10 @@ const postController = {
         }
 
         return res.status(200).json({ 
-          imageUrl: `http://localhost:8080/uploads/${filename}` 
+          imageUrl: `${BASE_URL}/uploads/${filename}` 
         });
+        
+        
       } catch (error) {
         console.error('Error saving image:', error);
         return res.status(500).json({ error: "Internal Server Error" });

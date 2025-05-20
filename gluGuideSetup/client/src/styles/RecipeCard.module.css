@@ -1,126 +1,164 @@
-.container {
-    background-color: var(--color-background);
-    border-radius: 8px;
-    border: 10px solid var(--color-primary);
-    padding: 24px;
-    max-width: 700px;
-    margin: 2rem auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-  }
-  
-  .title {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--color-primary);
-    margin: 0;
-    text-align: center;
-  }
+.recipeDetailContainer {
+  background-color: var(--color-text-white);
+  border-radius: 16px;
+  padding: 24px 32px;
+  box-shadow: var(--color-shadow-card-hover);
+  border: 1px solid var(--color-border-highlight);
+  max-width: 800px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
-  .title2 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--color-primary);
-    margin: 0;
-    text-align: left;
-  }
-  
-  .input,
-  .textarea,
-  select {
-    width: 100%;
-    max-width: 500px;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid var(--color-primary);
-    font-size: 16px;
-    color: var(--color-primary);
-    background-color: var(--color-background);
-  }
-  
-  .textarea {
-    height: 100px;
-    resize: vertical;
-  }
-  
-  .submitButton {
-    background-color: var(--color-primary);
-    color: white;
-    border: 1px solid var(--color-primary);
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .submitButton:hover {
-    background-color: var(--color-secondary);
-  }
-  
-  .status {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-primary);
-    text-align: center;
-  }
-  
-  .box {
-    width: 100%;
-    max-width: 600px;
-    border: 2px solid var(--color-primary);
-    border-radius: 10px;
-    background-color: var(--color-background);
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  }
-  
-  .boxTitle {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--color-primary);
-    padding-bottom: 4px;
-  }
-  
-  .list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .orderedList {
-    padding-left: 18px;
-    color: var(--color-primary);
+.recipeHeader {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border-highlight);
+  margin-bottom: 10px;
+  text-align: center;
+}
 
-  }
-  
-  .listItem {
-    font-size: 16px;
-    color: var(--color-primary);
-    margin-bottom: 6px;
-  }
-  
-  .foodName {
-    font-weight: 500;
-    color: var(--color-primary);
-  }
-  
-  .foodQuantity {
-    color: var(--color-secondary);
-  }
-  
-  .nutritionGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 20px;
-    font-size: 16px;
-    color: var(--color-primary);
-  }
-  
+.recipeNameTitle {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.recipeSection {
+  background-color: var(--color-background-table-row-odd);
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--color-background-table-row-hover);
+}
+
+.sectionTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border-highlight);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ingredientList,
+.instructionList {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.ingredientList li,
+.instructionList li {
+  font-size: 1rem;
+  color: var(--color-text-medium-dark);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-background-table-row-hover);
+  line-height: 1.6;
+}
+
+.ingredientList li:last-child,
+.instructionList li:last-child {
+  border-bottom: none;
+}
+
+.ingredientName {
+  font-weight: 500;
+}
+
+.ingredientQuantity {
+  color: var(--color-text-grey);
+  font-size: 0.9rem;
+}
+
+.instructionList {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.instructionList li {
+  padding: 10px 0 10px 5px;
+}
+
+.nutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px 20px;
+  font-size: 0.95rem;
+}
+
+.nutritionGrid p {
+  margin: 0;
+  color: var(--color-text-grey);
+}
+
+.nutritionGrid p strong {
+  color: var(--color-text-dark);
+  margin-right: 5px;
+}
+
+.deleteButtonContainer {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border-highlight);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.deleteButton {
+  background-color: var(--color-error);
+  color: var(--color-text-white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deleteButton:hover {
+  background-color: var(--color-error-dark);
+  box-shadow: var(--color-shadow-card-hover);
+}
+
+.statusMessage {
+  text-align: center;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  max-width: 600px;
+  font-size: 1rem;
+}
+
+.loadingMessage {
+  composes: statusMessage;
+  color: var(--color-text-grey);
+  background-color: var(--color-background-table-row-odd);
+}
+
+.successMessage {
+  composes: statusMessage;
+  color: var(--color-confirm-dark);
+  background-color: var(--color-confirm-background-light);
+  border: 1px solid var(--color-confirm-dark);
+}
+
+.errorMessage {
+  composes: statusMessage;
+  color: var(--color-error-dark);
+  background-color: var(--color-error-background-light);
+  border: 1px solid var(--color-error);
+}
   

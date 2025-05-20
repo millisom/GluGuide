@@ -1,44 +1,66 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import parse from 'html-react-parser';
 import CommentsSection from './CommentsSection';
 import styles from '../styles/SingleBlog.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 const ViewPost = () => {
-  const { id } = useParams(); // Extract post ID from the URL
+  const { id } = useParams();
   const [post, setPost] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [infoMessage, setInfoMessage] = useState('');
-  const navigate = useNavigate(); // For navigation (e.g., to author profile)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchPostAndStatus = async () => {
+      setLoading(true);
+      setAuthLoading(true);
       try {
-        const response = await axios.get(`http://localhost:8080/getUserPost/${id}`, {
+        const postResponse = await axiosInstance.get(`/getUserPost/${id}`, {
           withCredentials: true,
         });
-        setPost(response.data || {});
+        setPost(postResponse.data || {});
+
+        const statusResponse = await fetch(`${API_BASE_URL}/status`, { credentials: 'include' });
+        if (statusResponse.ok) {
+          const statusData = await statusResponse.json();
+          setIsLoggedIn(statusData.valid);
+        } else {
+          console.error("Error fetching session status, response not OK:", statusResponse.status);
+          setIsLoggedIn(false);
+        }
+
       } catch (err) {
-        setError('Failed to load post');
+        setError('Failed to load post or session status');
         console.error(
-          'Error loading post:',
+          'Error loading post or status:',
           err.response ? err.response.data : err.message
         );
+        setIsLoggedIn(false);
       } finally {
         setLoading(false);
+        setAuthLoading(false);
       }
     };
-    fetchPost();
+    fetchPostAndStatus();
   }, [id]);
 
   const handleLike = async () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
     try {
-      const response = await axios.post(
-        `http://localhost:8080/toggleLike/${id}`,
+      const response = await axiosInstance.post(
+        `/toggleLike/${id}`,
         {},
         { withCredentials: true }
       );
@@ -47,6 +69,7 @@ const ViewPost = () => {
         likes: response.data.likesCount
           ? Array(response.data.likesCount).fill('user')
           : [],
+        likesCount: response.data.likesCount
       }));
       setInfoMessage('');
     } catch (err) {
@@ -54,6 +77,7 @@ const ViewPost = () => {
         setInfoMessage(err.response.data.message);
       } else {
         console.error('Error liking post:', err);
+        setInfoMessage('An error occurred while liking the post.');
       }
     }
   };
@@ -62,8 +86,23 @@ const ViewPost = () => {
     navigate(`/profile/${authorUsername}`);
   };
 
-  if (loading) return <p className={styles.loadingMessage}>Loading post...</p>;
+  if (loading || authLoading) return <p className={styles.loadingMessage}>Loading post...</p>;
   if (error) return <p className={styles.errorMessage}>{error}</p>;
+  if (!post) return <p className={styles.errorMessage}>Post not found.</p>;
+
+  // Determine like button text and functionality
+  let likeButtonContent;
+  const currentLikes = post.likesCount !== undefined ? post.likesCount : (post.likes ? post.likes.length : 0);
+  if (!isLoggedIn) {
+    likeButtonContent = "Login to like this post!";
+  } else {
+    likeButtonContent = (
+      <>
+        <FontAwesomeIcon icon={faHeart} className={styles.heart} /> {' '}
+        {currentLikes} Like{currentLikes !== 1 && 's'}
+      </>
+    );
+  }
 
   return (
     <div className={styles.viewPostContainer}>
@@ -101,22 +140,20 @@ const ViewPost = () => {
             </div>
         )}
 
-        <div className={styles.postContainerBody}>
-          {post.post_picture && (
-            <img
-              src={`http://localhost:8080/uploads/${post.post_picture}`}
-              alt="Blog post"
-              className={styles.image}
-            />
-          )}
-          <div className={styles.postContainerContentBox}>
-            {parse(post.content)}
-          </div>
+      <div className={styles.postContainerBody}>
+        {post.post_picture && (
+          <img
+            src={`${API_BASE_URL}/uploads/${post.post_picture}`}
+            alt="Blog post"
+            className={styles.image}
+          />
+        )}
+        <div className={styles.postContainerContentBox}>
+          {post.content && parse(post.content)}
         </div>
+      </div>
         <button onClick={handleLike} className={styles.likeButton}>
-          <FontAwesomeIcon icon={faHeart} className={styles.heart} />{' '}
-          {post.likes ? post.likes.length : 0} Like
-          {post.likes?.length !== 1 && 's'}
+          {likeButtonContent}
         </button>
         {infoMessage && <p className={styles.infoMessage}>{infoMessage}</p>}
       </div>

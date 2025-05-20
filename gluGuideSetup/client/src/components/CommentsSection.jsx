@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import axiosInstance from '../api/axiosConfig';
 import CreateComment from "./createComment";
 import CommentsList from "./fetchComments";
+import PropTypes from 'prop-types';
 
 const CommentsSection = ({ postId }) => {
   const [comments, setComments] = useState([]);
@@ -10,25 +11,27 @@ const CommentsSection = ({ postId }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/status", { withCredentials: true })
+    axiosInstance
+      .get("/status", { withCredentials: true })
       .then((res) => setIsAdmin(res.data.is_admin))
       .catch(() => setIsAdmin(false));
   }, []);
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/comments/${postId}`,
+      const response = await axiosInstance.get(
+        `/comments/${postId}`,
         {
           withCredentials: true,
         }
       );
-      setComments(response.data.comments);
+      setComments(response.data.comments || []);
       setCurrentUserId(response.data.currentUserId);
+      setError("");
     } catch (error) {
       console.error("Error loading comments:", error);
       setError("Failed to load comments");
+      setComments([]);
     }
   };
 
@@ -42,7 +45,11 @@ const CommentsSection = ({ postId }) => {
 
   return (
     <div style={{ marginTop: "20px" }}>
-      <CreateComment postId={postId} onCommentCreated={handleCommentCreated} />
+      <CreateComment 
+        postId={postId} 
+        onCommentCreated={handleCommentCreated} 
+        hasExistingComments={comments && comments.length > 0}
+      />
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
@@ -54,6 +61,13 @@ const CommentsSection = ({ postId }) => {
       />
     </div>
   );
+};
+
+CommentsSection.propTypes = {
+  postId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
 };
 
 export default CommentsSection;

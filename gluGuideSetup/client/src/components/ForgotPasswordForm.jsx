@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../api/axiosConfig';
+import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/LoginForm.module.css';
 
 const ForgotPasswordForm = () => {
@@ -13,7 +13,7 @@ const ForgotPasswordForm = () => {
     setNotification({ message: '', type: '' });
 
     try {
-      const response = await axios.post('http://localhost:8080/forgotPassword', { email });
+      const response = await axiosInstance.post('/forgotPassword', { email });
       setNotification({ message: response.data.message, type: 'success' });
     } catch (error) {
       setNotification({

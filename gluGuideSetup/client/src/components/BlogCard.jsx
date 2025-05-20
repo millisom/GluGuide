@@ -1,9 +1,9 @@
-import styles from '../styles/Blogcard.module.css';
+import styles from '../styles/BlogCard.module.css';
 import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faHeart } from '@fortawesome/free-solid-svg-icons';
-import axios from '../api/axiosConfig';
+import axiosInstance from '../api/axiosConfig';
 import PropTypes from 'prop-types';
 
 const BlogCard = ({ blog }) => {
@@ -16,11 +16,11 @@ const BlogCard = ({ blog }) => {
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
             try {
-                await axios.delete(`http://localhost:8080/deletePost/${blog.id}`, {
+                await axiosInstance.delete(`/deletePost/${blog.id}`, {
                     withCredentials: true,
                 });
                 alert('Post deleted successfully.');
-                window.location.reload(); // Reload to update the state
+                window.location.reload(); 
             } catch (error) {
                 console.error('Error deleting post:', error);
                 alert('Failed to delete post.');

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../styles/ContactUs.module.css";
 
 const ContactUs = () => {
@@ -73,7 +73,7 @@ const ContactUs = () => {
                 {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
             </form>
             <div className={styles.contactInfo}>
-                <p>Email: <a href="mailto:gluguide@gmail.com" className={styles.link}>gluguide@gmail.com</a></p>
+                <p>Email: <a href="mailto:gluguide01@gmail.com" className={styles.link}>gluguide01@gmail.com</a></p>
                 <p>Phone: 123-456-7890</p>
             </div>
         </div>

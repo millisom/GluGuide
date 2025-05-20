@@ -18,7 +18,7 @@ This feature automatically displays a graph of the user's logged glucose levels.
 
 ### 2.2 Mock-up  
 _Default graph view on the Glucose Logs page:_  
-![Glucose Graph Mockup]()
+![Glucose Graph Mockup](docs/UseCaseGenerateGraph/Generate_Graph_Mockup.png)
 
 ### 2.3 Alternate Flow  
 - **No Data Available:**  

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/food';
+const API_URL = `${import.meta.env.VITE_API_URL}/food`;
+
 
 const axiosConfig = {
   withCredentials: true, // required for session-based user access

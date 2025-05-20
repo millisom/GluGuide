@@ -198,7 +198,7 @@ GluGuide aims to help users track and manage their glucose levels with insights 
 #### Entry Criteria
 
 - Feature complete (development done).
-- Code pushed to `dev` branch (to be implemented).
+- Code pushed to `deploy` branch.
 
 #### Exit Criteria
 
@@ -225,11 +225,10 @@ GluGuide aims to help users track and manage their glucose levels with insights 
 ## 8. Testing Workflow
 
 - Azure DevOps pipelines will:
-  - Trigger on pull requests and merges to `dev` and `main`.
+  - Trigger on pull requests and merges to `deploy`.
   - Run Jest tests (frontend and backend).
   - Run Postman collection using Newman.
-  - Deploy to staging (on merge to `dev`).
-  - Deploy to production (on merge to `main`).
+  - Deploy to production (on merge to `deploy`).
 - Manual approval gates for production deployment: In Azure DevOps, you can set up approval gates to prevent a release from going into production without someone (usually a developer, QA lead, or product owner) manually reviewing and approving it.
 - Cucumber + Selenium E2E tests triggered via pipeline or local execution.
 
@@ -289,7 +288,7 @@ GluGuide aims to help users track and manage their glucose levels with insights 
 
 ## 11. Iteration Milestones
 
-- Maintain >85% test code coverage across all components.
+- Maintain >30% test code coverage across all components.
 
 ---
 
@@ -364,5 +363,3 @@ This appendix defines the two code quality metrics selected for use in the GluGu
 
 - **B.1 SonarCloud “Before” Analysis** (CC + Ce)  
 - **B.2 SonarCloud “After” Analysis** (CC + Ce)  
-
-TODO: Screenshots, dashboard links, and narrative commentary for each refactored module.

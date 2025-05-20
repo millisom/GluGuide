@@ -1,0 +1,193 @@
+.myAccount {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: flex-start; /* Align items to the left */
+  gap: 20px; /* Space between buttonWrapper and blog cards */
+  width: 100%;
+  max-width: 1500px; /* Limit the width of the section */
+  margin: 0 auto; /* Center the section */
+  padding: 0; /* Ensure no extra padding */
+  box-sizing: border-box; /* Include padding/border in width */
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end; /* Align the button to the right */
+  width: 100%; /* Full width */
+  margin: 0; /* Remove extra margin */
+  padding: 0; /* Remove extra padding */
+}
+
+.blogCardContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allow blog cards to wrap */
+  justify-content: flex-start; /* Align cards to the left */
+  gap: 20px; /* Space between cards */
+  width: 100%; /* Full container width */
+  max-width: 1500px; /* Match container width */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove extra margin */
+  box-sizing: border-box; /* Include padding/border in width */
+}
+
+.cardButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--color-text-white);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardButton:hover {
+  background-color: var(--color-secondary);
+  box-shadow: var(--color-shadow-card-hover);
+}
+
+.myBlogsPageContainer {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 32px;
+  background-color: var(--color-text-white);
+  border-radius: 16px;
+  box-shadow: var(--color-shadow-card-hover);
+}
+
+.myBlogsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.myBlogsTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.createPostButtonPrimary {
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.myBlogsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 24px;
+}
+
+.noPostsMessage {
+  text-align: center;
+  padding: 48px 24px;
+  font-size: 1.1rem;
+  color: var(--color-text-grey);
+  background-color: var(--color-background-table-row-odd);
+  border-radius: 12px;
+  border: 1px dashed var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.noPostsIcon {
+  color: var(--color-secondary);
+}
+
+.noPostsMessage h2 {
+  font-size: 1.75rem;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.noPostsMessage p {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 450px;
+}
+
+.loadingStatePage,
+.errorStatePage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 40px;
+  font-size: 1.25rem;
+  border-radius: 12px;
+  margin: 40px auto;
+  max-width: 800px;
+}
+
+.loadingStatePage {
+  color: var(--color-text-grey);
+  background-color: var(--color-background-light);
+}
+
+.errorStatePage {
+  color: var(--color-error-dark);
+  background-color: var(--color-error-background-light);
+  border: 1px solid var(--color-error);
+}
+
+.mealsOverviewPageContainer {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 32px;
+  background-color: var(--color-text-white);
+  border-radius: 16px;
+  box-shadow: var(--color-shadow-card-hover);
+}
+
+.mealsPageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.mealsPageTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+}
+
+.recipesSummaryPageContainer {
+  max-width: 1200px;
+  margin: 0 auto 50px;
+  padding: 32px;
+  background-color: var(--color-text-white);
+  border-radius: 16px;
+  box-shadow: var(--color-shadow-card-hover);
+}
+
+.recipesPageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.recipesPageTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex; 
+  align-items: center; 
+}

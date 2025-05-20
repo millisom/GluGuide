@@ -23,23 +23,23 @@ This use case describes the process where users can reset their password if they
 ---
 
 ### 2.1 Activity Diagram  
-![Forgot Password Activity Diagram](docs/UseCaseForgotPassword/UCForgotPassword.drawio.png)
+![Forgot Password Activity Diagram](./Docs/UseCaseForgotPassword/forgotPassword.drawio.png)<br>
 
 ---
 
 ### 2.2 Mock-up  
 
 Login Page with Forgot Password Option:<br>
-![Login Page Mockup](docs/UseCaseForgotPassword/Mockup_LoginPage.png)<br>
+![Login Page Mockup](docs/UseCaseForgotPassword/loginPage.PNG)<br>
 
 Forgot Password Form:<br>
-![Forgot Password Form Mockup](docs/UseCaseForgotPassword/Mockup_ForgotPassword.png)<br>
+![Forgot Password Form Mockup](docs/UseCaseForgotPassword/resetPasswordForm.png)<br>
 
 Password Reset Email:<br>
-![Password Reset Email Mockup](docs/UseCaseForgotPassword/Mockup_Email.png)<br>
+![Password Reset Email Mockup](docs/UseCaseForgotPassword/email.png)<br>
 
 Password Reset Page:<br>
-![Password Reset Page Mockup](docs/UseCaseForgotPassword/Mockup_ResetPassword.png)<br>
+![Password Reset Page Mockup](docs/UseCaseForgotPassword/resetform.png)<br>
 
 ---
 

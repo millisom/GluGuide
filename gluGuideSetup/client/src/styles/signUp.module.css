@@ -1,7 +1,7 @@
 /* signup.css */
 
 .formSignUp {
-    background-color: #FAF7F0;
+    background-color: var(--color-background);
     display: flex;
     min-width: 300px;
     max-width: 600px;
@@ -10,12 +10,12 @@
     padding: 24px;
     text-align: center;
     font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) var(--sds-typography-body-font-family);
-    border: 10px solid var(--color-primary);
+    border: 8px solid var(--color-primary);
 }
 
 .inputField {
     display: flex;
-    background-color: #FAF7F0;
+    background-color: var(--color-background);
     width: 100%;
     box-sizing: border-box;
     flex-direction: column;
@@ -24,7 +24,7 @@
 }
 
 .label {
-    color: var(--sds-color-text-default-default);
+    color: var(--color-text-dark);
     line-height: 1.4;
     margin-bottom: 8px;
 }
@@ -36,7 +36,7 @@
     padding: 12px 16px;
     border: 1px solid var(--color-primary);
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: var(--color-text-white);
 }
 
 .buttonGroup {
@@ -76,7 +76,7 @@
 }
 
 .errorMessage {
-    color: red;
+    color: var(--color-error);
     margin-bottom: 16px;
 }
 

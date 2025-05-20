@@ -10,12 +10,12 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 const AdminEditUser = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // We'll store user data (username, email, is_admin, bio) in `user`,
-  // but store the avatar URL separately, just like in ProfileCard.
   const [user, setUser] = useState({
     username: '',
     email: '',
@@ -23,14 +23,13 @@ const AdminEditUser = () => {
     profile_bio: '',
   });
   const [avatarUrl, setAvatarUrl] = useState('');
-
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
   const fetchUserData = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/admin/user/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/admin/user/${id}`, {
         credentials: 'include',
       });
       if (!res.ok) {
@@ -51,7 +50,7 @@ const AdminEditUser = () => {
 
   const fetchUserAvatar = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/admin/user/${id}/avatar`, {
+      const res = await fetch(`${API_BASE_URL}/admin/user/${id}/avatar`, {
         credentials: 'include',
       });
       const data = await res.json();
@@ -86,7 +85,7 @@ const AdminEditUser = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:8080/admin/user/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/admin/user/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -107,14 +106,14 @@ const AdminEditUser = () => {
 
   const handleRemoveAvatar = async () => {
     if (
-      !window.confirm('Are you sure you want to remove this users avatar?')
+      !window.confirm('Are you sure you want to remove this user’s avatar?')
     ) {
       return;
     }
     setMessage('');
 
     try {
-      const res = await fetch(`http://localhost:8080/admin/user/${id}/avatar`, {
+      const res = await fetch(`${API_BASE_URL}/admin/user/${id}/avatar`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -139,7 +138,6 @@ const AdminEditUser = () => {
       <h1 className={styles.title}>Edit User</h1>
       <br />
       <form onSubmit={handleSubmit}>
-        {/* Username */}
         <div className={styles.inputField}>
           <label className={styles.label}>Username</label>
           <input
@@ -151,7 +149,6 @@ const AdminEditUser = () => {
           />
         </div>
 
-        {/* Email */}
         <div className={styles.inputField}>
           <label className={styles.label}>Email</label>
           <input
@@ -163,7 +160,6 @@ const AdminEditUser = () => {
           />
         </div>
 
-        {/* Admin checkbox */}
         <div className={styles.inputField}>
           <label className={styles.labelCheckbox}>
             <input
@@ -176,19 +172,16 @@ const AdminEditUser = () => {
           </label>
         </div>
 
-        {/* Bio with React Quill */}
         <div className={styles.inputField}>
           <label className={styles.label}>Bio</label>
           <ReactQuill
             value={user.profile_bio}
             onChange={(value) => setUser({ ...user, profile_bio: value })}
-            theme="snow"
-            // Adjust className and styling as needed:
+            theme='snow'
             className={styles.input}
           />
         </div>
 
-        {/* New Password */}
         <div className={styles.inputField}>
           <label className={styles.label}>New Password</label>
           <input
@@ -200,7 +193,6 @@ const AdminEditUser = () => {
           />
         </div>
 
-        {/* Avatar display */}
         <div className={styles.inputField}>
           <label className={styles.label}>Avatar</label>
           {avatarUrl ? (
@@ -225,7 +217,6 @@ const AdminEditUser = () => {
           </button>
         </div>
 
-        {/* Messages */}
         {message && (
           <p
             className={styles.message}
@@ -237,7 +228,6 @@ const AdminEditUser = () => {
           </p>
         )}
 
-        {/* Buttons */}
         <div className={styles.buttonGroup}>
           <button
             type='button'

@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
 
+
 // Configuration imports
 const corsOptions = require('./config/corsConfig');
 const sessionConfig = require('./config/sessionConfig');
@@ -11,6 +12,9 @@ const setupRoutes = require('./config/routesConfig');
 
 // Load environment variables
 dotenv.config();
+
+console.log("CORS allowed origins:", corsOptions.origin);
+
 
 // Setup CORS
 app.use(cors(corsOptions));
@@ -25,7 +29,7 @@ setupMiddleware(app);
 setupRoutes(app);
 
 // Start the server
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log('Server is running on http://localhost:8080');
 });

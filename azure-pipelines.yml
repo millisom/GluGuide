@@ -1,0 +1,73 @@
+# Node.js CI/CD Pipeline for Azure Deployment
+
+trigger:
+- deployment
+
+stages:
+- stage: Build
+  displayName: 'Build Stage'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build Job'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '20.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd gluGuideSetup/server
+        npm install
+      displayName: 'Install Dependencies'
+
+    - script: |
+        cd gluGuideSetup/server
+        npm run test
+      displayName: 'Run Backend Tests'
+
+    - script: |
+        npm install -g newman
+        newman run gluGuideSetup/tests/GluGuide_collection.json
+      displayName: 'Run API Tests with Newman'
+
+
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
+        replaceExistingArchive: true
+      displayName: 'Archive Backend Files'
+
+    - publish: '$(Build.ArtifactStagingDirectory)/backend.zip'
+      artifact: 'drop'
+
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  dependsOn: Build
+  jobs:
+  - deployment: DeployJob
+    displayName: 'Deploy Job'
+    environment: 'production'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+
+          - task: AzureRmWebAppDeployment@5
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: '5e475481-5b93-4eba-8777-affd47c2049b'
+              appType: 'webAppLinux'
+              WebAppName: 'GluGuideBackend'
+              packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
+              DeploymentTypeLinux: 'zipDeploy'
+              StartupCommand: 'cd gluGuideSetup/server && npm start'
+

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../api/axiosConfig';
 import styles from '../styles/AlertsTable.module.css';
 
 const AlertsTable = () => {
@@ -16,12 +16,12 @@ const AlertsTable = () => {
     const fetchUserAndAlerts = async () => {
       try {
         // Fetch userId first
-        const userResponse = await axios.get('http://localhost:8080/currentUser', { withCredentials: true });
+        const userResponse = await axiosInstance.get('/currentUser', { withCredentials: true });
         const userId = userResponse.data.userId;
         setUserId(userId);
 
         // Then fetch alerts for that user
-        const alertsResponse = await axios.get(`http://localhost:8080/alerts/${userId}`, {
+        const alertsResponse = await axiosInstance.get(`/alerts/${userId}`, {
           withCredentials: true,
         });
         console.log('Fetched Alerts:', alertsResponse.data);
@@ -38,7 +38,7 @@ const AlertsTable = () => {
   // Refresh alerts from the backend
   const refreshAlerts = async () => {
     try {
-      const alertsResponse = await axios.get(`http://localhost:8080/alerts/${userId}`, { withCredentials: true });
+      const alertsResponse = await axiosInstance.get(`/alerts/${userId}`, { withCredentials: true });
       setAlerts(alertsResponse.data);
     } catch (err) {
       console.error('Error refreshing alerts:', err);
@@ -64,8 +64,8 @@ const AlertsTable = () => {
     try {
       // Use the alert's stored email (passed along by your model) when updating
       const email = alert.email;
-      await axios.put(
-        `http://localhost:8080/alerts/${alert.alert_id}`,
+      await axiosInstance.put(
+        `/alerts/${alert.alert_id}`,
         { email, reminderFrequency: editedFrequency, reminderTime: editedTime },
         { withCredentials: true }
       );
@@ -83,7 +83,7 @@ const AlertsTable = () => {
   const handleDeleteAlert = async (alertId) => {
     if (!window.confirm('Are you sure you want to delete this alert?')) return;
     try {
-      await axios.delete(`http://localhost:8080/alerts/${alertId}`, { withCredentials: true });
+      await axiosInstance.delete(`/alerts/${alertId}`, { withCredentials: true });
       refreshAlerts();
     } catch (error) {
       console.error('Error deleting alert:', error);

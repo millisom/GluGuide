@@ -11,22 +11,28 @@
 .searchInput {
   width: 100%;
   max-width: 500px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid var(--color-primary);
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid var(--color-border-light);
   border-radius: 6px;
-  color: var(--color-primary); /* fix: not grey */
-  background-color: var(--color-background);
+  color: var(--color-text-dark);
+  background-color: var(--color-text-white);
   outline: none;
+  box-sizing: border-box;
 }
 
 .searchInput::placeholder {
-  color: var(--color-primary) /* make sure this is readable */
+  color: var(--color-text-grey);
+}
+
+.searchInput:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-secondary-light);
 }
 
 .searchButton {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-text-white);
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
@@ -52,11 +58,10 @@
   top: 100%;
   left: 0;
   right: 0;
-  background-color: var(--color-background);
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary);
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-text-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 12px var(--color-shadow-card-hover);
   border-top: none;
   max-height: 200px;
   overflow-y: auto;
@@ -64,11 +69,21 @@
 }
 
 .suggestions li {
-  padding: 8px;
+  padding: 10px 12px;
   cursor: pointer;
+  color: var(--color-text-dark);
+  background-color: var(--color-text-white);
+  border-bottom: 1px solid var(--color-border-highlight);
+  transition: background-color 0.2s ease;
 }
 
-.suggestions li:hover {
-  background: #f0f0f0;
+.suggestions li:last-child {
+  border-bottom: none;
+}
+
+.suggestions li:hover,
+.suggestions li.active-suggestion {
+  background-color: var(--color-background-table-row-hover);
+  color: var(--color-primary);
 }
 

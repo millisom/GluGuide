@@ -4,23 +4,22 @@
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
 /* Rectangle styling */
 .createPostRectangle {
-  border: 2px solid var(--color-primary);
   border-radius: 10px;
   padding: 30px;
   background-color: var(--color-background);
-  border: 10px solid var(--color-primary);
+  border: 8px solid var(--color-primary);
 }
 
 /* Heading styling */
-.createPostContainer h2 {
+.formTitle {
   font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-primary);
   margin-bottom: 20px;
   text-align: center;
 }
@@ -32,51 +31,131 @@
   gap: 20px;
 }
 
+/* Input Group styling */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 /* Label styling */
-.createPostContainer label {
+.label {
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-dark);
+}
+
+/* General input styling (for text, etc.) */
+.input {
+  padding: 12px;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  background-color: var(--color-text-white);
+  box-sizing: border-box;
 }
 
 /* Styling for text input and file input with white background */
-.createPostContainer input[type='file'] {
+.fileInput {
   padding: 10px;
   border: 1px solid var(--color-primary);
   border-radius: 8px;
   font-size: 1rem;
   width: 100%;
-  background-color: var(--color-text-white); /* Set background to white */
+  background-color: var(--color-text-white);
   box-sizing: border-box;
 }
 
 /* Styling for the Quill editor */
-.createPostContainer .ql-container {
-  border: 2px solid var(--color-primary);
-  border-radius: 8px;
-  background-color: var(--color-text-white); /* Set background to white */
-  padding: 10px;
+.quillEditor .ql-toolbar {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border: 1px solid var(--color-primary);
+  border-bottom: none;
+}
+
+.quillEditor .ql-container {
+  border: 1px solid var(--color-primary);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: var(--color-text-white);
+  min-height: 150px;
+  font-size: 1rem;
 }
 
 /* Button styling */
-.createPostContainer button {
+.submitButton {
   background-color: var(--color-primary);
+  color: var(--color-text-white);
   font-size: 1rem;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  align-self: center;
+  min-width: 150px;
 }
 
+.submitButton:hover {
+  background-color: var(--color-secondary);
+}
 
 /* Success message styling */
-.createPostContainer .successMessage {
-  color: green;
+.successMessage {
+  color: var(--color-confirm);
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
+  margin-top: 10px;
+}
+
+/* Error message styling */
+.errorMessage {
+  color: var(--color-error);
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Styles for Auth Prompt when not logged in */
+.authPromptContainer {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--color-background-table-row-odd);
+  border: 1px solid var(--color-border-highlight);
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.authPromptMessage {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-dark);
+  margin-bottom: 20px;
+}
+
+.authLink {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 4px;
+}
+
+.authLink:hover {
+  color: var(--color-secondary);
+}
+
+/* Loading message style for the form */
+.loadingMessage {
+  text-align: center;
+  padding: 30px;
+  font-size: 1.2rem;
+  color: var(--color-text-dark);
 }
 
 /* Responsive styling for mobile */
@@ -85,7 +164,10 @@
     padding: 10px;
   }
 
-  .createPostContainer h2 {
+  .formTitle {
     font-size: 1.5rem;
+  }
+  .quillEditor .ql-container {
+    min-height: 100px;
   }
 }

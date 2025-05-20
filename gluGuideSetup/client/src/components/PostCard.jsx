@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import PostTags from './PostTags';
 import styles from '../styles/ViewBlogEntries.module.css';
-const API_BASE_URL = import.meta.env.VITE_API_URL;
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const PostCard = ({ 
   post, 
@@ -39,12 +39,11 @@ const PostCard = ({
           </p>
           <div className={styles.postLikes}>
             <span className={styles.likeIcon}>
-              <FontAwesomeIcon
-                icon={faHeart}
-                className={styles.heart}
-              />
+              <FontAwesomeIcon icon={faHeart} className={styles.heart} />
             </span>
-            <span>{post.likes_count ? post.likes_count : (post.likes ? post.likes.length : 0)}</span>
+            <span>
+              {post.likes_count ? post.likes_count : (post.likes ? post.likes.length : 0)}
+            </span>
           </div>
         </div>
         {post.tags && post.tags.length > 0 && (
@@ -65,7 +64,7 @@ const PostCard = ({
               window.location.href = `/admin/editPost/${post.id}`;
             }}
           >
-            <FontAwesomeIcon icon={faEdit} /> Edit
+            <span><FontAwesomeIcon icon={faEdit} /> Edit</span>
           </button>
           <button
             className={styles.deleteButton}
@@ -74,7 +73,7 @@ const PostCard = ({
               handleAdminDelete(post.id);
             }}
           >
-            <FontAwesomeIcon icon={faTrash} /> Delete
+            <span><FontAwesomeIcon icon={faTrash} /> Delete</span>
           </button>
         </div>
       )}
@@ -106,4 +105,4 @@ PostCard.defaultProps = {
   selectedTags: [],
 };
 
-export default PostCard; 
+export default PostCard;

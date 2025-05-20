@@ -3,14 +3,17 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import PostCard from '../../src/components/PostCard';
 
-// Mock PostTags component
+// ✅ Mock PostTags component
 vi.mock('../../src/components/PostTags', () => ({
   default: ({ tags }) => <div data-testid="post-tags">{tags.join(',')}</div>
 }));
 
-// Mock FontAwesomeIcon
+// ✅ Robust FontAwesomeIcon mock
 vi.mock('@fortawesome/react-fontawesome', () => ({
-  FontAwesomeIcon: ({ icon }) => <span data-testid={`icon-${icon.iconName}`}></span>
+  FontAwesomeIcon: ({ icon }) => {
+    const iconName = typeof icon === 'object' && icon.iconName ? icon.iconName : 'unknown';
+    return <span data-testid={`icon-${iconName}`} />;
+  }
 }));
 
 describe('PostCard Component', () => {
@@ -67,4 +70,4 @@ describe('PostCard Component', () => {
     
     expect(mockProps.handleAdminDelete).toHaveBeenCalledWith(123);
   });
-}); 
+});

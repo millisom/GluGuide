@@ -2,15 +2,19 @@ import PropTypes from 'prop-types';
 import styles from '../styles/ViewBlogEntries.module.css';
 
 const PostTags = ({ tags, selectedTags, setSelectedTags }) => {
+  if (!Array.isArray(tags)) return <div className={styles.tagsContainer} />;
+
   return (
     <div className={styles.tagsContainer}>
       {tags.map((tag, index) => (
         <button 
           key={index} 
-          className={`${styles.tagItem} ${selectedTags && selectedTags.includes(tag) ? styles.selectedTagInCard : ''}`}
+          className={`${styles.tagItem} ${selectedTags?.includes(tag) ? styles.selectedTagInCard : ''}`}
           onClick={(e) => {
             e.stopPropagation(); 
-            setSelectedTags(tag);
+            if (!selectedTags.includes(tag)) {
+              setSelectedTags([...selectedTags, tag]);
+            }
           }}
         >
           {tag}
@@ -27,7 +31,7 @@ PostTags.propTypes = {
 };
 
 PostTags.defaultProps = {
-    selectedTags: [],
+  selectedTags: [],
 };
 
-export default PostTags; 
+export default PostTags;

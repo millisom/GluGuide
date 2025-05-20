@@ -24,6 +24,7 @@ const ViewBlogEntries = () => {
         const res = await axiosInstance.get('/status', { withCredentials: true });
         setIsAdmin(res.data.is_admin);
       } catch (error) {
+        console.error("Error checking admin status:", error);
         setIsAdmin(false);
       }
     };
@@ -143,6 +144,13 @@ const ViewBlogEntries = () => {
     navigate(`/blogs/view/${postId}`);
   };
 
+  // New handler for when a tag is clicked on an individual PostCard
+  const handleTagSelectOnCard = (tagToAdd) => {
+    if (!selectedTags.includes(tagToAdd)) {
+      setSelectedTags(prevTags => [...prevTags, tagToAdd]);
+    }
+  };
+
   // Prepare tag options for react-select
   const tagOptions = (availableTags || []).map(tag => ({ value: tag, label: tag }));
   const selectedTagValues = selectedTags.map(tag => ({ value: tag, label: tag }));
@@ -188,7 +196,7 @@ const ViewBlogEntries = () => {
               handleViewClick={handleViewClick}
               handleAdminDelete={handleAdminDelete}
               selectedTags={selectedTags}
-              setSelectedTags={setSelectedTags}
+              setSelectedTags={handleTagSelectOnCard}
             />
           ))}
         </div>

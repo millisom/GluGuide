@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axiosInstance from '../api/axiosConfig';
 import { Link, useNavigate } from "react-router-dom";
-import '../styles/signUp.module.css';
+import styles from '../styles/signUp.module.css';
 
 function SignUp() {
     const history = useNavigate();
@@ -52,50 +52,50 @@ function SignUp() {
     }
 
     return (
-        <div className="formSignUp">
-            <h1 className="pageTitle">Sign Up</h1>
+        <div className={styles.formSignUp}>
+            <h1 className={styles.pageTitle}>Sign Up</h1>
             <form onSubmit={register}>
-                <div className="inputField">
+                <div className={styles.inputField}>
                     <input
                         type="text"
                         name="username"
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="Username"
                         required
-                        className="input"
+                        className={styles.input}
                     />
                 </div>
-                <div className="inputField">
+                <div className={styles.inputField}>
                     <input
                         type="email"
                         name="email"
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         required
-                        className="input"
+                        className={styles.input}
                     />
                 </div>
-                <div className="inputField">
+                <div className={styles.inputField}>
                     <input
                         type="password"
                         name="password"
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                         required
-                        className="input"
+                        className={styles.input}
                     />
                 </div>
-                <div className="inputField">
+                <div className={styles.inputField}>
                     <input
                         type="password"
                         name="confirmPassword"
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm Password"
                         required
-                        className="input"
+                        className={styles.input}
                     />
                 </div>
-                <label className="label">
+                <label className={styles.label}>
                     <input
                         type="checkbox"
                         name="termsAccepted"  
@@ -104,10 +104,10 @@ function SignUp() {
                     />
                     I accept the Terms and Conditions
                 </label>
-                <div className="buttonGroup">
-                    <button type="submit" className="button">Sign Up</button>
+                <div className={styles.buttonGroup}>
+                    <button type="submit" className={styles.button}>Sign Up</button>
                 </div>
-                <p><Link to="/login" className="forgotPassword">Already have an Account? Login here</Link></p>
+                <p><Link to="/login" className={styles.forgotPassword}>Already have an Account? Login here</Link></p>
             </form>
             
              {message && (

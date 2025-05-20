@@ -8,9 +8,9 @@
 
 .card {
   background-color: var(--color-background);
-  border: 10px solid var(--color-primary);
+  border: 8px solid var(--color-primary);
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--color-shadow-card-hover);
   width: 300px;
   height: 300px; /* Fixed card height */
   display: flex;
@@ -36,9 +36,8 @@
 
 .cardTitle {
   font-size: 1.5rem;
-  color: var(--color-primary);
   font-weight: bold;
-  color: var(--sds-color-text-default-primary, #333);
+  color: var(--color-text-dark);
   cursor: pointer;
 }
 
@@ -48,7 +47,7 @@
 
 .cardDescription {
   font-size: 1rem;
-  color: var(--sds-color-text-default-secondary, #666);
+  color: var(--color-text-grey);
 }
 
 .cardFooter {
@@ -79,7 +78,7 @@
 
 .iconButton {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-text-white);
   padding: 8px;
   border: none;
   border-radius: 50%;
@@ -103,7 +102,7 @@
   padding: 10px 20px;
   font-size: 1rem;
   font-weight: bold;
-  color: white;
+  color: var(--color-text-white);
   background-color: var(--color-primary);
   border: none;
   border-radius: 8px;
@@ -138,7 +137,7 @@
 }
 
 .heart {
-  color: #e68484;
+  color: var(--color-error);
 }
 
 .tagsContainer {
@@ -150,8 +149,8 @@
 }
 
 .tagItem {
-    background-color: #9d9bcf;
-    color: #fff;
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.8em;

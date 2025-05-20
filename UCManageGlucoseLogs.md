@@ -18,6 +18,10 @@ The user can track a new glucose level. To do so, the user enters data in the Gl
 
 ![Create Glucose Log Diagram](docs/UseCaseManageGlucoseLogs/UCCreateGlucoseLog.drawio.png)
 
+This is our Mockup:
+
+<img src="docs/UseCaseManageGlucoseLogs/Generate_GlucoseLevel_Create_Mockup.png" alt="Create Glucose Log Mockup" width="400">
+
 ```gherkin
 Feature: Create Glucose Log
     As a logged-in user
@@ -49,6 +53,10 @@ The user can edit a glucose level. To do so, the user clicks on the "Edit" Butto
 
 ![Edit Glucose Log Diagram](docs/UseCaseManageGlucoseLogs/UCEditGlucoseLog.drawio.png)
 
+This is our Mockup:
+
+<img src="docs/UseCaseManageGlucoseLogs/Generate_GlucoseLevel_Edit_Mockup.png" alt="Edit Glucose Log Mockup" width="400">
+
 ```gherkin
 Feature: Edit Glucose Log
     As a logged-in user
@@ -76,6 +84,10 @@ The user can list the glucose values. The default filter is "last 24 hours". Wit
 
 ![List Glucose Log Diagram](docs/UseCaseManageGlucoseLogs/UCListGlucoseLog.drawio.png)
 
+This is our Mockup:
+
+<img src="docs/UseCaseManageGlucoseLogs/Generate_GlucoseLevel_List_Mockup.png" alt="List Glucose Log Mockup" width="400">
+
 ```gherkin
     Feature: List Glucose Logs
     As a logged-in user
@@ -93,6 +105,14 @@ The user can list the glucose values. The default filter is "last 24 hours". Wit
 The User can delete a glucose log. 
 
 ![Delete Glucose Log Diagram](docs/UseCaseManageGlucoseLogs/UCDeleteGlucoseLog.drawio.png)
+
+This is our Mockup:
+
+<img src="docs/UseCaseManageGlucoseLogs/Generate_GlucoseLevel_Delete_Mockup.png" alt="Delete Glucose Log Mockup" width="400">
+
+
+
+
 
 ```gherkin
     Feature: Delete Glucose Log

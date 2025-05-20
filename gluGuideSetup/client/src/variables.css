@@ -7,10 +7,35 @@
     --color-text-grey: #666666;
     --color-text-lightGrey: #999999;
     --color-text-white: #FFFFFF;
-    --color-error: #FF0000;
-    --color-confirm: #387F39;
-    --color-warning: #FFA500;
+    --color-text-dark: #333333;
+    --color-text-medium-dark: #444444;
+    --color-error: #e68484;
+    --color-error-dark: #c56f6f;
+    --color-error-background-light: #f7eae6;
+    --color-confirm: #1cc198;
+    --color-confirm-dark: #169d7b;
+    --color-confirm-background-light: #e6f7f1;
+    --color-warning: #ffb099;
+    --color-warning-dark: #ffa488;
     --color-info: #0000FF;
+    --color-accent-pink: #ffa0be;
+    --color-accent-pink-dark: #f988ab;
 
     --color-primaryBackground:linear-gradient( #b8b6eb, #e6dddd);
+
+    --color-background-light: #fdfdfd;
+    --color-background-table-row-odd: #f9f9f9;
+    --color-background-table-row-hover: #f1f1f1;
+    --color-background-disabled: #cccccc;
+    --color-border-light: #dddddd;
+    --color-border-highlight: #eeeeee;
+    --color-secondary-light: #f0e6ff;
+    --color-button-secondary-background: #aaaaaa;
+    --color-button-secondary-background-hover: #888888;
+
+    --color-shadow-light: rgba(0, 0, 0, 0.05);
+    --color-shadow-card: rgba(0, 0, 0, 0.06);
+    --color-shadow-subtle: rgba(0, 0, 0, 0.07);
+    --color-shadow-medium: rgba(0, 0, 0, 0.08);
+    --color-shadow-card-hover: rgba(0, 0, 0, 0.1);
 }

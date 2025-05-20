@@ -1,0 +1,100 @@
+.mealsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 10px 0;
+}
+
+.mealCard {
+  background-color: var(--color-text-white);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--color-shadow-subtle);
+  border: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.mealCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--color-shadow-card-hover);
+}
+
+.mealType {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin: 0 0 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mealDateTime {
+  font-size: 0.9rem;
+  color: var(--color-text-grey);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.mealCalories {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  margin: 5px 0;
+  padding: 8px 0;
+  border-top: 1px solid var(--color-border-highlight);
+  border-bottom: 1px solid var(--color-border-highlight);
+}
+
+.viewMealButton {
+  padding: 10px 15px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-white);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  text-align: center;
+  margin-top: auto;
+}
+
+.viewMealButton:hover {
+  background-color: var(--color-secondary);
+  box-shadow: var(--color-shadow-card-hover);
+}
+
+.statusMessageContainer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.noMealsMessage {
+  color: var(--color-text-grey);
+  background-color: var(--color-background-table-row-odd);
+  border: 1px dashed var(--color-border-light);
+}
+
+.errorMessage {
+  color: var(--color-error-dark);
+  background-color: var(--color-error-background-light);
+  border: 1px solid var(--color-error);
+}
+
+.statusMessageContainer h2 {
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.statusMessageContainer p {
+  font-size: 1rem;
+  line-height: 1.6;
+} 

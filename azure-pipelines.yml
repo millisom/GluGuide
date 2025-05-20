@@ -61,6 +61,8 @@ stages:
 
     - script: |
         cd gluGuideSetup/server
+        npm install
+        npm start & sleep 10
         newman run GluGuide_collection.json
       displayName: 'Run Newman API Tests'
 

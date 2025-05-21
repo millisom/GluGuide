@@ -4,6 +4,7 @@ trigger:
 - deployment
 
 stages:
+# -------------------- BUILD STAGE --------------------
 - stage: Build
   displayName: 'Build Stage'
   jobs:
@@ -39,6 +40,7 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)/backend.zip'
       artifact: 'drop'
 
+# -------------------- TEST STAGE --------------------
 - stage: Test
   displayName: 'Test Stage'
   dependsOn: Build
@@ -65,6 +67,12 @@ stages:
         npm run test
       displayName: 'Run Frontend Tests'
 
+    - script: |
+        npm install -g newman
+        newman run gluGuideSetup/server/GluGuide_collection.json
+      displayName: 'Run API Tests with Newman'
+
+# -------------------- DEPLOY STAGE --------------------
 - stage: Deploy
   displayName: 'Deploy Stage'
   dependsOn: Test

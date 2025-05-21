@@ -1,7 +1,9 @@
 # Node.js CI/CD Pipeline for Azure Deployment
 
 trigger:
-- deployment
+  branches:
+    include:
+    - deployment
 
 stages:
 # -------------------- BUILD STAGE --------------------
@@ -30,12 +32,16 @@ stages:
 
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-        includeRootFolder: false
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/gluGuideSetup/server'
+        includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
         replaceExistingArchive: true
-      displayName: 'Archive Backend Files'
+      displayName: 'Archive only Backend Files'
+
+    - script: |
+        unzip -l "$(Build.ArtifactStagingDirectory)/backend.zip"
+      displayName: 'Show ZIP Contents'
 
     - publish: '$(Build.ArtifactStagingDirectory)/backend.zip'
       artifact: 'drop'
@@ -65,5 +71,5 @@ stages:
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
               DeploymentTypeLinux: 'zipDeploy'
-              StartupCommand: 'cd gluGuideSetup/server && npm start'
+              StartupCommand: 'npm start'
             displayName: 'Deploy to Azure App Service'

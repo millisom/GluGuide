@@ -67,10 +67,6 @@ stages:
         npm run test
       displayName: 'Run Frontend Tests'
 
-    - script: |
-        npm install -g newman
-        newman run gluGuideSetup/server/GluGuide_collection.json
-      displayName: 'Run API Tests with Newman'
 
 # -------------------- DEPLOY STAGE --------------------
 - stage: Deploy

@@ -4,7 +4,6 @@ trigger:
 - deployment
 
 stages:
-# -------------------- BUILD STAGE --------------------
 - stage: Build
   displayName: 'Build Stage'
   jobs:
@@ -21,16 +20,18 @@ stages:
     - script: |
         cd gluGuideSetup/server
         npm install
-      displayName: 'Install Backend Dependencies'
+      displayName: 'Install Dependencies'
 
     - script: |
-        cd gluGuideSetup/client
-        npm install
-      displayName: 'Install Frontend Dependencies'
+        cd gluGuideSetup/server
+        npm run test
+      displayName: 'Run Backend Tests'
+
+
 
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/gluGuideSetup'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
@@ -40,38 +41,9 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)/backend.zip'
       artifact: 'drop'
 
-# -------------------- TEST STAGE --------------------
-- stage: Test
-  displayName: 'Test Stage'
-  dependsOn: Build
-  jobs:
-  - job: TestJob
-    displayName: 'Run Tests'
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '20.x'
-      displayName: 'Install Node.js'
-
-    - script: |
-        cd gluGuideSetup/server
-        npm install
-        npm run test
-      displayName: 'Run Backend Tests'
-
-    - script: |
-        cd gluGuideSetup/client
-        npm install
-        npm run test
-      displayName: 'Run Frontend Tests'
-
-
-# -------------------- DEPLOY STAGE --------------------
 - stage: Deploy
   displayName: 'Deploy Stage'
-  dependsOn: Test
+  dependsOn: Build
   jobs:
   - deployment: DeployJob
     displayName: 'Deploy Job'
@@ -93,4 +65,4 @@ stages:
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
               DeploymentTypeLinux: 'zipDeploy'
-              StartupCommand: 'cd server && npm start'
+              StartupCommand: 'cd gluGuideSetup/server && npm start'

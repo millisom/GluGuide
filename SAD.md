@@ -49,15 +49,24 @@ This document describes the technical architecture of the GluGuide project, incl
 | -------------------------------------------------------------------|:----------:| ------------------------- |
 | [GluGuide Blog](https://gdewomenhealth.wordpress.com/?_gl=1%2Aowhejp%2A_gcl_au%2ANjg0NDgyODI1LjE3MjYxMzk0NDA)| 07.11.2024 |GluGuide  |
 | [GitHub Repository](https://github.com/millisom/GluGuide)| 07.11.2024 |GluGuide  |
-| [Overall Use Case Diagram](https://github.com/millisom/GluGuide/blob/108096264f95006fb383c2f643020956055fbe90/docs/UCD2.drawio.svg)| 07.11.2024 |GluGuide  |
+| [Overall Use Case Diagram](https://github.com/millisom/GluGuide/blob/5112acab63e2a801674f5f804d32cb34232c55d7/docs/UCD3.drawio.svg)| 21.05.2025 |GluGuide  |
 | [SRS](SRS.md)| 07.11.2024 |GluGuide  |
 | [UC:Create Account](UCCreateAccount.md)| 07.11.2024 |GluGuide  |
 | [UC:Edit Account](UCEditAccount.md)| 07.11.2024 |GluGuide  |
 | [UC:Delete Account](UCDeleteAccount.md)| 07.11.2024 |GluGuide  |
+| [UC:Log in and Log out](UCLogin_logout.md)|07.11.2024 | GluGuide |
 | [UC:Manage Blogpost](UCManagePost.md)| 07.11.2024 |GluGuide  |
 | [UC:Manage Comments](UCManageComment.md)| 07.11.2024 |GluGuide  |
 | [UC:Like Post](UCLikePost.md)| 16.11.2024 |GluGuide  |
 | [UC:Like Comments](UCLikeDislikeComment.md)| 16.11.2024 |GluGuide  |
+| [UC:Reset Password](UCResetPassword.md)|05.04.2025 | GluGuide |
+| [UC:Manage Admin Accounts](UCManageAdmins.md)|19.04.2025 | GluGuide |
+| [UC:Create Recipe](UCCreateRecipe.md)|21.04.2025 | GluGuide |
+| [UC:Log Macros](UCLogMacros.md)|21.04.2025 | GluGuide |
+| [UC:Log Meals](UCLogMeal.md)|21.04.2025 | GluGuide |
+| [UC:Manage Glucose Logs](UCManageGlucoseLogs.md)|15.04.2025 | GluGuide |
+| [UC:Generate Graphs](UCGenerateGraph.md)|15.04.2025 | GluGuide |
+| [UC:Manage Alerts](UCManageAlerts.md)|15.04.2025 | GluGuide |
 
 
 ### 1.5 Overview
@@ -94,7 +103,7 @@ They are both written in Javascript.
 ## 4. Use-Case View
 Our overall UC diagram:
 
-![UCD](docs/UCD2.drawio.svg) <br>
+![UCD](docs/UCD3.drawio.svg) <br>
 
 
 ## 5. Logical View

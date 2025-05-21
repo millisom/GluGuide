@@ -74,11 +74,11 @@ stages:
               appType: 'webAppLinux'
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
-              DeploymentTypeLinux: 'zipDeploy'
-              StartupCommand: 'cd gluGuideSetup/server && npm start'
-              enableCustomDeployment: true
-              deploymentMethod: 'runFromPackage'
-            displayName: 'Deploy to Azure App Service'
+              RuntimeStack: 'NODE|20-lts'
+              DeploymentType: 'runFromPackage'
+              StartupCommand: 'npm start'
+            displayName: 'Deploy with Run-From-Package'
+
 
           - task: AzureAppServiceManage@0
             inputs:

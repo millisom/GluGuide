@@ -4,6 +4,7 @@ trigger:
 - deployment
 
 stages:
+# -------------------- BUILD STAGE --------------------
 - stage: Build
   displayName: 'Build Stage'
   jobs:
@@ -27,12 +28,10 @@ stages:
         npm run test
       displayName: 'Run Backend Tests'
 
-
-
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-        includeRootFolder: false
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/gluGuideSetup/server'
+        includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
         replaceExistingArchive: true
@@ -41,6 +40,7 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)/backend.zip'
       artifact: 'drop'
 
+# -------------------- DEPLOY STAGE --------------------
 - stage: Deploy
   displayName: 'Deploy Stage'
   dependsOn: Build
@@ -65,4 +65,5 @@ stages:
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
               DeploymentTypeLinux: 'zipDeploy'
-              StartupCommand: 'cd gluGuideSetup/server && npm start'
+              StartupCommand: 'npm start'
+            displayName: 'Deploy to Azure App Service'

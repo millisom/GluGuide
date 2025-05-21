@@ -27,6 +27,8 @@ stages:
         npm run test
       displayName: 'Run Backend Tests'
 
+
+
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
@@ -55,18 +57,6 @@ stages:
           - download: current
             artifact: drop
 
-          - task: AzureAppServiceManage@0
-            inputs:
-              azureSubscription: '5e475481-5b93-4eba-8777-affd47c2049b'
-              Action: 'Stop Azure App Service'
-              WebAppName: 'GluGuideBackend'
-              ResourceGroupName: 'SE_GluGuide'
-              appType: 'webAppLinux'
-            displayName: 'Stop Azure App Service'
-
-          - script: sleep 20
-            displayName: 'Wait for App Service to Stop'
-
           - task: AzureRmWebAppDeployment@5
             inputs:
               ConnectionType: 'AzureRM'
@@ -74,17 +64,5 @@ stages:
               appType: 'webAppLinux'
               WebAppName: 'GluGuideBackend'
               packageForLinux: '$(Pipeline.Workspace)/drop/backend.zip'
-              RuntimeStack: 'NODE|20-lts'
-              DeploymentType: 'runFromPackage'
-              StartupCommand: 'npm start'
-            displayName: 'Deploy with Run-From-Package'
-
-
-          - task: AzureAppServiceManage@0
-            inputs:
-              azureSubscription: '5e475481-5b93-4eba-8777-affd47c2049b'
-              Action: 'Start Azure App Service'
-              WebAppName: 'GluGuideBackend'
-              ResourceGroupName: 'SE_GluGuide'
-              appType: 'webAppLinux'
-            displayName: 'Start Azure App Service'
+              DeploymentTypeLinux: 'zipDeploy'
+              StartupCommand: 'cd gluGuideSetup/server && npm start'

@@ -151,6 +151,80 @@ You should see a `psql` prompt, like `postgres=#`.
 *   **If you see `psql: error: connection to server on socket "/tmp/.s.PGSQL.5432" failed: No such file or directory` (or similar "connection refused" / "server not running" messages):**
     This usually means your PostgreSQL server is not running or not configured to listen on the default path/port. Please go back to the "Prerequisites" section and ensure your PostgreSQL service is started correctly for your operating system.
 
+*   **If you see `psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  Peer authentication failed for user "postgres”:**
+  
+    This error means PostgreSQL is using "peer authentication" for the `postgres` user when you connect locally. Peer authentication requires your operating system username to match the PostgreSQL username (`postgres` in this case). This often causes issues when your application (running as your normal OS user) tries to connect as the `postgres` database user.
+
+    Here's a brief explanation of relevant authentication methods typically found in the `pg_hba.conf` file:
+    *   **`peer`**: Checks if your OS username matches the database username.
+        *   This is why commands like `sudo -u postgres psql ...` work (you temporarily become the `postgres` OS user), but connecting directly as your own OS user (while specifying `-U postgres` for the database) fails with this error if `peer` is configured for the `postgres` database user.
+    *   **`md5` or `scram-sha-256`**: Uses password authentication. The client must supply the correct password. This is generally preferred for application connections. The `md5` method is common, while `scram-sha-256` is more secure if supported.
+    *   **`trust`**: Allows connection without a password if other conditions (connection type, database, user, client address) match. While this might be a default on some systems (like macOS for local `postgres` user via Homebrew) for ease of initial setup, it's insecure and should be avoided for sensitive databases or production.
+
+    **Understanding `pg_hba.conf`:**
+    The `pg_hba.conf` file controls client authentication. PostgreSQL reads this file from top to bottom, and the *first* rule that matches the connection type, client address, requested database, and user is used.
+
+    An example `pg_hba.conf` snippet that might cause this error on a Linux system for the `postgres` user:
+    ```conf
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    # "local" is for Unix domain socket connections only
+    local   all             postgres                                peer  # <--- This rule enforces peer auth for local 'postgres' user connections
+    local   all             all                                     peer  # <--- This rule might enforce peer for all other local users
+    # IPv4 local connections:
+    host    all             all             127.0.0.1/32            scram-sha-256
+    # IPv6 local connections:
+    host    all             all             ::1/128                 scram-sha-256
+    ```
+    The line `local   all             postgres                                peer` explicitly tells PostgreSQL to use `peer` authentication for any local connection attempt made by the `postgres` database user.
+
+    **How to Fix:**
+    To allow your application (and `psql` running as your normal user) to connect to the `postgres` database user with a password, you need to change the authentication method for `local` connections for the `postgres` user from `peer` to `md5` (or `scram-sha-256`) in your `pg_hba.conf` file.
+
+    1.  **Locate `pg_hba.conf`:**
+        *   Commonly in `/etc/postgresql/<YOUR_PG_VERSION>/main/pg_hba.conf` on Debian/Ubuntu.
+        *   Other locations depend on your OS and PostgreSQL installation method (e.g., `/usr/local/var/postgres/` on macOS with Homebrew).
+    2.  **Edit the file** (requires `sudo` or root privileges). Make a backup first!
+        Look for a line similar to:
+        ```conf
+        # TYPE  DATABASE        USER            ADDRESS                 METHOD
+        # "local" is for Unix domain socket connections only
+        local   all             postgres                                peer  # <--- This rule enforces peer auth for local 'postgres' user connections
+        local   all             all                                     peer  # <--- This rule might enforce peer for all other local users
+        # IPv4 local connections:
+        host    all             all             127.0.0.1/32            scram-sha-256
+        # IPv6 local connections:
+        host    all             all             ::1/128                 scram-sha-256
+        ```
+        And change it to:
+        ```conf
+        # TYPE  DATABASE        USER            ADDRESS                 METHOD
+        # "local" is for Unix domain socket connections only
+        local   all             postgres                                md5
+        local   all             all                                     peer
+        # IPv4 local connections:
+        host    all             all             127.0.0.1/32            scram-sha-256
+        # IPv6 local connections:
+        host    all             all             ::1/128                 scram-sha-256
+        ```
+        Or, if there's a more general rule like `local   all             all                                     peer` that is being matched, and you want to enable password auth for `postgres` specifically, you might add a new line *above* the general `peer` rule:
+        ```conf
+        # TYPE  DATABASE        USER            ADDRESS                 METHOD
+        # "local" is for Unix domain socket connections only
+        local   all             postgres                                md5
+        local   all             all                                     peer
+        # IPv4 local connections:
+        host    all             all             127.0.0.1/32            scram-sha-256
+        # IPv6 local connections:
+        host    all             all             ::1/128                 scram-sha-256
+        ```
+        Ensure this new specific line for `postgres` appears *before* any more general `local ... peer` rule that might also apply.
+    3.  **Restart PostgreSQL:**
+        Apply the changes by restarting the PostgreSQL service (e.g., `sudo systemctl restart postgresql`).
+
+    After these changes, and ensuring your `server/.env` has the correct `PGPASSWORD` set for `PGUSER=postgres`, your application should be able to connect using password authentication.
+
+    _Thanks to Ephraim for testing our guide and helping us improve it! :)_
+
 #### 4.3 Set/Verify the Password for the `postgres` User:
 The application's `server/.env` file is configured to use the `PGUSER=postgres`. You need to ensure this user has a password that the application can use.
 At the `psql` prompt (`postgres=#`), execute:

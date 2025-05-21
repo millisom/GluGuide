@@ -125,6 +125,10 @@ Feature: Delete Blogpost
     Then the blogpost is removed from the system
 ```
 
+### UC Diagram 
+
+![Create Account Activity Diagram](Assets/UCManageAdmin.drawio.svg)
+
 ## 3. Special Requirements  
 
 ### 3.1 Admin Privileges  

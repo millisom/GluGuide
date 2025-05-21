@@ -22,10 +22,7 @@ stages:
         npm install
       displayName: 'Install Dependencies'
 
-    - script: |
-        cd gluGuideSetup/server
-        npm run test
-      displayName: 'Run Backend Tests'
+
 
 
 
@@ -40,6 +37,37 @@ stages:
 
     - publish: '$(Build.ArtifactStagingDirectory)/backend.zip'
       artifact: 'drop'
+
+- stage: Test
+  displayName: 'Test Stage'
+  dependsOn: Build
+  jobs:
+  - job: TestJob
+    displayName: 'Run Tests'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '20.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd gluGuideSetup/server
+        npm install
+        npm run test
+      displayName: 'Run Backend Tests'
+
+    - script: |
+        cd gluGuideSetup/server
+        npm install
+      displayName: 'Run Newman API Tests'
+
+    - script: |
+        cd gluGuideSetup/client
+        npm install
+        npm run test
+      displayName: 'Run Frontend Tests'
 
 - stage: Deploy
   displayName: 'Deploy Stage'
